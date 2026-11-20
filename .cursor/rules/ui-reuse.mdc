@@ -1,0 +1,25 @@
+---
+description: UI를 수정하거나 추가할 때 현재 화면을 기준으로 맞추고 공통 컴포넌트를 재사용한다
+globs: "**/*.{tsx,css}"
+alwaysApply: true
+---
+
+# UI는 현재 화면 위에 맞춘다
+
+UI를 고치거나 새로 넣을 때는 지금 화면의 레이아웃, 간격, 타이포, 색, 동작을 기준으로 이어서 만든다. 새 스타일이나 일회용 위젯을 임의로 만들지 않는다.
+
+작업 전에 같은 화면과 가까운 기능이 이미 쓰는 패턴을 찾고, 그 컴포넌트와 클래스를 그대로 쓴다.
+
+공통으로 쓸 수 있는 것은 새로 만들지 말고 기존 것을 쓴다.
+
+- `src/components/ui/button` — Button, PrimaryButton, SecondaryButton, IconButton
+- `src/components/ui/modal` — Modal, AlertModal
+- `src/components/ui/badge` — Badge, CrownBadge
+- `src/components/ui/input` — Input, Textarea, SearchInput
+- `src/components/ui/list` — List, ExpandableList
+- `src/components/ui/select`, `src/components/ui/date-picker` — Select, DatePicker
+- `src/components/ui` — InfoTooltip, FieldNotice 등
+- 같은 기능 폴더(`src/features/<기능>/components`)의 카드, 헤더, 폼, 툴바
+- 프로젝트·목표·태스크 상태처럼 도메인 값이 들어가는 뱃지와 헤더는 `ui`가 아니라 해당 `features` 폴더에 둔다
+
+맞는 공통 컴포넌트가 없을 때만 새로 만든다. 그때도 현재 화면과 같은 형태로 만들고, 여러 곳에서 쓰면 `ui`에 둔다.

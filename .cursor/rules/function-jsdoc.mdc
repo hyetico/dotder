@@ -1,0 +1,27 @@
+---
+description: 함수를 추가할 때 함수 이름 위에 JSDoc 부연설명을 붙인다
+globs: "**/*.{ts,tsx}"
+alwaysApply: true
+---
+
+# 함수 JSDoc
+
+새 함수나 컴포넌트를 추가하면 선언 바로 위에 이 형식의 설명을 붙인다. 기존 함수를 고치기만 할 때는 주석을 새로 달지 않는다.
+
+```tsx
+/**
+ * ProjectCard
+ *
+ * 프로젝트 정보를 카드 형태로 표시하는 컴포넌트입니다.
+ *
+ * @param props - ProjectCard 컴포넌트 Props
+ * @param props.project - 표시할 프로젝트 데이터
+ * @param props.selected - 현재 선택된 프로젝트인지 여부
+ * @param props.onClick - 프로젝트 선택 시 실행되는 함수
+ */
+```
+
+- 첫 줄은 함수 이름이다.
+- 다음 문단은 무엇을 하는지 한국어로 적는다.
+- 인자는 `@param`으로 하나씩 적는다. 컴포넌트는 `props.이름`으로 적는다.
+- 반환값이 의미 있으면 `@returns`를 한 줄 추가한다.

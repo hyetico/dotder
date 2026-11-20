@@ -1,26 +1,911 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
+/*
+ * 공통 서체와 글자 크기.
+ * Tailwind text-xs ~ text-4xl 도 같은 짝수 px를 쓴다.
+ * rem 배율은 루트 글자 크기에 따라 13px, 15px처럼
+ * 홀수로 떨어질 수 있어서 px로 고정한다.
+ */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans:
+    "Pretendard Variable", Pretendard, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  --text-xs: var(--type-xs);
+  --text-xs--line-height: var(--type-xs-line);
+  --text-sm: var(--type-sm);
+  --text-sm--line-height: var(--type-sm-line);
+  --text-base: var(--type-md);
+  --text-base--line-height: var(--type-md-line);
+  --text-lg: var(--type-lg);
+  --text-lg--line-height: var(--type-lg-line);
+  --text-xl: var(--type-xl);
+  --text-xl--line-height: var(--type-xl-line);
+  --text-2xl: var(--type-2xl);
+  --text-2xl--line-height: var(--type-2xl-line);
+  --text-3xl: 28px;
+  --text-3xl--line-height: 36px;
+  --text-4xl: 32px;
+  --text-4xl--line-height: 40px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/*
+ * =========================================================
+ * ProjectFlow Design System
+ * =========================================================
+ *
+ * 기준
+ * - 기본 spacing: 4px
+ * - Header: 56px
+ * - Desktop Sidebar: 245px
+ * - Input Control: 40px
+ * - Button: 36 / 40. 모바일·태블릿 버튼과 모달 버튼은 40 이하
+ * - 기본 Card Radius: 12px
+ *
+ * 전체 레이아웃에서 반복되는 값은
+ * CSS 변수로 관리한다.
+ */
+
+:root {
+  /*
+   * ---------------------------------------------------------
+   * Layout
+   * ---------------------------------------------------------
+   */
+
+  /* 상단 Header 높이 */
+  --header-height: 56px;
+
+  /* 하단 BottomAppBar. 버튼 40px, 위아래 여백 8px. */
+  --bottom-app-bar-height: 56px;
+
+  /* 하단 버튼. 모바일 글자 12px, 좌우 패딩 12px */
+  --bottom-bar-button-font: 12px;
+  --bottom-bar-button-line: 16px;
+  --bottom-bar-button-px: 12px;
+
+  /* 펼쳐진 Sidebar */
+  --sidebar-width: 245px;
+
+  /* 새 목표 드로어. 넓은 화면에서는 이 너비만큼 본문을 줄인다. */
+  --goal-drawer-width: 560px;
+  --goal-drawer-offset: 0px;
+
+  /*
+   * 접힌 Sidebar.
+   * 좌우 패딩 10 + 아이콘 박스 36. 오른쪽 보더 1px가 너비에 포함된다.
+   */
+  --sidebar-collapsed-width: 57px;
+
+  /* 페이지 내부 아래 padding. 모바일 12px */
+  --page-padding: 12px;
+
+  /* 페이지 내부 좌우 padding. 모바일 16px, 태블릿 24px, 1024px 32px, 웹 40px */
+  --page-padding-x: 16px;
+
+  /* 1440px부터 페이지 본문 최대 너비 */
+  --page-frame-max: 1280px;
+
+  /* 페이지 section 사이 간격 */
+  --section-gap: 24px;
+
+  /* 목표 카드. 고정 너비이며, 이 값보다 줄이지 않고 넘치면 다음 줄로 넘긴다. */
+  --goal-card-size: 296px;
+
+  /*
+   * 사이드바 로고 영역.
+   * 헤더와 위쪽 선을 맞추기 위해 같은 높이를 쓴다.
+   */
+  --sidebar-brand-height: 56px;
+
+  /*
+   * Tasks 캘린더 — flex 레이아웃으로 남은 높이를 채움.
+   * fallback/min-height 참고용.
+   */
+  --tasks-calendar-height: calc(
+    100dvh - var(--header-height) - var(--tasks-toolbar-height) - var(--tasks-layout-gap) -
+      var(--page-padding)
+  );
+
+  --tasks-toolbar-height: 36px;
+  --tasks-layout-gap: 48px;
+
+  /*
+   * ---------------------------------------------------------
+   * Spacing
+   * ---------------------------------------------------------
+   *
+   * 기본 4px Grid
+   */
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+
+  /*
+   * 목록 페이지 제목.
+   * 탭 아래에서 제목까지 32px, 제목과 설명 사이 8px, 제목 영역 아래 다음 블록까지 32px.
+   * 옆 드로어가 열려도 제목 아래 32px은 그대로 둔다.
+   */
+  --page-title-above: 32px;
+  --page-title-gap: 8px;
+  --page-title-below: 32px;
+
+  /*
+   * ---------------------------------------------------------
+   * Control Size
+   * ---------------------------------------------------------
+   */
+
+  /* 작은 컨트롤 */
+  --control-sm: 32px;
+
+  /* Input 기본 높이 */
+  --control-md: 40px;
+
+  /* 큰 컨트롤 */
+  --control-lg: 44px;
+
+  /*
+   * Button
+   * 24  목록 안 가장 작은 버튼
+   * 36  목록, 필터, 카드, 데스크톱 모달
+   * 40  생성·수정 페이지 하단 주요 버튼, 모바일 일반 버튼·모달
+   * 44  아이콘 터치 영역
+   */
+
+  /* 일반 버튼. 모바일 40px */
+  --button-height: 40px;
+  --button-px: 14px;
+
+  /* 페이지 하단 주요 버튼. 40px */
+  --button-height-action: 40px;
+  --button-px-action: 16px;
+
+  /* 모달 확인·취소. 모바일 40px */
+  --button-height-modal: 40px;
+  --button-px-modal: 14px;
+
+  /* 섹션 제목 옆 버튼. 36px */
+  --button-height-title: 36px;
+  --button-px-title: 10px;
+
+  /* 목록 안 가장 작은 버튼. 검색 범위 박스와 같은 24px, 12px */
+  --button-height-xs: 24px;
+  --button-px-xs: 8px;
+  --button-font-xs: var(--type-xs);
+  --button-line-xs: var(--type-xs-line);
+
+  /*
+   * 밑줄 탭(LineTabMenu). 페이지, 모달, 드로어 모두 같은 값.
+   * 버튼과 같은 기준: 모바일 40, 웹·태블릿 36. 밑줄 2px 포함.
+   */
+  --tab-height: 40px;
+
+  /* 아이콘 전용. 보이는 크기 36, 터치 영역 44 */
+  --button-icon: 36px;
+  --button-icon-hit: 44px;
+
+  --button-font: 14px;
+  --button-line: 20px;
+
+  /*
+   * ---------------------------------------------------------
+   * Radius
+   * ---------------------------------------------------------
+   */
+
+  /* Button / Input */
+  --radius-sm: 8px;
+
+  /* 기본 Card */
+  --radius-md: 12px;
+
+  /* Modal / Drawer */
+  --radius-lg: 16px;
+
+  /*
+   * ---------------------------------------------------------
+   * Colors
+   * ---------------------------------------------------------
+   */
+
+  /*
+   * Brand
+   * 로고, 주요 CTA.
+   * 상태 뱃지 컬러와는 분리한다.
+   * 기본은 그라데이션 시작색. 호버는 같은 축의 어두운 시작색.
+   */
+  --color-primary: #343840;
+  --color-primary-mid: #484d56;
+  --color-primary-hover: #2c3037;
+  --color-primary-soft: #f4f5f7;
+  --color-primary-ring: #d1d5db;
+
+  /*
+   * 메인 버튼과 선택 메뉴.
+   * 왼쪽 #343840에서 오른쪽 #484D56까지 대비를 작게 두어 차콜이 은은하게 보이게 한다.
+   * 호버는 같은 방향으로 한 단계만 어둡게 한다.
+   */
+  --gradient-primary: linear-gradient(90deg, #343840 0%, #484d56 100%);
+  --gradient-primary-hover: linear-gradient(90deg, #2c3037 0%, #3d424b 100%);
+  --gradient-nav-bar: linear-gradient(90deg, #343840 0%, #484d56 100%);
+
+  /* Background */
+  --color-background: #ffffff;
+  --color-surface: #ffffff;
+  /* 본문만. 헤더와 카드는 --color-surface */
+  --color-page: #f4f5f4;
+  /* 보조 표면. 설정 요약 박스, 칩 영역처럼 옅게 깔리는 배경에 쓴다. */
+  --color-muted: #f8f8f7;
+  /* 리스트 행 호버·선택. */
+  --color-hover: #f1f1ef;
+  /* 리스트 호버(--color-hover)보다 한 단계 연한 호버·보조 배경. */
+  --color-hover-soft: #f7f7f5;
+  --color-hover-strong: #e9ebef;
+
+  /* Text */
+  /*
+   * 글자색은 이 4단계만 쓴다.
+   * text: 제목·본문·입력값 / secondary: 설명·날짜·메타 / muted: 보조 아이콘·안내
+   * disabled: 비활성·구분 기호처럼 일부러 흐리게 보이는 글자
+   */
+  --color-text: #292d32;
+  --color-text-secondary: #475569;
+  --color-text-muted: #6b7280;
+  --color-text-disabled: #9ca3af;
+
+  /*
+   * 입력폼 컬러
+   * 활성 배경 / 비활성 배경 / 입력 텍스트 / 플레이스홀더 / 기본 테두리 / 호버 테두리 / 포커스 테두리 / 오류
+   */
+  --color-field: #ffffff;
+  --color-field-disabled: #f8f8f7;
+  --color-field-text: #292d32;
+  --color-field-placeholder: #68717a;
+  --color-field-border: #e2e5e7;
+  --color-field-hover: #68717a;
+  --color-field-focus: #343840;
+  --color-field-error: #ef4444;
+
+  /*
+   * 선택 테두리.
+   * 새 프로젝트 색상 칩과 같은 굵기, 포커스 색.
+   */
+  --selected-border-width: 2px;
+  --color-selected-border: var(--color-field-focus);
+
+  /* Border */
+  --color-border: #e2e5e7;
+
+  /* Semantic */
+  --color-success: #22c55e;
+  --color-warning: #f97316;
+  --color-danger: #ef4444;
+
+  /*
+   * 사이드 메뉴.
+   * 기본·호버는 검정 글자.
+   * 선택 항목만 차콜 배경에 흰 글자.
+   */
+  --color-nav-text: #000000;
+  --color-nav-icon: #000000;
+  --color-nav-hover: #f4f5f7;
+  --color-nav-hover-text: #000000;
+  --color-nav-selected-bg: #343840;
+  --color-nav-selected: #ffffff;
+  --color-nav-disabled: #cbd5e1;
+
+  /*
+   * ---------------------------------------------------------
+   * Shadow
+   * ---------------------------------------------------------
+   */
+
+  --shadow-card: 0 1px 2px rgba(15, 23, 42, 0.04), 0 1px 3px rgba(15, 23, 42, 0.04);
+
+  /*
+   * 프로젝트 보드 카드.
+   * 짧은 드롭과 1px 링으로 색면 경계를 잡는다.
+   */
+  --shadow-project-card: 0 2px 5px rgb(0 0 0 / 12%), 0 0 0 1px rgb(0 0 0 / 6%);
+
+  --shadow-project-card-hover: 0 6px 14px rgb(0 0 0 / 16%), 0 0 0 1px rgb(0 0 0 / 8%);
+
+  --shadow-dropdown: 0 10px 30px rgba(15, 23, 42, 0.1);
+
+  /*
+   * ---------------------------------------------------------
+   * Typography
+   * ---------------------------------------------------------
+   *
+   * 짝수 px, 4px 그리드.
+   * 사이드 메뉴(14/20)와 같은 스케일.
+   */
+
+  --type-xs: 12px;
+  --type-xs-line: 16px;
+  --type-sm: 14px;
+  --type-sm-line: 20px;
+  --type-md: 16px;
+  --type-md-line: 24px;
+  --type-lg: 18px;
+  --type-lg-line: 28px;
+  --type-xl: 20px;
+  --type-xl-line: 28px;
+  --type-2xl: 24px;
+  --type-2xl-line: 32px;
+}
+
+/*
+ * 다크 모드. <html data-theme="dark">일 때만 적용된다.
+ * 아직 전환 버튼은 없고, 색 토큰만 준비해 둔 상태다.
+ * 컴포넌트에 직접 쓴 흰색(bg-white 등)은 따로 토큰으로 바꿔야 다크 모드에서 맞는다.
+ */
+:root[data-theme="dark"] {
+  --color-page: #191b1e;
+  --color-background: #24282d;
+  --color-surface: #24282d;
+  --color-muted: #2a2f35;
+  --color-border: #3a4047;
+  --color-text: #f2f3f4;
+  --color-field: #2a2f35;
+  --color-field-disabled: #24282d;
+  --color-field-text: #f2f3f4;
+  --color-field-placeholder: #a8b0b8;
+  --color-field-border: #3a4047;
+  --color-field-hover: #a8b0b8;
+  --color-field-focus: #f2f3f4;
+  --color-field-error: #ef4444;
+}
+
+/*
+ * =========================================================
+ * Typography
+ * =========================================================
+ */
+
+.text-page-title {
+  font-size: var(--type-2xl);
+  line-height: var(--type-2xl-line);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.text-section-title {
+  font-size: var(--type-lg);
+  line-height: var(--type-lg-line);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+
+.text-card-title {
+  font-size: var(--type-md);
+  line-height: var(--type-md-line);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+/*
+ * 프로젝트 카드 제목. 16px, 줄 높이 18px.
+ * 두 줄이 36px이라 옆의 프로젝트 아이콘(36px)과 높이가 맞는다.
+ * 카드 제목 크기가 바뀌면 보드 카드와 드로어 카드가 같이 바뀐다.
+ */
+.text-project-card-title {
+  font-size: var(--type-md);
+  line-height: 18px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.text-body {
+  font-size: var(--type-sm);
+  line-height: var(--type-sm-line);
+  font-weight: 400;
+}
+
+.text-body-sm {
+  font-size: var(--type-xs);
+  line-height: var(--type-xs-line);
+  font-weight: 400;
+}
+
+.text-caption {
+  font-size: var(--type-xs);
+  line-height: var(--type-xs-line);
+  font-weight: 400;
+}
+
+.text-badge {
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 500;
+}
+
+.text-badge-sm {
+  font-size: 10px;
+  line-height: 12px;
+  font-weight: 500;
+}
+
+.text-badge-sm-mobile {
+  font-size: 10px;
+  line-height: 12px;
+  font-weight: 500;
+}
+
+@media (min-width: 1024px) {
+  .text-badge-sm-mobile {
+    font-size: 12px;
+    line-height: 18px;
   }
 }
 
+/*
+ * 라인탭 밑줄은 본문 전체로 잇고, 글자는 페이지 좌우 패딩에 맞춘다.
+ * 탭 버튼 좌우 12px를 빼서 글자 시작이 본문과 같다. 1024–1279px는 32px다.
+ * 1440px부터는 밑줄은 그대로 두고, 글자만 본문 1280px 칸에 맞춘다.
+ */
+.project-board-tab-line {
+  width: 100%;
+  padding-inline: calc(var(--page-padding-x) - 12px);
+}
+
+.project-board-width {
+  width: 100%;
+}
+
+/*
+ * 1440px부터 페이지 본문만 1280px로 맞춘다.
+ * 좌우 패딩은 이 너비 밖에 두고, 라인 탭은 이 클래스를 쓰지 않는다.
+ */
+.page-frame {
+  width: 100%;
+  min-width: 0;
+}
+
+@media (min-width: 1440px) {
+  .page-frame {
+    max-width: var(--page-frame-max);
+    margin-inline: auto;
+  }
+
+  .project-board-tab-line {
+    padding-inline: max(calc(var(--page-padding-x) - 12px), calc((100% - var(--page-frame-max)) / 2 - 12px));
+  }
+}
+
+/*
+ * =========================================================
+ * Tablet
+ * =========================================================
+ *
+ * 768px 이상
+ */
+
+@media (min-width: 768px) {
+  :root {
+    --page-padding: 24px;
+    --page-padding-x: 24px;
+
+    --bottom-app-bar-height: 58px;
+
+    /* 하단 버튼. 웹 글자 14px, 좌우 패딩 16px */
+    --bottom-bar-button-font: 14px;
+    --bottom-bar-button-line: 20px;
+    --bottom-bar-button-px: 16px;
+
+    /* 데스크톱은 기존 36px. 하단 주요 액션만 40px, 모달은 36px */
+    --button-height: 36px;
+    --tab-height: 36px;
+    --button-height-action: 40px;
+    --button-height-modal: 36px;
+  }
+}
+
+/*
+ * 1024–1279px 좌우 패딩은 32px다.
+ */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  :root {
+    --page-padding-x: 32px;
+  }
+}
+
+/*
+ * =========================================================
+ * Desktop
+ * =========================================================
+ *
+ * 1280px 이상
+ */
+
+@media (min-width: 1280px) {
+  :root {
+    --page-padding: 24px;
+    --page-padding-x: 40px;
+    --section-gap: 24px;
+  }
+}
+
+/*
+ * =========================================================
+ * Global Base Style
+ * =========================================================
+ */
+
+* {
+  box-sizing: border-box;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+*::-webkit-scrollbar {
+  display: none;
+}
+
+/*
+ * 선택 목록처럼 긴 목록만 얇은 스크롤바를 보여 준다.
+ */
+.thin-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+  scrollbar-gutter: stable;
+  -ms-overflow-style: auto;
+}
+
+.thin-scrollbar::-webkit-scrollbar {
+  display: block;
+  width: 8px;
+  height: 8px;
+}
+
+.thin-scrollbar::-webkit-scrollbar-thumb {
+  border-radius: 9999px;
+  background: #cbd5e1;
+}
+
+.thin-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+html,
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  min-height: 100%;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  margin: 0;
+
+  background: var(--color-background);
+
+  color: var(--color-text);
+
+  font-family: var(--font-sans);
+  font-size: var(--type-sm);
+  line-height: var(--type-sm-line);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/*
+ * 페이지 본문 배경.
+ * 헤더와 카드는 흰색이다.
+ * 이 배경만 빼면 본문이 다시 흰색이 된다.
+ */
+.page-content {
+  background: var(--color-page);
+}
+
+/*
+ * ---------------------------------------------------------
+ * 기본 Form 요소
+ * ---------------------------------------------------------
+ */
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+/*
+ * 칸에 포커스가 들어가면 안내 문구를 숨긴다.
+ * 포커스가 빠지고 값이 없으면 다시 보여 준다.
+ * 개별 placeholder 색보다 우선한다.
+ */
+html body input:focus::placeholder,
+html body textarea:focus::placeholder {
+  color: transparent !important;
+}
+
+/*
+ * 하단바 버튼 글자와 좌우 패딩.
+ * 모바일 12px / 12px, 웹 14px / 16px.
+ * 버튼 컴포넌트 크기 클래스가 이 값을 바꾸지 않게 고정한다.
+ */
+[data-bottom-app-bar] button {
+  font-size: var(--bottom-bar-button-font) !important;
+  line-height: var(--bottom-bar-button-line) !important;
+  padding-inline: var(--bottom-bar-button-px) !important;
+}
+
+/*
+ * ---------------------------------------------------------
+ * Button 기본 동작
+ * ---------------------------------------------------------
+ */
+
+button:not(:disabled) {
+  cursor: pointer;
+}
+
+/*
+ * ---------------------------------------------------------
+ * Link
+ *
+ * base 레이어에 둔다.
+ * text-[var(--color-text-secondary)] 같은 유틸리티 색이 이 기본값보다 우선한다.
+ * ---------------------------------------------------------
+ */
+
+@layer base {
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+}
+
+/*
+ * 사이드 메뉴.
+ * a { color: inherit }보다 우선한다.
+ */
+a.sidebar-nav-link {
+  border-radius: 12px;
+  color: var(--color-nav-text);
+  font-size: var(--type-sm);
+  line-height: var(--type-sm-line);
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+a.sidebar-nav-link svg {
+  color: var(--color-nav-icon);
+}
+
+a.sidebar-nav-link:hover {
+  background-color: var(--color-hover);
+  color: var(--color-nav-hover-text);
+}
+
+a.sidebar-nav-link:hover svg {
+  color: var(--color-nav-hover-text);
+}
+
+a.sidebar-nav-link[data-active="true"] {
+  background-color: var(--color-nav-selected-bg);
+  background-image: var(--gradient-primary);
+  color: var(--color-nav-selected);
+  font-weight: 400;
+}
+
+a.sidebar-nav-link[data-active="true"] svg {
+  color: var(--color-nav-selected);
+}
+
+a.sidebar-nav-link[data-active="true"]:hover {
+  background-color: var(--color-primary-hover);
+  background-image: var(--gradient-primary-hover);
+  color: var(--color-nav-selected);
+}
+
+a.sidebar-nav-link[data-active="true"]:hover svg {
+  color: var(--color-nav-selected);
+}
+
+.sidebar-nav-tooltip {
+  display: none;
+}
+
+a.sidebar-nav-link:hover .sidebar-nav-tooltip {
+  display: flex;
+}
+
+/*
+ * ---------------------------------------------------------
+ * Image
+ * ---------------------------------------------------------
+ */
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+/*
+ * ---------------------------------------------------------
+ * Selection
+ * ---------------------------------------------------------
+ */
+
+::selection {
+  background: var(--color-primary-soft);
+
+  color: var(--color-primary);
+}
+
+/*
+ * 브라우저가 이름 칸으로 인식하면 노란·파란 자동완성 배경을 칠한다.
+ * 폼 글자색과 입력 배경을 유지한다.
+ */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--color-field-text);
+  caret-color: var(--color-field-text);
+  transition: background-color 9999s ease-out;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover {
+  box-shadow: inset 0 0 0 1000px var(--color-field) !important;
+}
+
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill:focus {
+  border-color: var(--color-field-focus);
+  box-shadow:
+    inset 0 0 0 1000px var(--color-field),
+    0 0 0 1px var(--color-field-focus) !important;
+}
+
+/*
+ * ---------------------------------------------------------
+ * Brand gradient
+ * 로고, Primary 버튼
+ * ---------------------------------------------------------
+ */
+
+.selected-border {
+  border-width: var(--selected-border-width);
+  border-style: solid;
+  border-color: var(--color-selected-border);
+}
+
+.project-card-main-border {
+  border-color: transparent;
+  background-color: var(--color-surface);
+  background-image:
+    linear-gradient(var(--color-surface), var(--color-surface)), var(--gradient-primary);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+}
+
+.project-card-main-border-delayed {
+  background-image:
+    linear-gradient(var(--color-surface), var(--color-surface)),
+    linear-gradient(135deg, #ef4444 0%, #f87171 42%, #fdb8b8 100%);
+}
+
+.bg-accent-gradient {
+  background-color: var(--accent-primary, var(--color-primary));
+  background-image: var(--accent-gradient, var(--gradient-primary));
+}
+
+.bg-primary-gradient {
+  background-color: var(--color-primary);
+  background-image: var(--gradient-primary);
+}
+
+.bg-primary-gradient:hover:not(:disabled) {
+  background-color: var(--color-primary-hover);
+  background-image: var(--gradient-primary-hover);
+  box-shadow: 0 4px 12px rgba(52, 56, 64, 0.16);
+}
+
+.bg-primary-gradient:active:not(:disabled) {
+  background-color: #2c3037;
+  background-image: var(--gradient-primary-hover);
+  box-shadow: none;
+}
+
+.sidebar-brand {
+  height: var(--sidebar-brand-height);
+  transition: height 220ms ease;
+}
+
+/*
+ * 모달 안 스크롤이 끝에 닿아도
+ * 뒤 페이지로 스크롤이 넘어가지 않게 한다.
+ */
+[data-scroll-lock],
+[data-scroll-lock] * {
+  overscroll-behavior: none;
+}
+
+@keyframes drawer-slide-in {
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes drawer-slide-out {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes drawer-fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes drawer-fade-out {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+.drawer-slide-in {
+  transform: translateX(100%);
+  animation: drawer-slide-in 400ms ease-in-out both;
+}
+
+.drawer-slide-out {
+  animation: drawer-slide-out 400ms ease-in-out both;
+}
+
+.drawer-fade-in {
+  opacity: 0;
+  animation: drawer-fade-in 400ms ease-in-out both;
+}
+
+.drawer-fade-out {
+  animation: drawer-fade-out 400ms ease-in-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sidebar-brand {
+    transition: none;
+  }
+
+  .drawer-slide-in,
+  .drawer-slide-out,
+  .drawer-fade-in,
+  .drawer-fade-out {
+    animation-duration: 1ms;
+  }
 }
