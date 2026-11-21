@@ -42,3 +42,5 @@ next-env.d.ts
 
 # local screenshots & verification scripts
 .tmp-*
+.tmp/
+.design-ref/
