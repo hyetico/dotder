@@ -54,7 +54,7 @@
 | **X-4** | 학습용 긴 주석 (`useTaskMutations.ts` 등) | - | 2 |
 | **X-5** | 문서 주석이 없는 **export 함수** (`export function`, `export const 이름 = (`) | 412개 중 190개 | 수시 |
 | **X-6** | 조건부 className 유틸 `cn()` 없음 | 1 | 2 |
-| **X-7** | lint 오류 18개 · 경고 13개 (react-hooks 위주). `npm run lint` 실패 | 31 | 2 |
+| **X-7** | lint 오류 18개 · 경고 13개, 모두 `src`. `npm run lint` 실패 (2026-11-22, `.tmp`·`.design-ref`·`Claude outputs` 제외 후). 오류: `react-hooks/set-state-in-effect` 12 · `refs` 3 · `immutability` 2 · `purity` 1. 경고: `exhaustive-deps` 4 · `incompatible-library` 4 · `@next/next/no-img-element` 3 · `jsx-a11y/role-supports-aria-props` 2. 오류가 많은 파일: `ProjectDescriptionDrawer` 4 · `SidebarDrawer` 2 · `MobileFilterDrawer` 2 · `GoalTagField` 2 · `GoalDrawerDescriptionField` 2 | 31 | 2 |
 
 ## 숫자 다시 세는 법
 
