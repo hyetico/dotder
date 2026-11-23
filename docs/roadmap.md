@@ -47,7 +47,7 @@
 - [x] 쓰지 않는 컴포넌트 삭제: `MobileFilterMenu`
 - [x] `console.log` 8개 삭제
 - [x] 주석 처리된 옛 코드 삭제 (`task.ts` 등)
-- [ ] import 자동 정렬 설정 (ESLint `import/order` 또는 Prettier 플러그인)
+- [x] import 자동 정렬 설정 (ESLint `import/order` 또는 Prettier 플러그인)
 - [ ] 화면 문구 "업무" → "태스크" (22곳)
 - [ ] 주소 `/backlog` → `/memos` (리다이렉트 남김), 코드 이름 `Backlog*` → `Memo*`
 - [ ] Prettier 형식 맞추기 41파일 (tech-debt X-9). 단계 끝 검사 `format:check` 통과용

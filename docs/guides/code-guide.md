@@ -114,7 +114,8 @@ export function DrawerRow({ label, htmlFor, aside, children }: DrawerRowProps) {
 - 폴더 구조는 [component-guide](component-guide.md) 1장.
 - import는 `@/` 절대 경로를 쓴다. `../../` 금지.
 - import 순서 (빈 줄로 구분): ① react, next ② 외부 라이브러리 ③ `@/components` ④ `@/features` ⑤ `@/lib`, `@/hooks` ⑥ 타입 (`import type`)
-  - Prettier 플러그인이나 ESLint `import/order`로 자동 정렬한다. (roadmap 2단계)
+  - ESLint `import/order`(`eslint.config.mjs`)가 검사한다. `npx eslint --fix`로 자동 정렬된다. 그룹 안에서는 알파벳순이다.
+  - `import "./globals.css"`처럼 값을 받지 않는 import는 자동으로 옮겨지지 않는다. 적용 순서가 중요하므로 손으로 맨 위에 둔다.
 - 순환 import 금지. `features/A`가 `features/B`를 가져오면 `B`는 `A`를 가져오지 않는다.
 
 ## 4. 스타일 (Tailwind)
