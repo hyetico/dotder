@@ -15,6 +15,7 @@
 | **B-1** | 반응형 기준점 1024/1025 혼용 (62곳). 너비 1024px에서 스타일이 겹치거나 빠짐. 그 밖의 임의 기준점(768·1280·1440) 6곳 포함 전체 68곳 | 68곳 | 3 |
 | **B-2** | 서버 컴포넌트와 클라이언트가 서로 다른 목업 데이터를 봄. 새로 만든 프로젝트 상세가 "찾을 수 없음" | 구조 | 10 |
 | **B-3** | 다크 모드 토큰 일부 누락. 켜면 어두운 배경에 어두운 글자 | 토큰 10여 개 | 4 |
+| **B-4** | `/goals` 첫 화면에서 하이드레이션 불일치 경고 (서버 HTML과 클라이언트 속성이 다름). `GoalsScopeTabs` → `LineTabMenu` 부근. `before-refactor` 시점부터 있음 (2026-11-23 확인) | 1곳 | 미정 |
 | **P-1** | 목표 진행률을 저장값으로 가짐. 태스크를 완료해도 목표 진행률이 안 바뀜 | 구조 | 10 |
 | **P-2** | 프로젝트 상태를 사용자가 직접 고름 (PRD: 자동 계산) | 스키마·UI | 6, 10 |
 | **P-3** | 마감일 필수 (PRD: 비워도 됨) | 스키마 | 6 |
@@ -54,7 +55,8 @@
 | **X-4** | 학습용 긴 주석 (`useTaskMutations.ts` 등) | - | 2 |
 | **X-5** | 문서 주석이 없는 **export 함수** (`export function`, `export const 이름 = (`) | 412개 중 190개 | 수시 |
 | **X-6** | 조건부 className 유틸 `cn()` 없음 | 1 | 2 |
-| **X-7** | lint 오류 18개 · 경고 13개, 모두 `src`. `npm run lint` 실패 (2026-11-22, `.tmp`·`.design-ref`·`Claude outputs` 제외 후). 오류: `react-hooks/set-state-in-effect` 12 · `refs` 3 · `immutability` 2 · `purity` 1. 경고: `exhaustive-deps` 4 · `incompatible-library` 4 · `@next/next/no-img-element` 3 · `jsx-a11y/role-supports-aria-props` 2. 오류가 많은 파일: `ProjectDescriptionDrawer` 4 · `SidebarDrawer` 2 · `MobileFilterDrawer` 2 · `GoalTagField` 2 · `GoalDrawerDescriptionField` 2 | 31 | 2 |
+| **X-8** | lint 경고 7개 (오류는 0, `npm run lint` 통과). `@next/next/no-img-element` 3 (`SidebarProfile`, `ProfileSummary`, `ProjectAdminField` 아바타 — `next/image`로 바꾸려면 이미지 주소 설정이 필요) · `react-hooks/incompatible-library` 4 (react-hook-form `watch()`를 쓰는 `GoalForm`, `ProjectForm`, `ProjectEditForm`, `ProjectCreateWizard` — `useWatch`로 바꾸거나 폼을 나눌 때 함께) | 7 | 6 |
+| **X-9** | Prettier 형식이 맞지 않는 파일 41개. 단계 끝 검사 `npm run format:check`가 실패함 (2026-11-23) | 41 | 2 |
 
 ## 숫자 다시 세는 법
 
