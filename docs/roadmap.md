@@ -61,6 +61,8 @@
 - [ ] `min-[768px]:` 2곳, `min-[1280px]:` 1곳, `min-[1440px]:` 3곳 → `md:`, `xl:`, `2xl:`
 - [ ] 1023 · 1024 · 1025px에서 화면 확인
 
+- [ ] 1024~1279에서 사이드바 64로 접기, 펼치기 가능 (layout-guide 2장, 원본 Layout Spec 01)
+
 **완료 기준:** 임의 기준점 0곳.
 
 ## 4. 디자인 토큰 — `refactor/design-tokens`
@@ -83,6 +85,15 @@
 - [ ] 모서리·그림자·z-index 임의 값 → 토큰
 - [ ] `lib/date.ts` 만들고 날짜 형식 함수 14개 합치기
 
+- [x] (시작 전) 저장소 docs 가이드를 `design/boards/docs/` 값과 맞추기 — `docs/design-handoff`
+- [ ] handoff A1 입력칸 선 대비 3:1 (`--color-field-border`, `-hover`) (handoff A1 등은 `design/_handoff/CHANGES-2026-11-23.md`의 번호)
+- [ ] handoff A2 지연 글자·뱃지 `#b91c1c` / `#ff8a8a`
+- [ ] handoff A3 다크 폴더 카드 바탕 20% · 카드 위 보조 글자 `#aab2bb`
+- [ ] handoff A4 다크 메인 왕관 색 (프로젝트 색 + 흰색 30%)
+- [ ] handoff A5 다크 로고: `design/svg/` 로고로 교체
+- [ ] handoff A6 글자 11 · 13 → 12 (위 "홀수 크기"와 같이)
+- [ ] 프로젝트 9색으로 바꾸기, Ivory · Ink 옮기기 (tech-debt S-12)
+
 **완료 기준:** 하드코딩 색·글자 크기 0곳. `data-theme="dark"`를 붙여도 글자가 다 보인다.
 
 ## 5. 공통 컴포넌트 정리 — `refactor/ui-components`
@@ -99,6 +110,22 @@
 - [ ] 메뉴 정리: 리포트 숨김, 플레이그라운드는 개발 환경에서만, 스프린트 페이지 제거 (P-6, P-7)
 - [ ] component-guide 상태 표시 갱신
 
+- [ ] handoff B1 드로어 너비 400 (웹·태블릿), 드로어 안 확인창은 드로어 가운데
+- [ ] handoff B2 모달 480, 모바일은 바텀시트 (확인창만 가운데)
+- [ ] handoff B3 모든 오버레이의 닫기는 X 버튼 하나 + 툴팁 "닫기 · Esc"
+- [ ] handoff B4 팝오버 너비 (메뉴 220 · 필터 280)
+- [ ] handoff B5 토스트 4초 / 6초 · 멈춤 · `role="status"` · reduced-motion
+- [ ] handoff B6 `DatePicker`: 브라우저 기본 날짜 입력 없애기, 달력 팝오버 282, 모바일 바텀시트
+- [ ] handoff B7 고르는 목록에서 이름 자르지 않기
+- [ ] handoff B8 고르는 목록의 메인 표시 = 프로젝트 색 왕관
+- [ ] handoff B9 `StatusText` ★ (폴더 카드 전용 글자형 상태)
+- [ ] handoff B10 체크 목록 (상자 18 + 색 점 + 이름)
+- [ ] handoff B11 모바일 선택 시트 줄 (터치 44)
+- [ ] handoff C1 폴더 카드: 폴더 탭 글씨는 메인만, 제목 16/24 2줄, 상태 줄
+- [ ] handoff C3 태스크 목록 줄 끝 `⋯` 메뉴, 모바일 줄 높이 56
+- [ ] 목록 페이지 순서: 제목 + 요약 → 탭 → 툴바 → 내용 (layout-guide 5-1)
+- [ ] 모바일: 하단 앱 바 → 햄버거 + 왼쪽 시트 300, 드로어·팝오버·모달은 바텀시트 (layout-guide 2장)
+
 **완료 기준:** component-guide의 ⛔ 항목 0개.
 
 ## 6. 생성 드로어 통일 — `refactor/create-drawer`
@@ -110,6 +137,9 @@
 - [ ] 드로어 밀어내기(`--drawer-offset`)를 공통으로
 - [ ] `/projects/new` 위저드 연결 끊기 (파일은 남김)
 - [ ] `GoalForm` 44KB 나누기
+
+- [ ] 드로어 안 모양: 헤더 56 · 제목 18/28 · 본문 패딩 24 · 필드 간격 24 · 푸터 72 (layout-guide 6장, 원본 Layout Spec 05)
+- [ ] handoff C4 입력칸 이름: 첫 칸은 모두 "이름 *", 프로젝트는 "색상"
 
 **완료 기준:** 생성 드로어 3종이 같은 틀을 쓴다. 프로젝트를 이름만으로 만들 수 있다.
 
@@ -123,6 +153,8 @@
 - [ ] 팀 탭 제거 (v1 개인용, PRD 5-4)
 - [ ] `ProjectFolder`에서 디테일 모드 코드 제거
 - [ ] 디테일 하위 라우트 정리 (`board`, `calendar`를 태스크 탭 안으로, `backlog` → `memos`)
+
+- [ ] handoff C4 프로젝트 수정 화면의 "색" → "색상"
 
 **완료 기준:** 디테일 페이지가 페이지 전체로 스크롤되고 탭이 한 줄이다.
 
@@ -143,6 +175,10 @@
 - [ ] `ScopeTabs` 만들고 프로젝트·목표·메모 화면에 적용
 - [ ] 탭 만들기 (`+` → 이름 + 프로젝트 고르기), 이름 변경, 편집, 삭제, 순서 변경
 - [ ] 최대 5개, 넘치면 `···`
+
+- [ ] handoff C2 맞춤 탭은 프로젝트를 직접 체크해서 고름 (이름 12자 이하, 1개 이상, 추가하면 그 탭으로 이동)
+- [ ] handoff D2 `CustomTab` (`id · name · pids[]`), 프로젝트를 지우면 `pids`에서도 뺌
+- [ ] handoff D1 `Project.label` 삭제
 
 **완료 기준:** 맞춤 탭 하나를 만들면 세 화면에 모두 나타난다.
 
