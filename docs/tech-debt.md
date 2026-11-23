@@ -34,7 +34,6 @@
 | **S-9** | 임의 px 값 전체 | 490곳 | 4 (점진) |
 | **S-10** | 상태 색 정의 파일 2개로 분리, hex 직접 사용 (`statusColors.ts` 61 · `projectStatusColors.ts` 30) → 하나로 합치고 토큰 참조로 | 91곳 | 4 |
 | **S-11** | `text-body-sm`과 `text-caption`이 같은 값 | 1 | 4 |
-| **C-1** | 안 쓰는 컴포넌트 `MobileFilterMenu` | 1 | 2 |
 | **C-2** | 탭 3종 (`Line`, `Folder`, `Tile`) | 3 | 5 |
 | **C-3** | 상태 필터 4종 | 4 | 5 |
 | **C-4** | 모바일 필터 3종 | 3 | 5 |
