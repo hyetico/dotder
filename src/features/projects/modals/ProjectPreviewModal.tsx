@@ -3,11 +3,11 @@
 import { useId, type ReactNode } from "react";
 
 import ExpandablePreviewText from "@/components/ui/ExpandablePreviewText";
+import Modal from "@/components/ui/modal/Modal";
+
 import GoalTag from "@/features/goals/components/GoalTag";
 import ProjectBadge from "@/features/projects/components/ProjectBadge";
 import ProjectStatusBadge from "@/features/projects/components/ProjectStatusBadge";
-import Modal from "@/components/ui/modal/Modal";
-
 import { formatProjectDate, formatProjectDateRange } from "@/features/projects/utils/projectUtils";
 
 import type { ProjectStatus } from "@/features/projects/types/project";

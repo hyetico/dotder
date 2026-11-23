@@ -1,7 +1,7 @@
-import type { ReactNode, Ref } from "react";
-
 import { AppIcon, Search } from "@/components/ui/icon";
 import Input from "@/components/ui/input/Input";
+
+import type { ReactNode, Ref } from "react";
 
 type SearchInputProps = {
   value: string;

@@ -9,8 +9,8 @@
 | 단계 | 브랜치 | 상태 |
 |---|---|---|
 | 0. 준비 | - | ✅ |
-| 1. 문서 확정 | `docs/guides` | 🔄 |
-| 2. 청소 | `chore/cleanup` | ⬜ |
+| 1. 문서 확정 | `docs/guides` | ✅ |
+| 2. 청소 | `chore/cleanup` | ✅ |
 | 3. 반응형 버그 | `fix/breakpoints` | ⬜ |
 | 4. 디자인 토큰 | `refactor/design-tokens` | ⬜ |
 | 5. 공통 컴포넌트 정리 | `refactor/ui-components` | ⬜ |
@@ -28,7 +28,7 @@
 - [x] GitHub 연결, `develop` 브랜치
 - [x] 임시 파일 `.tmp/`, 참고 이미지 `.design-ref/` 규칙
 
-## 1. 문서 확정 — `docs/guides`
+## 1. 문서 확정 — `docs/guides` ✅
 
 - [x] `docs/` 구조로 문서 넣기 (README, PRD, roadmap, tech-debt, guides 6개, decisions)
 - [x] CLAUDE.md를 목차형으로 교체
@@ -38,19 +38,20 @@
 
 **완료 기준:** 문서만 읽고 2~9단계를 시작할 수 있다.
 
-## 2. 청소 — `chore/cleanup`
+## 2. 청소 — `chore/cleanup` ✅
 
 동작은 바뀌지 않는 작업만.
 
-- [ ] lint 오류 18개 · 경고 13개 정리 (tech-debt X-7). 2단계 완료 기준이 lint 통과라서 가장 먼저 한다
-- [ ] `cn()` 유틸 추가 (`src/lib/cn.ts`, 조건부 className 합치기)
-- [ ] 쓰지 않는 컴포넌트 삭제: `MobileFilterMenu`
-- [ ] `console.log` 8개 삭제
-- [ ] 주석 처리된 옛 코드 삭제 (`task.ts` 등)
-- [ ] import 자동 정렬 설정 (ESLint `import/order` 또는 Prettier 플러그인)
-- [ ] 화면 문구 "업무" → "태스크" (22곳)
-- [ ] 주소 `/backlog` → `/memos` (리다이렉트 남김), 코드 이름 `Backlog*` → `Memo*`
-- [ ] 앱 이름이 정해지면 package.json `name`, 탭 제목, 사이드바 로고를 하나로
+- [x] lint 오류 18개 · 경고 13개 정리 (tech-debt X-7). 오류 0 · 경고 7 남음 (X-8). 2단계 완료 기준이 lint 통과라서 가장 먼저 한다
+- [x] `cn()` 유틸 추가 (`src/lib/cn.ts`, 조건부 className 합치기)
+- [x] 쓰지 않는 컴포넌트 삭제: `MobileFilterMenu`
+- [x] `console.log` 8개 삭제
+- [x] 주석 처리된 옛 코드 삭제 (`task.ts` 등)
+- [x] import 자동 정렬 설정 (ESLint `import/order` 또는 Prettier 플러그인)
+- [x] 화면 문구 "업무" → "태스크" (16곳. 목업 데이터 6곳은 데이터 값이라 제외)
+- [x] 주소 `/backlog` → `/memos` (리다이렉트 남김), 코드 이름 `Backlog*` → `Memo*`. 디테일 하위 주소 `/projects/[id]/backlog`는 7단계
+- [x] Prettier 형식 맞추기 42파일 (tech-debt X-9). 단계 끝 검사 `format:check` 통과용
+- [x] 앱 이름 Tessera로 통일: package.json `name`, 탭 제목, 사이드바 로고, `navConfig.tsx`
 
 **완료 기준:** `npm run lint`, `npm run build` 통과. 화면 변화 없음.
 

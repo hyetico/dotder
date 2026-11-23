@@ -1,8 +1,8 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 
 import { headerIconButtonClassName } from "@/components/layout/Header/HeaderActions";
@@ -13,8 +13,8 @@ import { getProjects } from "@/features/projects/api/projects";
 import IntegratedSearchModal from "@/features/search/modals/IntegratedSearchModal";
 import { getTasks } from "@/features/tasks/api/tasks";
 
-import { goalQueryKeys, projectQueryKeys, taskQueryKeys } from "@/lib/queryKeys";
 import { recordRecentProjectId } from "@/lib/projectSwitcherPreferences";
+import { goalQueryKeys, projectQueryKeys, taskQueryKeys } from "@/lib/queryKeys";
 
 /**
  * HeaderSearchButton

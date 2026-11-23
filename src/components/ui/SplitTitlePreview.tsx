@@ -1,9 +1,9 @@
 "use client";
 
-import type { ReactNode } from "react";
-
 import ExpandablePreviewText from "@/components/ui/ExpandablePreviewText";
 import { fieldPaddingClassName } from "@/components/ui/fieldControl";
+
+import type { ReactNode } from "react";
 
 type SplitTitlePreviewProps = {
   title: string;

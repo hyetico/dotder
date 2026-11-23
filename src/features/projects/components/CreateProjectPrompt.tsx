@@ -2,10 +2,9 @@
 
 import { useRouter } from "next/navigation";
 
-import { AppIcon, Folder, Plus } from "@/components/ui/icon";
-
 import PageInset from "@/components/layout/pages/Page/PageInset";
 import PrimaryButton from "@/components/ui/button/PrimaryButton";
+import { AppIcon, Folder, Plus } from "@/components/ui/icon";
 
 export default function CreateProjectPrompt() {
   const router = useRouter();

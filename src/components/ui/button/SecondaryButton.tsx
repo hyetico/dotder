@@ -1,5 +1,3 @@
-import type { ButtonHTMLAttributes, ReactNode } from "react";
-
 import {
   buttonIconOnlyClassName,
   buttonLabelClassName,
@@ -7,6 +5,8 @@ import {
   type ButtonSize,
 } from "@/components/ui/button/buttonSize";
 import IconTitle from "@/components/ui/IconTitle";
+
+import type { ButtonHTMLAttributes, ReactNode } from "react";
 
 type SecondaryButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   icon?: ReactNode;

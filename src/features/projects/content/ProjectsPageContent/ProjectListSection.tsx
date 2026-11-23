@@ -2,26 +2,26 @@
 
 import { useMemo, useState, type ReactNode } from "react";
 
-import ProjectBoardCard from "@/features/projects/components/ProjectBoardCard";
+import Badge from "@/components/ui/badge/Badge";
+import StatusFilterBar from "@/components/ui/StatusFilterBar";
+
 import FavoriteEditToolbar from "@/features/projects/components/FavoriteEditToolbar";
 import FavoriteRemoveButton, {
   favoriteRemoveButtonFloatingClassName,
 } from "@/features/projects/components/FavoriteRemoveButton";
-import ProjectListRow, {
-  ProjectListTable,
-} from "@/features/projects/content/ProjectsPageContent/ProjectListRow";
-import Badge from "@/components/ui/badge/Badge";
-import StatusFilterBar from "@/components/ui/StatusFilterBar";
-import ProjectViewToggle, {
-  type ProjectCardViewMode,
-} from "@/features/projects/content/ProjectsPageContent/ProjectViewToggle";
+import ProjectBoardCard from "@/features/projects/components/ProjectBoardCard";
 import {
   compareProjects,
   getProjectStatusFilters,
   matchesProjectFilter,
   type ProjectFilterTab,
 } from "@/features/projects/constants/projectFilters";
-
+import ProjectListRow, {
+  ProjectListTable,
+} from "@/features/projects/content/ProjectsPageContent/ProjectListRow";
+import ProjectViewToggle, {
+  type ProjectCardViewMode,
+} from "@/features/projects/content/ProjectsPageContent/ProjectViewToggle";
 import { computeProjectStats } from "@/features/projects/utils/projectUtils";
 
 import type { ProjectListItem } from "@/features/projects/types/project";

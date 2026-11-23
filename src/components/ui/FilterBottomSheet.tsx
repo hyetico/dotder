@@ -1,14 +1,12 @@
 "use client";
 
 import { useEffect, useState, useSyncExternalStore, type ReactNode } from "react";
-
 import { createPortal } from "react-dom";
-
-import { AppIcon, Funnel, type IconSize } from "@/components/ui/icon";
 
 import CloseButton from "@/components/ui/button/CloseButton";
 import PrimaryButton from "@/components/ui/button/PrimaryButton";
 import SecondaryButton from "@/components/ui/button/SecondaryButton";
+import { AppIcon, Funnel, type IconSize } from "@/components/ui/icon";
 
 import { useModalScrollLock } from "@/hooks/useModalScrollLock";
 

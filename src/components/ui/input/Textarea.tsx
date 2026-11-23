@@ -1,6 +1,6 @@
-import type { Ref, TextareaHTMLAttributes } from "react";
-
 import { fieldControlClassName, fieldStateClassName } from "@/components/ui/fieldControl";
+
+import type { Ref, TextareaHTMLAttributes } from "react";
 
 type TextareaProps = TextareaHTMLAttributes<HTMLTextAreaElement> & {
   ref?: Ref<HTMLTextAreaElement>;

@@ -1,7 +1,7 @@
-import type { ReactNode } from "react";
-
 import { fieldPaddingClassName } from "@/components/ui/fieldControl";
 import IconTitle from "@/components/ui/IconTitle";
+
+import type { ReactNode } from "react";
 
 type ProfileSummaryProps = {
   name: string;
@@ -23,7 +23,13 @@ type ProfileSummaryProps = {
  * @param props.action - 상자 오른쪽에 두는 버튼
  * @param props.className - 상자에 더할 클래스
  */
-export default function ProfileSummary({ name, role, image, action, className = "" }: ProfileSummaryProps) {
+export default function ProfileSummary({
+  name,
+  role,
+  image,
+  action,
+  className = "",
+}: ProfileSummaryProps) {
   const avatar = image ? (
     <span className="h-9 w-9 shrink-0 overflow-hidden rounded-full bg-gray-200">
       <img src={image} alt={`${name} 프로필`} className="h-full w-full object-cover" />

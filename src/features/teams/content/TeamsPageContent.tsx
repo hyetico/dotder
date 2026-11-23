@@ -1,18 +1,18 @@
 "use client";
 
-import { useMemo, useState } from "react";
-
 import Link from "next/link";
+import { useMemo, useState } from "react";
 
 import { useQuery } from "@tanstack/react-query";
 
 import PageInset from "@/components/layout/pages/Page/PageInset";
-import ProjectBadge from "@/features/projects/components/ProjectBadge";
-import MemberAvatar from "@/components/ui/MemberAvatar";
 import SearchInput from "@/components/ui/input/SearchInput";
+import MemberAvatar from "@/components/ui/MemberAvatar";
 import Select from "@/components/ui/select/Select";
 
 import { getProjects } from "@/features/projects/api/projects";
+import ProjectBadge from "@/features/projects/components/ProjectBadge";
+
 import { getMemberInitial, getTeamMembers } from "@/lib/mock/teamMembers";
 import { mockTeams } from "@/lib/mock/teams";
 import { getProjectDetailPath } from "@/lib/projectRoutes";

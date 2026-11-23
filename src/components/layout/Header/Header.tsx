@@ -2,19 +2,24 @@
 
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
+
 import { useQuery } from "@tanstack/react-query";
+
 import {
   HeaderActionsSlot,
   headerIconButtonClassName,
 } from "@/components/layout/Header/HeaderActions";
 import HeaderSearchButton from "@/components/layout/Header/HeaderSearchButton";
 import { AppIcon, ChevronLeft, Menu } from "@/components/ui/icon";
+
 import { readGoalTitle } from "@/features/goals/api/goals";
 import { getProjects, readProject, readProjectName } from "@/features/projects/api/projects";
 import { useCurrentProjectScope } from "@/features/projects/hooks/useCurrentProjectScope";
+
 import { getHeaderPageTrail, getPageNavFromPath, type HeaderPageTrail } from "@/lib/navConfig";
-import { projectQueryKeys } from "@/lib/queryKeys";
 import { buildNavHref } from "@/lib/projectRoutes";
+import { projectQueryKeys } from "@/lib/queryKeys";
+
 import type { Project } from "@/features/projects/types/project";
 
 type HeaderProps = {
@@ -150,9 +155,7 @@ export default function Header({ isMobileSidebarOpen, onToggleMobileSidebar }: H
   const backHref = getMobileBackHref(trail, href);
 
   return (
-    <header
-      className="sticky top-0 z-30 flex h-[var(--header-height)] min-w-0 shrink-0 items-center justify-between gap-2 px-4"
-    >
+    <header className="sticky top-0 z-30 flex h-[var(--header-height)] min-w-0 shrink-0 items-center justify-between gap-2 px-4">
       {/*
        * =====================================================
        * Left Area

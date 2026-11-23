@@ -2,6 +2,7 @@
 
 import { tileTabAppearance } from "@/components/ui/tab/appearance";
 import TabMenu from "@/components/ui/tab/TabMenu";
+
 import type { TabMenuSharedProps } from "@/components/ui/tab/types";
 
 export type { TabMenuItem } from "@/components/ui/tab/types";

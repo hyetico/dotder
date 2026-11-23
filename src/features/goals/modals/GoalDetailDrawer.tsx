@@ -28,21 +28,23 @@ import Input from "@/components/ui/input/Input";
 import Textarea from "@/components/ui/input/Textarea";
 import { useAlert } from "@/components/ui/modal/AlertModal";
 import ProfileSummary from "@/components/ui/ProfileSummary";
-import { FieldError, FormLabel } from "@/features/projects/components/ProjectForm/FormParts";
+
 import { getGoal, updateGoal } from "@/features/goals/api/goals";
 import GoalStatusIcon from "@/features/goals/components/GoalStatusIcon";
 import GoalTag from "@/features/goals/components/GoalTag";
-import GoalProjectSelectModal from "@/features/goals/modals/GoalProjectSelectModal";
-import LinkedProjectInfoModal from "@/features/goals/modals/LinkedProjectInfoModal";
 import {
   useGoalDrawerOffset,
   useGoalDrawerPushesPage,
 } from "@/features/goals/modals/goalDrawerOffset";
-import type { Goal, GoalIcon, GoalStatus } from "@/features/goals/types/goal";
+import GoalProjectSelectModal from "@/features/goals/modals/GoalProjectSelectModal";
+import LinkedProjectInfoModal from "@/features/goals/modals/LinkedProjectInfoModal";
 import { getGoalStatusLabel } from "@/features/goals/utils/goalUtils";
+import { FieldError, FormLabel } from "@/features/projects/components/ProjectForm/FormParts";
+
 import { getTeamMember } from "@/lib/mock/teamMembers";
 import { goalQueryKeys } from "@/lib/queryKeys";
 
+import type { Goal, GoalIcon, GoalStatus } from "@/features/goals/types/goal";
 import type { Project } from "@/features/projects/types/project";
 
 const SLIDE_MS = 400;
@@ -63,7 +65,8 @@ const plainControlClassName =
   "border-transparent! shadow-none! hover:border-transparent! hover:shadow-none!";
 const tagButtonClassName = "max-w-full min-w-0 cursor-pointer disabled:cursor-not-allowed";
 const lockedPeriodButtonClassName = `${periodLinkClassName} cursor-not-allowed`;
-const editButtonPressedClassName = "border-transparent! bg-[var(--color-primary)]! text-white! hover:bg-[var(--color-primary-hover)]! hover:text-white!";
+const editButtonPressedClassName =
+  "border-transparent! bg-[var(--color-primary)]! text-white! hover:bg-[var(--color-primary-hover)]! hover:text-white!";
 
 type GoalEditErrors = {
   title: string;

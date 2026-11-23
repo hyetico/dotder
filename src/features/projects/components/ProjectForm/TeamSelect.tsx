@@ -2,12 +2,11 @@
 
 import { useState, type ReactNode } from "react";
 
+import SecondaryButton from "@/components/ui/button/SecondaryButton";
+import { fieldPaddingClassName } from "@/components/ui/fieldControl";
 import { AppIcon, Users } from "@/components/ui/icon";
 
-import { fieldPaddingClassName } from "@/components/ui/fieldControl";
-import SecondaryButton from "@/components/ui/button/SecondaryButton";
 import TeamScopeModal from "@/features/projects/modals/TeamScopeModal";
-
 import {
   PROJECT_TEAM_NONE,
   PROJECT_TEAM_NONE_LABEL,

@@ -1,7 +1,9 @@
-import type { CSSProperties, ReactNode } from "react";
 import Link from "next/link";
+
 import { AppIcon, ChevronRight } from "@/components/ui/icon";
+
 import type { LucideIcon } from "@/components/ui/icon/icons";
+import type { CSSProperties, ReactNode } from "react";
 
 /*
  * 리스트는 부모 너비의 100%다.

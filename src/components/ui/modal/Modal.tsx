@@ -1,12 +1,13 @@
 "use client";
 
-import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react";
-
+import { createContext, useContext, useEffect, useRef, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 
 import CloseButton from "@/components/ui/button/CloseButton";
+
 import { useProjectAccentStyle } from "@/features/projects/components/ProjectAccent";
 
+import { useIsClient } from "@/hooks/useIsClient";
 import { useModalScrollLock } from "@/hooks/useModalScrollLock";
 
 type ModalProps = {
@@ -58,11 +59,7 @@ function ModalRoot({
 
   const setScrollRoot = useModalScrollLock(isOpen);
 
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  const isClient = useIsClient();
 
   useEffect(() => {
     if (!isOpen) {
@@ -92,7 +89,7 @@ function ModalRoot({
     };
   }, [isOpen, onClose]);
 
-  if (!isOpen || !isMounted) {
+  if (!isOpen || !isClient) {
     return null;
   }
 

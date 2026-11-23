@@ -19,15 +19,19 @@ type ProjectFolderProps = {
   detail?: boolean;
 };
 
-const tabActionsClassName = "flex h-full min-w-0 flex-1 items-end overflow-x-auto pr-[14px] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden";
+const tabActionsClassName =
+  "flex h-full min-w-0 flex-1 items-end overflow-x-auto pr-[14px] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden";
 const tabActionsInnerClassName = "ml-auto flex items-end";
 const detailTabsClassName = "absolute z-0 flex h-[50px] items-stretch";
 const detailBodyClassName = "relative z-10 flex min-h-0 min-w-0 flex-1 flex-col p-6";
-const detailTabCoverClassName = "pointer-events-none absolute inset-x-0 top-0 h-4 bg-[var(--folder-fill)]";
+const detailTabCoverClassName =
+  "pointer-events-none absolute inset-x-0 top-0 h-4 bg-[var(--folder-fill)]";
 const detailTabDrop = 10;
-const detailFolderShadowClassName = "drop-shadow-[0_2px_5px_rgb(0_0_0/12%)] drop-shadow-[0_8px_18px_rgb(0_0_0/8%)]";
+const detailFolderShadowClassName =
+  "drop-shadow-[0_2px_5px_rgb(0_0_0/12%)] drop-shadow-[0_8px_18px_rgb(0_0_0/8%)]";
 const detailTabHeight = 44;
-const detailTabLabelClassName = "absolute inset-y-0 left-0 flex items-center px-6 text-[18px] leading-none font-bold tracking-[-0.03em] text-[var(--color-text)]";
+const detailTabLabelClassName =
+  "absolute inset-y-0 left-0 flex items-center px-6 text-[18px] leading-none font-bold tracking-[-0.03em] text-[var(--color-text)]";
 const detailOuterRadius = 28;
 const cardOuterRadius = 16;
 const detailLayoutQuery = "(min-width: 1024px)";
@@ -226,8 +230,16 @@ export default function ProjectFolder({
   const detailShell = detail || hasTabs;
   const [detailLayout, setDetailLayout] = useState(false);
   const wide = wideTab ?? Boolean(tabLabel);
-  const tab = getTabSize(size.width || 400, labelWidth, wide, detailShell, detailLayout, size.height);
-  const sheetClassName = "flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden rounded-[18px] bg-[var(--color-surface)] [clip-path:inset(0_round_18px)]";
+  const tab = getTabSize(
+    size.width || 400,
+    labelWidth,
+    wide,
+    detailShell,
+    detailLayout,
+    size.height,
+  );
+  const sheetClassName =
+    "flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden rounded-[18px] bg-[var(--color-surface)] [clip-path:inset(0_round_18px)]";
   const cardBodyClassName = [
     "relative flex min-h-0 min-w-0 flex-1 flex-col rounded-[16px] rounded-tl-none",
     fill ? "overflow-hidden" : "",
@@ -252,9 +264,9 @@ export default function ProjectFolder({
       const paneBox = pane?.getBoundingClientRect();
       const nextPane = paneBox
         ? {
-          left: Math.round(paneBox.left - folderBox.left),
-          right: Math.round(folderBox.right - paneBox.right),
-        }
+            left: Math.round(paneBox.left - folderBox.left),
+            right: Math.round(folderBox.right - paneBox.right),
+          }
         : { left: 0, right: 0 };
 
       setSize((previous) =>
@@ -268,7 +280,14 @@ export default function ProjectFolder({
       const align = element.closest("[data-folder-align]");
 
       if (align instanceof HTMLElement) {
-        const nextTab = getTabSize(width || 400, nextLabelWidth, wide, detailShell, nextDetail, height);
+        const nextTab = getTabSize(
+          width || 400,
+          nextLabelWidth,
+          wide,
+          detailShell,
+          nextDetail,
+          height,
+        );
 
         align.style.setProperty("--folder-tab-height", `${nextTab.height}px`);
       }
@@ -294,13 +313,13 @@ export default function ProjectFolder({
   const path =
     size.width > 1 && size.height > tab.height + 1
       ? getFolderPath(
-        size.width,
-        size.height,
-        tab.width,
-        tab.height,
-        detailShell ? detailOuterRadius : cardOuterRadius,
-        hasTabs ? 0 : undefined,
-      )
+          size.width,
+          size.height,
+          tab.width,
+          tab.height,
+          detailShell ? detailOuterRadius : cardOuterRadius,
+          hasTabs ? 0 : undefined,
+        )
       : "";
 
   return (
@@ -334,12 +353,12 @@ export default function ProjectFolder({
       </svg>
 
       {/* 본체 비율에 맞춘 탭 공간 */}
-      <div
-        className="relative z-0 flex w-full shrink-0"
-        style={{ height: tab.height }}
-      >
+      <div className="relative z-0 flex w-full shrink-0" style={{ height: tab.height }}>
         {tabLabel ? (
-          <span ref={labelRef} className={detailLayout ? detailTabLabelClassName : tabLabelClassName}>
+          <span
+            ref={labelRef}
+            className={detailLayout ? detailTabLabelClassName : tabLabelClassName}
+          >
             {tabLabel}
           </span>
         ) : null}

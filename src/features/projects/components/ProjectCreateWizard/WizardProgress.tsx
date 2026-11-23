@@ -1,6 +1,7 @@
 "use client";
 
 import { AppIcon, Check } from "@/components/ui/icon";
+
 import {
   projectWizardSteps,
   type ProjectWizardStepId,

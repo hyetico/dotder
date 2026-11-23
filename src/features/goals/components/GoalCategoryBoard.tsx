@@ -2,18 +2,18 @@
 
 import { useMemo, useState, type ReactNode } from "react";
 
-import GoalBoardList from "@/features/goals/components/GoalBoardList";
-import GoalStatusIcon from "@/features/goals/components/GoalStatusIcon";
-import HoldAddNotice from "@/features/projects/components/HoldAddNotice";
 import Badge from "@/components/ui/badge/Badge";
 import { AppIcon, Check, iconSize, Plus, Tag, Target } from "@/components/ui/icon";
 import SearchInput from "@/components/ui/input/SearchInput";
 import StatusFilterBar from "@/components/ui/StatusFilterBar";
-import type { StatusFilterChipItem } from "@/components/ui/StatusFilterChips";
 
+import GoalBoardList from "@/features/goals/components/GoalBoardList";
+import GoalStatusIcon from "@/features/goals/components/GoalStatusIcon";
 import { isGoalShownDelayed } from "@/features/goals/utils/goalProjectDelay";
 import { getGoalStatusLabel } from "@/features/goals/utils/goalUtils";
+import HoldAddNotice from "@/features/projects/components/HoldAddNotice";
 
+import type { StatusFilterChipItem } from "@/components/ui/StatusFilterChips";
 import type { Goal } from "@/features/goals/types/goal";
 import type { Project } from "@/features/projects/types/project";
 

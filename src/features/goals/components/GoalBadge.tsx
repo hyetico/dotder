@@ -1,14 +1,12 @@
 import { Target } from "@/components/ui/icon";
-
-import GoalStatusIcon from "@/features/goals/components/GoalStatusIcon";
 import StatusMark, { getStatusMarkIconSize } from "@/components/ui/StatusMark";
 
+import GoalStatusIcon from "@/features/goals/components/GoalStatusIcon";
 import {
   getGoalStatusLabel,
   getGoalStatusMarkColor,
   getGoalVisualStatus,
 } from "@/features/goals/utils/goalUtils";
-
 import {
   getProjectTintColor,
   getProjectTintInkColor,

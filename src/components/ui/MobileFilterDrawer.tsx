@@ -1,14 +1,14 @@
 "use client";
 
 import { useEffect, useState, type ReactNode } from "react";
-
 import { createPortal } from "react-dom";
-
-import { AppIcon, RotateCcw } from "@/components/ui/icon";
 
 import CloseButton from "@/components/ui/button/CloseButton";
 import FilterButton from "@/components/ui/FilterButton";
+import { AppIcon, RotateCcw } from "@/components/ui/icon";
 import LineTabMenu from "@/components/ui/tab/LineTabMenu";
+
+import { useIsClient } from "@/hooks/useIsClient";
 import { useModalScrollLock } from "@/hooks/useModalScrollLock";
 import { getStatusFilterTone } from "@/lib/statusColors";
 
@@ -88,24 +88,32 @@ export default function MobileFilterDrawer<T extends string>({
   onSortChange,
   defaultSort = "latest",
 }: MobileFilterDrawerProps<T>) {
-  const [isMounted, setIsMounted] = useState(false);
+  const isClient = useIsClient();
   const setScrollRoot = useModalScrollLock(isOpen);
   const [draftFilter, setDraftFilter] = useState<T>(activeFilter);
   const [draftSort, setDraftSort] = useState(sortValue || defaultSort);
   const hasSort = sortOptions.length > 0 && Boolean(onSortChange);
 
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  // 열려 있는 동안 적용된 값이 바뀌면(열릴 때 포함) 고르던 값을 적용된 값으로 맞춘다.
+  const appliedSort = sortValue || defaultSort;
+  const [syncedFrom, setSyncedFrom] = useState<{ activeFilter: T; appliedSort: string } | null>(
+    null,
+  );
 
-  useEffect(() => {
-    if (!isOpen) {
-      return;
-    }
+  if (!isOpen && syncedFrom !== null) {
+    setSyncedFrom(null);
+  }
 
+  if (
+    isOpen &&
+    (syncedFrom === null ||
+      syncedFrom.activeFilter !== activeFilter ||
+      syncedFrom.appliedSort !== appliedSort)
+  ) {
+    setSyncedFrom({ activeFilter, appliedSort });
     setDraftFilter(activeFilter);
-    setDraftSort(sortValue || defaultSort);
-  }, [isOpen, activeFilter, sortValue, defaultSort]);
+    setDraftSort(appliedSort);
+  }
 
   /**
    * handleApply
@@ -155,7 +163,7 @@ export default function MobileFilterDrawer<T extends string>({
     };
   }, [isOpen, onClose]);
 
-  if (!isMounted || !isOpen) {
+  if (!isClient || !isOpen) {
     return null;
   }
 

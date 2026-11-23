@@ -1,14 +1,12 @@
 import GoalStatusIcon from "@/features/goals/components/GoalStatusIcon";
-
 import {
   getGoalStatusLabel,
   getGoalStatusMetricColors,
   getGoalVisualStatus,
 } from "@/features/goals/utils/goalUtils";
 
-import type { ReactNode } from "react";
-
 import type { GoalStatus } from "@/features/goals/types/goal";
+import type { ReactNode } from "react";
 
 const badgeFill = "bg-[linear-gradient(180deg,#ffffff_0%,#f3f4f6_100%)]";
 

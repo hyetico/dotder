@@ -1,10 +1,10 @@
 "use client";
 
+import Link from "next/link";
 import { useState, type ReactNode } from "react";
 
-import Link from "next/link";
-
-import ProjectOverviewSummary from "@/features/projects/content/ProjectDetailPageContent/ProjectDetailStatus/ProjectOverviewSummary";
+import Badge from "@/components/ui/badge/Badge";
+import SecondaryButton from "@/components/ui/button/SecondaryButton";
 import {
   AppIcon,
   ArrowRight,
@@ -15,16 +15,13 @@ import {
   List,
   TrendingUp,
 } from "@/components/ui/icon";
-import Badge from "@/components/ui/badge/Badge";
-import SecondaryButton from "@/components/ui/button/SecondaryButton";
 import ExpandableList, {
   type ExpandableListColumn,
   type ExpandableListRow,
 } from "@/components/ui/list/ExpandableList";
-import SectionHeader from "@/features/projects/components/SectionHeader";
 
-import { getProjectDeadlineChanges } from "@/lib/mock/projectDeadlineChanges";
-import { getProjectEditPath } from "@/lib/projectRoutes";
+import SectionHeader from "@/features/projects/components/SectionHeader";
+import ProjectOverviewSummary from "@/features/projects/content/ProjectDetailPageContent/ProjectDetailStatus/ProjectOverviewSummary";
 import {
   formatProjectDate,
   formatSignedProjectDays,
@@ -32,6 +29,9 @@ import {
   getProjectScheduleSnapshot,
   summarizeProjectDeadlineChanges,
 } from "@/features/projects/utils/projectUtils";
+
+import { getProjectDeadlineChanges } from "@/lib/mock/projectDeadlineChanges";
+import { getProjectEditPath } from "@/lib/projectRoutes";
 
 import type { Goal } from "@/features/goals/types/goal";
 import type { ProjectDeadlineChange } from "@/features/projects/types/project";
@@ -163,16 +163,26 @@ function HistoryChangeDetail({ change, actor }: { change: ProjectDeadlineChange;
   return (
     <div>
       <div className="flex items-baseline gap-2 border-b border-[var(--color-border)] pb-3 md:gap-6 md:border-b-0 md:pb-0">
-        <p className="shrink-0 text-[13px] leading-5 font-medium text-[var(--color-text-secondary)]">변경 사유</p>
-        <p className="text-[13px] leading-[21px] text-[var(--color-text)]">{changeReason(change)}</p>
+        <p className="shrink-0 text-[13px] leading-5 font-medium text-[var(--color-text-secondary)]">
+          변경 사유
+        </p>
+        <p className="text-[13px] leading-[21px] text-[var(--color-text)]">
+          {changeReason(change)}
+        </p>
       </div>
       <div className="mt-3 space-y-2 md:hidden">
         <p className="flex items-baseline gap-2">
-          <span className="shrink-0 text-[13px] leading-5 font-medium text-[var(--color-text-secondary)]">변경자</span>
-          <span className="text-[14px] leading-5 font-medium text-[var(--color-text)]">{actor}</span>
+          <span className="shrink-0 text-[13px] leading-5 font-medium text-[var(--color-text-secondary)]">
+            변경자
+          </span>
+          <span className="text-[14px] leading-5 font-medium text-[var(--color-text)]">
+            {actor}
+          </span>
         </p>
         <p className="flex items-baseline gap-2">
-          <span className="shrink-0 text-[13px] leading-5 font-medium text-[var(--color-text-secondary)]">변경 시각</span>
+          <span className="shrink-0 text-[13px] leading-5 font-medium text-[var(--color-text-secondary)]">
+            변경 시각
+          </span>
           <span className="text-[14px] leading-5 font-medium text-[var(--color-text)] tabular-nums">
             {formatChangedAt(change.changedAt)}
           </span>
@@ -255,19 +265,30 @@ function DeadlineChangeButton({
  */
 function DeadlineTimeline({ changes }: { changes: ProjectDeadlineChange[] }) {
   if (changes.length === 0) {
-    return <p className="text-sm leading-5 text-[var(--color-text-secondary)]">기록된 일정이 없습니다.</p>;
+    return (
+      <p className="text-sm leading-5 text-[var(--color-text-secondary)]">
+        기록된 일정이 없습니다.
+      </p>
+    );
   }
 
   return (
     <ol className="flex flex-col">
       {changes.map((change) => (
-        <li key={change.id} className="grid grid-cols-[7.5rem_minmax(0,1fr)] gap-3 border-b border-[var(--color-border)] py-3 last:border-b-0">
-          <p className="text-[13px] leading-5 font-medium text-[var(--color-text-secondary)] tabular-nums">{formatChangedAt(change.changedAt)}</p>
+        <li
+          key={change.id}
+          className="grid grid-cols-[7.5rem_minmax(0,1fr)] gap-3 border-b border-[var(--color-border)] py-3 last:border-b-0"
+        >
+          <p className="text-[13px] leading-5 font-medium text-[var(--color-text-secondary)] tabular-nums">
+            {formatChangedAt(change.changedAt)}
+          </p>
           <div className="min-w-0">
             <p className="text-[14px] leading-5 font-medium text-[var(--color-text)] tabular-nums">
               {formatProjectDate(change.previousEndDate)} → {formatProjectDate(change.nextEndDate)}
             </p>
-            <p className="mt-0.5 text-[13px] leading-[21px] text-[var(--color-text-secondary)]">{changeReason(change)}</p>
+            <p className="mt-0.5 text-[13px] leading-[21px] text-[var(--color-text-secondary)]">
+              {changeReason(change)}
+            </p>
           </div>
         </li>
       ))}

@@ -3,20 +3,18 @@
 import { useState } from "react";
 
 import { useDroppable } from "@dnd-kit/core";
-
 import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
 
-import CreateTaskButton from "@/features/tasks/components/board/CreateTaskButton";
-import TaskCard from "@/features/tasks/components/board/TaskCard";
-import { useAlert } from "@/components/ui/modal/AlertModal";
 import DropdownMenu from "@/components/ui/DropdownMenu";
+import { useAlert } from "@/components/ui/modal/AlertModal";
 
 import { canAddProjectItems } from "@/features/projects/utils/projectUtils";
-
-import type { ProjectScope } from "@/lib/projectRoutes";
+import CreateTaskButton from "@/features/tasks/components/board/CreateTaskButton";
+import TaskCard from "@/features/tasks/components/board/TaskCard";
 
 import type { Project } from "@/features/projects/types/project";
 import type { Task, TaskStatus } from "@/features/tasks/types/task";
+import type { ProjectScope } from "@/lib/projectRoutes";
 
 const statusDotColors: Record<TaskStatus, string> = {
   TODO: "bg-slate-400",

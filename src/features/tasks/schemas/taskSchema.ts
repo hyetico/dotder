@@ -1,9 +1,9 @@
 import { z } from "zod";
 
 export const taskSchema = z.object({
-  title: z.string().min(2, "업무 제목은 2글자 이상 입력해주세요."),
+  title: z.string().min(2, "태스크 제목은 2글자 이상 입력해주세요."),
 
-  description: z.string().min(5, "업무 설명은 5글자 이상 입력해주세요."),
+  description: z.string().min(5, "태스크 설명은 5글자 이상 입력해주세요."),
 
   priority: z.enum(["LOW", "MEDIUM", "HIGH"]),
 

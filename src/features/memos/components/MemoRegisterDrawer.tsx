@@ -11,14 +11,17 @@ import FieldNotice from "@/components/ui/FieldNotice";
 import Input from "@/components/ui/input/Input";
 import Textarea from "@/components/ui/input/Textarea";
 import Select from "@/components/ui/select/Select";
-import { registerMemo } from "@/features/memos/api/memos";
-import type { Memo, MemoRegistrationKind } from "@/features/memos/types/memo";
+
 import { createGoal } from "@/features/goals/api/goals";
 import { getTodayDateValue } from "@/features/goals/utils/goalDates";
-import type { Project } from "@/features/projects/types/project";
+import { registerMemo } from "@/features/memos/api/memos";
 import { createTask, getTasks } from "@/features/tasks/api/tasks";
+
 import { currentUser } from "@/lib/mock/users";
 import { goalQueryKeys, memoQueryKeys, taskQueryKeys } from "@/lib/queryKeys";
+
+import type { Memo, MemoRegistrationKind } from "@/features/memos/types/memo";
+import type { Project } from "@/features/projects/types/project";
 
 const SLIDE_MS = 400;
 const fieldLabelClassName = "mb-2 block text-[13px] leading-5 font-medium text-[var(--color-text)]";

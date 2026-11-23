@@ -2,13 +2,13 @@
 
 import { useId, type ReactNode } from "react";
 
+import ExpandablePreviewText from "@/components/ui/ExpandablePreviewText";
+import Modal from "@/components/ui/modal/Modal";
+
 import GoalBadge from "@/features/goals/components/GoalBadge";
 import GoalStatusBadge from "@/features/goals/components/GoalStatusBadge";
 import GoalTag from "@/features/goals/components/GoalTag";
 import ProjectBadge from "@/features/projects/components/ProjectBadge";
-import ExpandablePreviewText from "@/components/ui/ExpandablePreviewText";
-import Modal from "@/components/ui/modal/Modal";
-
 import { formatProjectDate, formatProjectDateRange } from "@/features/projects/utils/projectUtils";
 
 import type { GoalStatus } from "@/features/goals/types/goal";

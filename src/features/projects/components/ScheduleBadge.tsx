@@ -1,8 +1,8 @@
-import type { ReactNode } from "react";
-
 import { AppIcon, Calendar } from "@/components/ui/icon";
 
 import { getProjectStatusStyles } from "@/features/projects/utils/projectUtils";
+
+import type { ReactNode } from "react";
 
 export type ScheduleTone = "delayed" | "done" | "remaining";
 

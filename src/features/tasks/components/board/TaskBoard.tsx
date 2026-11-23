@@ -3,14 +3,14 @@
 import { useMemo } from "react";
 
 import { DndContext, type DragEndEvent } from "@dnd-kit/core";
-
 import { arrayMove } from "@dnd-kit/sortable";
-
 import { useQuery } from "@tanstack/react-query";
 
+import { getProjects } from "@/features/projects/api/projects";
+import { getTasks } from "@/features/tasks/api/tasks";
 import BoardColumn from "@/features/tasks/components/board/BoardColumn";
 import CreateTaskButton from "@/features/tasks/components/board/CreateTaskButton";
-
+import { useTaskMutations } from "@/features/tasks/hooks/useTaskMutations";
 import {
   filterTasksBySearchQuery,
   matchesTaskStatusFilter,
@@ -18,15 +18,10 @@ import {
   type TaskFilterTab,
 } from "@/features/tasks/utils/taskUtils";
 
-import { getProjects } from "@/features/projects/api/projects";
-import { getTasks } from "@/features/tasks/api/tasks";
-
-import { useTaskMutations } from "@/features/tasks/hooks/useTaskMutations";
-
 import { projectQueryKeys, taskQueryKeys } from "@/lib/queryKeys";
 
-import type { ProjectScope } from "@/lib/projectRoutes";
 import type { TaskStatus } from "@/features/tasks/types/task";
+import type { ProjectScope } from "@/lib/projectRoutes";
 
 const columns: {
   title: string;
@@ -102,8 +97,7 @@ export default function TaskBoard({
 
   const today = taskTodayStamp();
   const filteredTasks = useMemo(
-    () =>
-      searchFilteredTasks.filter((task) => matchesTaskStatusFilter(task, statusFilter, today)),
+    () => searchFilteredTasks.filter((task) => matchesTaskStatusFilter(task, statusFilter, today)),
     [searchFilteredTasks, statusFilter, today],
   );
 

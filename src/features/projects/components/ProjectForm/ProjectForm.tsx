@@ -1,41 +1,45 @@
 "use client";
 
 import { useMemo, useState, type ReactNode } from "react";
-import { useForm } from "react-hook-form";
+
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+
 import { CalendarSync } from "@/components/ui/icon";
-import { useSyncProjectAccent } from "@/features/projects/components/ProjectAccent";
-import ProjectPreviewModal from "@/features/projects/modals/ProjectPreviewModal";
-import ChangeProjectDeadlineModal from "@/features/projects/modals/ChangeProjectDeadlineModal";
 import LineTabMenu from "@/components/ui/tab/LineTabMenu";
-import { currentUser } from "@/lib/mock/users";
+
+import { useSyncProjectAccent } from "@/features/projects/components/ProjectAccent";
+import { DeadlineToast } from "@/features/projects/components/ProjectForm/DeadlineToast";
+import { FormActions, FormActionBar } from "@/features/projects/components/ProjectForm/FormActions";
+import { FormPageTitle } from "@/features/projects/components/ProjectForm/FormParts";
+import { BasicInfoSection } from "@/features/projects/components/ProjectForm/sections/BasicInfoSection";
+import { SettingsSection } from "@/features/projects/components/ProjectForm/sections/SettingsSection";
 import {
-  getProjectTeamLabel,
-  parseProjectTeamSelection,
-  PROJECT_TEAM_NONE,
-} from "@/features/projects/utils/projectTeam";
-import { getProjectAccentColor } from "@/features/projects/utils/projectColors";
-import { getProjectSpanDays, isProjectDelayed } from "@/features/projects/utils/projectUtils";
+  defaultFormValues,
+  deadlineChangeLabel,
+} from "@/features/projects/constants/projectFormDefaults";
+import { useProjectDeadlineChange } from "@/features/projects/hooks/useProjectDeadlineChange";
+import ChangeProjectDeadlineModal from "@/features/projects/modals/ChangeProjectDeadlineModal";
+import ProjectPreviewModal from "@/features/projects/modals/ProjectPreviewModal";
 import {
   createProjectSchema,
   type ProjectFormData,
 } from "@/features/projects/schemas/projectSchema";
 import { type Project } from "@/features/projects/types/project";
+import { getProjectAccentColor } from "@/features/projects/utils/projectColors";
+import { getProjectFormLayout } from "@/features/projects/utils/projectFormLayout";
 import {
   getProjectAdmin,
   scrollToProjectFormError,
 } from "@/features/projects/utils/projectFormUtils";
 import {
-  defaultFormValues,
-  deadlineChangeLabel,
-} from "@/features/projects/constants/projectFormDefaults";
-import { FormPageTitle } from "@/features/projects/components/ProjectForm/FormParts";
-import { getProjectFormLayout } from "@/features/projects/utils/projectFormLayout";
-import { useProjectDeadlineChange } from "@/features/projects/hooks/useProjectDeadlineChange";
-import { BasicInfoSection } from "@/features/projects/components/ProjectForm/sections/BasicInfoSection";
-import { SettingsSection } from "@/features/projects/components/ProjectForm/sections/SettingsSection";
-import { DeadlineToast } from "@/features/projects/components/ProjectForm/DeadlineToast";
-import { FormActions, FormActionBar } from "@/features/projects/components/ProjectForm/FormActions";
+  getProjectTeamLabel,
+  parseProjectTeamSelection,
+  PROJECT_TEAM_NONE,
+} from "@/features/projects/utils/projectTeam";
+import { getProjectSpanDays, isProjectDelayed } from "@/features/projects/utils/projectUtils";
+
+import { currentUser } from "@/lib/mock/users";
 
 type ProjectFormProps = {
   defaultValues?: Partial<ProjectFormData>;

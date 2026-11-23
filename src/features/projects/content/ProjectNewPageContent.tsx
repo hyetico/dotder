@@ -1,25 +1,20 @@
 "use client";
 
-import { useMemo } from "react";
-
 import { useRouter } from "next/navigation";
+import { useMemo } from "react";
 
 import { useQuery } from "@tanstack/react-query";
 
-import ProjectAccent from "@/features/projects/components/ProjectAccent";
-
-import ProjectCreateWizard from "@/features/projects/components/ProjectCreateWizard/ProjectCreateWizard";
-import type { ProjectFormData } from "@/features/projects/schemas/projectSchema";
-
 import { getProjects } from "@/features/projects/api/projects";
-
+import ProjectAccent from "@/features/projects/components/ProjectAccent";
+import ProjectCreateWizard from "@/features/projects/components/ProjectCreateWizard/ProjectCreateWizard";
 import { useProjectMutations } from "@/features/projects/hooks/useProjectMutations";
+import { parseProjectTeamSelection } from "@/features/projects/utils/projectTeam";
 
 import { currentUser, mockUsers } from "@/lib/mock/users";
-
 import { projectQueryKeys } from "@/lib/queryKeys";
 
-import { parseProjectTeamSelection } from "@/features/projects/utils/projectTeam";
+import type { ProjectFormData } from "@/features/projects/schemas/projectSchema";
 
 function getTodayDateValue() {
   const today = new Date();

@@ -1,8 +1,8 @@
-import type { ReactNode } from "react";
-
 import InfoTooltip, { type InfoTooltipItem } from "@/components/ui/InfoTooltip";
 
 import { getProjectStatusIconSurface } from "@/features/projects/constants/projectStatusColors";
+
+import type { ReactNode } from "react";
 
 type SectionHeaderProps = {
   icon: ReactNode;

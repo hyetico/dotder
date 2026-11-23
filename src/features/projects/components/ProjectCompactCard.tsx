@@ -1,5 +1,3 @@
-import type { CSSProperties } from "react";
-
 import Link from "next/link";
 
 import { AppIcon, ArrowUpRight } from "@/components/ui/icon";
@@ -9,9 +7,11 @@ import {
   getProjectTintInkColor,
   getProjectTintLineColor,
 } from "@/features/projects/utils/projectColors";
+
 import { getProjectDetailPath } from "@/lib/projectRoutes";
 
 import type { ProjectListItem } from "@/features/projects/types/project";
+import type { CSSProperties } from "react";
 
 type ProjectCompactCardProps = {
   project: ProjectListItem;
@@ -20,11 +20,15 @@ type ProjectCompactCardProps = {
 const compactCardClassName = "flex max-w-full shrink flex-col items-center gap-1";
 const compactFolderClassName = "group relative h-[37px] w-[64px]";
 const compactFolderShapeClassName = "h-full w-full";
-const compactFolderPathClassName = "fill-[var(--folder-fill)] stroke-[var(--folder-line)] transition-colors group-hover:fill-[var(--folder-fill-hover)]";
-const compactDetailLinkClassName = "absolute inset-0 flex items-center justify-center text-[var(--folder-ink)] outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary)]";
+const compactFolderPathClassName =
+  "fill-[var(--folder-fill)] stroke-[var(--folder-line)] transition-colors group-hover:fill-[var(--folder-fill-hover)]";
+const compactDetailLinkClassName =
+  "absolute inset-0 flex items-center justify-center text-[var(--folder-ink)] outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary)]";
 const compactIconClassName = "translate-y-0.5";
-const compactTitleClassName = "w-max max-w-[15rem] text-center text-[12px] leading-4 font-medium break-keep text-[var(--color-text-secondary)]";
-const compactFolderPath = "M8 9V7.2Q8 2.75 13 2.75H20Q24 2.75 26 6L28.5 9H50.5Q56 9 56 14.5V30Q56 35.5 50.5 35.5H13.5Q8 35.5 8 30Z";
+const compactTitleClassName =
+  "w-max max-w-[15rem] text-center text-[12px] leading-4 font-medium break-keep text-[var(--color-text-secondary)]";
+const compactFolderPath =
+  "M8 9V7.2Q8 2.75 13 2.75H20Q24 2.75 26 6L28.5 9H50.5Q56 9 56 14.5V30Q56 35.5 50.5 35.5H13.5Q8 35.5 8 30Z";
 
 /**
  * ProjectCompactCard

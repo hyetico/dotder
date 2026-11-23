@@ -1,12 +1,10 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useId, useState, type ReactNode } from "react";
 
-import { useRouter } from "next/navigation";
-
-import { AppIcon, ArrowRight, Info } from "@/components/ui/icon";
-
 import PrimaryButton from "@/components/ui/button/PrimaryButton";
+import { AppIcon, ArrowRight, Info } from "@/components/ui/icon";
 import Modal, { modalSidePaddingClassName } from "@/components/ui/modal/Modal";
 
 export type InfoTooltipItem = {

@@ -1,14 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import AdminSelect from "@/features/projects/components/ProjectForm/AdminSelect";
+
 import { fieldPaddingClassName } from "@/components/ui/fieldControl";
-import { getTeamMembers } from "@/lib/mock/teamMembers";
-import { mockUsers } from "@/lib/mock/users";
-import { parseProjectTeamSelection } from "@/features/projects/utils/projectTeam";
+
+import AdminSelect from "@/features/projects/components/ProjectForm/AdminSelect";
+import { FormLabel } from "@/features/projects/components/ProjectForm/FormParts";
 import { teamOptions } from "@/features/projects/constants/projectFormDefaults";
 import { getProjectAdminGuideItems } from "@/features/projects/constants/projectFormGuides";
-import { FormLabel } from "@/features/projects/components/ProjectForm/FormParts";
+import { parseProjectTeamSelection } from "@/features/projects/utils/projectTeam";
+
+import { getTeamMembers } from "@/lib/mock/teamMembers";
+import { mockUsers } from "@/lib/mock/users";
 
 export type ProjectAdminSummary = {
   name: string;

@@ -1,20 +1,21 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useRef, useState, type RefObject } from "react";
 
-import Link from "next/link";
-
+import Badge from "@/components/ui/badge/Badge";
 import DropdownMenu from "@/components/ui/DropdownMenu";
 import { AppIcon, ChevronRight, FileText, Folder, Plus, Trash2 } from "@/components/ui/icon";
-import Badge from "@/components/ui/badge/Badge";
 
 import {
   formatMemoDate,
   getMemoProjectLabel,
   getMemoRegistrationLabel,
 } from "@/features/memos/utils/memoDisplay";
-import type { Memo } from "@/features/memos/types/memo";
+
 import { buildTasksPath, getGoalDetailPath } from "@/lib/projectRoutes";
+
+import type { Memo } from "@/features/memos/types/memo";
 
 const memoCardClassName =
   "flex h-full min-h-[172px] flex-col rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-white p-4 shadow-[var(--shadow-card)]";

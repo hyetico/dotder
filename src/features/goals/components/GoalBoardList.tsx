@@ -3,11 +3,12 @@
 import { useEffect, useRef, type ReactNode } from "react";
 
 import { AppIcon, Folder, ListChecks, Target } from "@/components/ui/icon";
-import GoalStatusLabel from "@/features/goals/components/GoalStatusLabel";
-import GoalTag from "@/features/goals/components/GoalTag";
 import MemberAvatar from "@/components/ui/MemberAvatar";
 
+import GoalStatusLabel from "@/features/goals/components/GoalStatusLabel";
+import GoalTag from "@/features/goals/components/GoalTag";
 import { getGoalScheduleMark } from "@/features/goals/utils/goalUtils";
+
 import { getMemberInitial, getTeamMember } from "@/lib/mock/teamMembers";
 
 import type { Goal, GoalStatus } from "@/features/goals/types/goal";
@@ -189,70 +190,76 @@ function GoalCard({
   const progress = Math.min(100, Math.max(0, Math.round(goal.progress)));
   const projectName = goalProjectName(goal, projects);
   const title = goal.title.trim();
-  const cardClassName = [goalCardClassName, readOnly || selected ? goalSelectedCardClassName : goalCardBorderClassName].join(" ");
+  const cardClassName = [
+    goalCardClassName,
+    readOnly || selected ? goalSelectedCardClassName : goalCardBorderClassName,
+  ].join(" ");
   const card = (
-      <div className={cardClassName}>
-        <div className="flex min-w-0 items-start gap-2">
-          <AppIcon icon={Target} size="md" className="mt-0.5 shrink-0 text-[var(--color-text)]" />
-          <h3 title={title || "새 목표"} className={title ? goalTitleClassName : goalPreviewTitleClassName}>
-            {title || "새 목표"}
-          </h3>
-          <span
-            className={`${goalTaskCountClassName} ${theme.badgeClassName}`}
-            title={`태스크 ${completedTasks}/${totalTasks}`}
-          >
-            <AppIcon icon={ListChecks} size="xs" />
-            {completedTasks}/{totalTasks}
-          </span>
-        </div>
-        <div className={goalTagRowClassName}>
-          {goal.tags.map((tag) => (
-            <GoalTag key={tag} tag={tag} />
-          ))}
-        </div>
-        {showProject ? (
-          <span className={goalProjectLineClassName} title={projectName}>
-            <AppIcon icon={Folder} size="xs" className="shrink-0" />
-            <span className="min-w-0 truncate">{projectName}</span>
-          </span>
-        ) : null}
-        <div className="flex min-w-0 items-center gap-3">
-          <div
-            role="progressbar"
-            aria-label="진행률"
-            aria-valuemin={0}
-            aria-valuemax={100}
-            aria-valuenow={progress}
-            className={goalProgressTrackClassName}
-          >
-            <div
-              className={`h-full rounded-full ${theme.barClassName}`}
-              style={{ width: `${progress}%` }}
-            />
-          </div>
-          <span className={`${goalProgressPercentClassName} ${theme.percentClassName}`}>
-            {progress}%
-          </span>
-        </div>
-        <div className={goalStatusRowClassName}>
-          <span className={goalStatusGroupClassName}>
-            <GoalStatusLabel status={goal.status} />
-            {overdueLabel ? (
-              <>
-                <span aria-hidden className={goalOverdueDividerClassName}>
-                  |
-                </span>
-                <span className={goalOverdueClassName}>
-                  <span className="truncate">{overdueLabel}</span>
-                </span>
-              </>
-            ) : null}
-          </span>
-          <span className="ml-auto shrink-0">
-            <GoalAssignee assigneeIds={goal.assigneeIds} />
-          </span>
-        </div>
+    <div className={cardClassName}>
+      <div className="flex min-w-0 items-start gap-2">
+        <AppIcon icon={Target} size="md" className="mt-0.5 shrink-0 text-[var(--color-text)]" />
+        <h3
+          title={title || "새 목표"}
+          className={title ? goalTitleClassName : goalPreviewTitleClassName}
+        >
+          {title || "새 목표"}
+        </h3>
+        <span
+          className={`${goalTaskCountClassName} ${theme.badgeClassName}`}
+          title={`태스크 ${completedTasks}/${totalTasks}`}
+        >
+          <AppIcon icon={ListChecks} size="xs" />
+          {completedTasks}/{totalTasks}
+        </span>
       </div>
+      <div className={goalTagRowClassName}>
+        {goal.tags.map((tag) => (
+          <GoalTag key={tag} tag={tag} />
+        ))}
+      </div>
+      {showProject ? (
+        <span className={goalProjectLineClassName} title={projectName}>
+          <AppIcon icon={Folder} size="xs" className="shrink-0" />
+          <span className="min-w-0 truncate">{projectName}</span>
+        </span>
+      ) : null}
+      <div className="flex min-w-0 items-center gap-3">
+        <div
+          role="progressbar"
+          aria-label="진행률"
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-valuenow={progress}
+          className={goalProgressTrackClassName}
+        >
+          <div
+            className={`h-full rounded-full ${theme.barClassName}`}
+            style={{ width: `${progress}%` }}
+          />
+        </div>
+        <span className={`${goalProgressPercentClassName} ${theme.percentClassName}`}>
+          {progress}%
+        </span>
+      </div>
+      <div className={goalStatusRowClassName}>
+        <span className={goalStatusGroupClassName}>
+          <GoalStatusLabel status={goal.status} />
+          {overdueLabel ? (
+            <>
+              <span aria-hidden className={goalOverdueDividerClassName}>
+                |
+              </span>
+              <span className={goalOverdueClassName}>
+                <span className="truncate">{overdueLabel}</span>
+              </span>
+            </>
+          ) : null}
+        </span>
+        <span className="ml-auto shrink-0">
+          <GoalAssignee assigneeIds={goal.assigneeIds} />
+        </span>
+      </div>
+    </div>
   );
 
   if (readOnly) {
@@ -260,7 +267,12 @@ function GoalCard({
   }
 
   return (
-    <button type="button" aria-pressed={selected} onClick={() => onSelect?.(goal)} className={goalCardButtonClassName}>
+    <button
+      type="button"
+      aria-pressed={selected}
+      onClick={() => onSelect?.(goal)}
+      className={goalCardButtonClassName}
+    >
       {card}
     </button>
   );

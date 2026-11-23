@@ -47,3 +47,6 @@ next-env.d.ts
 .tmp-*
 .tmp/
 .design-ref/
+
+# design handoff (보드·캡처·프로토타입, git 제외)
+/design/

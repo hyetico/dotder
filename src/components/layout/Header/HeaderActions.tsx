@@ -1,8 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import { createContext, useContext, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
-import Link from "next/link";
 
 import { buttonIconHitClassName } from "@/components/ui/button/buttonSize";
 import DropdownMenu, { DropdownMenuLink } from "@/components/ui/DropdownMenu";
@@ -46,7 +46,9 @@ export function HeaderActionsSlot() {
     return null;
   }
 
-  return <div ref={context.setSlot} className="flex shrink-0 items-center gap-2 empty:hidden" />;
+  const { setSlot } = context;
+
+  return <div ref={setSlot} className="flex shrink-0 items-center gap-2 empty:hidden" />;
 }
 
 /**

@@ -1,11 +1,19 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 
-import Link from "next/link";
-
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 
+import BottomAppBar from "@/components/layout/pages/CreatePage/BottomAppBar";
+import { formPaneClassName } from "@/components/layout/pages/CreatePage/formSpacing";
+import Badge from "@/components/ui/badge/Badge";
+import PrimaryButton from "@/components/ui/button/PrimaryButton";
+import SecondaryButton from "@/components/ui/button/SecondaryButton";
+import DatePicker from "@/components/ui/date-picker/DatePicker";
+import { fieldPaddingClassName } from "@/components/ui/fieldControl";
+import FieldNotice from "@/components/ui/FieldNotice";
 import {
   iconSize,
   AppIcon,
@@ -20,54 +28,36 @@ import {
   Pencil,
   X,
 } from "@/components/ui/icon";
+import IconTitle from "@/components/ui/IconTitle";
+import InfoTooltip, { type InfoTooltipItem } from "@/components/ui/InfoTooltip";
+import Textarea from "@/components/ui/input/Textarea";
+import ProfileSummary from "@/components/ui/ProfileSummary";
+import StatusChoiceButton from "@/components/ui/StatusChoiceButton";
+import LineTabMenu from "@/components/ui/tab/LineTabMenu";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-
+import GoalBadge from "@/features/goals/components/GoalBadge";
 import FormTitlePreviewFrame from "@/features/goals/components/GoalForm/FormTitlePreviewFrame";
+import GoalTitlePreview from "@/features/goals/components/GoalForm/GoalTitlePreview";
+import GoalStatusBadge from "@/features/goals/components/GoalStatusBadge";
+import GoalStatusIcon from "@/features/goals/components/GoalStatusIcon";
+import GoalTag from "@/features/goals/components/GoalTag";
 import GoalPreviewModal from "@/features/goals/modals/GoalPreviewModal";
 import LinkedProjectInfoModal from "@/features/goals/modals/LinkedProjectInfoModal";
-import BottomAppBar from "@/components/layout/pages/CreatePage/BottomAppBar";
-import { formPaneClassName } from "@/components/layout/pages/CreatePage/formSpacing";
-import { fieldPaddingClassName } from "@/components/ui/fieldControl";
-import Textarea from "@/components/ui/input/Textarea";
-import Badge from "@/components/ui/badge/Badge";
-import GoalBadge from "@/features/goals/components/GoalBadge";
-import GoalStatusBadge from "@/features/goals/components/GoalStatusBadge";
-import GoalTag from "@/features/goals/components/GoalTag";
-import GoalStatusIcon from "@/features/goals/components/GoalStatusIcon";
-import GoalTitlePreview from "@/features/goals/components/GoalForm/GoalTitlePreview";
-
-import FieldNotice from "@/components/ui/FieldNotice";
-import StatusChoiceButton from "@/components/ui/StatusChoiceButton";
-import IconTitle from "@/components/ui/IconTitle";
-import ProfileSummary from "@/components/ui/ProfileSummary";
-import SecondaryButton from "@/components/ui/button/SecondaryButton";
-
-import DatePicker from "@/components/ui/date-picker/DatePicker";
-import LineTabMenu from "@/components/ui/tab/LineTabMenu";
-import InfoTooltip, { type InfoTooltipItem } from "@/components/ui/InfoTooltip";
-import PrimaryButton from "@/components/ui/button/PrimaryButton";
-
 import { createGoalSchema, type GoalFormData } from "@/features/goals/schemas/goalSchema";
-
+import { GOAL_STATUSES, type GoalStatus } from "@/features/goals/types/goal";
 import { getTodayDateValue } from "@/features/goals/utils/goalDates";
-
 import {
   getGoalStatusLabel,
   getGoalStatusMetricColors,
   isGoalDelayed,
 } from "@/features/goals/utils/goalUtils";
-
-import { isProjectDelayed } from "@/features/projects/utils/projectUtils";
-
-import { currentUser } from "@/lib/mock/users";
-
 import {
   getProjectAccentColor,
   PROJECT_COLOR_OPTIONS,
 } from "@/features/projects/utils/projectColors";
+import { isProjectDelayed } from "@/features/projects/utils/projectUtils";
 
-import { GOAL_STATUSES, type GoalStatus } from "@/features/goals/types/goal";
+import { currentUser } from "@/lib/mock/users";
 
 import type { ProjectStatus } from "@/features/projects/types/project";
 
@@ -594,9 +584,19 @@ export default function GoalForm({
         }
       : undefined;
 
+  const projectStartDate = projectPeriod?.startDate;
+
+  const projectEndDate = projectPeriod?.endDate;
+
+  // projectPeriod는 렌더마다 새 객체라서, 날짜 값이 바뀔 때만 스키마를 다시 만든다.
   const schema = useMemo(
-    () => createGoalSchema(projectPeriod),
-    [projectPeriod?.startDate, projectPeriod?.endDate],
+    () =>
+      createGoalSchema(
+        projectStartDate && projectEndDate
+          ? { startDate: projectStartDate, endDate: projectEndDate }
+          : undefined,
+      ),
+    [projectStartDate, projectEndDate],
   );
 
   const {
@@ -691,7 +691,9 @@ export default function GoalForm({
 
   const endDateMax = projectPeriod?.endDate;
 
-  const selectedTags = watch("tags") ?? [];
+  const watchedTags = watch("tags");
+
+  const selectedTags = useMemo(() => watchedTags ?? [], [watchedTags]);
 
   const projectTags = project?.tags ?? [];
 

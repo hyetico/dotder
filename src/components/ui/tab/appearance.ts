@@ -32,7 +32,8 @@ const folderTabListClassName = "flex items-center gap-1";
 const folderTabItemClassName =
   "inline-flex h-8 shrink-0 items-center gap-1.5 rounded-[10px]! px-3 text-sm leading-5 font-medium disabled:opacity-100!";
 const folderTabOpenClassName = "bg-transparent text-[var(--color-text)]";
-const folderTabClosedClassName = "border border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text)] shadow-[var(--shadow-card)] hover:bg-[var(--color-hover)]";
+const folderTabClosedClassName =
+  "border border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text)] shadow-[var(--shadow-card)] hover:bg-[var(--color-hover)]";
 const folderTabLabelClassName = "inline-flex items-center gap-1";
 
 /**

@@ -15,6 +15,7 @@
 | **B-1** | 반응형 기준점 1024/1025 혼용 (62곳). 너비 1024px에서 스타일이 겹치거나 빠짐. 그 밖의 임의 기준점(768·1280·1440) 6곳 포함 전체 68곳 | 68곳 | 3 |
 | **B-2** | 서버 컴포넌트와 클라이언트가 서로 다른 목업 데이터를 봄. 새로 만든 프로젝트 상세가 "찾을 수 없음" | 구조 | 10 |
 | **B-3** | 다크 모드 토큰 일부 누락. 켜면 어두운 배경에 어두운 글자 | 토큰 10여 개 | 4 |
+| **B-4** | `/goals` 첫 화면에서 하이드레이션 불일치 경고 (서버 HTML과 클라이언트 속성이 다름). `GoalsScopeTabs` → `LineTabMenu` 부근. `before-refactor` 시점부터 있음 (2026-11-23 확인) | 1곳 | 미정 |
 | **P-1** | 목표 진행률을 저장값으로 가짐. 태스크를 완료해도 목표 진행률이 안 바뀜 | 구조 | 10 |
 | **P-2** | 프로젝트 상태를 사용자가 직접 고름 (PRD: 자동 계산) | 스키마·UI | 6, 10 |
 | **P-3** | 마감일 필수 (PRD: 비워도 됨) | 스키마 | 6 |
@@ -33,7 +34,6 @@
 | **S-9** | 임의 px 값 전체 | 490곳 | 4 (점진) |
 | **S-10** | 상태 색 정의 파일 2개로 분리, hex 직접 사용 (`statusColors.ts` 61 · `projectStatusColors.ts` 30) → 하나로 합치고 토큰 참조로 | 91곳 | 4 |
 | **S-11** | `text-body-sm`과 `text-caption`이 같은 값 | 1 | 4 |
-| **C-1** | 안 쓰는 컴포넌트 `MobileFilterMenu` | 1 | 2 |
 | **C-2** | 탭 3종 (`Line`, `Folder`, `Tile`) | 3 | 5 |
 | **C-3** | 상태 필터 4종 | 4 | 5 |
 | **C-4** | 모바일 필터 3종 | 3 | 5 |
@@ -45,16 +45,14 @@
 | **A-2** | 사이드바 로고가 `<h1>` → 페이지에 h1 두 개 | 1곳 | 5 |
 | **A-3** | `PageHeading` 대신 `<h1>` 직접 사용 | 5곳 | 5 |
 | **A-4** | 이모지를 아이콘으로 사용 | 6곳 | 5 |
-| **D-1** | 화면 문구 "업무"와 "태스크" 혼용 | 22곳 | 2 |
 | **D-2** | ✅ 완료 — README가 create-next-app 기본 → 프로젝트 소개로 교체 | 1 | 1 |
-| **D-3** | 메모 화면 주소가 `/backlog`, 코드 이름이 `Backlog*` (메뉴 이름은 "메모") | 라우트 2 · 컴포넌트 | 2 |
-| **D-4** | 앱 이름이 3가지로 다름 (저장소 `flow-choice` · package.json `projectflow` · 화면 `FlowPJECT` — `layout.tsx` 탭 제목, `Sidebar.tsx` 로고, `navConfig.tsx`) | 4곳 | 이름 확정 후 |
-| **X-1** | `console.log` 남음 | 8곳 | 2 |
-| **X-3** | 주석 처리된 옛 코드 (`task.ts` 등) | - | 2 |
+| **D-3** | 프로젝트 디테일의 메모 하위 주소가 아직 `/projects/[id]/backlog` (메모 목록 `/memos`와 코드 이름은 2단계에서 바꿈) | 라우트 1 | 7 |
+| **D-4** | 앱 이름은 Tessera로 통일했지만 GitHub 저장소 이름이 아직 `flow-choice`. 바꾸면 원격 주소(`git remote`)도 갱신 | 1 | 공개 전 |
+| **D-5** | localStorage 키 앞머리가 옛 이름 `projectflow:` (`projectSwitcherPreferences.ts` 3개). 바꾸면 저장된 즐겨찾기·최근 목록이 사라지므로 옮기는 코드와 함께 | 3 | 8 |
 | **X-4** | 학습용 긴 주석 (`useTaskMutations.ts` 등) | - | 2 |
 | **X-5** | 문서 주석이 없는 **export 함수** (`export function`, `export const 이름 = (`) | 412개 중 190개 | 수시 |
-| **X-6** | 조건부 className 유틸 `cn()` 없음 | 1 | 2 |
-| **X-7** | lint 오류 18개 · 경고 13개, 모두 `src`. `npm run lint` 실패 (2026-11-22, `.tmp`·`.design-ref`·`Claude outputs` 제외 후). 오류: `react-hooks/set-state-in-effect` 12 · `refs` 3 · `immutability` 2 · `purity` 1. 경고: `exhaustive-deps` 4 · `incompatible-library` 4 · `@next/next/no-img-element` 3 · `jsx-a11y/role-supports-aria-props` 2. 오류가 많은 파일: `ProjectDescriptionDrawer` 4 · `SidebarDrawer` 2 · `MobileFilterDrawer` 2 · `GoalTagField` 2 · `GoalDrawerDescriptionField` 2 | 31 | 2 |
+| **X-8** | lint 경고 7개 (오류는 0, `npm run lint` 통과). `@next/next/no-img-element` 3 (`SidebarProfile`, `ProfileSummary`, `ProjectAdminField` 아바타 — `next/image`로 바꾸려면 이미지 주소 설정이 필요) · `react-hooks/incompatible-library` 4 (react-hook-form `watch()`를 쓰는 `GoalForm`, `ProjectForm`, `ProjectEditForm`, `ProjectCreateWizard` — `useWatch`로 바꾸거나 폼을 나눌 때 함께) | 7 | 6 |
+| **X-10** | `npm run build` 경고 116개 (빌드는 통과). 전부 `node_modules.nosync` 안의 Next·sharp 내부 파일에서 나옴. `node_modules`가 심볼릭 링크라서 Turbopack이 외부 패키지로 알아보지 못하는 것으로 보임 (원인 미확인, 2026-11-23) | 116 | 미정 |
 
 ## 숫자 다시 세는 법
 
@@ -84,11 +82,8 @@ grep -rhoE '(min|max)-\[[0-9]+px\]:' --include='*.tsx' src | wc -l
 
 # S-4 고정 색
 grep -rhoE '\b(bg|text|border)-(white|black)\b' --include='*.tsx' src | wc -l
-
-# X-1 console.log
-grep -rn 'console\.log' --include='*.ts' --include='*.tsx' src | wc -l
 ```
 
-2026-11-21 기준 결과: S-1 154 · 전체 301 · S-3 150 · S-2 60 · B-1 68 · S-4 147 · X-1 8
+2026-11-21 기준 결과: S-1 154 · 전체 301 · S-3 150 · S-2 60 · B-1 68 · S-4 147
 
 > 숫자를 적을 때는 반드시 위 명령으로 센 값을 쓴다. 다른 방법(`grep -c` 등)으로 세면 한 줄에 여러 개 있는 경우를 놓친다.

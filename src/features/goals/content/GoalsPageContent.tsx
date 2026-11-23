@@ -1,35 +1,33 @@
 "use client";
 
-import { Suspense, useCallback, useMemo, useState, useSyncExternalStore } from "react";
-
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { Suspense, useCallback, useMemo, useState, useSyncExternalStore } from "react";
 
 import { useQuery } from "@tanstack/react-query";
 
-import GoalCategoryBoard from "@/features/goals/components/GoalCategoryBoard";
-import GoalCreateDrawer, { type GoalCreateDraft } from "@/features/goals/modals/GoalCreateDrawer";
-import GoalDetailDrawer from "@/features/goals/modals/GoalDetailDrawer";
-import StatCountCard from "@/components/ui/stats/StatCountCard";
-import StatCountGrid, { statCountWideCardClassName } from "@/components/ui/stats/StatCountGrid";
-import GoalsScopeTabs, { type GoalsScopeTab } from "@/features/goals/components/GoalsScopeTabs";
 import { HeaderActionButton, HeaderActions } from "@/components/layout/Header/HeaderActions";
 import PageHeading from "@/components/layout/pages/Page/PageHeading";
 import PageInset from "@/components/layout/pages/Page/PageInset";
+import { CheckCircle2, Circle, Clock, Plus, Target } from "@/components/ui/icon";
+import StatCountCard from "@/components/ui/stats/StatCountCard";
+import StatCountGrid, { statCountWideCardClassName } from "@/components/ui/stats/StatCountGrid";
+
+import { getGoals } from "@/features/goals/api/goals";
+import GoalCategoryBoard from "@/features/goals/components/GoalCategoryBoard";
+import GoalsScopeTabs, { type GoalsScopeTab } from "@/features/goals/components/GoalsScopeTabs";
+import GoalCreateDrawer, { type GoalCreateDraft } from "@/features/goals/modals/GoalCreateDrawer";
+import GoalDetailDrawer from "@/features/goals/modals/GoalDetailDrawer";
+import { isGoalShownDelayed } from "@/features/goals/utils/goalProjectDelay";
+import { getProjectListItems, getProjects } from "@/features/projects/api/projects";
 import FavoriteProjectFolderIcon from "@/features/projects/components/FavoriteProjectFolderIcon";
+import HoldAddNotice from "@/features/projects/components/HoldAddNotice";
 import ProjectBoardCard from "@/features/projects/components/ProjectBoardCard";
 import ProjectCompactCard from "@/features/projects/components/ProjectCompactCard";
 import ProjectSummaryBox from "@/features/projects/components/ProjectSummaryBox";
-import HoldAddNotice from "@/features/projects/components/HoldAddNotice";
-import { CheckCircle2, Circle, Clock, Plus, Target } from "@/components/ui/icon";
-
-import { getGoals } from "@/features/goals/api/goals";
-import type { Goal } from "@/features/goals/types/goal";
-import { getProjectListItems, getProjects } from "@/features/projects/api/projects";
-import { isGoalShownDelayed } from "@/features/goals/utils/goalProjectDelay";
 import { canAddProjectItems, holdAddNoticeMessage } from "@/features/projects/utils/projectUtils";
+
 import { mockTeamMembers } from "@/lib/mock/teamMembers";
 import { currentUser } from "@/lib/mock/users";
-import { goalQueryKeys, projectQueryKeys } from "@/lib/queryKeys";
 import {
   ALL_PROJECTS_SCOPE,
   buildScopeChangeHref,
@@ -44,6 +42,9 @@ import {
   getFavoriteProjectIdsSnapshot,
   subscribeFavoriteProjectIds,
 } from "@/lib/projectSwitcherPreferences";
+import { goalQueryKeys, projectQueryKeys } from "@/lib/queryKeys";
+
+import type { Goal } from "@/features/goals/types/goal";
 
 const previewAssigneeId =
   mockTeamMembers.find((member) => member.email === currentUser.email)?.id ?? null;

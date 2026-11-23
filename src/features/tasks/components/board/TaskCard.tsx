@@ -2,15 +2,14 @@
 
 import { useState } from "react";
 
-import { AppIcon, GripVertical, Trash2 } from "@/components/ui/icon";
-
 import { useSortable } from "@dnd-kit/sortable";
-
 import { CSS } from "@dnd-kit/utilities";
+
+import DropdownMenu from "@/components/ui/DropdownMenu";
+import { AppIcon, GripVertical, Trash2 } from "@/components/ui/icon";
 
 import EditTaskButton from "@/features/tasks/components/board/EditTaskButton";
 import EditTaskModal from "@/features/tasks/modals/EditTaskModal";
-import DropdownMenu from "@/components/ui/DropdownMenu";
 
 import type { Task } from "@/features/tasks/types/task";
 

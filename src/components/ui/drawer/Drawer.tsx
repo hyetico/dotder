@@ -1,23 +1,26 @@
 "use client";
 
 import { useEffect, useRef, useState, type ReactNode, type Ref } from "react";
-
 import { createPortal } from "react-dom";
 
 import CloseButton from "@/components/ui/button/CloseButton";
 import IconButton from "@/components/ui/button/IconButton";
 import DrawerFrame from "@/components/ui/drawer/DrawerFrame";
 import { AppIcon, ChevronsRight, Maximize2, Minimize2 } from "@/components/ui/icon";
+
 import { useModalScrollLock } from "@/hooks/useModalScrollLock";
 
-const overlayClassName = "fixed inset-0 z-[110] bg-black/20 transition-opacity duration-[400ms] ease-in-out motion-reduce:duration-[1ms]";
-const panelClassName = "fixed inset-y-0 right-0 z-[120] flex h-full w-full flex-col bg-[var(--color-surface)] shadow-[var(--shadow-dropdown)] transition-[transform,max-width] duration-[400ms] ease-in-out motion-reduce:duration-[1ms]";
+const overlayClassName =
+  "fixed inset-0 z-[110] bg-black/20 transition-opacity duration-[400ms] ease-in-out motion-reduce:duration-[1ms]";
+const panelClassName =
+  "fixed inset-y-0 right-0 z-[120] flex h-full w-full flex-col bg-[var(--color-surface)] shadow-[var(--shadow-dropdown)] transition-[transform,max-width] duration-[400ms] ease-in-out motion-reduce:duration-[1ms]";
 const barShellClassName = "flex h-[54px] shrink-0 items-center border-[var(--color-border)]";
 const headerFrameClassName = "flex h-full items-center gap-2 px-3";
 const headerControlsClassName = "hidden shrink-0 items-center gap-0.5 md:flex";
 const headerButtonClassName = "text-[var(--color-text-secondary)] hover:text-[var(--color-text)]";
 const fullscreenIconClassName = "origin-center scale-[0.67]";
-const bodyScrollClassName = "thin-scrollbar flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain py-5 ![scrollbar-gutter:auto]";
+const bodyScrollClassName =
+  "thin-scrollbar flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain py-5 ![scrollbar-gutter:auto]";
 const bodyFrameClassName = "flex min-h-full flex-col gap-4 px-5";
 const footerFrameClassName = "flex h-full items-center justify-end gap-2 px-5";
 
@@ -144,7 +147,9 @@ function DrawerRoot({
     : "max-w-[var(--goal-drawer-width)] border-l border-[var(--color-border)]";
   const panelMotionClassName = isEntered ? "translate-x-0" : "translate-x-full";
   const panelStateClassName = [panelClassName, panelWidthClassName, panelMotionClassName].join(" ");
-  const overlayStateClassName = [overlayClassName, isEntered ? "opacity-100" : "opacity-0"].join(" ");
+  const overlayStateClassName = [overlayClassName, isEntered ? "opacity-100" : "opacity-0"].join(
+    " ",
+  );
   const hasTitle = title.trim().length > 0;
 
   useEffect(() => {
@@ -211,7 +216,12 @@ function DrawerRoot({
   return createPortal(
     <>
       {overlay ? (
-        <button type="button" aria-label={closeLabel} onClick={onClose} className={overlayStateClassName} />
+        <button
+          type="button"
+          aria-label={closeLabel}
+          onClick={onClose}
+          className={overlayStateClassName}
+        />
       ) : null}
 
       <aside
@@ -226,7 +236,13 @@ function DrawerRoot({
           <DrawerFrame className={headerFrameClassName}>
             <div className={headerControlsClassName}>
               {isExpanded ? null : (
-                <IconButton label="닫기" title="닫기" hoverSize="icon" onClick={onClose} className={headerButtonClassName}>
+                <IconButton
+                  label="닫기"
+                  title="닫기"
+                  hoverSize="icon"
+                  onClick={onClose}
+                  className={headerButtonClassName}
+                >
                   <AppIcon icon={ChevronsRight} size="md" />
                 </IconButton>
               )}
@@ -239,12 +255,19 @@ function DrawerRoot({
                 onClick={() => setIsExpanded((expanded) => !expanded)}
                 className={headerButtonClassName}
               >
-                <AppIcon icon={isExpanded ? Minimize2 : Maximize2} size="md" className={fullscreenIconClassName} />
+                <AppIcon
+                  icon={isExpanded ? Minimize2 : Maximize2}
+                  size="md"
+                  className={fullscreenIconClassName}
+                />
               </IconButton>
             </div>
 
             {hasTitle ? (
-              <h2 id={titleId} className="min-w-0 flex-1 truncate text-section-title text-[var(--color-text)]">
+              <h2
+                id={titleId}
+                className="text-section-title min-w-0 flex-1 truncate text-[var(--color-text)]"
+              >
                 {title}
               </h2>
             ) : (

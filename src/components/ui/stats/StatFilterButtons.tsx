@@ -1,10 +1,10 @@
 "use client";
 
-import type { ReactNode } from "react";
-
 import FilterButton, { FilterButtonGroup } from "@/components/ui/FilterButton";
 
 import { getStatusFilterTone } from "@/lib/statusColors";
+
+import type { ReactNode } from "react";
 
 export type FilterStatItem<T extends string> = {
   id: T;

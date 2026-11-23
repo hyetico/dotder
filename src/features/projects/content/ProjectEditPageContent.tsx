@@ -1,37 +1,29 @@
 "use client";
 
-import { useMemo, useState } from "react";
-
 import { useRouter } from "next/navigation";
+import { useMemo, useState } from "react";
 
 import { useQuery } from "@tanstack/react-query";
 
-import { AppIcon, Trash2 } from "@/components/ui/icon";
-
 import { CreatePageLayout } from "@/components/layout/pages/CreatePage/CreatePageFrame";
-
-import ProjectEditForm from "@/features/projects/components/ProjectEditForm/ProjectEditForm";
-import type { ProjectFormData } from "@/features/projects/schemas/projectSchema";
+import { AppIcon, Trash2 } from "@/components/ui/icon";
 import { useAlert } from "@/components/ui/modal/AlertModal";
 
 import { getProjectListItem, getProjects } from "@/features/projects/api/projects";
-
-import { useProjectMutations } from "@/features/projects/hooks/useProjectMutations";
-
-import { getProjectDeadlineChanges } from "@/lib/mock/projectDeadlineChanges";
-
-import { summarizeProjectDeadlineChanges } from "@/features/projects/utils/projectUtils";
-
-import { projectQueryKeys } from "@/lib/queryKeys";
-
-import { getProjectDetailPath } from "@/lib/projectRoutes";
-
+import ProjectEditForm from "@/features/projects/components/ProjectEditForm/ProjectEditForm";
 import { isGlobalProjectTag, PROJECT_TAG_PRESETS } from "@/features/projects/constants/projectTags";
-
+import { useProjectMutations } from "@/features/projects/hooks/useProjectMutations";
 import {
   parseProjectTeamSelection,
   toProjectTeamFormValue,
 } from "@/features/projects/utils/projectTeam";
+import { summarizeProjectDeadlineChanges } from "@/features/projects/utils/projectUtils";
+
+import { getProjectDeadlineChanges } from "@/lib/mock/projectDeadlineChanges";
+import { getProjectDetailPath } from "@/lib/projectRoutes";
+import { projectQueryKeys } from "@/lib/queryKeys";
+
+import type { ProjectFormData } from "@/features/projects/schemas/projectSchema";
 
 type ProjectEditPageContentProps = {
   projectId: number;
@@ -39,7 +31,8 @@ type ProjectEditPageContentProps = {
 };
 
 const deleteRowClassName = "flex items-center justify-between gap-4 pt-4";
-const deleteActionClassName = "inline-flex shrink-0 items-center gap-1.5 text-body font-medium text-[var(--color-danger)] transition-colors hover:text-red-600 disabled:cursor-not-allowed disabled:opacity-50";
+const deleteActionClassName =
+  "inline-flex shrink-0 items-center gap-1.5 text-body font-medium text-[var(--color-danger)] transition-colors hover:text-red-600 disabled:cursor-not-allowed disabled:opacity-50";
 const deleteHintClassName = "min-w-0 text-right text-body text-[var(--color-text-muted)]";
 
 export default function ProjectEditPageContent({

@@ -1,7 +1,6 @@
+import { getProject } from "@/features/projects/api/projects";
 import LayoutShell from "@/features/projects/components/LayoutShell";
 import ProjectAccent from "@/features/projects/components/ProjectAccent";
-
-import { getProject } from "@/features/projects/api/projects";
 
 type ProjectLayoutProps = {
   children: React.ReactNode;

@@ -2,25 +2,26 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import type { CSSProperties, ReactNode } from "react";
 
-import { ProjectCardShell } from "@/features/projects/components/ProjectBoardCard";
-import FavoriteSelectBox from "@/features/projects/components/FavoriteSelectBox";
-import ProjectAccent from "@/features/projects/components/ProjectAccent";
-import DelayIssueBadge from "@/features/projects/components/DelayIssueBadge";
-import { ProjectStatusIconMark } from "@/features/projects/components/ProjectStatusBadge";
 import CrownBadge from "@/components/ui/badge/CrownBadge";
 import List, { type ListColumn, type ListRow } from "@/components/ui/list/List";
 
+import DelayIssueBadge from "@/features/projects/components/DelayIssueBadge";
+import FavoriteSelectBox from "@/features/projects/components/FavoriteSelectBox";
+import ProjectAccent from "@/features/projects/components/ProjectAccent";
+import { ProjectCardShell } from "@/features/projects/components/ProjectBoardCard";
+import { ProjectStatusIconMark } from "@/features/projects/components/ProjectStatusBadge";
 import { getProjectAccentColor } from "@/features/projects/utils/projectColors";
-import { getProjectDetailPath } from "@/lib/projectRoutes";
 import {
   formatProjectDate,
   formatProjectDateRange,
   getProjectScheduleMark,
 } from "@/features/projects/utils/projectUtils";
 
+import { getProjectDetailPath } from "@/lib/projectRoutes";
+
 import type { ProjectListItem } from "@/features/projects/types/project";
+import type { CSSProperties, ReactNode } from "react";
 
 type ProjectListRowProps = {
   project: ProjectListItem;

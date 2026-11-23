@@ -1,16 +1,6 @@
 "use client";
 
-import { useEffect, useId, useMemo, useState, type ReactNode } from "react";
-
-import {
-  AppIcon,
-  Calendar,
-  CalendarSync,
-  ChevronLeft,
-  ChevronRight,
-  RotateCcw,
-} from "@/components/ui/icon";
-import type { LucideIcon } from "@/components/ui/icon/icons";
+import { useId, useMemo, useState, type ReactNode } from "react";
 
 import PrimaryButton from "@/components/ui/button/PrimaryButton";
 import SecondaryButton from "@/components/ui/button/SecondaryButton";
@@ -20,7 +10,17 @@ import {
   fieldOpenClassName,
   fieldPaddingClassName,
 } from "@/components/ui/fieldControl";
+import {
+  AppIcon,
+  Calendar,
+  CalendarSync,
+  ChevronLeft,
+  ChevronRight,
+  RotateCcw,
+} from "@/components/ui/icon";
 import Modal, { modalSidePaddingClassName } from "@/components/ui/modal/Modal";
+
+import type { LucideIcon } from "@/components/ui/icon/icons";
 
 export type DatePickerMarker = {
   date: string;
@@ -56,7 +56,8 @@ type DatePickerProps = {
   zIndexClassName?: string;
 };
 
-const embeddedDateButtonClassName = "text-body inline-flex max-w-full min-w-0 cursor-pointer items-center bg-transparent p-0 text-left outline-none disabled:cursor-not-allowed";
+const embeddedDateButtonClassName =
+  "text-body inline-flex max-w-full min-w-0 cursor-pointer items-center bg-transparent p-0 text-left outline-none disabled:cursor-not-allowed";
 
 const WEEKDAYS = ["일", "월", "화", "수", "목", "금", "토"];
 
@@ -375,12 +376,18 @@ export default function DatePicker({
 
   const selectedDate = parseDate(keepsSelection ? draftValue : value);
 
-  useEffect(() => {
-    if (isOpen) {
-      setDraftValue(value);
-      setViewDate(parseDate(value) ?? parseDate(min ?? "") ?? new Date());
-    }
-  }, [isOpen, value, min]);
+  // 열려 있는 동안 값이나 최소 날짜가 바뀌면(열릴 때 포함) 고르던 날짜와 보이는 달을 다시 맞춘다.
+  const [syncedFrom, setSyncedFrom] = useState<{ value: string; min?: string } | null>(null);
+
+  if (!isOpen && syncedFrom !== null) {
+    setSyncedFrom(null);
+  }
+
+  if (isOpen && (syncedFrom === null || syncedFrom.value !== value || syncedFrom.min !== min)) {
+    setSyncedFrom({ value, min });
+    setDraftValue(value);
+    setViewDate(parseDate(value) ?? parseDate(min ?? "") ?? new Date());
+  }
 
   const open = () => {
     if (disabled || readOnly) {
@@ -510,7 +517,11 @@ export default function DatePicker({
   );
 
   return (
-    <div className={[isButton ? "min-w-0" : variant === "embedded" ? "w-auto" : "w-full", className].filter(Boolean).join(" ")}>
+    <div
+      className={[isButton ? "min-w-0" : variant === "embedded" ? "w-auto" : "w-full", className]
+        .filter(Boolean)
+        .join(" ")}
+    >
       {variant === "embedded" ? (
         <button
           type="button"
@@ -540,9 +551,7 @@ export default function DatePicker({
           type="button"
           disabled={disabled}
           tabIndex={readOnly ? -1 : undefined}
-          aria-readonly={readOnly || undefined}
           aria-haspopup={readOnly ? undefined : "dialog"}
-          aria-invalid={invalid || undefined}
           aria-expanded={readOnly ? undefined : isOpen}
           onClick={() => {
             if (onRequestOpen) {

@@ -1,8 +1,8 @@
 "use client";
 
-import GoalBadge from "@/features/goals/components/GoalBadge";
 import SplitTitlePreview from "@/components/ui/SplitTitlePreview";
 
+import GoalBadge from "@/features/goals/components/GoalBadge";
 import { isGoalDelayed } from "@/features/goals/utils/goalUtils";
 
 import type { GoalStatus } from "@/features/goals/types/goal";

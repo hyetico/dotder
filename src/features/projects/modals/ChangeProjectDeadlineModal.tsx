@@ -4,6 +4,12 @@ import { useEffect, useId, useState, type ReactNode } from "react";
 
 import { useQuery } from "@tanstack/react-query";
 
+import Badge from "@/components/ui/badge/Badge";
+import PrimaryButton from "@/components/ui/button/PrimaryButton";
+import SecondaryButton from "@/components/ui/button/SecondaryButton";
+import DatePicker from "@/components/ui/date-picker/DatePicker";
+import { fieldPaddingClassName } from "@/components/ui/fieldControl";
+import FieldNotice from "@/components/ui/FieldNotice";
 import {
   AppIcon,
   Calendar,
@@ -14,20 +20,14 @@ import {
   Target,
   type LucideIcon,
 } from "@/components/ui/icon";
-
-import Badge from "@/components/ui/badge/Badge";
-import DelayIssueBadge from "@/features/projects/components/DelayIssueBadge";
-import DatePicker from "@/components/ui/date-picker/DatePicker";
 import InfoTooltip from "@/components/ui/InfoTooltip";
-import FieldNotice from "@/components/ui/FieldNotice";
 import Textarea from "@/components/ui/input/Textarea";
-import PrimaryButton from "@/components/ui/button/PrimaryButton";
-import SecondaryButton from "@/components/ui/button/SecondaryButton";
 import Modal, { modalSidePaddingClassName } from "@/components/ui/modal/Modal";
-import { fieldPaddingClassName } from "@/components/ui/fieldControl";
 
 import { getGoals } from "@/features/goals/api/goals";
+import DelayIssueBadge from "@/features/projects/components/DelayIssueBadge";
 import { getTasks } from "@/features/tasks/api/tasks";
+
 import { goalQueryKeys, taskQueryKeys } from "@/lib/queryKeys";
 
 const REASON_LIMIT = 200;
@@ -654,17 +654,20 @@ export default function ChangeProjectDeadlineModal({
 
   const [detailsOpen, setDetailsOpen] = useState(false);
 
-  useEffect(() => {
-    if (isOpen) {
-      return;
-    }
+  // 닫히면 입력값과 오류를 처음으로 돌린다.
+  const [wasOpen, setWasOpen] = useState(isOpen);
 
-    setNextDate("");
-    setReason("");
-    setDateError("");
-    setReasonError("");
-    setDetailsOpen(false);
-  }, [isOpen]);
+  if (isOpen !== wasOpen) {
+    setWasOpen(isOpen);
+
+    if (!isOpen) {
+      setNextDate("");
+      setReason("");
+      setDateError("");
+      setReasonError("");
+      setDetailsOpen(false);
+    }
+  }
 
   const canLoadLinked = isOpen && projectId != null;
 

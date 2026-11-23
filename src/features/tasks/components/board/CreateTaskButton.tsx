@@ -1,20 +1,21 @@
 "use client";
 
 import { useEffect, useId, useMemo, useState } from "react";
-import { Controller, useForm } from "react-hook-form";
-import { AppIcon, Plus } from "@/components/ui/icon";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Controller, useForm } from "react-hook-form";
 
-import Modal from "@/components/ui/modal/Modal";
-import DatePicker from "@/components/ui/date-picker/DatePicker";
-import Input from "@/components/ui/input/Input";
-import Textarea from "@/components/ui/input/Textarea";
 import IconButton from "@/components/ui/button/IconButton";
 import PrimaryButton from "@/components/ui/button/PrimaryButton";
 import SecondaryButton from "@/components/ui/button/SecondaryButton";
+import DatePicker from "@/components/ui/date-picker/DatePicker";
+import { AppIcon, Plus } from "@/components/ui/icon";
+import Input from "@/components/ui/input/Input";
+import Textarea from "@/components/ui/input/Textarea";
+import Modal from "@/components/ui/modal/Modal";
 import Select from "@/components/ui/select/Select";
 
+import { canAddProjectItems } from "@/features/projects/utils/projectUtils";
 import {
   allProjectsTaskSchema,
   taskSchema as baseTaskSchema,
@@ -23,8 +24,6 @@ import {
 } from "@/features/tasks/schemas/taskSchema";
 
 import { currentUser } from "@/lib/mock/users";
-import { canAddProjectItems } from "@/features/projects/utils/projectUtils";
-
 import { ALL_PROJECTS_SCOPE, type ProjectScope } from "@/lib/projectRoutes";
 
 import type { Project } from "@/features/projects/types/project";
@@ -61,6 +60,10 @@ const statusOptions = [
     label: "DONE",
   },
 ] as const;
+
+// 저장소가 정해지기 전(roadmap 10단계)까지 생성 시각을 임시 id로 쓴다.
+// 렌더 중이 아니라 제출할 때만 부르도록 컴포넌트 밖에 둔다.
+const createTaskId = () => Date.now();
 
 type CreateTaskButtonProps = {
   projectScope: ProjectScope;
@@ -219,7 +222,7 @@ export default function CreateTaskButton({
     }
 
     const newTask: Task = {
-      id: Date.now(),
+      id: createTaskId(),
 
       projectId: resolvedProjectId,
 
@@ -296,7 +299,7 @@ export default function CreateTaskButton({
       <Modal isOpen={isModalOpen} onClose={handleClose}>
         <Modal.Header
           title="새 Task"
-          description="새로운 업무 정보를 입력해주세요."
+          description="새로운 태스크 정보를 입력해주세요."
           onClose={handleClose}
           closeLabel="새 Task 창 닫기"
         />
@@ -330,12 +333,12 @@ export default function CreateTaskButton({
 
             {/*
              * =============================================
-             * 업무 제목
+             * 태스크 제목
              * =============================================
              */}
             <div>
               <label className="text-body mb-2 block font-medium text-[var(--color-text)]">
-                업무 제목
+                태스크 제목
               </label>
 
               <Input {...register("title")} placeholder="예: 로그인 API 연결" />
@@ -347,17 +350,17 @@ export default function CreateTaskButton({
 
             {/*
              * =============================================
-             * 업무 설명
+             * 태스크 설명
              * =============================================
              */}
             <div>
               <label className="text-body mb-2 block font-medium text-[var(--color-text)]">
-                업무 설명
+                태스크 설명
               </label>
 
               <Textarea
                 {...register("description")}
-                placeholder="업무 내용을 입력해주세요."
+                placeholder="태스크 내용을 입력해주세요."
                 className="min-h-[132px] leading-6"
               />
 

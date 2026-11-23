@@ -1,6 +1,6 @@
-import type { ReactNode } from "react";
-
 import { formTitleFrameClassName } from "@/components/layout/pages/CreatePage/formSpacing";
+
+import type { ReactNode } from "react";
 
 type FormTitlePreviewFrameProps = {
   children: ReactNode;

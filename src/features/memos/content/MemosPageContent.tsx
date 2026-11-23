@@ -1,8 +1,8 @@
 "use client";
 
+import { usePathname, useRouter } from "next/navigation";
 import { useMemo, useRef, useState, useSyncExternalStore } from "react";
 
-import { usePathname, useRouter } from "next/navigation";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import PageHeading from "@/components/layout/pages/Page/PageHeading";
@@ -13,30 +13,31 @@ import { AppIcon, FileText, Folder } from "@/components/ui/icon";
 import SearchInput from "@/components/ui/input/SearchInput";
 import { useAlert } from "@/components/ui/modal/AlertModal";
 import Select from "@/components/ui/select/Select";
-import BacklogScopeTabs, {
-  type BacklogScopeTab,
-} from "@/features/backlog/components/BacklogScopeTabs";
+
 import { createMemo, deleteMemo, readMemos } from "@/features/memos/api/memos";
 import MemoArchiveList from "@/features/memos/components/MemoArchiveList";
 import { MemoAddCard, MemoCard, MemoComposeCard } from "@/features/memos/components/MemoCards";
 import MemoRegisterDrawer from "@/features/memos/components/MemoRegisterDrawer";
-import type { Memo } from "@/features/memos/types/memo";
+import MemosScopeTabs, { type MemosScopeTab } from "@/features/memos/components/MemosScopeTabs";
 import { splitMemoText } from "@/features/memos/utils/memoDisplay";
 import { getProjects } from "@/features/projects/api/projects";
-import { mockProjects } from "@/lib/mock/projects";
 import SectionHeader from "@/features/projects/components/SectionHeader";
-import { memoQueryKeys, projectQueryKeys } from "@/lib/queryKeys";
+
+import { mockProjects } from "@/lib/mock/projects";
 import {
-  getFavoriteBacklogPath,
-  getMainBacklogPath,
-  isFavoriteBacklogPath,
-  isMainBacklogPath,
+  getFavoriteMemosPath,
+  getMainMemosPath,
+  isFavoriteMemosPath,
+  isMainMemosPath,
 } from "@/lib/projectRoutes";
 import {
   getFavoriteProjectIdsServerSnapshot,
   getFavoriteProjectIdsSnapshot,
   subscribeFavoriteProjectIds,
 } from "@/lib/projectSwitcherPreferences";
+import { memoQueryKeys, projectQueryKeys } from "@/lib/queryKeys";
+
+import type { Memo } from "@/features/memos/types/memo";
 
 const memoPageShellClassName = "min-w-0";
 const memoPageFrameClassName = "project-board-width @container";
@@ -94,9 +95,9 @@ export default function MemosPageContent({ projectId }: MemosPageContentProps) {
   const [archiveExpanded, setArchiveExpanded] = useState(false);
   const [registerId, setRegisterId] = useState<number | null>(null);
   const isFixedProject = projectId != null;
-  const isFavorites = !isFixedProject && isFavoriteBacklogPath(pathname);
-  const isMain = !isFixedProject && isMainBacklogPath(pathname);
-  const scopeTab: BacklogScopeTab = isFavorites ? "favorites" : isMain ? "main" : "all";
+  const isFavorites = !isFixedProject && isFavoriteMemosPath(pathname);
+  const isMain = !isFixedProject && isMainMemosPath(pathname);
+  const scopeTab: MemosScopeTab = isFavorites ? "favorites" : isMain ? "main" : "all";
   const scopeTitle = isFixedProject
     ? "메모"
     : isFavorites
@@ -237,21 +238,21 @@ export default function MemosPageContent({ projectId }: MemosPageContentProps) {
     },
   });
 
-  const changeScope = (next: BacklogScopeTab) => {
+  const changeScope = (next: MemosScopeTab) => {
     setProjectFilter("all");
     setArchiveExpanded(false);
 
     if (next === "favorites") {
-      router.push(getFavoriteBacklogPath());
+      router.push(getFavoriteMemosPath());
       return;
     }
 
     if (next === "main") {
-      router.push(getMainBacklogPath());
+      router.push(getMainMemosPath());
       return;
     }
 
-    router.push("/backlog");
+    router.push("/memos");
   };
 
   const saveCompose = (text: string) => {
@@ -333,7 +334,7 @@ export default function MemosPageContent({ projectId }: MemosPageContentProps) {
   return (
     <>
       <div className={memoPageShellClassName}>
-        {isFixedProject ? null : <BacklogScopeTabs value={scopeTab} onChange={changeScope} />}
+        {isFixedProject ? null : <MemosScopeTabs value={scopeTab} onChange={changeScope} />}
         <PageInset>
           <div className={memoPageFrameClassName}>
             <PageHeading title={scopeTitle} description={memoDescription} />

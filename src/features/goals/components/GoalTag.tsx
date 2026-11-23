@@ -23,13 +23,20 @@ type GoalTagProps = {
  * @param props.className - 칩에 더할 클래스
  */
 export default function GoalTag({ tag, onRemove, className = "" }: GoalTagProps) {
-  const chipClassName = [goalTagClassName, onRemove ? "gap-1 pr-1" : "", className].filter(Boolean).join(" ");
+  const chipClassName = [goalTagClassName, onRemove ? "gap-1 pr-1" : "", className]
+    .filter(Boolean)
+    .join(" ");
 
   return (
     <span title={tag} className={chipClassName}>
       <span className="min-w-0 truncate">{tag}</span>
       {onRemove ? (
-        <button type="button" aria-label={`${tag} 삭제`} onClick={onRemove} className={goalTagRemoveClassName}>
+        <button
+          type="button"
+          aria-label={`${tag} 삭제`}
+          onClick={onRemove}
+          className={goalTagRemoveClassName}
+        >
           <AppIcon icon={X} size="xs" />
         </button>
       ) : null}

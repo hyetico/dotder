@@ -47,7 +47,7 @@ export const primaryNavItems: NavItem[] = [
   },
   {
     label: "메모",
-    href: "/backlog",
+    href: "/memos",
     icon: Inbox,
   },
   {
@@ -93,7 +93,7 @@ export function getPageNavFromPath(pathname: string): PageNavMeta {
   }
 
   return {
-    title: "FlowPJECT",
+    title: "Tessera",
     href: "/projects",
     icon: Folder,
   };

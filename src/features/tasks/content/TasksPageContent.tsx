@@ -1,26 +1,23 @@
 "use client";
 
-import { Suspense, useMemo, useState } from "react";
-
 import { useSearchParams } from "next/navigation";
+import { Suspense, useMemo, useState } from "react";
 
 import { useQuery } from "@tanstack/react-query";
 
-import HoldAddNotice from "@/features/projects/components/HoldAddNotice";
-import { AppIcon, CheckCircle2, Circle, ListTodo, LoaderCircle, Plus } from "@/components/ui/icon";
-import type { StatusFilterChipItem } from "@/components/ui/StatusFilterChips";
-
-import CreateTaskButton from "@/features/tasks/components/board/CreateTaskButton";
 import PageInset from "@/components/layout/pages/Page/PageInset";
-import TaskCalendarView from "@/features/tasks/components/TaskCalendarView";
-import TasksToolbar from "@/features/tasks/components/TasksToolbar";
-import TaskBoardClient from "@/features/tasks/components/board/TaskBoardClient";
 import PrimaryButton from "@/components/ui/button/PrimaryButton";
+import { AppIcon, CheckCircle2, Circle, ListTodo, LoaderCircle, Plus } from "@/components/ui/icon";
 
 import { getProjects } from "@/features/projects/api/projects";
-import { getTasks } from "@/features/tasks/api/tasks";
+import HoldAddNotice from "@/features/projects/components/HoldAddNotice";
 import { useCurrentProjectScope } from "@/features/projects/hooks/useCurrentProjectScope";
 import { canAddProjectItems, holdAddNoticeMessage } from "@/features/projects/utils/projectUtils";
+import { getTasks } from "@/features/tasks/api/tasks";
+import CreateTaskButton from "@/features/tasks/components/board/CreateTaskButton";
+import TaskBoardClient from "@/features/tasks/components/board/TaskBoardClient";
+import TaskCalendarView from "@/features/tasks/components/TaskCalendarView";
+import TasksToolbar from "@/features/tasks/components/TasksToolbar";
 import { useTaskMutations } from "@/features/tasks/hooks/useTaskMutations";
 import {
   filterTasksBySearchQuery,
@@ -28,8 +25,11 @@ import {
   taskTodayStamp,
   type TaskFilterTab,
 } from "@/features/tasks/utils/taskUtils";
+
 import { parseTaskViewMode } from "@/lib/projectRoutes";
 import { projectQueryKeys, taskQueryKeys } from "@/lib/queryKeys";
+
+import type { StatusFilterChipItem } from "@/components/ui/StatusFilterChips";
 
 const tasksPageClassName = "space-y-4 pt-3 md:space-y-6 md:pt-6";
 

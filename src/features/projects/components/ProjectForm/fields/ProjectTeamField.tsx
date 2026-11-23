@@ -1,13 +1,15 @@
 "use client";
 
 import { Controller, type Control } from "react-hook-form";
+
+import { FormLabel } from "@/features/projects/components/ProjectForm/FormParts";
 import TeamSelect from "@/features/projects/components/ProjectForm/TeamSelect";
-import { getTeamMembers } from "@/lib/mock/teamMembers";
-import { parseProjectTeamSelection } from "@/features/projects/utils/projectTeam";
-import { type ProjectFormData } from "@/features/projects/schemas/projectSchema";
 import { teamOptions } from "@/features/projects/constants/projectFormDefaults";
 import { getTeamSelectionGuideItems } from "@/features/projects/constants/projectFormGuides";
-import { FormLabel } from "@/features/projects/components/ProjectForm/FormParts";
+import { type ProjectFormData } from "@/features/projects/schemas/projectSchema";
+import { parseProjectTeamSelection } from "@/features/projects/utils/projectTeam";
+
+import { getTeamMembers } from "@/lib/mock/teamMembers";
 
 export function ProjectTeamField({
   control,

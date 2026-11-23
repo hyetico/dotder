@@ -5,7 +5,6 @@ import Link from "next/link";
 import DropdownMenu, { DropdownMenuLink } from "@/components/ui/DropdownMenu";
 
 import ProjectBadge from "@/features/projects/components/ProjectBadge";
-
 import { formatProjectRelativeTime } from "@/features/projects/utils/projectUtils";
 
 import { getProjectDetailPath } from "@/lib/projectRoutes";
