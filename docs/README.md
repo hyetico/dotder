@@ -18,11 +18,14 @@ docs/
     code-guide.md      ← 코드 작성 규칙 (JSDoc, 이름, 폴더, 확인)
     git-guide.md       ← 브랜치, 커밋, push, PR 규칙
   decisions/           ← "왜 이렇게 정했나" 기록 (ADR)
+design/                ← 디자인 handoff (보드·캡처·프로토타입·문서 원본, git 제외)
     0001-even-font-sizes.md
     ...
 ```
 
 ## 문서 순서와 우선순위
+
+**디자인 값은 `design/boards/docs/` (handoff, git 제외) → 저장소 `docs/` → 코드** 순서로 따른다. 색·크기·간격처럼 디자인 문서에 적힌 값은 그쪽이 원본이고, 아래 표는 저장소 문서끼리의 순서다. handoff를 받으면 `design/_handoff/CHANGES-*.md` 목록대로 `docs/guides/`도 고친다.
 
 > 문서 우선순위는 **이 표 한 곳에서만** 정한다. 다른 문서(CLAUDE.md 포함)는 이 표를 가리키기만 한다.
 
