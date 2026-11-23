@@ -45,7 +45,6 @@
 | **A-2** | 사이드바 로고가 `<h1>` → 페이지에 h1 두 개 | 1곳 | 5 |
 | **A-3** | `PageHeading` 대신 `<h1>` 직접 사용 | 5곳 | 5 |
 | **A-4** | 이모지를 아이콘으로 사용 | 6곳 | 5 |
-| **D-1** | 화면 문구 "업무"와 "태스크" 혼용 | 22곳 | 2 |
 | **D-2** | ✅ 완료 — README가 create-next-app 기본 → 프로젝트 소개로 교체 | 1 | 1 |
 | **D-3** | 메모 화면 주소가 `/backlog`, 코드 이름이 `Backlog*` (메뉴 이름은 "메모") | 라우트 2 · 컴포넌트 | 2 |
 | **D-4** | 앱 이름이 3가지로 다름 (저장소 `flow-choice` · package.json `projectflow` · 화면 `FlowPJECT` — `layout.tsx` 탭 제목, `Sidebar.tsx` 로고, `navConfig.tsx`) | 4곳 | 이름 확정 후 |

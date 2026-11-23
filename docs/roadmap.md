@@ -48,7 +48,7 @@
 - [x] `console.log` 8개 삭제
 - [x] 주석 처리된 옛 코드 삭제 (`task.ts` 등)
 - [x] import 자동 정렬 설정 (ESLint `import/order` 또는 Prettier 플러그인)
-- [ ] 화면 문구 "업무" → "태스크" (22곳)
+- [x] 화면 문구 "업무" → "태스크" (16곳. 목업 데이터 6곳은 데이터 값이라 제외)
 - [ ] 주소 `/backlog` → `/memos` (리다이렉트 남김), 코드 이름 `Backlog*` → `Memo*`
 - [ ] Prettier 형식 맞추기 41파일 (tech-debt X-9). 단계 끝 검사 `format:check` 통과용
 - [ ] 앱 이름이 정해지면 package.json `name`, 탭 제목, 사이드바 로고를 하나로
