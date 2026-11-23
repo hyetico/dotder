@@ -92,11 +92,10 @@ export function useProjectDeadlineChange({
       ? "완료된 프로젝트는 마감일을 변경할 수 없습니다."
       : null;
 
-  useEffect(() => {
-    if (!isDelayed) {
-      setDeadlineSaveError(null);
-    }
-  }, [isDelayed]);
+  // 지연이 풀리면 마감 저장 오류도 지운다.
+  if (!isDelayed && deadlineSaveError !== null) {
+    setDeadlineSaveError(null);
+  }
 
   useEffect(() => {
     if (!deadlineToast) {

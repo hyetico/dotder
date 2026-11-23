@@ -62,6 +62,10 @@ const statusOptions = [
   },
 ] as const;
 
+// 저장소가 정해지기 전(roadmap 10단계)까지 생성 시각을 임시 id로 쓴다.
+// 렌더 중이 아니라 제출할 때만 부르도록 컴포넌트 밖에 둔다.
+const createTaskId = () => Date.now();
+
 type CreateTaskButtonProps = {
   projectScope: ProjectScope;
   projects: Project[];
@@ -219,7 +223,7 @@ export default function CreateTaskButton({
     }
 
     const newTask: Task = {
-      id: Date.now(),
+      id: createTaskId(),
 
       projectId: resolvedProjectId,
 

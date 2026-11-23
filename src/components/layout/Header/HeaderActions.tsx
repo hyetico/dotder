@@ -46,7 +46,9 @@ export function HeaderActionsSlot() {
     return null;
   }
 
-  return <div ref={context.setSlot} className="flex shrink-0 items-center gap-2 empty:hidden" />;
+  const { setSlot } = context;
+
+  return <div ref={setSlot} className="flex shrink-0 items-center gap-2 empty:hidden" />;
 }
 
 /**

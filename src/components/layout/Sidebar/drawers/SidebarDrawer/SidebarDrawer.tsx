@@ -31,6 +31,7 @@ import { getTasks } from "@/features/tasks/api/tasks";
 
 import { clearMainProject, setMainProject } from "@/features/projects/api/projects";
 
+import { useIsClient } from "@/hooks/useIsClient";
 import { useModalScrollLock } from "@/hooks/useModalScrollLock";
 
 import { goalQueryKeys, projectQueryKeys, taskQueryKeys } from "@/lib/queryKeys";
@@ -241,6 +242,10 @@ function ProjectListBlock({
   );
 }
 
+function withoutMainProject(projectIds: number[], mainProjectId: number | null) {
+  return mainProjectId == null ? projectIds : projectIds.filter((id) => id !== mainProjectId);
+}
+
 export default function SidebarDrawer({ isOpen, onClose, projects }: SidebarDrawerProps) {
   const pathname = usePathname();
 
@@ -254,7 +259,7 @@ export default function SidebarDrawer({ isOpen, onClose, projects }: SidebarDraw
 
   const [recentEntries, setRecentEntries] = useState<RecentProjectEntry[]>([]);
 
-  const [isMounted, setIsMounted] = useState(false);
+  const isClient = useIsClient();
 
   const [isMainOpen, setIsMainOpen] = useState(false);
 
@@ -274,45 +279,52 @@ export default function SidebarDrawer({ isOpen, onClose, projects }: SidebarDraw
     enabled: isOpen,
   });
 
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  const previousPathname = useRef(pathname);
 
-  const initialPathname = useRef(pathname);
-
+  // 열린 채로 다른 페이지로 이동하면 닫는다.
   useEffect(() => {
-    if (pathname === initialPathname.current) {
+    if (pathname === previousPathname.current) {
       return;
     }
 
-    if (!isOpen) {
-      return;
+    previousPathname.current = pathname;
+
+    if (isOpen) {
+      onClose();
     }
+  }, [pathname, isOpen, onClose]);
 
-    onClose();
-  }, [pathname]);
+  const mainProjectId = projects.find((project) => project.isMain)?.id ?? null;
 
+  // 드로어가 열리는 순간에 저장된 즐겨찾기·최근 목록을 다시 읽고 화면 상태를 처음으로 돌린다.
+  const [wasOpen, setWasOpen] = useState(false);
+
+  if (isOpen !== wasOpen) {
+    setWasOpen(isOpen);
+
+    if (isOpen) {
+      setFavoriteIds(withoutMainProject(getFavoriteProjectIds(), mainProjectId));
+      setRecentEntries(getRecentProjectEntries());
+      setActiveTab("main");
+      setIsMainOpen(false);
+      setIsFavoriteManageOpen(false);
+      setFavoriteQuery("");
+    }
+  }
+
+  // 메인 프로젝트가 즐겨찾기에 남아 있으면 저장값에서도 뺀다.
   useEffect(() => {
     if (!isOpen) {
       return;
     }
 
     const storedFavoriteIds = getFavoriteProjectIds();
-    const mainId = projects.find((project) => project.isMain)?.id ?? null;
-    const nextFavoriteIds =
-      mainId == null ? storedFavoriteIds : storedFavoriteIds.filter((id) => id !== mainId);
+    const nextFavoriteIds = withoutMainProject(storedFavoriteIds, mainProjectId);
 
     if (nextFavoriteIds.length !== storedFavoriteIds.length) {
       setFavoriteProjectIds(nextFavoriteIds);
     }
-
-    setFavoriteIds(nextFavoriteIds);
-    setRecentEntries(getRecentProjectEntries());
-    setActiveTab("main");
-    setIsMainOpen(false);
-    setIsFavoriteManageOpen(false);
-    setFavoriteQuery("");
-  }, [isOpen]);
+  }, [isOpen, mainProjectId]);
 
   useEffect(() => {
     if (!isOpen) {
@@ -446,7 +458,7 @@ export default function SidebarDrawer({ isOpen, onClose, projects }: SidebarDraw
     setFavoriteIds(getFavoriteProjectIds());
   };
 
-  if (!isMounted || !isOpen) {
+  if (!isClient || !isOpen) {
     return null;
   }
 

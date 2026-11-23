@@ -594,9 +594,19 @@ export default function GoalForm({
         }
       : undefined;
 
+  const projectStartDate = projectPeriod?.startDate;
+
+  const projectEndDate = projectPeriod?.endDate;
+
+  // projectPeriod는 렌더마다 새 객체라서, 날짜 값이 바뀔 때만 스키마를 다시 만든다.
   const schema = useMemo(
-    () => createGoalSchema(projectPeriod),
-    [projectPeriod?.startDate, projectPeriod?.endDate],
+    () =>
+      createGoalSchema(
+        projectStartDate && projectEndDate
+          ? { startDate: projectStartDate, endDate: projectEndDate }
+          : undefined,
+      ),
+    [projectStartDate, projectEndDate],
   );
 
   const {
@@ -691,7 +701,9 @@ export default function GoalForm({
 
   const endDateMax = projectPeriod?.endDate;
 
-  const selectedTags = watch("tags") ?? [];
+  const watchedTags = watch("tags");
+
+  const selectedTags = useMemo(() => watchedTags ?? [], [watchedTags]);
 
   const projectTags = project?.tags ?? [];
 

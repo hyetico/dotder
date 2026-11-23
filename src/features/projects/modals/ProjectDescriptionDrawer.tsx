@@ -8,6 +8,7 @@ import Drawer from "@/components/ui/drawer/Drawer";
 import Textarea from "@/components/ui/input/Textarea";
 import { FormLabel } from "@/features/projects/components/ProjectForm/FormParts";
 import { PROJECT_DESCRIPTION_LIMIT } from "@/features/projects/constants/projectFormDefaults";
+import { useIsClient } from "@/hooks/useIsClient";
 
 const SLIDE_MS = 400;
 
@@ -42,10 +43,25 @@ function ProjectDescriptionDrawerPanel({
   const [draft, setDraft] = useState(value);
   const [isEntered, setIsEntered] = useState(false);
   const isActive = isEntered && !isClosing;
+  const [syncedValue, setSyncedValue] = useState<string | null>(null);
+
+  // 나가기 시작하면 들어온 상태를 풀어서, 다시 열릴 때 들어오는 움직임이 다시 나오게 한다.
+  if (isClosing && isEntered) {
+    setIsEntered(false);
+  }
+
+  // 다 들어온 뒤(또는 그동안 폼 값이 바뀌면) 쓰던 설명을 폼 값으로 맞춘다.
+  if (!isActive && syncedValue !== null) {
+    setSyncedValue(null);
+  }
+
+  if (isActive && syncedValue !== value) {
+    setSyncedValue(value);
+    setDraft(value);
+  }
 
   useLayoutEffect(() => {
     if (isClosing) {
-      setIsEntered(false);
       return;
     }
 
@@ -73,13 +89,11 @@ function ProjectDescriptionDrawerPanel({
       return;
     }
 
-    setDraft(value);
-
     const textarea = textareaRef.current;
 
     textarea?.focus({ preventScroll: true });
     textarea?.setSelectionRange(textarea.value.length, textarea.value.length);
-  }, [isActive, value]);
+  }, [isActive]);
 
   return (
     <Drawer
@@ -148,30 +162,24 @@ export default function ProjectDescriptionDrawer({
   onClose,
   onApply,
 }: ProjectDescriptionDrawerProps) {
-  const [isMounted, setIsMounted] = useState(false);
+  const isClient = useIsClient();
   const [isVisible, setIsVisible] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
 
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  // 열리면 바로 보이고, 닫히면 나가는 움직임이 끝날 때까지 남겨 둔다.
+  if (isOpen && (!isVisible || isClosing)) {
+    setIsVisible(true);
+    setIsClosing(false);
+  }
 
-  useEffect(() => {
-    if (!isMounted) {
-      return;
-    }
-
-    if (isOpen) {
-      setIsVisible(true);
-      setIsClosing(false);
-      return;
-    }
-
-    if (!isVisible) {
-      return;
-    }
-
+  if (!isOpen && isVisible && !isClosing) {
     setIsClosing(true);
+  }
+
+  useEffect(() => {
+    if (!isClosing) {
+      return;
+    }
 
     const timeout = window.setTimeout(() => {
       setIsVisible(false);
@@ -181,9 +189,9 @@ export default function ProjectDescriptionDrawer({
     return () => {
       window.clearTimeout(timeout);
     };
-  }, [isMounted, isOpen, isVisible]);
+  }, [isClosing]);
 
-  if (!isMounted || !isVisible) {
+  if (!isClient || !isVisible) {
     return null;
   }
 

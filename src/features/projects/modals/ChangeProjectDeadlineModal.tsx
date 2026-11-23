@@ -654,17 +654,20 @@ export default function ChangeProjectDeadlineModal({
 
   const [detailsOpen, setDetailsOpen] = useState(false);
 
-  useEffect(() => {
-    if (isOpen) {
-      return;
-    }
+  // 닫히면 입력값과 오류를 처음으로 돌린다.
+  const [wasOpen, setWasOpen] = useState(isOpen);
 
-    setNextDate("");
-    setReason("");
-    setDateError("");
-    setReasonError("");
-    setDetailsOpen(false);
-  }, [isOpen]);
+  if (isOpen !== wasOpen) {
+    setWasOpen(isOpen);
+
+    if (!isOpen) {
+      setNextDate("");
+      setReason("");
+      setDateError("");
+      setReasonError("");
+      setDetailsOpen(false);
+    }
+  }
 
   const canLoadLinked = isOpen && projectId != null;
 

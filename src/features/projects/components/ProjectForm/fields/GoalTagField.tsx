@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { AppIcon, TagPlus } from "@/components/ui/icon";
 import GoalTag from "@/features/goals/components/GoalTag";
 import FieldNotice from "@/components/ui/FieldNotice";
@@ -32,13 +32,9 @@ export function GoalTagField({
 
   const [tagInput, setTagInput] = useState("");
 
-  const tagsRef = useRef(tags);
-
-  tagsRef.current = tags;
-
   const customTags = tags.filter((tag) => !isGlobalProjectTag(tag));
 
-  const isAtLimit = tagsRef.current.length >= PROJECT_TAG_LIMIT;
+  const isAtLimit = tags.length >= PROJECT_TAG_LIMIT;
 
   const trimmedTag = tagInput.trim();
 
@@ -58,16 +54,11 @@ export function GoalTagField({
   const addTag = () => {
     const trimmed = tagInput.trim();
 
-    const currentTags = tagsRef.current;
-
-    if (!trimmed || currentTags.length >= PROJECT_TAG_LIMIT || currentTags.includes(trimmed)) {
+    if (!trimmed || tags.length >= PROJECT_TAG_LIMIT || tags.includes(trimmed)) {
       return;
     }
 
-    const nextTags = [...currentTags, trimmed];
-
-    tagsRef.current = nextTags;
-    onChange(nextTags);
+    onChange([...tags, trimmed]);
     setTagInput("");
   };
 

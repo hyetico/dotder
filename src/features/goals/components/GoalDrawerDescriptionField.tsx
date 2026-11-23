@@ -1,6 +1,6 @@
 "use client";
 
-import { useLayoutEffect, useRef, useState, type ChangeEvent, type Ref } from "react";
+import { useImperativeHandle, useLayoutEffect, useRef, useState, type ChangeEvent, type Ref } from "react";
 
 const descriptionShellClassName = "w-full rounded-[var(--radius-sm)] border border-transparent bg-transparent";
 const plainShellClassName = "w-full border-0 bg-transparent";
@@ -71,21 +71,18 @@ export default function GoalDrawerDescriptionField({
         : descriptionShellFocusClassName;
   const areaStateClassName = [descriptionAreaClassName, plain ? "min-h-0" : "", areaClassName].filter(Boolean).join(" ");
 
+  // 부모가 넘긴 ref에도 같은 입력창을 연결한다. 마운트 뒤에만 읽히므로 null이 아니다.
+  useImperativeHandle(inputRef, () => areaRef.current as HTMLTextAreaElement, []);
+
   useLayoutEffect(() => {
     const area = areaRef.current;
-
-    if (typeof inputRef === "function") {
-      inputRef(area);
-    } else if (inputRef) {
-      inputRef.current = area;
-    }
 
     if (!area) {
       return;
     }
 
     resizeDescriptionArea(area);
-  }, [focused, inputRef, value]);
+  }, [focused, value]);
 
   return (
     <div className={shellClassName}>
