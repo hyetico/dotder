@@ -288,7 +288,7 @@ export default function Sidebar({ variant = "desktop", onNavigate }: SidebarProp
 
               {!isDesktopCollapsed && (
                 <h1 className="truncate text-[16px] leading-5 font-bold tracking-tight text-[var(--color-text)]">
-                  FlowPJECT
+                  Tessera
                 </h1>
               )}
             </Link>

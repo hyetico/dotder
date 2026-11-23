@@ -93,7 +93,7 @@ export function getPageNavFromPath(pathname: string): PageNavMeta {
   }
 
   return {
-    title: "FlowPJECT",
+    title: "Tessera",
     href: "/projects",
     icon: Folder,
   };
