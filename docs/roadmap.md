@@ -50,7 +50,7 @@
 - [x] import 자동 정렬 설정 (ESLint `import/order` 또는 Prettier 플러그인)
 - [x] 화면 문구 "업무" → "태스크" (16곳. 목업 데이터 6곳은 데이터 값이라 제외)
 - [x] 주소 `/backlog` → `/memos` (리다이렉트 남김), 코드 이름 `Backlog*` → `Memo*`. 디테일 하위 주소 `/projects/[id]/backlog`는 7단계
-- [ ] Prettier 형식 맞추기 41파일 (tech-debt X-9). 단계 끝 검사 `format:check` 통과용
+- [x] Prettier 형식 맞추기 42파일 (tech-debt X-9). 단계 끝 검사 `format:check` 통과용
 - [ ] 앱 이름이 정해지면 package.json `name`, 탭 제목, 사이드바 로고를 하나로
 
 **완료 기준:** `npm run lint`, `npm run build` 통과. 화면 변화 없음.
