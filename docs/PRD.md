@@ -168,6 +168,6 @@
 
 ## 9. 정해야 할 것
 
-- [ ] 앱 이름 확정 (후보: Tessera, 잇다, Quilt, Tessa). 지금 이름이 3가지로 다름: 저장소 `flow-choice`, package.json `projectflow`, 탭 제목·사이드바 로고 `FlowPJECT` (tech-debt D-4)
+- [x] 앱 이름 확정: **Tessera** (2026-11-23). 화면·package.json(`tessera`)에 반영. 저장소 이름은 tech-debt D-4
 - [ ] 데이터 저장 방식 (localStorage / Supabase 등)
 - [ ] 태스크 생성 드로어 전환 시점

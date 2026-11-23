@@ -47,10 +47,12 @@
 | **A-4** | 이모지를 아이콘으로 사용 | 6곳 | 5 |
 | **D-2** | ✅ 완료 — README가 create-next-app 기본 → 프로젝트 소개로 교체 | 1 | 1 |
 | **D-3** | 프로젝트 디테일의 메모 하위 주소가 아직 `/projects/[id]/backlog` (메모 목록 `/memos`와 코드 이름은 2단계에서 바꿈) | 라우트 1 | 7 |
-| **D-4** | 앱 이름이 3가지로 다름 (저장소 `flow-choice` · package.json `projectflow` · 화면 `FlowPJECT` — `layout.tsx` 탭 제목, `Sidebar.tsx` 로고, `navConfig.tsx`) | 4곳 | 이름 확정 후 |
+| **D-4** | 앱 이름은 Tessera로 통일했지만 GitHub 저장소 이름이 아직 `flow-choice`. 바꾸면 원격 주소(`git remote`)도 갱신 | 1 | 공개 전 |
+| **D-5** | localStorage 키 앞머리가 옛 이름 `projectflow:` (`projectSwitcherPreferences.ts` 3개). 바꾸면 저장된 즐겨찾기·최근 목록이 사라지므로 옮기는 코드와 함께 | 3 | 8 |
 | **X-4** | 학습용 긴 주석 (`useTaskMutations.ts` 등) | - | 2 |
 | **X-5** | 문서 주석이 없는 **export 함수** (`export function`, `export const 이름 = (`) | 412개 중 190개 | 수시 |
 | **X-8** | lint 경고 7개 (오류는 0, `npm run lint` 통과). `@next/next/no-img-element` 3 (`SidebarProfile`, `ProfileSummary`, `ProjectAdminField` 아바타 — `next/image`로 바꾸려면 이미지 주소 설정이 필요) · `react-hooks/incompatible-library` 4 (react-hook-form `watch()`를 쓰는 `GoalForm`, `ProjectForm`, `ProjectEditForm`, `ProjectCreateWizard` — `useWatch`로 바꾸거나 폼을 나눌 때 함께) | 7 | 6 |
+| **X-10** | `npm run build` 경고 116개 (빌드는 통과). 전부 `node_modules.nosync` 안의 Next·sharp 내부 파일에서 나옴. `node_modules`가 심볼릭 링크라서 Turbopack이 외부 패키지로 알아보지 못하는 것으로 보임 (원인 미확인, 2026-11-23) | 116 | 미정 |
 
 ## 숫자 다시 세는 법
 

@@ -10,7 +10,7 @@
 |---|---|---|
 | 0. 준비 | - | ✅ |
 | 1. 문서 확정 | `docs/guides` | ✅ |
-| 2. 청소 | `chore/cleanup` | 🔄 |
+| 2. 청소 | `chore/cleanup` | ✅ |
 | 3. 반응형 버그 | `fix/breakpoints` | ⬜ |
 | 4. 디자인 토큰 | `refactor/design-tokens` | ⬜ |
 | 5. 공통 컴포넌트 정리 | `refactor/ui-components` | ⬜ |
@@ -38,7 +38,7 @@
 
 **완료 기준:** 문서만 읽고 2~9단계를 시작할 수 있다.
 
-## 2. 청소 — `chore/cleanup`
+## 2. 청소 — `chore/cleanup` ✅
 
 동작은 바뀌지 않는 작업만.
 
@@ -51,7 +51,7 @@
 - [x] 화면 문구 "업무" → "태스크" (16곳. 목업 데이터 6곳은 데이터 값이라 제외)
 - [x] 주소 `/backlog` → `/memos` (리다이렉트 남김), 코드 이름 `Backlog*` → `Memo*`. 디테일 하위 주소 `/projects/[id]/backlog`는 7단계
 - [x] Prettier 형식 맞추기 42파일 (tech-debt X-9). 단계 끝 검사 `format:check` 통과용
-- [ ] 앱 이름이 정해지면 package.json `name`, 탭 제목, 사이드바 로고를 하나로
+- [x] 앱 이름 Tessera로 통일: package.json `name`, 탭 제목, 사이드바 로고, `navConfig.tsx`
 
 **완료 기준:** `npm run lint`, `npm run build` 통과. 화면 변화 없음.
 
