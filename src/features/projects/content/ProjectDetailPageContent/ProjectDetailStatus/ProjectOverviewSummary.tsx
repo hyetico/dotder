@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import Badge from "@/components/ui/badge/Badge";
 import { AppIcon, ArrowRight, Calendar, CircleAlert } from "@/components/ui/icon";
-import { getGoalDetailPath } from "@/lib/projectRoutes";
+
 import { getGoalScheduleMark } from "@/features/goals/utils/goalUtils";
 import {
   formatProjectDate,
@@ -11,6 +11,8 @@ import {
   getProjectStatusStyles,
 } from "@/features/projects/utils/projectUtils";
 import { taskTodayStamp } from "@/features/tasks/utils/taskUtils";
+
+import { getGoalDetailPath } from "@/lib/projectRoutes";
 
 import type { Goal } from "@/features/goals/types/goal";
 import type { ProjectListItem } from "@/features/projects/types/project";

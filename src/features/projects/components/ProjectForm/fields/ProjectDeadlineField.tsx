@@ -1,19 +1,23 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { AppIcon, CalendarSync, History } from "@/components/ui/icon";
-import DatePicker from "@/components/ui/date-picker/DatePicker";
-import InfoTooltip from "@/components/ui/InfoTooltip";
+
+import { type FieldErrors } from "react-hook-form";
+
 import SecondaryButton from "@/components/ui/button/SecondaryButton";
-import { getProjectDetailPath } from "@/lib/projectRoutes";
-import { type ProjectFormData } from "@/features/projects/schemas/projectSchema";
+import DatePicker from "@/components/ui/date-picker/DatePicker";
+import { AppIcon, CalendarSync, History } from "@/components/ui/icon";
+import InfoTooltip from "@/components/ui/InfoTooltip";
+
+import { FieldError, FormLabel } from "@/features/projects/components/ProjectForm/FormParts";
 import {
   tooltipWidthClassName,
   deadlineChangeLabel,
 } from "@/features/projects/constants/projectFormDefaults";
-import { FieldError, FormLabel } from "@/features/projects/components/ProjectForm/FormParts";
-import { type FieldErrors } from "react-hook-form";
 import { type ProjectDeadlineState } from "@/features/projects/hooks/useProjectDeadlineChange";
+import { type ProjectFormData } from "@/features/projects/schemas/projectSchema";
+
+import { getProjectDetailPath } from "@/lib/projectRoutes";
 
 /**
  * ProjectDeadlineField

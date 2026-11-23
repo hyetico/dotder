@@ -1,13 +1,13 @@
 "use client";
 
 import { useEffect, useRef, useState, type ReactNode, type Ref } from "react";
-
 import { createPortal } from "react-dom";
 
 import CloseButton from "@/components/ui/button/CloseButton";
 import IconButton from "@/components/ui/button/IconButton";
 import DrawerFrame from "@/components/ui/drawer/DrawerFrame";
 import { AppIcon, ChevronsRight, Maximize2, Minimize2 } from "@/components/ui/icon";
+
 import { useModalScrollLock } from "@/hooks/useModalScrollLock";
 
 const overlayClassName = "fixed inset-0 z-[110] bg-black/20 transition-opacity duration-[400ms] ease-in-out motion-reduce:duration-[1ms]";

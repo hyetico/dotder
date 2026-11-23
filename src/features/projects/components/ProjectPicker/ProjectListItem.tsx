@@ -1,12 +1,11 @@
 "use client";
 
-import type { ReactNode } from "react";
-
 import ProjectBadge, { type ProjectBadgeMark } from "@/features/projects/components/ProjectBadge";
 import ProjectStatusBadge from "@/features/projects/components/ProjectStatusBadge";
 import { isProjectDelayed } from "@/features/projects/utils/projectUtils";
 
 import type { Project } from "@/features/projects/types/project";
+import type { ReactNode } from "react";
 
 type ProjectListItemProps = {
   project: Project;

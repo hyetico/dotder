@@ -10,18 +10,19 @@ import {
 import PageInset from "@/components/layout/pages/Page/PageInset";
 import { LayoutDashboard, ListTodo, Target, Users } from "@/components/ui/icon";
 import LineTabMenu from "@/components/ui/tab/LineTabMenu";
+
+import { getGoalStatusLabel } from "@/features/goals/utils/goalUtils";
 import ProjectFolder from "@/features/projects/components/ProjectFolder";
 import ProjectSummaryBox from "@/features/projects/components/ProjectSummaryBox";
 import ProjectDetailStatus, {
   type ProjectDetailSection,
 } from "@/features/projects/content/ProjectDetailPageContent/ProjectDetailStatus/ProjectDetailStatus";
 import ProjectDetailTeam from "@/features/projects/content/ProjectDetailPageContent/ProjectDetailTeam";
-
-import { getGoalStatusLabel } from "@/features/goals/utils/goalUtils";
-import { getTeamMembers } from "@/lib/mock/teamMembers";
-import { getProjectEditPath } from "@/lib/projectRoutes";
 import { formatProjectDate } from "@/features/projects/utils/projectUtils";
 import { getTaskStatusLabel } from "@/features/tasks/utils/taskUtils";
+
+import { getTeamMembers } from "@/lib/mock/teamMembers";
+import { getProjectEditPath } from "@/lib/projectRoutes";
 
 import type { Goal } from "@/features/goals/types/goal";
 import type { ProjectListItem } from "@/features/projects/types/project";

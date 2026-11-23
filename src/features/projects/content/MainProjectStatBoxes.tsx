@@ -1,4 +1,3 @@
-import StatCountGrid from "@/components/ui/stats/StatCountGrid";
 import {
   AppIcon,
   BarChart3,
@@ -9,6 +8,8 @@ import {
   Target,
   type LucideIcon,
 } from "@/components/ui/icon";
+import StatCountGrid from "@/components/ui/stats/StatCountGrid";
+
 import { ProjectInProgressIcon } from "@/features/projects/components/ProjectStatusIcon";
 import {
   getProjectScheduleSnapshot,

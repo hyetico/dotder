@@ -1,6 +1,6 @@
-import type { ButtonHTMLAttributes, ReactNode } from "react";
-
 import { buttonLabelClassName, type ButtonSize } from "@/components/ui/button/buttonSize";
+
+import type { ButtonHTMLAttributes, ReactNode } from "react";
 
 type PrimaryButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   icon?: ReactNode;

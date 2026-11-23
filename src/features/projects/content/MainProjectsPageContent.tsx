@@ -1,8 +1,7 @@
 "use client";
 
-import { useMemo } from "react";
-
 import { useRouter } from "next/navigation";
+import { useMemo } from "react";
 
 import { useQuery } from "@tanstack/react-query";
 
@@ -10,15 +9,15 @@ import { HeaderActionLink, HeaderActions } from "@/components/layout/Header/Head
 import PageHeading from "@/components/layout/pages/Page/PageHeading";
 import PageInset from "@/components/layout/pages/Page/PageInset";
 import { Plus } from "@/components/ui/icon";
-import MainProjectStatBoxes from "@/features/projects/content/MainProjectStatBoxes";
+
+import { getProjectListItems } from "@/features/projects/api/projects";
 import ProjectsScopeTabs, {
   type ProjectsScopeTab,
 } from "@/features/projects/components/ProjectsScopeTabs";
+import MainProjectStatBoxes from "@/features/projects/content/MainProjectStatBoxes";
 
-import { getProjectListItems } from "@/features/projects/api/projects";
-
-import { projectQueryKeys } from "@/lib/queryKeys";
 import { getFavoriteProjectsPath } from "@/lib/projectRoutes";
+import { projectQueryKeys } from "@/lib/queryKeys";
 
 const mainProjectsPageShellClassName = "min-w-0";
 const mainProjectsPageFrameClassName = "project-board-width @container";

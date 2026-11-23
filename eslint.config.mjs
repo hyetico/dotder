@@ -24,6 +24,22 @@ const eslintConfig = defineConfig([
     files: ["src/**/*.{ts,tsx}"],
     ignores: ["src/components/ui/icon/**"],
     rules: {
+      // import 순서: code-guide 3장. `npx eslint --fix`로 자동 정렬된다.
+      "import/order": [
+        "error",
+        {
+          groups: ["builtin", "external", "internal", "parent", "sibling", "index", "type"],
+          pathGroups: [
+            { pattern: "{react,react/**,react-dom,react-dom/**,next,next/**}", group: "external", position: "before" },
+            { pattern: "@/components/**", group: "internal", position: "before" },
+            { pattern: "@/features/**", group: "internal" },
+            { pattern: "@/{lib,hooks,types}/**", group: "internal", position: "after" },
+          ],
+          pathGroupsExcludedImportTypes: ["builtin", "object", "type"],
+          "newlines-between": "always",
+          alphabetize: { order: "asc", caseInsensitive: true },
+        },
+      ],
       "no-restricted-imports": [
         "error",
         {

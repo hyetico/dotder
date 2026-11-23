@@ -1,18 +1,11 @@
 "use client";
 
+import Link from "next/link";
 import { useState, type ReactNode } from "react";
 
-import Link from "next/link";
-
 import Badge from "@/components/ui/badge/Badge";
-import DelayIssueBadge from "@/features/projects/components/DelayIssueBadge";
-import ProjectStatusBadge from "@/features/projects/components/ProjectStatusBadge";
 import CrownBadge from "@/components/ui/badge/CrownBadge";
-import ScheduleBadge, {
-  getScheduleBadgeClassName,
-} from "@/features/projects/components/ScheduleBadge";
 import SecondaryButton from "@/components/ui/button/SecondaryButton";
-import DetailTitle from "@/features/projects/components/DetailTitle";
 import ExpandablePreviewText from "@/components/ui/ExpandablePreviewText";
 import {
   AppIcon,
@@ -25,10 +18,13 @@ import {
   UserRound,
   Users,
 } from "@/components/ui/icon";
-import type { LucideIcon } from "@/components/ui/icon/icons";
-import { getProjectDeadlineChanges } from "@/lib/mock/projectDeadlineChanges";
-import { getUserName } from "@/lib/mock/users";
-import { getProjectDetailPath } from "@/lib/projectRoutes";
+
+import DelayIssueBadge from "@/features/projects/components/DelayIssueBadge";
+import DetailTitle from "@/features/projects/components/DetailTitle";
+import ProjectStatusBadge from "@/features/projects/components/ProjectStatusBadge";
+import ScheduleBadge, {
+  getScheduleBadgeClassName,
+} from "@/features/projects/components/ScheduleBadge";
 import { getProjectTeamLabel } from "@/features/projects/utils/projectTeam";
 import {
   formatProjectDateRange,
@@ -38,6 +34,11 @@ import {
   isProjectDelayed,
 } from "@/features/projects/utils/projectUtils";
 
+import { getProjectDeadlineChanges } from "@/lib/mock/projectDeadlineChanges";
+import { getUserName } from "@/lib/mock/users";
+import { getProjectDetailPath } from "@/lib/projectRoutes";
+
+import type { LucideIcon } from "@/components/ui/icon/icons";
 import type { Project, ProjectListItem } from "@/features/projects/types/project";
 
 type ProjectSummaryBoxProps = {

@@ -1,43 +1,37 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
-
-import { createPortal } from "react-dom";
-
 import { usePathname } from "next/navigation";
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { createPortal } from "react-dom";
 
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { AppIcon, Clock, Crown, Star, type LucideIcon } from "@/components/ui/icon";
-
-import Modal, { modalSidePaddingClassName } from "@/components/ui/modal/Modal";
-import PrimaryButton from "@/components/ui/button/PrimaryButton";
-import SecondaryButton from "@/components/ui/button/SecondaryButton";
-
 import DrawerFavoriteRow from "@/components/layout/Sidebar/drawers/SidebarDrawer/comp/DrawerFavoriteRow";
 import DrawerRecentCard from "@/components/layout/Sidebar/drawers/SidebarDrawer/comp/DrawerRecentCard";
-import FavoriteProjectsModal from "@/features/projects/modals/FavoriteProjectsModal";
-import MainProjectModal from "@/features/projects/modals/MainProjectModal";
-
-import ProjectBoardCard from "@/features/projects/components/ProjectBoardCard";
-
 import Badge from "@/components/ui/badge/Badge";
+import PrimaryButton from "@/components/ui/button/PrimaryButton";
+import SecondaryButton from "@/components/ui/button/SecondaryButton";
+import { AppIcon, Clock, Crown, Star, type LucideIcon } from "@/components/ui/icon";
 import InfoTooltip from "@/components/ui/InfoTooltip";
 import SearchInput from "@/components/ui/input/SearchInput";
+import Modal, { modalSidePaddingClassName } from "@/components/ui/modal/Modal";
 import LineTabMenu, { type TabMenuItem } from "@/components/ui/tab/LineTabMenu";
 
 import { getGoals } from "@/features/goals/api/goals";
-import { getTasks } from "@/features/tasks/api/tasks";
-
 import { clearMainProject, setMainProject } from "@/features/projects/api/projects";
+import ProjectBoardCard from "@/features/projects/components/ProjectBoardCard";
+import FavoriteProjectsModal from "@/features/projects/modals/FavoriteProjectsModal";
+import MainProjectModal from "@/features/projects/modals/MainProjectModal";
+import {
+  computeProjectTaskStats,
+  enrichProject,
+  resolveProjectProgress,
+} from "@/features/projects/utils/projectUtils";
+import { getTasks } from "@/features/tasks/api/tasks";
 
 import { useIsClient } from "@/hooks/useIsClient";
 import { useModalScrollLock } from "@/hooks/useModalScrollLock";
-
-import { goalQueryKeys, projectQueryKeys, taskQueryKeys } from "@/lib/queryKeys";
-
 import { type ProjectScope } from "@/lib/projectRoutes";
-
 import {
   getFavoriteProjectIds,
   getRecentProjectEntries,
@@ -47,12 +41,7 @@ import {
   toggleFavoriteProjectId,
   type RecentProjectEntry,
 } from "@/lib/projectSwitcherPreferences";
-
-import {
-  computeProjectTaskStats,
-  enrichProject,
-  resolveProjectProgress,
-} from "@/features/projects/utils/projectUtils";
+import { goalQueryKeys, projectQueryKeys, taskQueryKeys } from "@/lib/queryKeys";
 
 import type { Project, ProjectListItem } from "@/features/projects/types/project";
 

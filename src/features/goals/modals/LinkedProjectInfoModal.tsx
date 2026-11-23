@@ -2,18 +2,19 @@
 
 import { useId, type ReactNode } from "react";
 
-import GoalTag from "@/features/goals/components/GoalTag";
-import ProjectBadge from "@/features/projects/components/ProjectBadge";
-import ProjectStatusBadge from "@/features/projects/components/ProjectStatusBadge";
 import CrownBadge from "@/components/ui/badge/CrownBadge";
 import PrimaryButton from "@/components/ui/button/PrimaryButton";
 import ExpandablePreviewText from "@/components/ui/ExpandablePreviewText";
 import FieldNotice from "@/components/ui/FieldNotice";
 import Modal from "@/components/ui/modal/Modal";
 
-import { getUserName } from "@/lib/mock/users";
+import GoalTag from "@/features/goals/components/GoalTag";
+import ProjectBadge from "@/features/projects/components/ProjectBadge";
+import ProjectStatusBadge from "@/features/projects/components/ProjectStatusBadge";
 import { getProjectTeamLabel } from "@/features/projects/utils/projectTeam";
 import { isProjectDelayed } from "@/features/projects/utils/projectUtils";
+
+import { getUserName } from "@/lib/mock/users";
 
 import type { ProjectStatus } from "@/features/projects/types/project";
 

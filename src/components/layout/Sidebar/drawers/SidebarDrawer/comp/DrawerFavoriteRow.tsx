@@ -2,13 +2,11 @@
 
 import Link from "next/link";
 
+import ProjectProgressMeter from "@/components/layout/Sidebar/drawers/SidebarDrawer/comp/ProjectProgressMeter";
 import DropdownMenu, { DropdownMenuLink } from "@/components/ui/DropdownMenu";
 
 import ProjectBadge from "@/features/projects/components/ProjectBadge";
-import ProjectProgressMeter from "@/components/layout/Sidebar/drawers/SidebarDrawer/comp/ProjectProgressMeter";
-
 import { progressGradients } from "@/features/projects/constants/projectStatusColors";
-
 import { getProjectVisualStatus, isProjectDelayed } from "@/features/projects/utils/projectUtils";
 
 import { getProjectDetailPath } from "@/lib/projectRoutes";

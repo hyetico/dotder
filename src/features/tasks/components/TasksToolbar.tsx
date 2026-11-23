@@ -1,19 +1,18 @@
 "use client";
 
-import type { ReactNode } from "react";
-
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import { CalendarDays, ListTodo } from "@/components/ui/icon";
-
 import SearchInput from "@/components/ui/input/SearchInput";
 import SegmentedIconToggle from "@/components/ui/SegmentedIconToggle";
 import Select from "@/components/ui/select/Select";
 import StatusFilterBar from "@/components/ui/StatusFilterBar";
-import type { StatusFilterChipItem } from "@/components/ui/StatusFilterChips";
-import type { TaskFilterTab } from "@/features/tasks/utils/taskUtils";
 
 import { DEFAULT_TASK_VIEW_MODE, parseTaskViewMode, type TaskViewMode } from "@/lib/projectRoutes";
+
+import type { StatusFilterChipItem } from "@/components/ui/StatusFilterChips";
+import type { TaskFilterTab } from "@/features/tasks/utils/taskUtils";
+import type { ReactNode } from "react";
 
 type TasksToolbarProps = {
   searchQuery: string;

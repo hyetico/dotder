@@ -2,19 +2,6 @@
 
 import { useMemo, useState, type ReactNode } from "react";
 
-import ProjectList, { ListScroll } from "@/features/projects/components/ProjectPicker/ProjectList";
-import ProjectPickerFields from "@/features/projects/components/ProjectPicker/ProjectPickerFields";
-import {
-  getPickerStatusItems,
-  matchesProjectPicker,
-  sortProjectsByName,
-} from "@/features/projects/utils/projectPicker";
-import GoalStatusBadge from "@/features/goals/components/GoalStatusBadge";
-import GoalStatusIcon from "@/features/goals/components/GoalStatusIcon";
-import ProjectBadge from "@/features/projects/components/ProjectBadge";
-import type { ProjectFilterTab } from "@/features/projects/constants/projectFilters";
-import TaskStatusBadge from "@/features/tasks/components/TaskStatusBadge";
-import TaskStatusIcon from "@/features/tasks/components/TaskStatusIcon";
 import SecondaryButton from "@/components/ui/button/SecondaryButton";
 import {
   AppIcon,
@@ -30,9 +17,10 @@ import Modal, {
   modalSidePaddingClassName,
   stableListModalPanelClassName,
 } from "@/components/ui/modal/Modal";
-import type { StatusFilterChipItem } from "@/components/ui/StatusFilterChips";
 import LineTabMenu, { type TabMenuItem } from "@/components/ui/tab/LineTabMenu";
 
+import GoalStatusBadge from "@/features/goals/components/GoalStatusBadge";
+import GoalStatusIcon from "@/features/goals/components/GoalStatusIcon";
 import {
   isGoalDelayedByProject,
   isGoalShownDelayed,
@@ -43,13 +31,25 @@ import {
   getGoalVisualStatus,
   type GoalVisualStatus,
 } from "@/features/goals/utils/goalUtils";
+import ProjectBadge from "@/features/projects/components/ProjectBadge";
+import ProjectList, { ListScroll } from "@/features/projects/components/ProjectPicker/ProjectList";
+import ProjectPickerFields from "@/features/projects/components/ProjectPicker/ProjectPickerFields";
+import {
+  getPickerStatusItems,
+  matchesProjectPicker,
+  sortProjectsByName,
+} from "@/features/projects/utils/projectPicker";
 import { isProjectDelayed } from "@/features/projects/utils/projectUtils";
-import { buildTasksPath, getGoalDetailPath, getProjectDetailPath } from "@/lib/projectRoutes";
+import TaskStatusBadge from "@/features/tasks/components/TaskStatusBadge";
+import TaskStatusIcon from "@/features/tasks/components/TaskStatusIcon";
 import { getTaskStatusLabel } from "@/features/tasks/utils/taskUtils";
 
-import type { LucideIcon } from "@/components/ui/icon/icons";
+import { buildTasksPath, getGoalDetailPath, getProjectDetailPath } from "@/lib/projectRoutes";
 
+import type { LucideIcon } from "@/components/ui/icon/icons";
+import type { StatusFilterChipItem } from "@/components/ui/StatusFilterChips";
 import type { Goal, GoalStatus } from "@/features/goals/types/goal";
+import type { ProjectFilterTab } from "@/features/projects/constants/projectFilters";
 import type { Project } from "@/features/projects/types/project";
 import type { Task, TaskStatus } from "@/features/tasks/types/task";
 

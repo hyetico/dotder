@@ -2,24 +2,23 @@
 
 import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 
-import { AppIcon, RotateCcw, Search, UserRound, Users, X } from "@/components/ui/icon";
-
 import Badge from "@/components/ui/badge/Badge";
+import PrimaryButton from "@/components/ui/button/PrimaryButton";
+import SecondaryButton from "@/components/ui/button/SecondaryButton";
+import { AppIcon, RotateCcw, Search, UserRound, Users, X } from "@/components/ui/icon";
+import SearchInput from "@/components/ui/input/SearchInput";
 import List from "@/components/ui/list/List";
 import MemberAvatar from "@/components/ui/MemberAvatar";
 import Modal, { modalSidePaddingClassName } from "@/components/ui/modal/Modal";
-import PrimaryButton from "@/components/ui/button/PrimaryButton";
-import SearchInput from "@/components/ui/input/SearchInput";
-import SecondaryButton from "@/components/ui/button/SecondaryButton";
 import LineTabMenu, { type TabMenuItem } from "@/components/ui/tab/LineTabMenu";
-
-import { getMemberInitial, getTeamMembers, type TeamMember } from "@/lib/mock/teamMembers";
 
 import {
   PROJECT_TEAM_NONE,
   PROJECT_TEAM_PERSONAL,
   type ProjectTeamOption,
 } from "@/features/projects/utils/projectTeam";
+
+import { getMemberInitial, getTeamMembers, type TeamMember } from "@/lib/mock/teamMembers";
 
 import type { ListColumn, ListRow } from "@/components/ui/list/List";
 

@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 
 import { AppIcon, ChevronDown } from "@/components/ui/icon";
-
 import IconTitle from "@/components/ui/IconTitle";
 
 type ExpandablePreviewTextProps = {

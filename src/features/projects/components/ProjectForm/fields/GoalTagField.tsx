@@ -1,19 +1,21 @@
 "use client";
 
 import { useState } from "react";
-import { AppIcon, TagPlus } from "@/components/ui/icon";
-import GoalTag from "@/features/goals/components/GoalTag";
-import FieldNotice from "@/components/ui/FieldNotice";
-import Input from "@/components/ui/input/Input";
+
 import PrimaryButton from "@/components/ui/button/PrimaryButton";
 import SecondaryButton from "@/components/ui/button/SecondaryButton";
+import FieldNotice from "@/components/ui/FieldNotice";
+import { AppIcon, TagPlus } from "@/components/ui/icon";
+import Input from "@/components/ui/input/Input";
+
+import GoalTag from "@/features/goals/components/GoalTag";
+import { FieldError, FormLabel } from "@/features/projects/components/ProjectForm/FormParts";
+import { getProjectGoalTagGuideItems } from "@/features/projects/constants/projectFormGuides";
 import {
   isGlobalProjectTag,
   PROJECT_TAG_LIMIT,
   PROJECT_TAG_PRESETS,
 } from "@/features/projects/constants/projectTags";
-import { getProjectGoalTagGuideItems } from "@/features/projects/constants/projectFormGuides";
-import { FieldError, FormLabel } from "@/features/projects/components/ProjectForm/FormParts";
 
 export function GoalTagField({
   tags,

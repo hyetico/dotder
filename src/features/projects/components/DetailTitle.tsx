@@ -1,6 +1,6 @@
-import type { ReactNode } from "react";
-
 import ProjectFolder from "@/features/projects/components/ProjectFolder";
+
+import type { ReactNode } from "react";
 
 type DetailTitleProps = {
   title: string;

@@ -1,17 +1,19 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
-import { Controller, useForm, type Control, type FieldErrors } from "react-hook-form";
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+
 import { zodResolver } from "@hookform/resolvers/zod";
-import { AppIcon, CalendarSync, CircleAlert, CircleCheck, History } from "@/components/ui/icon";
+import { Controller, useForm, type Control, type FieldErrors } from "react-hook-form";
 
 import BottomAppBar from "@/components/layout/pages/CreatePage/BottomAppBar";
 import PrimaryButton from "@/components/ui/button/PrimaryButton";
 import SecondaryButton from "@/components/ui/button/SecondaryButton";
 import DatePicker from "@/components/ui/date-picker/DatePicker";
 import FieldNotice from "@/components/ui/FieldNotice";
+import { AppIcon, CalendarSync, CircleAlert, CircleCheck, History } from "@/components/ui/icon";
 import StatusChoiceButton from "@/components/ui/StatusChoiceButton";
+
 import { useSyncProjectAccent } from "@/features/projects/components/ProjectAccent";
 import { WizardBasicInfoStep } from "@/features/projects/components/ProjectCreateWizard/steps/WizardBasicInfoStep";
 import {
@@ -54,9 +56,10 @@ import {
   getProjectStatusLabel,
   isProjectDelayed,
 } from "@/features/projects/utils/projectUtils";
-import { getProjectDetailPath } from "@/lib/projectRoutes";
+
 import { getTeamMembers } from "@/lib/mock/teamMembers";
 import { currentUser } from "@/lib/mock/users";
+import { getProjectDetailPath } from "@/lib/projectRoutes";
 
 type ProjectEditTab = "basic" | "schedule" | "team";
 

@@ -1,8 +1,8 @@
 import PageInset from "@/components/layout/pages/Page/PageInset";
-import ProjectDetailPageContent from "@/features/projects/content/ProjectDetailPageContent/ProjectDetailPageContent";
 
 import { getGoals } from "@/features/goals/api/goals";
 import { getProjectListItem } from "@/features/projects/api/projects";
+import ProjectDetailPageContent from "@/features/projects/content/ProjectDetailPageContent/ProjectDetailPageContent";
 import { getTasks } from "@/features/tasks/api/tasks";
 
 type ProjectDetailPageProps = {

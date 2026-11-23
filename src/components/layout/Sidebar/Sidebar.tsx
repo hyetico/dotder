@@ -1,10 +1,14 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
+import { useEffect, useLayoutEffect, useState } from "react";
+
 import { useQuery } from "@tanstack/react-query";
 
+import SidebarMainProject from "@/components/layout/Sidebar/comp/SidebarMainProject";
+import SidebarProfile from "@/components/layout/Sidebar/comp/SidebarProfile";
+import IconButton from "@/components/ui/button/IconButton";
 import {
   AppIcon,
   ArrowRight,
@@ -13,17 +17,14 @@ import {
   PanelLeftOpen,
   X,
 } from "@/components/ui/icon";
-
-import IconButton from "@/components/ui/button/IconButton";
 import MenuLink from "@/components/ui/MenuLink";
-import SidebarMainProject from "@/components/layout/Sidebar/comp/SidebarMainProject";
-import SidebarProfile from "@/components/layout/Sidebar/comp/SidebarProfile";
 
 import { getProjects, readMainProjectId } from "@/features/projects/api/projects";
 import { useCurrentProjectScope } from "@/features/projects/hooks/useCurrentProjectScope";
-import { projectQueryKeys } from "@/lib/queryKeys";
+
 import { primaryNavItems, secondaryNavItems, type NavItem } from "@/lib/navConfig";
 import { buildNavHref, getProjectGoalsPath, isStaticNavActive } from "@/lib/projectRoutes";
+import { projectQueryKeys } from "@/lib/queryKeys";
 
 const mockWeeklyProgress = {
   percent: 67,

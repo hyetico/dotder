@@ -1,11 +1,10 @@
 import { AppIcon, CircleAlert, Folder, iconSize, iconStroke } from "@/components/ui/icon";
+
 import ProjectStatusIcon from "@/features/projects/components/ProjectStatusIcon";
-import type { StatusFilterChipItem } from "@/components/ui/StatusFilterChips";
-
 import { PROJECT_STATUS_FILTER_ICON_COLORS } from "@/features/projects/constants/projectStatusColors";
-
 import { getProjectVisualStatus, type ProjectStats } from "@/features/projects/utils/projectUtils";
 
+import type { StatusFilterChipItem } from "@/components/ui/StatusFilterChips";
 import type { ProjectListItem, ProjectStatus } from "@/features/projects/types/project";
 
 export type ProjectFilterTab = "all" | ProjectStatus | "DELAYED";

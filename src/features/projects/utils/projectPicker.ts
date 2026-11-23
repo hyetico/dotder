@@ -2,7 +2,6 @@ import {
   getProjectStatusFilters,
   type ProjectFilterTab,
 } from "@/features/projects/constants/projectFilters";
-
 import { computeProjectStats, isProjectDelayed } from "@/features/projects/utils/projectUtils";
 
 import type { Project } from "@/features/projects/types/project";

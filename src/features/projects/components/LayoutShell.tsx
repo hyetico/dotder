@@ -4,13 +4,11 @@ import { usePathname } from "next/navigation";
 
 import { useQuery } from "@tanstack/react-query";
 
+import { getProjects } from "@/features/projects/api/projects";
 import CreateProjectPrompt from "@/features/projects/components/CreateProjectPrompt";
 
-import { getProjects } from "@/features/projects/api/projects";
-
-import { projectQueryKeys } from "@/lib/queryKeys";
-
 import { isBacklogListPath, isGoalsListPath, isProjectsListPath } from "@/lib/projectRoutes";
+import { projectQueryKeys } from "@/lib/queryKeys";
 
 type LayoutShellProps = {
   children: React.ReactNode;

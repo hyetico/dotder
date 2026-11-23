@@ -1,10 +1,10 @@
 "use client";
 
 import { createContext, useContext, useEffect, useRef, type ReactNode } from "react";
-
 import { createPortal } from "react-dom";
 
 import CloseButton from "@/components/ui/button/CloseButton";
+
 import { useProjectAccentStyle } from "@/features/projects/components/ProjectAccent";
 
 import { useIsClient } from "@/hooks/useIsClient";

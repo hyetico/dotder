@@ -1,15 +1,15 @@
 "use client";
 
+import Link from "next/link";
 import { useMemo, useState } from "react";
 
-import Link from "next/link";
-
 import { AppIcon, ListTodo, Settings, Shield, Users } from "@/components/ui/icon";
+import SearchInput from "@/components/ui/input/SearchInput";
 import List, { type ListColumn, type ListRow } from "@/components/ui/list/List";
 import MemberAvatar from "@/components/ui/MemberAvatar";
-import SearchInput from "@/components/ui/input/SearchInput";
-import SectionHeader from "@/features/projects/components/SectionHeader";
 import Select from "@/components/ui/select/Select";
+
+import SectionHeader from "@/features/projects/components/SectionHeader";
 
 import { getMemberInitial, type TeamMember } from "@/lib/mock/teamMembers";
 

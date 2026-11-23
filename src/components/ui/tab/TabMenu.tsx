@@ -3,6 +3,7 @@
 import Button from "@/components/ui/button/Button";
 import AppIcon from "@/components/ui/icon/AppIcon";
 import { defaultTabAppearance } from "@/components/ui/tab/appearance";
+
 import type { TabMenuAppearance, TabMenuSharedProps } from "@/components/ui/tab/types";
 
 export type { TabMenuItem } from "@/components/ui/tab/types";

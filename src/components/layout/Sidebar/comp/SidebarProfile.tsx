@@ -2,10 +2,10 @@
 
 import { useEffect, useRef, useState } from "react";
 
-import { AppIcon, Bell, ListTodo, LogOut, Moon, Settings, User } from "@/components/ui/icon";
-
 import Button from "@/components/ui/button/Button";
+import { AppIcon, Bell, ListTodo, LogOut, Moon, Settings, User } from "@/components/ui/icon";
 import MenuLink from "@/components/ui/MenuLink";
+
 import { currentUser } from "@/lib/mock/users";
 
 const userMenuItems = [

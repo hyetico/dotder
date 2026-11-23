@@ -1,18 +1,16 @@
-import { getUserName } from "@/lib/mock/users";
-
-import type { ProjectStatusColorKey } from "@/features/projects/constants/projectStatusColors";
-
+import { computeProjectGoalStats } from "@/features/goals/utils/goalUtils";
 import { getProjectTeamLabel } from "@/features/projects/utils/projectTeam";
 
-import { computeProjectGoalStats } from "@/features/goals/utils/goalUtils";
+import { getUserName } from "@/lib/mock/users";
 
+import type { Goal } from "@/features/goals/types/goal";
+import type { ProjectStatusColorKey } from "@/features/projects/constants/projectStatusColors";
 import type {
   Project,
   ProjectDeadlineChange,
   ProjectListItem,
   ProjectStatus,
 } from "@/features/projects/types/project";
-import type { Goal } from "@/features/goals/types/goal";
 import type { Task } from "@/features/tasks/types/task";
 
 export function getProjectVisualStatus(

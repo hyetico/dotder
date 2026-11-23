@@ -1,10 +1,10 @@
 "use client";
 
-import type { ReactNode } from "react";
-
 import SearchInput from "@/components/ui/input/SearchInput";
-import type { StatusFilterChipItem } from "@/components/ui/StatusFilterChips";
 import StatusFilterPills from "@/components/ui/StatusFilterPills";
+
+import type { StatusFilterChipItem } from "@/components/ui/StatusFilterChips";
+import type { ReactNode } from "react";
 
 type ProjectPickerFieldsProps<T extends string> = {
   query: string;

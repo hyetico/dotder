@@ -1,8 +1,8 @@
 import { notFound } from "next/navigation";
 
+import { getProject } from "@/features/projects/api/projects";
 import ProjectAccent from "@/features/projects/components/ProjectAccent";
 
-import { getProject } from "@/features/projects/api/projects";
 import { ALL_PROJECTS_SCOPE } from "@/lib/projectRoutes";
 
 type ProjectGoalsLayoutProps = {

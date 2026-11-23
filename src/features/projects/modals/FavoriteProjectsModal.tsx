@@ -2,6 +2,14 @@
 
 import { useMemo, useState } from "react";
 
+import PrimaryButton from "@/components/ui/button/PrimaryButton";
+import SecondaryButton from "@/components/ui/button/SecondaryButton";
+import FieldNotice from "@/components/ui/FieldNotice";
+import Modal, {
+  modalSidePaddingClassName,
+  stableListModalPanelClassName,
+} from "@/components/ui/modal/Modal";
+
 import ProjectList, { ListScroll } from "@/features/projects/components/ProjectPicker/ProjectList";
 import ProjectPickerFields from "@/features/projects/components/ProjectPicker/ProjectPickerFields";
 import {
@@ -11,16 +19,10 @@ import {
   sameIdSet,
   sortProjectsByName,
 } from "@/features/projects/utils/projectPicker";
-import PrimaryButton from "@/components/ui/button/PrimaryButton";
-import SecondaryButton from "@/components/ui/button/SecondaryButton";
-import FieldNotice from "@/components/ui/FieldNotice";
-import Modal, {
-  modalSidePaddingClassName,
-  stableListModalPanelClassName,
-} from "@/components/ui/modal/Modal";
+
+import { MAX_FAVORITES } from "@/lib/projectSwitcherPreferences";
 
 import type { ProjectFilterTab } from "@/features/projects/constants/projectFilters";
-import { MAX_FAVORITES } from "@/lib/projectSwitcherPreferences";
 import type { Project } from "@/features/projects/types/project";
 
 const excludedNote = "메인·보류·완료 프로젝트는 설정 목록에서 제외됩니다.";

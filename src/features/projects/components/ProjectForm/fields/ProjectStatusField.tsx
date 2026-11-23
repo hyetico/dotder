@@ -1,17 +1,19 @@
 "use client";
 
 import { Controller, type Control, type FieldErrors } from "react-hook-form";
-import { AppIcon, CircleAlert, CircleCheck } from "@/components/ui/icon";
-import ProjectStatusIcon from "@/features/projects/components/ProjectStatusIcon";
+
 import FieldNotice from "@/components/ui/FieldNotice";
+import { AppIcon, CircleAlert, CircleCheck } from "@/components/ui/icon";
 import StatusChoiceButton from "@/components/ui/StatusChoiceButton";
+
+import { FieldError, FormLabel } from "@/features/projects/components/ProjectForm/FormParts";
+import ProjectStatusIcon from "@/features/projects/components/ProjectStatusIcon";
+import { getProjectStatusGuideItems } from "@/features/projects/constants/projectFormGuides";
 import { PROJECT_STATUS_FILTER_ICON_COLORS } from "@/features/projects/constants/projectStatusColors";
-import { getProjectStatusLabel } from "@/features/projects/utils/projectUtils";
+import { type ProjectDeadlineState } from "@/features/projects/hooks/useProjectDeadlineChange";
 import { type ProjectFormData } from "@/features/projects/schemas/projectSchema";
 import { PROJECT_STATUSES } from "@/features/projects/types/project";
-import { getProjectStatusGuideItems } from "@/features/projects/constants/projectFormGuides";
-import { FieldError, FormLabel } from "@/features/projects/components/ProjectForm/FormParts";
-import { type ProjectDeadlineState } from "@/features/projects/hooks/useProjectDeadlineChange";
+import { getProjectStatusLabel } from "@/features/projects/utils/projectUtils";
 
 /**
  * ProjectStatusField

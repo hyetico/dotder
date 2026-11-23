@@ -1,8 +1,9 @@
 import { z } from "zod";
 
 import { PROJECT_TAG_LIMIT } from "@/features/projects/constants/projectTags";
-import type { ProjectStatus } from "@/features/projects/types/project";
 import { isProjectDelayed } from "@/features/projects/utils/projectUtils";
+
+import type { ProjectStatus } from "@/features/projects/types/project";
 
 const projectSchema = z
   .object({

@@ -1,13 +1,15 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
+
 import { Controller, type Control } from "react-hook-form";
 
-import { AppIcon, FileText, Users } from "@/components/ui/icon";
 import SecondaryButton from "@/components/ui/button/SecondaryButton";
+import { AppIcon, FileText, Users } from "@/components/ui/icon";
 import InfoTooltip, { type InfoTooltipItem } from "@/components/ui/InfoTooltip";
 import MemberAvatar from "@/components/ui/MemberAvatar";
 import Switch from "@/components/ui/Switch";
+
 import { MainProjectChangeBox } from "@/features/projects/components/ProjectForm/fields/ProjectMainField";
 import {
   mainSettingTitle,
@@ -27,6 +29,7 @@ import {
   getProjectTeamLabel,
   parseProjectTeamSelection,
 } from "@/features/projects/utils/projectTeam";
+
 import { getMemberInitial, getTeamMembers } from "@/lib/mock/teamMembers";
 
 const rowClassName =

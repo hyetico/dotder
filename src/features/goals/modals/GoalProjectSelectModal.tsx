@@ -2,6 +2,13 @@
 
 import { useMemo, useState } from "react";
 
+import PrimaryButton from "@/components/ui/button/PrimaryButton";
+import SecondaryButton from "@/components/ui/button/SecondaryButton";
+import Modal, {
+  modalSidePaddingClassName,
+  stableListModalPanelClassName,
+} from "@/components/ui/modal/Modal";
+
 import ProjectList, { ListScroll } from "@/features/projects/components/ProjectPicker/ProjectList";
 import ProjectPickerFields from "@/features/projects/components/ProjectPicker/ProjectPickerFields";
 import {
@@ -10,12 +17,6 @@ import {
   sortProjectsByName,
 } from "@/features/projects/utils/projectPicker";
 import { canAddProjectItems } from "@/features/projects/utils/projectUtils";
-import PrimaryButton from "@/components/ui/button/PrimaryButton";
-import SecondaryButton from "@/components/ui/button/SecondaryButton";
-import Modal, {
-  modalSidePaddingClassName,
-  stableListModalPanelClassName,
-} from "@/components/ui/modal/Modal";
 
 import type { ProjectFilterTab } from "@/features/projects/constants/projectFilters";
 import type { Project } from "@/features/projects/types/project";

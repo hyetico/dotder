@@ -1,10 +1,12 @@
 "use client";
 
 import { useRef, useState } from "react";
+
 import { Controller, type Control, type FieldErrors, type UseFormRegister } from "react-hook-form";
 
 import Input from "@/components/ui/input/Input";
 import Textarea from "@/components/ui/input/Textarea";
+
 import { GoalTagField } from "@/features/projects/components/ProjectForm/fields/GoalTagField";
 import { ProjectColorField } from "@/features/projects/components/ProjectForm/fields/ProjectColorField";
 import { FieldError, FormLabel } from "@/features/projects/components/ProjectForm/FormParts";

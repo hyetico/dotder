@@ -3,11 +3,12 @@
 import { useEffect, useRef, type ReactNode } from "react";
 
 import { AppIcon, Folder, ListChecks, Target } from "@/components/ui/icon";
-import GoalStatusLabel from "@/features/goals/components/GoalStatusLabel";
-import GoalTag from "@/features/goals/components/GoalTag";
 import MemberAvatar from "@/components/ui/MemberAvatar";
 
+import GoalStatusLabel from "@/features/goals/components/GoalStatusLabel";
+import GoalTag from "@/features/goals/components/GoalTag";
 import { getGoalScheduleMark } from "@/features/goals/utils/goalUtils";
+
 import { getMemberInitial, getTeamMember } from "@/lib/mock/teamMembers";
 
 import type { Goal, GoalStatus } from "@/features/goals/types/goal";

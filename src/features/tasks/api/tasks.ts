@@ -1,8 +1,7 @@
 import { mockProjects } from "@/lib/mock/projects";
 
-import type { ProjectScope } from "@/lib/projectRoutes";
-
 import type { Task } from "@/features/tasks/types/task";
+import type { ProjectScope } from "@/lib/projectRoutes";
 
 let mockTasks: Task[] = [
   {

@@ -1,4 +1,5 @@
 import { type ReactNode } from "react";
+
 import {
   iconSize,
   ArrowRightLeft,
@@ -16,11 +17,12 @@ import {
   UserRoundPen,
   Users,
 } from "@/components/ui/icon";
-import ProjectStatusIcon from "@/features/projects/components/ProjectStatusIcon";
 import { type InfoTooltipItem } from "@/components/ui/InfoTooltip";
-import { projectTeamGuideItems } from "@/features/projects/utils/projectTeam";
+
+import ProjectStatusIcon from "@/features/projects/components/ProjectStatusIcon";
 import { PROJECT_STATUS_COLOR_SCALES } from "@/features/projects/constants/projectStatusColors";
 import { type ProjectStatus } from "@/features/projects/types/project";
+import { projectTeamGuideItems } from "@/features/projects/utils/projectTeam";
 
 function GuideIcon({ color, children }: { color: string; children: ReactNode }) {
   return (

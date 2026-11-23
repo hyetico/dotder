@@ -2,20 +2,17 @@
 
 import { useMemo, useState } from "react";
 
-import { AppIcon, ChevronLeft, ChevronRight, Plus } from "@/components/ui/icon";
-
 import { useQuery } from "@tanstack/react-query";
 
-import CreateTaskButton from "@/features/tasks/components/board/CreateTaskButton";
-import EditTaskModal from "@/features/tasks/modals/EditTaskModal";
+import { AppIcon, ChevronLeft, ChevronRight, Plus } from "@/components/ui/icon";
 import Modal from "@/components/ui/modal/Modal";
 
 import { getProjects } from "@/features/projects/api/projects";
-import { getTasks } from "@/features/tasks/api/tasks";
-
-import { useTaskMutations } from "@/features/tasks/hooks/useTaskMutations";
 import { canAddProjectItems } from "@/features/projects/utils/projectUtils";
-
+import { getTasks } from "@/features/tasks/api/tasks";
+import CreateTaskButton from "@/features/tasks/components/board/CreateTaskButton";
+import { useTaskMutations } from "@/features/tasks/hooks/useTaskMutations";
+import EditTaskModal from "@/features/tasks/modals/EditTaskModal";
 import {
   filterTasksBySearchQuery,
   matchesTaskStatusFilter,
@@ -25,9 +22,8 @@ import {
 
 import { projectQueryKeys, taskQueryKeys } from "@/lib/queryKeys";
 
-import type { ProjectScope } from "@/lib/projectRoutes";
-
 import type { Task, TaskStatus } from "@/features/tasks/types/task";
+import type { ProjectScope } from "@/lib/projectRoutes";
 
 type TaskCalendarViewProps = {
   projectScope: ProjectScope;

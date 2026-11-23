@@ -1,7 +1,6 @@
-import type { CSSProperties } from "react";
-
-import type { IconSize } from "@/components/ui/icon/iconSize";
 import type { LucideIcon } from "@/components/ui/icon/icons";
+import type { IconSize } from "@/components/ui/icon/iconSize";
+import type { CSSProperties } from "react";
 
 export type TabMenuItem<T extends string> = {
   id: T;

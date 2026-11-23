@@ -1,25 +1,26 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useState, type ReactNode } from "react";
 
 import { useQuery } from "@tanstack/react-query";
 
 import SidebarDrawer from "@/components/layout/Sidebar/drawers/SidebarDrawer/SidebarDrawer";
-import ProjectAccent from "@/features/projects/components/ProjectAccent";
 import CrownBadge from "@/components/ui/badge/CrownBadge";
 import IconButton from "@/components/ui/button/IconButton";
-import ProjectSettingsIcon from "@/features/projects/components/ProjectSettingsIcon";
 
 import { getProjects, readMainProjectId, readProject } from "@/features/projects/api/projects";
+import ProjectAccent from "@/features/projects/components/ProjectAccent";
+import ProjectSettingsIcon from "@/features/projects/components/ProjectSettingsIcon";
 import { useCurrentProjectScope } from "@/features/projects/hooks/useCurrentProjectScope";
-import { projectQueryKeys } from "@/lib/queryKeys";
+
 import {
   buildScopeChangeHref,
   getContextualMainProjectPath,
   type ProjectScope,
 } from "@/lib/projectRoutes";
+import { projectQueryKeys } from "@/lib/queryKeys";
 
 type SidebarMainProjectProps = {
   isCollapsed: boolean;

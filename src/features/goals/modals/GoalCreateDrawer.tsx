@@ -6,30 +6,32 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import PrimaryButton from "@/components/ui/button/PrimaryButton";
 import SecondaryButton from "@/components/ui/button/SecondaryButton";
-import Drawer from "@/components/ui/drawer/Drawer";
 import DatePicker from "@/components/ui/date-picker/DatePicker";
+import Drawer from "@/components/ui/drawer/Drawer";
 import FieldNotice from "@/components/ui/FieldNotice";
 import { AppIcon, Calendar, Info, Link2 } from "@/components/ui/icon";
-import ProfileSummary from "@/components/ui/ProfileSummary";
 import { useAlert } from "@/components/ui/modal/AlertModal";
 import Modal from "@/components/ui/modal/Modal";
-import { FieldError } from "@/features/projects/components/ProjectForm/FormParts";
+import ProfileSummary from "@/components/ui/ProfileSummary";
+
 import { createGoal } from "@/features/goals/api/goals";
 import GoalDrawerDescriptionField from "@/features/goals/components/GoalDrawerDescriptionField";
 import GoalStatusIcon from "@/features/goals/components/GoalStatusIcon";
-import GoalTag from "@/features/goals/components/GoalTag";
 import GoalStatusLabel from "@/features/goals/components/GoalStatusLabel";
-import GoalProjectSelectModal from "@/features/goals/modals/GoalProjectSelectModal";
-import type { GoalIcon, GoalStatus } from "@/features/goals/types/goal";
-import { getTodayDateValue } from "@/features/goals/utils/goalDates";
-import { getGoalStatusLabel } from "@/features/goals/utils/goalUtils";
+import GoalTag from "@/features/goals/components/GoalTag";
 import {
   useGoalDrawerOffset,
   useGoalDrawerPushesPage,
 } from "@/features/goals/modals/goalDrawerOffset";
-import { goalQueryKeys } from "@/lib/queryKeys";
-import { currentUser } from "@/lib/mock/users";
+import GoalProjectSelectModal from "@/features/goals/modals/GoalProjectSelectModal";
+import { getTodayDateValue } from "@/features/goals/utils/goalDates";
+import { getGoalStatusLabel } from "@/features/goals/utils/goalUtils";
+import { FieldError } from "@/features/projects/components/ProjectForm/FormParts";
 
+import { currentUser } from "@/lib/mock/users";
+import { goalQueryKeys } from "@/lib/queryKeys";
+
+import type { GoalIcon, GoalStatus } from "@/features/goals/types/goal";
 import type { Project } from "@/features/projects/types/project";
 
 const GOAL_TITLE_LIMIT = 50;

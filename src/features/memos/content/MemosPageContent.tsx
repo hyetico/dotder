@@ -1,8 +1,8 @@
 "use client";
 
+import { usePathname, useRouter } from "next/navigation";
 import { useMemo, useRef, useState, useSyncExternalStore } from "react";
 
-import { usePathname, useRouter } from "next/navigation";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import PageHeading from "@/components/layout/pages/Page/PageHeading";
@@ -13,6 +13,7 @@ import { AppIcon, FileText, Folder } from "@/components/ui/icon";
 import SearchInput from "@/components/ui/input/SearchInput";
 import { useAlert } from "@/components/ui/modal/AlertModal";
 import Select from "@/components/ui/select/Select";
+
 import BacklogScopeTabs, {
   type BacklogScopeTab,
 } from "@/features/backlog/components/BacklogScopeTabs";
@@ -20,12 +21,11 @@ import { createMemo, deleteMemo, readMemos } from "@/features/memos/api/memos";
 import MemoArchiveList from "@/features/memos/components/MemoArchiveList";
 import { MemoAddCard, MemoCard, MemoComposeCard } from "@/features/memos/components/MemoCards";
 import MemoRegisterDrawer from "@/features/memos/components/MemoRegisterDrawer";
-import type { Memo } from "@/features/memos/types/memo";
 import { splitMemoText } from "@/features/memos/utils/memoDisplay";
 import { getProjects } from "@/features/projects/api/projects";
-import { mockProjects } from "@/lib/mock/projects";
 import SectionHeader from "@/features/projects/components/SectionHeader";
-import { memoQueryKeys, projectQueryKeys } from "@/lib/queryKeys";
+
+import { mockProjects } from "@/lib/mock/projects";
 import {
   getFavoriteBacklogPath,
   getMainBacklogPath,
@@ -37,6 +37,9 @@ import {
   getFavoriteProjectIdsSnapshot,
   subscribeFavoriteProjectIds,
 } from "@/lib/projectSwitcherPreferences";
+import { memoQueryKeys, projectQueryKeys } from "@/lib/queryKeys";
+
+import type { Memo } from "@/features/memos/types/memo";
 
 const memoPageShellClassName = "min-w-0";
 const memoPageFrameClassName = "project-board-width @container";

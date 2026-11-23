@@ -12,11 +12,10 @@ import {
   type ReactNode,
 } from "react";
 
-import { AppIcon, Info, TriangleAlert, type LucideIcon } from "@/components/ui/icon";
-
-import Modal from "@/components/ui/modal/Modal";
 import PrimaryButton from "@/components/ui/button/PrimaryButton";
 import SecondaryButton from "@/components/ui/button/SecondaryButton";
+import { AppIcon, Info, TriangleAlert, type LucideIcon } from "@/components/ui/icon";
+import Modal from "@/components/ui/modal/Modal";
 
 export type AlertTone = "default" | "info" | "warning" | "danger";
 

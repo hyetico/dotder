@@ -1,22 +1,25 @@
 "use client";
 
 import { type ReactNode } from "react";
+
 import { Controller, type Control, type FieldErrors } from "react-hook-form";
+
 import { Settings } from "@/components/ui/icon";
-import { type ProjectFormData } from "@/features/projects/schemas/projectSchema";
-import { type Project } from "@/features/projects/types/project";
-import { FormSectionIntro } from "@/features/projects/components/ProjectForm/FormParts";
+
+import { GoalTagField } from "@/features/projects/components/ProjectForm/fields/GoalTagField";
 import {
   ProjectAdminField,
   type ProjectAdminSummary,
 } from "@/features/projects/components/ProjectForm/fields/ProjectAdminField";
-import { ProjectTeamField } from "@/features/projects/components/ProjectForm/fields/ProjectTeamField";
-import { GoalTagField } from "@/features/projects/components/ProjectForm/fields/GoalTagField";
-import { type ProjectFormLayout } from "@/features/projects/utils/projectFormLayout";
-import { type ProjectDeadlineState } from "@/features/projects/hooks/useProjectDeadlineChange";
-import { ProjectStatusField } from "@/features/projects/components/ProjectForm/fields/ProjectStatusField";
 import { ProjectDeadlineField } from "@/features/projects/components/ProjectForm/fields/ProjectDeadlineField";
 import { ProjectMainField } from "@/features/projects/components/ProjectForm/fields/ProjectMainField";
+import { ProjectStatusField } from "@/features/projects/components/ProjectForm/fields/ProjectStatusField";
+import { ProjectTeamField } from "@/features/projects/components/ProjectForm/fields/ProjectTeamField";
+import { FormSectionIntro } from "@/features/projects/components/ProjectForm/FormParts";
+import { type ProjectDeadlineState } from "@/features/projects/hooks/useProjectDeadlineChange";
+import { type ProjectFormData } from "@/features/projects/schemas/projectSchema";
+import { type Project } from "@/features/projects/types/project";
+import { type ProjectFormLayout } from "@/features/projects/utils/projectFormLayout";
 
 /**
  * SettingsSection

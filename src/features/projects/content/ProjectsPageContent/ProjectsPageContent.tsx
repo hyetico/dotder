@@ -1,31 +1,29 @@
 "use client";
 
-import { useMemo, useState, useSyncExternalStore } from "react";
-
 import { usePathname, useRouter } from "next/navigation";
+import { useMemo, useState, useSyncExternalStore } from "react";
 
 import { useQuery } from "@tanstack/react-query";
 
-import StatCountCard from "@/components/ui/stats/StatCountCard";
-import StatCountGrid, { statCountWideCardClassName } from "@/components/ui/stats/StatCountGrid";
 import { HeaderActionLink, HeaderActions } from "@/components/layout/Header/HeaderActions";
 import PageHeading from "@/components/layout/pages/Page/PageHeading";
 import PageInset from "@/components/layout/pages/Page/PageInset";
-import ProjectListSection from "@/features/projects/content/ProjectsPageContent/ProjectListSection";
+import { CheckCircle2, Circle, Folder, PauseCircle, Plus, Star } from "@/components/ui/icon";
+import SearchInput from "@/components/ui/input/SearchInput";
+import StatCountCard from "@/components/ui/stats/StatCountCard";
+import StatCountGrid, { statCountWideCardClassName } from "@/components/ui/stats/StatCountGrid";
+
+import { getProjectListItems } from "@/features/projects/api/projects";
+import FavoriteAddCard from "@/features/projects/components/FavoriteAddCard";
+import FavoriteRemovedToast from "@/features/projects/components/FavoriteRemovedToast";
 import ProjectsScopeTabs, {
   type ProjectsScopeTab,
 } from "@/features/projects/components/ProjectsScopeTabs";
 import { ProjectInProgressIcon } from "@/features/projects/components/ProjectStatusIcon";
-import { CheckCircle2, Circle, Folder, PauseCircle, Plus, Star } from "@/components/ui/icon";
-import SearchInput from "@/components/ui/input/SearchInput";
-import FavoriteAddCard from "@/features/projects/components/FavoriteAddCard";
-import FavoriteRemovedToast from "@/features/projects/components/FavoriteRemovedToast";
+import ProjectListSection from "@/features/projects/content/ProjectsPageContent/ProjectListSection";
 import FavoriteProjectsModal from "@/features/projects/modals/FavoriteProjectsModal";
-
-import { getProjectListItems } from "@/features/projects/api/projects";
 import { computeProjectStats } from "@/features/projects/utils/projectUtils";
 
-import { projectQueryKeys } from "@/lib/queryKeys";
 import {
   getFavoriteProjectsPath,
   getMainProjectsPath,
@@ -39,6 +37,7 @@ import {
   setFavoriteProjectIds,
   subscribeFavoriteProjectIds,
 } from "@/lib/projectSwitcherPreferences";
+import { projectQueryKeys } from "@/lib/queryKeys";
 
 const projectsPageShellClassName = "min-w-0";
 const projectsPageFrameClassName = "project-board-width @container";

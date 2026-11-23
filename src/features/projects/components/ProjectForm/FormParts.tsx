@@ -1,8 +1,10 @@
 "use client";
 
 import { type ReactNode } from "react";
+
 import { AppIcon, type LucideIcon } from "@/components/ui/icon";
 import InfoTooltip, { type InfoTooltipItem } from "@/components/ui/InfoTooltip";
+
 import { tooltipWidthClassName } from "@/features/projects/constants/projectFormDefaults";
 
 /**

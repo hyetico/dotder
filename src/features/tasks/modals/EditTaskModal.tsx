@@ -2,19 +2,19 @@
 
 import { useEffect, useId } from "react";
 
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-
+import PrimaryButton from "@/components/ui/button/PrimaryButton";
+import SecondaryButton from "@/components/ui/button/SecondaryButton";
 import DatePicker from "@/components/ui/date-picker/DatePicker";
 import Input from "@/components/ui/input/Input";
 import Textarea from "@/components/ui/input/Textarea";
 import Modal from "@/components/ui/modal/Modal";
-import PrimaryButton from "@/components/ui/button/PrimaryButton";
-import SecondaryButton from "@/components/ui/button/SecondaryButton";
 import Select from "@/components/ui/select/Select";
 
 import { taskSchema, type TaskFormData } from "@/features/tasks/schemas/taskSchema";
+
 import type { Task } from "@/features/tasks/types/task";
 
 const priorityOptions = [

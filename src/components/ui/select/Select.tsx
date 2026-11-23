@@ -2,13 +2,12 @@
 
 import { useEffect, useRef, useState } from "react";
 
-import { AppIcon, ChevronDown } from "@/components/ui/icon";
-
 import {
   fieldHoverClassName,
   fieldOpenClassName,
   fieldPaddingClassName,
 } from "@/components/ui/fieldControl";
+import { AppIcon, ChevronDown } from "@/components/ui/icon";
 
 const selectTriggerClassName =
   "flex w-full min-w-0 items-center justify-between overflow-hidden rounded-[var(--radius-sm)] border border-[var(--color-field-border)] bg-[var(--color-field)] text-left text-[var(--color-field-text)] transition-[border-color,box-shadow] outline-none disabled:cursor-not-allowed disabled:border-[var(--color-field-border)] disabled:bg-[var(--color-field-disabled)] disabled:text-[var(--color-field-placeholder)] disabled:opacity-100 disabled:hover:border-[var(--color-field-border)]";

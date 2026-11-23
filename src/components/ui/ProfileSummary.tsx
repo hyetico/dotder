@@ -1,7 +1,7 @@
-import type { ReactNode } from "react";
-
 import { fieldPaddingClassName } from "@/components/ui/fieldControl";
 import IconTitle from "@/components/ui/IconTitle";
+
+import type { ReactNode } from "react";
 
 type ProfileSummaryProps = {
   name: string;

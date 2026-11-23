@@ -1,20 +1,21 @@
 "use client";
 
 import { useEffect, useId, useMemo, useState } from "react";
-import { Controller, useForm } from "react-hook-form";
-import { AppIcon, Plus } from "@/components/ui/icon";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Controller, useForm } from "react-hook-form";
 
-import Modal from "@/components/ui/modal/Modal";
-import DatePicker from "@/components/ui/date-picker/DatePicker";
-import Input from "@/components/ui/input/Input";
-import Textarea from "@/components/ui/input/Textarea";
 import IconButton from "@/components/ui/button/IconButton";
 import PrimaryButton from "@/components/ui/button/PrimaryButton";
 import SecondaryButton from "@/components/ui/button/SecondaryButton";
+import DatePicker from "@/components/ui/date-picker/DatePicker";
+import { AppIcon, Plus } from "@/components/ui/icon";
+import Input from "@/components/ui/input/Input";
+import Textarea from "@/components/ui/input/Textarea";
+import Modal from "@/components/ui/modal/Modal";
 import Select from "@/components/ui/select/Select";
 
+import { canAddProjectItems } from "@/features/projects/utils/projectUtils";
 import {
   allProjectsTaskSchema,
   taskSchema as baseTaskSchema,
@@ -23,8 +24,6 @@ import {
 } from "@/features/tasks/schemas/taskSchema";
 
 import { currentUser } from "@/lib/mock/users";
-import { canAddProjectItems } from "@/features/projects/utils/projectUtils";
-
 import { ALL_PROJECTS_SCOPE, type ProjectScope } from "@/lib/projectRoutes";
 
 import type { Project } from "@/features/projects/types/project";

@@ -1,6 +1,6 @@
-import type { ReactNode } from "react";
-
 import Badge from "@/components/ui/badge/Badge";
+
+import type { ReactNode } from "react";
 
 type PageHeadingProps = {
   title: ReactNode;

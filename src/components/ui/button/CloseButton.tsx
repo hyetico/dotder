@@ -1,9 +1,8 @@
-import type { ButtonHTMLAttributes } from "react";
-
 import { buttonIconHitClassName } from "@/components/ui/button/buttonSize";
-
 import AppIcon from "@/components/ui/icon/AppIcon";
 import { X } from "@/components/ui/icon/icons";
+
+import type { ButtonHTMLAttributes } from "react";
 
 type CloseButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "children"> & {
   label?: string;

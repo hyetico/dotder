@@ -1,5 +1,3 @@
-import type { CSSProperties } from "react";
-
 import Link from "next/link";
 
 import { AppIcon, ArrowUpRight } from "@/components/ui/icon";
@@ -9,9 +7,11 @@ import {
   getProjectTintInkColor,
   getProjectTintLineColor,
 } from "@/features/projects/utils/projectColors";
+
 import { getProjectDetailPath } from "@/lib/projectRoutes";
 
 import type { ProjectListItem } from "@/features/projects/types/project";
+import type { CSSProperties } from "react";
 
 type ProjectCompactCardProps = {
   project: ProjectListItem;

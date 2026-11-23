@@ -1,22 +1,19 @@
-import type { ReactNode } from "react";
-
 import Link from "next/link";
 
 import FavoriteSelectBox from "@/features/projects/components/FavoriteSelectBox";
 import ProjectFolder from "@/features/projects/components/ProjectFolder";
 import ProjectStatusIcon from "@/features/projects/components/ProjectStatusIcon";
-
 import { getProjectAccentColor } from "@/features/projects/utils/projectColors";
-
-import { getProjectDetailPath } from "@/lib/projectRoutes";
-
 import {
   getProjectScheduleMark,
   getProjectStatusLabel,
   getProjectStatusStyles,
 } from "@/features/projects/utils/projectUtils";
 
+import { getProjectDetailPath } from "@/lib/projectRoutes";
+
 import type { ProjectListItem } from "@/features/projects/types/project";
+import type { ReactNode } from "react";
 
 type ProjectBoardCardProps = {
   project: ProjectListItem;

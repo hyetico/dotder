@@ -11,8 +11,10 @@ import {
   getMemoProjectLabel,
   getMemoRegistrationLabel,
 } from "@/features/memos/utils/memoDisplay";
-import type { Memo } from "@/features/memos/types/memo";
+
 import { buildTasksPath, getGoalDetailPath } from "@/lib/projectRoutes";
+
+import type { Memo } from "@/features/memos/types/memo";
 
 const archiveShellClassName =
   "overflow-hidden rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-white";

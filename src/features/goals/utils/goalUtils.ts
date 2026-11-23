@@ -1,8 +1,7 @@
 import { getProjectStatusColorScale } from "@/features/projects/constants/projectStatusColors";
 
-import type { Project } from "@/features/projects/types/project";
-
 import type { Goal, GoalStatus } from "@/features/goals/types/goal";
+import type { Project } from "@/features/projects/types/project";
 
 export type GoalVisualStatus = GoalStatus | "DELAYED";
 

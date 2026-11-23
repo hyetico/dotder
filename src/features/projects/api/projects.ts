@@ -1,4 +1,6 @@
 import { getGoals } from "@/features/goals/api/goals";
+import { getProjectInitial } from "@/features/projects/utils/projectDisplay";
+import { enrichProject, getProjectDaysAfterEnd } from "@/features/projects/utils/projectUtils";
 import { getTasks } from "@/features/tasks/api/tasks";
 
 import {
@@ -6,9 +8,6 @@ import {
   removeProjectDeadlineChanges,
 } from "@/lib/mock/projectDeadlineChanges";
 import { mockProjects } from "@/lib/mock/projects";
-
-import { getProjectInitial } from "@/features/projects/utils/projectDisplay";
-import { enrichProject, getProjectDaysAfterEnd } from "@/features/projects/utils/projectUtils";
 
 import type { Project, ProjectListItem } from "@/features/projects/types/project";
 

@@ -1,37 +1,29 @@
 "use client";
 
-import { useMemo, useState } from "react";
-
 import { useRouter } from "next/navigation";
+import { useMemo, useState } from "react";
 
 import { useQuery } from "@tanstack/react-query";
 
-import { AppIcon, Trash2 } from "@/components/ui/icon";
-
 import { CreatePageLayout } from "@/components/layout/pages/CreatePage/CreatePageFrame";
-
-import ProjectEditForm from "@/features/projects/components/ProjectEditForm/ProjectEditForm";
-import type { ProjectFormData } from "@/features/projects/schemas/projectSchema";
+import { AppIcon, Trash2 } from "@/components/ui/icon";
 import { useAlert } from "@/components/ui/modal/AlertModal";
 
 import { getProjectListItem, getProjects } from "@/features/projects/api/projects";
-
-import { useProjectMutations } from "@/features/projects/hooks/useProjectMutations";
-
-import { getProjectDeadlineChanges } from "@/lib/mock/projectDeadlineChanges";
-
-import { summarizeProjectDeadlineChanges } from "@/features/projects/utils/projectUtils";
-
-import { projectQueryKeys } from "@/lib/queryKeys";
-
-import { getProjectDetailPath } from "@/lib/projectRoutes";
-
+import ProjectEditForm from "@/features/projects/components/ProjectEditForm/ProjectEditForm";
 import { isGlobalProjectTag, PROJECT_TAG_PRESETS } from "@/features/projects/constants/projectTags";
-
+import { useProjectMutations } from "@/features/projects/hooks/useProjectMutations";
 import {
   parseProjectTeamSelection,
   toProjectTeamFormValue,
 } from "@/features/projects/utils/projectTeam";
+import { summarizeProjectDeadlineChanges } from "@/features/projects/utils/projectUtils";
+
+import { getProjectDeadlineChanges } from "@/lib/mock/projectDeadlineChanges";
+import { getProjectDetailPath } from "@/lib/projectRoutes";
+import { projectQueryKeys } from "@/lib/queryKeys";
+
+import type { ProjectFormData } from "@/features/projects/schemas/projectSchema";
 
 type ProjectEditPageContentProps = {
   projectId: number;

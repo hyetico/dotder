@@ -1,6 +1,7 @@
 "use client";
 
 import { ArrowRightLeft, Plus, iconStroke } from "@/components/ui/icon";
+
 import ProjectFolder from "@/features/projects/components/ProjectFolder";
 
 const favoriteAddCardClassName =

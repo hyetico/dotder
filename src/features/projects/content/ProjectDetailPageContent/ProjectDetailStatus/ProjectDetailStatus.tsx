@@ -1,10 +1,10 @@
 "use client";
 
+import Link from "next/link";
 import { useState, type ReactNode } from "react";
 
-import Link from "next/link";
-
-import ProjectOverviewSummary from "@/features/projects/content/ProjectDetailPageContent/ProjectDetailStatus/ProjectOverviewSummary";
+import Badge from "@/components/ui/badge/Badge";
+import SecondaryButton from "@/components/ui/button/SecondaryButton";
 import {
   AppIcon,
   ArrowRight,
@@ -15,16 +15,13 @@ import {
   List,
   TrendingUp,
 } from "@/components/ui/icon";
-import Badge from "@/components/ui/badge/Badge";
-import SecondaryButton from "@/components/ui/button/SecondaryButton";
 import ExpandableList, {
   type ExpandableListColumn,
   type ExpandableListRow,
 } from "@/components/ui/list/ExpandableList";
-import SectionHeader from "@/features/projects/components/SectionHeader";
 
-import { getProjectDeadlineChanges } from "@/lib/mock/projectDeadlineChanges";
-import { getProjectEditPath } from "@/lib/projectRoutes";
+import SectionHeader from "@/features/projects/components/SectionHeader";
+import ProjectOverviewSummary from "@/features/projects/content/ProjectDetailPageContent/ProjectDetailStatus/ProjectOverviewSummary";
 import {
   formatProjectDate,
   formatSignedProjectDays,
@@ -32,6 +29,9 @@ import {
   getProjectScheduleSnapshot,
   summarizeProjectDeadlineChanges,
 } from "@/features/projects/utils/projectUtils";
+
+import { getProjectDeadlineChanges } from "@/lib/mock/projectDeadlineChanges";
+import { getProjectEditPath } from "@/lib/projectRoutes";
 
 import type { Goal } from "@/features/goals/types/goal";
 import type { ProjectDeadlineChange } from "@/features/projects/types/project";

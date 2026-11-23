@@ -1,7 +1,7 @@
 "use client";
 
-import { AppIcon, CircleCheck } from "@/components/ui/icon";
 import CloseButton from "@/components/ui/button/CloseButton";
+import { AppIcon, CircleCheck } from "@/components/ui/icon";
 
 /**
  * DeadlineToast
