@@ -4,7 +4,8 @@ import { getGoalStatusLabel } from "@/features/goals/utils/goalUtils";
 
 import type { GoalStatus } from "@/features/goals/types/goal";
 
-const goalStatusLabelClassName = "inline-flex shrink-0 items-center gap-1.5 text-[13px] leading-5 font-semibold";
+const goalStatusLabelClassName =
+  "inline-flex shrink-0 items-center gap-1.5 text-[13px] leading-5 font-semibold";
 
 const goalStatusTheme: Record<GoalStatus, { icon: LucideIcon; className: string }> = {
   COMPLETED: { icon: CheckCircle2, className: "text-[#16a34a]" },

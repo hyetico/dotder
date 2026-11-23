@@ -29,7 +29,8 @@ const excludedNote = "메인·보류·완료 프로젝트는 설정 목록에서
 const selectionBarClassName = `flex shrink-0 items-center justify-between gap-3 ${modalSidePaddingClassName} py-3`;
 const selectionCountClassName = "font-semibold text-[var(--color-text)]";
 const selectionLimitClassName = "font-normal text-[var(--color-text-secondary)]";
-const clearSelectionClassName = "text-body shrink-0 font-medium text-[var(--color-text)] disabled:cursor-not-allowed disabled:text-[var(--color-text-disabled)]";
+const clearSelectionClassName =
+  "text-body shrink-0 font-medium text-[var(--color-text)] disabled:cursor-not-allowed disabled:text-[var(--color-text-disabled)]";
 const limitNoticeClassName = `shrink-0 ${modalSidePaddingClassName} pt-1 pb-3`;
 
 type FavoriteProjectsModalProps = {

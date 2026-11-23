@@ -131,7 +131,12 @@ export function GoalTagField({
         ))}
 
         {customTags.map((tag) => (
-          <GoalTag key={tag} tag={tag} className={getMatchedClassName(tag)} onRemove={() => removeTag(tag)} />
+          <GoalTag
+            key={tag}
+            tag={tag}
+            className={getMatchedClassName(tag)}
+            onRemove={() => removeTag(tag)}
+          />
         ))}
       </div>
 

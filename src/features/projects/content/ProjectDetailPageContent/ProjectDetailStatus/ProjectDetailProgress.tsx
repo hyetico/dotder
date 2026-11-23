@@ -151,7 +151,9 @@ function ProgressCountLabel({ done, total }: { done: number; total: number }) {
           {total}개
         </span>
       </span>
-      <span className="text-[13px] leading-[21px] text-[var(--color-text-secondary)]">전체 태스크 기준</span>
+      <span className="text-[13px] leading-[21px] text-[var(--color-text-secondary)]">
+        전체 태스크 기준
+      </span>
     </span>
   );
 }

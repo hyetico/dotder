@@ -155,9 +155,7 @@ export default function Header({ isMobileSidebarOpen, onToggleMobileSidebar }: H
   const backHref = getMobileBackHref(trail, href);
 
   return (
-    <header
-      className="sticky top-0 z-30 flex h-[var(--header-height)] min-w-0 shrink-0 items-center justify-between gap-2 px-4"
-    >
+    <header className="sticky top-0 z-30 flex h-[var(--header-height)] min-w-0 shrink-0 items-center justify-between gap-2 px-4">
       {/*
        * =====================================================
        * Left Area

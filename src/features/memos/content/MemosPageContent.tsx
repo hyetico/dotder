@@ -18,9 +18,7 @@ import { createMemo, deleteMemo, readMemos } from "@/features/memos/api/memos";
 import MemoArchiveList from "@/features/memos/components/MemoArchiveList";
 import { MemoAddCard, MemoCard, MemoComposeCard } from "@/features/memos/components/MemoCards";
 import MemoRegisterDrawer from "@/features/memos/components/MemoRegisterDrawer";
-import MemosScopeTabs, {
-  type MemosScopeTab,
-} from "@/features/memos/components/MemosScopeTabs";
+import MemosScopeTabs, { type MemosScopeTab } from "@/features/memos/components/MemosScopeTabs";
 import { splitMemoText } from "@/features/memos/utils/memoDisplay";
 import { getProjects } from "@/features/projects/api/projects";
 import SectionHeader from "@/features/projects/components/SectionHeader";

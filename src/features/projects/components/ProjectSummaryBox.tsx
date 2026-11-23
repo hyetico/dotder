@@ -56,8 +56,10 @@ type Fact = {
   value: string;
 };
 
-const compactLabelClassName = "text-[13px] leading-5 font-medium text-[var(--color-text-secondary)]";
-const compactValueClassName = "min-w-0 text-right text-[14px] leading-5 font-medium break-words text-[var(--color-text)] tabular-nums";
+const compactLabelClassName =
+  "text-[13px] leading-5 font-medium text-[var(--color-text-secondary)]";
+const compactValueClassName =
+  "min-w-0 text-right text-[14px] leading-5 font-medium break-words text-[var(--color-text)] tabular-nums";
 const detailLinkClassName = `
   text-body-sm
 
@@ -145,7 +147,10 @@ function CompactFact({
   align?: "start" | "end";
 }) {
   const rowClassName = "grid grid-cols-[4.5rem_minmax(0,1fr)] items-start gap-3";
-  const valueClassName = align === "end" ? compactValueClassName : "min-w-0 text-left text-[13px] leading-[21px] font-normal break-words text-[var(--color-text)]";
+  const valueClassName =
+    align === "end"
+      ? compactValueClassName
+      : "min-w-0 text-left text-[13px] leading-[21px] font-normal break-words text-[var(--color-text)]";
 
   return (
     <div className={rowClassName}>
@@ -243,10 +248,16 @@ export default function ProjectSummaryBox({
           />
           {stats ? <CompactFact label="진행률" value={`${stats.progress}%`} /> : null}
           {stats ? (
-            <CompactFact label="목표" value={`${stats.completedGoals} / ${stats.totalGoals} 완료`} />
+            <CompactFact
+              label="목표"
+              value={`${stats.completedGoals} / ${stats.totalGoals} 완료`}
+            />
           ) : null}
           {stats ? (
-            <CompactFact label="태스크" value={`${stats.completedTasks} / ${stats.totalTasks} 완료`} />
+            <CompactFact
+              label="태스크"
+              value={`${stats.completedTasks} / ${stats.totalTasks} 완료`}
+            />
           ) : null}
           {facts.map((fact) => (
             <CompactFact key={fact.label} label={fact.label} value={fact.value} />
@@ -286,95 +297,93 @@ export default function ProjectSummaryBox({
       accentColor={project.color}
       framed={framed}
       meta={
-        (
-          <div className="flex flex-wrap items-center gap-1">
-            {project.isMain ? <CrownBadge variant="label" /> : null}
-            <ProjectStatusBadge status={project.status} />
-            {delayed && schedule?.tone === "delayed" ? (
-              <DelayIssueBadge days={schedule.days} />
-            ) : null}
-            {schedule &&
-            !delayed &&
-            schedule.tone !== "delayed" &&
-            project.status !== "IN_PROGRESS" ? (
-              <ScheduleBadge
-                label={schedule.label}
-                description={schedule.description}
-                className={getScheduleBadgeClassName(schedule.tone)}
-              />
-            ) : null}
-          </div>
-        )
+        <div className="flex flex-wrap items-center gap-1">
+          {project.isMain ? <CrownBadge variant="label" /> : null}
+          <ProjectStatusBadge status={project.status} />
+          {delayed && schedule?.tone === "delayed" ? (
+            <DelayIssueBadge days={schedule.days} />
+          ) : null}
+          {schedule &&
+          !delayed &&
+          schedule.tone !== "delayed" &&
+          project.status !== "IN_PROGRESS" ? (
+            <ScheduleBadge
+              label={schedule.label}
+              description={schedule.description}
+              className={getScheduleBadgeClassName(schedule.tone)}
+            />
+          ) : null}
+        </div>
       }
       descriptionDivider={false}
       footerClassName="pt-[10px] pb-3 md:pb-4"
       footer={
-          <div>
-            <div className="flex w-full items-center justify-between gap-3">
-              <span className="inline-flex items-center gap-1.5 text-sm leading-5 font-medium text-[var(--color-text)]">
-                <AppIcon icon={Info} size="sm" className="text-[var(--color-text-secondary)]" />
-                프로젝트 정보
-              </span>
-              <SecondaryButton
-                aria-expanded={open}
-                aria-label={open ? "프로젝트 정보 접기" : "프로젝트 정보 펼치기"}
-                onClick={() => setOpen((current) => !current)}
-                className="!size-5 !justify-center !border-0 !px-0"
-                icon={
-                  <AppIcon
-                    icon={ChevronDown}
-                    size="sm"
-                    className={`transition-transform ${open ? "rotate-180" : ""}`}
-                  />
-                }
-              />
-            </div>
-            {open ? (
-              <div className="mt-[10px]">
-                {description ? (
-                  <div className="border-b border-[var(--color-border)] pb-[10px]">
-                    <ExpandablePreviewText
-                      text={description}
-                      clampClassName="line-clamp-4"
-                      textClassName="text-sm font-normal leading-[22px] text-[var(--color-text-secondary)]"
-                      showFade={false}
-                    />
-                  </div>
-                ) : null}
-                <dl
-                  className={`flex min-w-0 flex-col gap-2 ${description ? "pt-[10px]" : ""} xl:flex-row xl:flex-wrap xl:items-center xl:gap-y-3`}
-                >
-                  {facts.map((fact, index) => (
-                    <div
-                      key={fact.label}
-                      className={`flex items-center justify-between gap-3 xl:justify-start xl:gap-2 ${fact.label === "최종 수정" ? "xl:ml-auto" : ""} ${index > 0 ? "xl:border-l xl:border-[var(--color-border)] xl:px-6" : "xl:pr-6"}`}
-                    >
-                      <AppIcon
-                        icon={fact.icon}
-                        size="md"
-                        className="hidden shrink-0 text-[var(--color-text-secondary)] xl:block"
-                      />
-                      <div className="flex min-w-0 flex-1 items-center justify-between gap-3 xl:block">
-                        <dt className="shrink-0 text-[12px] leading-[18px] font-normal text-[var(--color-text-secondary)]">
-                          {fact.label}
-                        </dt>
-                        <dd className="text-right text-sm leading-5 font-semibold text-[var(--color-text)] tabular-nums xl:mt-0.5 xl:text-left xl:font-medium">
-                          {fact.value}
-                        </dd>
-                      </div>
-                    </div>
-                  ))}
-                </dl>
-                {showDetailLink ? (
-                  <div className="mt-[10px] flex justify-end border-t border-[var(--color-border)] pt-[10px]">
-                    <Link href={getProjectDetailPath(project.id)} className={detailLinkClassName}>
-                      프로젝트 페이지로 이동하기
-                    </Link>
-                  </div>
-                ) : null}
-              </div>
-            ) : null}
+        <div>
+          <div className="flex w-full items-center justify-between gap-3">
+            <span className="inline-flex items-center gap-1.5 text-sm leading-5 font-medium text-[var(--color-text)]">
+              <AppIcon icon={Info} size="sm" className="text-[var(--color-text-secondary)]" />
+              프로젝트 정보
+            </span>
+            <SecondaryButton
+              aria-expanded={open}
+              aria-label={open ? "프로젝트 정보 접기" : "프로젝트 정보 펼치기"}
+              onClick={() => setOpen((current) => !current)}
+              className="!size-5 !justify-center !border-0 !px-0"
+              icon={
+                <AppIcon
+                  icon={ChevronDown}
+                  size="sm"
+                  className={`transition-transform ${open ? "rotate-180" : ""}`}
+                />
+              }
+            />
           </div>
+          {open ? (
+            <div className="mt-[10px]">
+              {description ? (
+                <div className="border-b border-[var(--color-border)] pb-[10px]">
+                  <ExpandablePreviewText
+                    text={description}
+                    clampClassName="line-clamp-4"
+                    textClassName="text-sm font-normal leading-[22px] text-[var(--color-text-secondary)]"
+                    showFade={false}
+                  />
+                </div>
+              ) : null}
+              <dl
+                className={`flex min-w-0 flex-col gap-2 ${description ? "pt-[10px]" : ""} xl:flex-row xl:flex-wrap xl:items-center xl:gap-y-3`}
+              >
+                {facts.map((fact, index) => (
+                  <div
+                    key={fact.label}
+                    className={`flex items-center justify-between gap-3 xl:justify-start xl:gap-2 ${fact.label === "최종 수정" ? "xl:ml-auto" : ""} ${index > 0 ? "xl:border-l xl:border-[var(--color-border)] xl:px-6" : "xl:pr-6"}`}
+                  >
+                    <AppIcon
+                      icon={fact.icon}
+                      size="md"
+                      className="hidden shrink-0 text-[var(--color-text-secondary)] xl:block"
+                    />
+                    <div className="flex min-w-0 flex-1 items-center justify-between gap-3 xl:block">
+                      <dt className="shrink-0 text-[12px] leading-[18px] font-normal text-[var(--color-text-secondary)]">
+                        {fact.label}
+                      </dt>
+                      <dd className="text-right text-sm leading-5 font-semibold text-[var(--color-text)] tabular-nums xl:mt-0.5 xl:text-left xl:font-medium">
+                        {fact.value}
+                      </dd>
+                    </div>
+                  </div>
+                ))}
+              </dl>
+              {showDetailLink ? (
+                <div className="mt-[10px] flex justify-end border-t border-[var(--color-border)] pt-[10px]">
+                  <Link href={getProjectDetailPath(project.id)} className={detailLinkClassName}>
+                    프로젝트 페이지로 이동하기
+                  </Link>
+                </div>
+              ) : null}
+            </div>
+          ) : null}
+        </div>
       }
     />
   );

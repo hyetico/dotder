@@ -212,11 +212,15 @@ export default function ProjectDetailTeam({
         </p>
         <div className="mt-4 grid gap-4 border-t border-[var(--color-border)] pt-3 sm:grid-cols-2 md:pt-4">
           <div>
-            <p className="text-[13px] leading-5 font-medium text-[var(--color-text-secondary)]">프로젝트 담당자</p>
+            <p className="text-[13px] leading-5 font-medium text-[var(--color-text-secondary)]">
+              프로젝트 담당자
+            </p>
             <p className="mt-1 text-[14px] leading-5 font-medium">{project.creatorName}</p>
           </div>
           <div>
-            <p className="text-[13px] leading-5 font-medium text-[var(--color-text-secondary)]">팀 관리자</p>
+            <p className="text-[13px] leading-5 font-medium text-[var(--color-text-secondary)]">
+              팀 관리자
+            </p>
             <p className="mt-1 text-[14px] leading-5 font-medium">{manager?.name ?? "없음"}</p>
           </div>
         </div>
@@ -226,14 +230,18 @@ export default function ProjectDetailTeam({
         <section className={`${panelClassName} flex items-center gap-3 p-[10px] md:p-4`}>
           <AppIcon icon={Users} size="md" color="#111827" />
           <div>
-            <p className="text-[13px] leading-5 font-medium text-[var(--color-text-secondary)]">참여 팀원</p>
+            <p className="text-[13px] leading-5 font-medium text-[var(--color-text-secondary)]">
+              참여 팀원
+            </p>
             <p className="text-[20px] leading-7 font-bold tabular-nums">{members.length}명</p>
           </div>
         </section>
         <section className={`${panelClassName} flex items-center gap-3 p-[10px] md:p-4`}>
           <AppIcon icon={ListTodo} size="md" color="#111827" />
           <div>
-            <p className="text-[13px] leading-5 font-medium text-[var(--color-text-secondary)]">진행중 태스크</p>
+            <p className="text-[13px] leading-5 font-medium text-[var(--color-text-secondary)]">
+              진행중 태스크
+            </p>
             <p className="text-[20px] leading-7 font-bold tabular-nums">{activeTaskCount}개</p>
           </div>
         </section>
@@ -295,12 +303,20 @@ export default function ProjectDetailTeam({
           />
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
             <div className="rounded-[var(--radius-sm)] bg-[var(--color-hover-soft)] px-3 py-3">
-              <p className="text-[13px] leading-5 font-medium text-[var(--color-text-secondary)]">미배정 목표</p>
-              <p className="mt-1 text-[20px] leading-7 font-bold tabular-nums">{unassignedGoals.length}건</p>
+              <p className="text-[13px] leading-5 font-medium text-[var(--color-text-secondary)]">
+                미배정 목표
+              </p>
+              <p className="mt-1 text-[20px] leading-7 font-bold tabular-nums">
+                {unassignedGoals.length}건
+              </p>
             </div>
             <div className="rounded-[var(--radius-sm)] bg-[var(--color-hover-soft)] px-3 py-3">
-              <p className="text-[13px] leading-5 font-medium text-[var(--color-text-secondary)]">담당목표 없는 팀원</p>
-              <p className="mt-1 text-[20px] leading-7 font-bold tabular-nums">{idleMembers.length}명</p>
+              <p className="text-[13px] leading-5 font-medium text-[var(--color-text-secondary)]">
+                담당목표 없는 팀원
+              </p>
+              <p className="mt-1 text-[20px] leading-7 font-bold tabular-nums">
+                {idleMembers.length}명
+              </p>
             </div>
           </div>
           <p className="mt-3 text-[13px] leading-[21px] text-[var(--color-text-secondary)]">
@@ -326,7 +342,9 @@ export default function ProjectDetailTeam({
               {roleGuide.map((item) => (
                 <tr key={item.role} className="border-t border-[var(--color-border)]">
                   <td className="py-2 pr-3 text-[14px] leading-5 font-medium">{item.role}</td>
-                  <td className="py-2 text-[13px] leading-[21px] text-[var(--color-text-secondary)]">{item.access}</td>
+                  <td className="py-2 text-[13px] leading-[21px] text-[var(--color-text-secondary)]">
+                    {item.access}
+                  </td>
                 </tr>
               ))}
             </tbody>

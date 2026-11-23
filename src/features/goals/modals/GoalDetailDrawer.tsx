@@ -65,7 +65,8 @@ const plainControlClassName =
   "border-transparent! shadow-none! hover:border-transparent! hover:shadow-none!";
 const tagButtonClassName = "max-w-full min-w-0 cursor-pointer disabled:cursor-not-allowed";
 const lockedPeriodButtonClassName = `${periodLinkClassName} cursor-not-allowed`;
-const editButtonPressedClassName = "border-transparent! bg-[var(--color-primary)]! text-white! hover:bg-[var(--color-primary-hover)]! hover:text-white!";
+const editButtonPressedClassName =
+  "border-transparent! bg-[var(--color-primary)]! text-white! hover:bg-[var(--color-primary-hover)]! hover:text-white!";
 
 type GoalEditErrors = {
   title: string;

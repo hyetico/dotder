@@ -11,7 +11,8 @@ type AppLayoutProps = {
   children: React.ReactNode;
 };
 
-const appColumnClassName = "relative z-0 flex min-w-0 flex-1 flex-col transition-[margin-right] duration-[400ms] ease-in-out motion-reduce:duration-[1ms] min-[1024px]:mr-[var(--goal-drawer-offset)]";
+const appColumnClassName =
+  "relative z-0 flex min-w-0 flex-1 flex-col transition-[margin-right] duration-[400ms] ease-in-out motion-reduce:duration-[1ms] min-[1024px]:mr-[var(--goal-drawer-offset)]";
 
 function AppLayoutFrame({ children }: AppLayoutProps) {
   /*

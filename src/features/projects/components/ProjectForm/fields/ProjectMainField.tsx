@@ -136,7 +136,10 @@ export function ProjectMainField({
                 <div className={`flex items-center gap-3 py-3 ${fieldPaddingClassName} `}>
                   <CrownBadge title="메인 프로젝트" />
 
-                  <MainProjectChangeBox nameValue={nameValue} currentMainProject={currentMainProject} />
+                  <MainProjectChangeBox
+                    nameValue={nameValue}
+                    currentMainProject={currentMainProject}
+                  />
 
                   {settingSwitch}
                 </div>

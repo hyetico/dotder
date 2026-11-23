@@ -145,7 +145,12 @@ export default function GoalProjectSelectModal({
       </ListScroll>
 
       <Modal.Footer>
-        <SecondaryButton size="modal" onClick={() => setDraftId(null)} disabled={draftId == null} className="mr-auto">
+        <SecondaryButton
+          size="modal"
+          onClick={() => setDraftId(null)}
+          disabled={draftId == null}
+          className="mr-auto"
+        >
           해제하기
         </SecondaryButton>
         <SecondaryButton size="modal" onClick={onClose}>

@@ -2,8 +2,10 @@ import { buttonIconHitClassName } from "@/components/ui/button/buttonSize";
 
 import type { ButtonHTMLAttributes, ReactNode } from "react";
 
-const iconButtonClassName = "flex size-[var(--button-icon)] cursor-pointer items-center justify-center rounded-lg transition-colors hover:bg-[var(--color-hover-soft)] disabled:cursor-not-allowed disabled:opacity-50";
-const iconFitButtonClassName = "flex size-6 shrink-0 cursor-pointer items-center justify-center rounded-[4px] transition-colors hover:bg-[rgba(0,0,0,0.05)] disabled:cursor-not-allowed disabled:opacity-50";
+const iconButtonClassName =
+  "flex size-[var(--button-icon)] cursor-pointer items-center justify-center rounded-lg transition-colors hover:bg-[var(--color-hover-soft)] disabled:cursor-not-allowed disabled:opacity-50";
+const iconFitButtonClassName =
+  "flex size-6 shrink-0 cursor-pointer items-center justify-center rounded-[4px] transition-colors hover:bg-[rgba(0,0,0,0.05)] disabled:cursor-not-allowed disabled:opacity-50";
 
 type IconButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   children: ReactNode;
@@ -19,7 +21,10 @@ export default function IconButton({
   hoverSize = "button",
   ...props
 }: IconButtonProps) {
-  const buttonClassName = hoverSize === "icon" ? iconFitButtonClassName : `${buttonIconHitClassName} ${iconButtonClassName}`;
+  const buttonClassName =
+    hoverSize === "icon"
+      ? iconFitButtonClassName
+      : `${buttonIconHitClassName} ${iconButtonClassName}`;
 
   return (
     <button

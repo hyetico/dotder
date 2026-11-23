@@ -1,13 +1,25 @@
 "use client";
 
-import { useImperativeHandle, useLayoutEffect, useRef, useState, type ChangeEvent, type Ref } from "react";
+import {
+  useImperativeHandle,
+  useLayoutEffect,
+  useRef,
+  useState,
+  type ChangeEvent,
+  type Ref,
+} from "react";
 
-const descriptionShellClassName = "w-full rounded-[var(--radius-sm)] border border-transparent bg-transparent";
+const descriptionShellClassName =
+  "w-full rounded-[var(--radius-sm)] border border-transparent bg-transparent";
 const plainShellClassName = "w-full border-0 bg-transparent";
-const descriptionShellFocusClassName = "w-full rounded-[var(--radius-sm)] border border-[var(--color-field-focus)] bg-[var(--color-field)] px-2.5 py-3 md:px-4";
-const descriptionShellInvalidFocusClassName = "w-full rounded-[var(--radius-sm)] border border-[var(--color-field-error)] bg-[var(--color-field)] px-2.5 py-3 md:px-4";
-const descriptionAreaClassName = "text-body block w-full resize-none overflow-hidden bg-transparent p-0 text-[var(--color-field-text)] outline-none placeholder:text-[var(--color-field-placeholder)]";
-const descriptionCountClassName = "mt-2 w-full text-right text-[12px] leading-[18px] font-[400] text-[#64748B] tabular-nums";
+const descriptionShellFocusClassName =
+  "w-full rounded-[var(--radius-sm)] border border-[var(--color-field-focus)] bg-[var(--color-field)] px-2.5 py-3 md:px-4";
+const descriptionShellInvalidFocusClassName =
+  "w-full rounded-[var(--radius-sm)] border border-[var(--color-field-error)] bg-[var(--color-field)] px-2.5 py-3 md:px-4";
+const descriptionAreaClassName =
+  "text-body block w-full resize-none overflow-hidden bg-transparent p-0 text-[var(--color-field-text)] outline-none placeholder:text-[var(--color-field-placeholder)]";
+const descriptionCountClassName =
+  "mt-2 w-full text-right text-[12px] leading-[18px] font-[400] text-[#64748B] tabular-nums";
 
 type GoalDrawerDescriptionFieldProps = {
   id: string;
@@ -69,7 +81,9 @@ export default function GoalDrawerDescriptionField({
       : invalid
         ? descriptionShellInvalidFocusClassName
         : descriptionShellFocusClassName;
-  const areaStateClassName = [descriptionAreaClassName, plain ? "min-h-0" : "", areaClassName].filter(Boolean).join(" ");
+  const areaStateClassName = [descriptionAreaClassName, plain ? "min-h-0" : "", areaClassName]
+    .filter(Boolean)
+    .join(" ");
 
   // 부모가 넘긴 ref에도 같은 입력창을 연결한다. 마운트 뒤에만 읽히므로 null이 아니다.
   useImperativeHandle(inputRef, () => areaRef.current as HTMLTextAreaElement, []);

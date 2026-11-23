@@ -97,8 +97,7 @@ export default function TaskBoard({
 
   const today = taskTodayStamp();
   const filteredTasks = useMemo(
-    () =>
-      searchFilteredTasks.filter((task) => matchesTaskStatusFilter(task, statusFilter, today)),
+    () => searchFilteredTasks.filter((task) => matchesTaskStatusFilter(task, statusFilter, today)),
     [searchFilteredTasks, statusFilter, today],
   );
 

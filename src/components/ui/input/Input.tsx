@@ -35,9 +35,7 @@ export default function Input({ className = "", leading, ref, ...props }: InputP
   }
 
   return (
-    <div
-      className={`${leadingFieldClassName} ${className}`}
-    >
+    <div className={`${leadingFieldClassName} ${className}`}>
       {leading}
 
       <input

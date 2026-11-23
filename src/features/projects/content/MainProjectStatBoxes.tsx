@@ -58,7 +58,10 @@ function MainProjectStatBox({
   iconClassName,
   valueClassName,
 }: MainProjectStatBoxProps) {
-  const iconWrapClassName = ["hidden shrink-0 items-center justify-center md:flex", iconClassName].join(" ");
+  const iconWrapClassName = [
+    "hidden shrink-0 items-center justify-center md:flex",
+    iconClassName,
+  ].join(" ");
   const numberClassName = [statValueClassName, valueClassName].join(" ");
 
   return (

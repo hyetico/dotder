@@ -90,7 +90,7 @@ export function WizardBottomBar({
         size="md"
         onClick={onCancel}
         disabled={isSubmitting}
-        className={`${barButtonClassName}${isFirst ? "" : " max-md:hidden"}`}
+        className={`${barButtonClassName}${isFirst ? "" : "max-md:hidden"}`}
       >
         취소
       </SecondaryButton>

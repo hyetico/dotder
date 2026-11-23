@@ -50,7 +50,11 @@ export default function FavoriteSelectBox({
         marked ? favoriteSelectBoxOnClassName : favoriteSelectBoxOffClassName,
       ].join(" ")}
     >
-      {mixed ? <AppIcon icon={Minus} size="xs" /> : checked ? <AppIcon icon={Check} size="xs" /> : null}
+      {mixed ? (
+        <AppIcon icon={Minus} size="xs" />
+      ) : checked ? (
+        <AppIcon icon={Check} size="xs" />
+      ) : null}
     </button>
   );
 }

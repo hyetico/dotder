@@ -98,7 +98,9 @@ export default function DetailTitle({
       </div>
 
       {(description && !descriptionInColumn) || footer ? (
-        <div className={`px-3 md:px-4 ${fill ? "flex min-h-0 flex-1 flex-col" : ""} ${!compact && (descriptionInColumn || footer) ? "xl:px-8" : ""} `}>
+        <div
+          className={`px-3 md:px-4 ${fill ? "flex min-h-0 flex-1 flex-col" : ""} ${!compact && (descriptionInColumn || footer) ? "xl:px-8" : ""} `}
+        >
           {description && !descriptionInColumn ? (
             <>
               {descriptionDivider ? (
@@ -113,7 +115,9 @@ export default function DetailTitle({
             <>
               <div className="border-t border-[var(--color-border)]" />
 
-              <div className={`${footerClassName} ${fill ? "flex min-h-0 flex-1 flex-col" : ""}`}>{footer}</div>
+              <div className={`${footerClassName} ${fill ? "flex min-h-0 flex-1 flex-col" : ""}`}>
+                {footer}
+              </div>
             </>
           ) : null}
         </div>

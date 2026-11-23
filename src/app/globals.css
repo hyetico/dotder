@@ -476,7 +476,10 @@
   }
 
   .project-board-tab-line {
-    padding-inline: max(calc(var(--page-padding-x) - 12px), calc((100% - var(--page-frame-max)) / 2 - 12px));
+    padding-inline: max(
+      calc(var(--page-padding-x) - 12px),
+      calc((100% - var(--page-frame-max)) / 2 - 12px)
+    );
   }
 }
 

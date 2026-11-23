@@ -35,10 +35,7 @@ export default function MainProjectsPageContent() {
     queryKey: [...projectQueryKeys.all, "list"],
     queryFn: getProjectListItems,
   });
-  const mainProject = useMemo(
-    () => projects.find((project) => project.isMain) ?? null,
-    [projects],
-  );
+  const mainProject = useMemo(() => projects.find((project) => project.isMain) ?? null, [projects]);
   const mainCount = mainProject ? 1 : 0;
 
   const changeScope = (next: ProjectsScopeTab) => {

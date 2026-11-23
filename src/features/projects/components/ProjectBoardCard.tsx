@@ -25,9 +25,11 @@ type ProjectBoardCardProps = {
   pressed?: boolean;
 };
 
-const folderCountClassName = "inline-flex max-w-full min-w-0 items-center gap-1 overflow-hidden whitespace-nowrap";
+const folderCountClassName =
+  "inline-flex max-w-full min-w-0 items-center gap-1 overflow-hidden whitespace-nowrap";
 const folderCountLabelClassName = "text-[14px] leading-5 font-medium text-[#626A74]";
-const folderCountValueClassName = "text-[14px] leading-5 font-semibold text-[var(--color-text)] tabular-nums";
+const folderCountValueClassName =
+  "text-[14px] leading-5 font-semibold text-[var(--color-text)] tabular-nums";
 
 /**
  * formatAbbreviatedCount
@@ -205,19 +207,11 @@ function ProjectCardStats({ project }: { project: ProjectListItem }) {
   return (
     <div className={cardStatRowClassName}>
       <div className={cardStatCellClassName}>
-        <CountInline
-          label="목표"
-          completed={project.completedGoals}
-          total={project.totalGoals}
-        />
+        <CountInline label="목표" completed={project.completedGoals} total={project.totalGoals} />
       </div>
       <span aria-hidden className={cardStatDividerClassName} />
       <div className={cardStatCellClassName}>
-        <CountInline
-          label="태스크"
-          completed={project.completedTasks}
-          total={project.totalTasks}
-        />
+        <CountInline label="태스크" completed={project.completedTasks} total={project.totalTasks} />
       </div>
     </div>
   );
@@ -285,21 +279,13 @@ function ProjectFolderCounts({ project }: { project: ProjectListItem }) {
   return (
     <div className={projectFolderCountsRowClassName}>
       {showGoals ? (
-        <CountInline
-          label="목표"
-          completed={project.completedGoals}
-          total={project.totalGoals}
-        />
+        <CountInline label="목표" completed={project.completedGoals} total={project.totalGoals} />
       ) : null}
       {showGoals && showTasks ? (
         <span aria-hidden className={projectFolderCountDividerClassName} />
       ) : null}
       {showTasks ? (
-        <CountInline
-          label="태스크"
-          completed={project.completedTasks}
-          total={project.totalTasks}
-        />
+        <CountInline label="태스크" completed={project.completedTasks} total={project.totalTasks} />
       ) : null}
     </div>
   );
@@ -403,7 +389,12 @@ export default function ProjectBoardCard({
 
   if (onSelect) {
     return (
-      <button type="button" aria-pressed={pressed} onClick={onSelect} className={projectBoardSelectClassName}>
+      <button
+        type="button"
+        aria-pressed={pressed}
+        onClick={onSelect}
+        className={projectBoardSelectClassName}
+      >
         {folder}
       </button>
     );

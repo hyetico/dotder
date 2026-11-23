@@ -46,7 +46,8 @@ function readSidebarCollapsed() {
   return !window.matchMedia(sidebarExpandedQuery).matches;
 }
 
-const overlaySidebarClassName = "fixed inset-y-0 left-0 z-50 hidden h-dvh w-[var(--sidebar-width)] border-r border-[var(--color-border)] shadow-[0_0_32px_rgba(17,24,39,0.18)] md:flex";
+const overlaySidebarClassName =
+  "fixed inset-y-0 left-0 z-50 hidden h-dvh w-[var(--sidebar-width)] border-r border-[var(--color-border)] shadow-[0_0_32px_rgba(17,24,39,0.18)] md:flex";
 
 const overlayBackdropClassName = "fixed inset-0 z-40 hidden bg-black/40 md:block";
 
@@ -253,140 +254,142 @@ export default function Sidebar({ variant = "desktop", onNavigate }: SidebarProp
       ) : null}
       {isOverlayOpen ? <div aria-hidden className={overlaySpacerClassName} /> : null}
       <aside className={sidebarClassName}>
-      <div
-        className={`sidebar-brand flex shrink-0 items-center ${
-          isDesktopCollapsed ? "justify-center px-[10px]" : "justify-between px-[10px]"
-        } `}
-      >
-        {isDesktopCollapsed ? (
-          <IconButton
-            label="사이드바 펼치기"
-            onClick={toggleSidebar}
-            className="size-9! shrink-0 rounded-xl! text-black hover:bg-gray-100 hover:text-black"
-          >
-            <AppIcon icon={PanelLeftOpen} size="lg" />
-          </IconButton>
-        ) : (
-          <Link
-            href="/projects"
-            onClick={handleSidebarNavigate}
-            aria-label="프로젝트로 이동"
-            className={`flex min-w-0 items-center ${
-              isDesktopCollapsed ? "justify-center" : "gap-1.5"
-            } `}
-          >
-            <div
-              className={`flex size-6 shrink-0 items-center justify-center rounded-md bg-white ${
-                isDesktopCollapsed ? "" : "ml-3"
+        <div
+          className={`sidebar-brand flex shrink-0 items-center ${
+            isDesktopCollapsed ? "justify-center px-[10px]" : "justify-between px-[10px]"
+          } `}
+        >
+          {isDesktopCollapsed ? (
+            <IconButton
+              label="사이드바 펼치기"
+              onClick={toggleSidebar}
+              className="size-9! shrink-0 rounded-xl! text-black hover:bg-gray-100 hover:text-black"
+            >
+              <AppIcon icon={PanelLeftOpen} size="lg" />
+            </IconButton>
+          ) : (
+            <Link
+              href="/projects"
+              onClick={handleSidebarNavigate}
+              aria-label="프로젝트로 이동"
+              className={`flex min-w-0 items-center ${
+                isDesktopCollapsed ? "justify-center" : "gap-1.5"
               } `}
             >
-              <span className="bg-primary-gradient flex size-6 items-center justify-center rounded-sm text-white">
-                <AppIcon icon={Folder} size="sm" />
-              </span>
-            </div>
-
-            {!isDesktopCollapsed && (
-              <h1 className="truncate text-[16px] leading-5 font-bold tracking-tight text-[var(--color-text)]">
-                FlowPJECT
-              </h1>
-            )}
-          </Link>
-        )}
-
-        {!isDesktopCollapsed && (
-          <IconButton
-            label={isMobile || isOverlayOpen ? "사이드바 닫기" : "사이드바 접기"}
-            onClick={isMobile ? onNavigate : toggleSidebar}
-            className="size-9! shrink-0 rounded-xl! text-black hover:bg-gray-100 hover:text-black"
-          >
-            {isMobile ? (
-              <AppIcon icon={X} size="md" />
-            ) : (
-              <AppIcon icon={PanelLeftClose} size="lg" />
-            )}
-          </IconButton>
-        )}
-      </div>
-
-      <div className="shrink-0 px-[10px] pb-2">
-        <SidebarMainProject
-          isCollapsed={isDesktopCollapsed}
-          onNavigate={handleSidebarNavigate}
-          onDrawerOpenChange={isMobile ? undefined : setIsSettingsOpen}
-        />
-      </div>
-
-      <nav
-        className={`min-h-0 flex-1 ${
-          isDesktopCollapsed ? "overflow-visible px-[10px] pb-4" : "overflow-y-auto px-[10px] pb-2"
-        } `}
-      >
-        <SidebarNavList items={primaryNavItems} {...navListProps} />
-
-        <div
-          className={` ${
-            isDesktopCollapsed ? "my-4 border-t border-[var(--color-border)]" : "my-4"
-          } `}
-        />
-
-        <SidebarNavList items={secondaryNavItems} {...navListProps} />
-      </nav>
-
-      <div className={`shrink-0 px-[10px] ${isDesktopCollapsed ? "pb-4" : "pb-5"} `}>
-        {!isDesktopCollapsed ? (
-          <div className="rounded-xl border border-[var(--color-border)] bg-white p-3 md:p-4">
-            <p className="text-xs font-semibold text-[var(--color-text)]">이번 주 진행률</p>
-
-            <div className="mt-4 flex justify-center">
               <div
-                className="flex h-24 w-24 items-center justify-center rounded-full"
-                style={{
-                  background: `conic-gradient(
+                className={`flex size-6 shrink-0 items-center justify-center rounded-md bg-white ${
+                  isDesktopCollapsed ? "" : "ml-3"
+                } `}
+              >
+                <span className="bg-primary-gradient flex size-6 items-center justify-center rounded-sm text-white">
+                  <AppIcon icon={Folder} size="sm" />
+                </span>
+              </div>
+
+              {!isDesktopCollapsed && (
+                <h1 className="truncate text-[16px] leading-5 font-bold tracking-tight text-[var(--color-text)]">
+                  FlowPJECT
+                </h1>
+              )}
+            </Link>
+          )}
+
+          {!isDesktopCollapsed && (
+            <IconButton
+              label={isMobile || isOverlayOpen ? "사이드바 닫기" : "사이드바 접기"}
+              onClick={isMobile ? onNavigate : toggleSidebar}
+              className="size-9! shrink-0 rounded-xl! text-black hover:bg-gray-100 hover:text-black"
+            >
+              {isMobile ? (
+                <AppIcon icon={X} size="md" />
+              ) : (
+                <AppIcon icon={PanelLeftClose} size="lg" />
+              )}
+            </IconButton>
+          )}
+        </div>
+
+        <div className="shrink-0 px-[10px] pb-2">
+          <SidebarMainProject
+            isCollapsed={isDesktopCollapsed}
+            onNavigate={handleSidebarNavigate}
+            onDrawerOpenChange={isMobile ? undefined : setIsSettingsOpen}
+          />
+        </div>
+
+        <nav
+          className={`min-h-0 flex-1 ${
+            isDesktopCollapsed
+              ? "overflow-visible px-[10px] pb-4"
+              : "overflow-y-auto px-[10px] pb-2"
+          } `}
+        >
+          <SidebarNavList items={primaryNavItems} {...navListProps} />
+
+          <div
+            className={` ${
+              isDesktopCollapsed ? "my-4 border-t border-[var(--color-border)]" : "my-4"
+            } `}
+          />
+
+          <SidebarNavList items={secondaryNavItems} {...navListProps} />
+        </nav>
+
+        <div className={`shrink-0 px-[10px] ${isDesktopCollapsed ? "pb-4" : "pb-5"} `}>
+          {!isDesktopCollapsed ? (
+            <div className="rounded-xl border border-[var(--color-border)] bg-white p-3 md:p-4">
+              <p className="text-xs font-semibold text-[var(--color-text)]">이번 주 진행률</p>
+
+              <div className="mt-4 flex justify-center">
+                <div
+                  className="flex h-24 w-24 items-center justify-center rounded-full"
+                  style={{
+                    background: `conic-gradient(
                     var(--color-primary)
                     ${mockWeeklyProgress.percent}%,
                     #e5e7eb
                     ${mockWeeklyProgress.percent}%
                   )`,
-                }}
-              >
-                <div className="flex h-[74px] w-[74px] items-center justify-center rounded-full bg-white">
-                  <span className="text-lg font-bold text-[var(--color-text)]">
-                    {mockWeeklyProgress.percent}%
-                  </span>
+                  }}
+                >
+                  <div className="flex h-[74px] w-[74px] items-center justify-center rounded-full bg-white">
+                    <span className="text-lg font-bold text-[var(--color-text)]">
+                      {mockWeeklyProgress.percent}%
+                    </span>
+                  </div>
                 </div>
               </div>
+
+              <p className="mt-3 text-center text-xs text-[var(--color-text-secondary)]">
+                {mockWeeklyProgress.completed} / {mockWeeklyProgress.total} 완료
+              </p>
+
+              <MenuLink
+                href="/reports"
+                onClick={handleSidebarNavigate}
+                className="mt-2 h-8 justify-center bg-transparent px-2 text-xs font-medium text-[var(--color-primary)] hover:bg-transparent hover:text-[var(--color-primary-hover)]"
+              >
+                <span>전체 리포트 보기</span>
+
+                <AppIcon icon={ArrowRight} size="sm" />
+              </MenuLink>
             </div>
-
-            <p className="mt-3 text-center text-xs text-[var(--color-text-secondary)]">
-              {mockWeeklyProgress.completed} / {mockWeeklyProgress.total} 완료
-            </p>
-
+          ) : (
             <MenuLink
               href="/reports"
-              onClick={handleSidebarNavigate}
-              className="mt-2 h-8 justify-center bg-transparent px-2 text-xs font-medium text-[var(--color-primary)] hover:bg-transparent hover:text-[var(--color-primary-hover)]"
+              className="flex h-10 justify-center rounded-xl border border-[var(--color-border)] bg-white px-0 hover:bg-[var(--color-hover-soft)] min-[1025px]:h-12"
             >
-              <span>전체 리포트 보기</span>
-
-              <AppIcon icon={ArrowRight} size="sm" />
+              <span className="text-xs font-bold text-[var(--color-primary)]">
+                {mockWeeklyProgress.percent}%
+              </span>
             </MenuLink>
-          </div>
-        ) : (
-          <MenuLink
-            href="/reports"
-            className="flex h-10 justify-center rounded-xl border border-[var(--color-border)] bg-white px-0 hover:bg-[var(--color-hover-soft)] min-[1025px]:h-12"
-          >
-            <span className="text-xs font-bold text-[var(--color-primary)]">
-              {mockWeeklyProgress.percent}%
-            </span>
-          </MenuLink>
-        )}
-      </div>
+          )}
+        </div>
 
-      <div className="flex shrink-0 items-center border-t border-[var(--color-border)] px-[10px] py-[10px]">
-        <SidebarProfile isCollapsed={isDesktopCollapsed} onNavigate={handleSidebarNavigate} />
-      </div>
-    </aside>
+        <div className="flex shrink-0 items-center border-t border-[var(--color-border)] px-[10px] py-[10px]">
+          <SidebarProfile isCollapsed={isDesktopCollapsed} onNavigate={handleSidebarNavigate} />
+        </div>
+      </aside>
     </>
   );
 }

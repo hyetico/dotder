@@ -31,7 +31,11 @@ type FavoriteAddCardProps = {
  * @param props.remaining - 더 추가할 수 있는 즐겨찾기 수
  * @param props.replace - 한도에 닿아 즐겨찾기를 바꿀지 여부
  */
-export default function FavoriteAddCard({ onClick, remaining, replace = false }: FavoriteAddCardProps) {
+export default function FavoriteAddCard({
+  onClick,
+  remaining,
+  replace = false,
+}: FavoriteAddCardProps) {
   const label = replace ? "즐겨찾기 변경" : "즐겨찾기 추가";
   const hint = replace ? "최대 3개" : `${remaining}개 더 추가할 수 있어요`;
 

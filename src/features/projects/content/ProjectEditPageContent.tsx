@@ -31,7 +31,8 @@ type ProjectEditPageContentProps = {
 };
 
 const deleteRowClassName = "flex items-center justify-between gap-4 pt-4";
-const deleteActionClassName = "inline-flex shrink-0 items-center gap-1.5 text-body font-medium text-[var(--color-danger)] transition-colors hover:text-red-600 disabled:cursor-not-allowed disabled:opacity-50";
+const deleteActionClassName =
+  "inline-flex shrink-0 items-center gap-1.5 text-body font-medium text-[var(--color-danger)] transition-colors hover:text-red-600 disabled:cursor-not-allowed disabled:opacity-50";
 const deleteHintClassName = "min-w-0 text-right text-body text-[var(--color-text-muted)]";
 
 export default function ProjectEditPageContent({

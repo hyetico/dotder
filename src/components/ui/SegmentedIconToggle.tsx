@@ -32,7 +32,8 @@ const viewDividerClassName = "h-5 w-px shrink-0 bg-[#D1D5DB]";
  * @returns 칸 버튼 클래스
  */
 function viewSegmentClassName(isActive: boolean, side: "left" | "right") {
-  const radius = side === "left" ? "rounded-l-[18px] rounded-r-none" : "rounded-l-none rounded-r-[18px]";
+  const radius =
+    side === "left" ? "rounded-l-[18px] rounded-r-none" : "rounded-l-none rounded-r-[18px]";
 
   return [
     "inline-flex h-9 w-14 shrink-0 items-center justify-center transition-colors focus-visible:ring-2 focus-visible:ring-[var(--color-primary-ring)] focus-visible:outline-none",

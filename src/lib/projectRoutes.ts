@@ -282,7 +282,9 @@ export function getFavoriteProjectsPath(): string {
 }
 
 export function isProjectsListPath(pathname: string): boolean {
-  return pathname === "/projects" || isMainProjectsPath(pathname) || isFavoriteProjectsPath(pathname);
+  return (
+    pathname === "/projects" || isMainProjectsPath(pathname) || isFavoriteProjectsPath(pathname)
+  );
 }
 
 /**

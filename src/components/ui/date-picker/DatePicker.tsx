@@ -56,7 +56,8 @@ type DatePickerProps = {
   zIndexClassName?: string;
 };
 
-const embeddedDateButtonClassName = "text-body inline-flex max-w-full min-w-0 cursor-pointer items-center bg-transparent p-0 text-left outline-none disabled:cursor-not-allowed";
+const embeddedDateButtonClassName =
+  "text-body inline-flex max-w-full min-w-0 cursor-pointer items-center bg-transparent p-0 text-left outline-none disabled:cursor-not-allowed";
 
 const WEEKDAYS = ["일", "월", "화", "수", "목", "금", "토"];
 
@@ -516,7 +517,11 @@ export default function DatePicker({
   );
 
   return (
-    <div className={[isButton ? "min-w-0" : variant === "embedded" ? "w-auto" : "w-full", className].filter(Boolean).join(" ")}>
+    <div
+      className={[isButton ? "min-w-0" : variant === "embedded" ? "w-auto" : "w-full", className]
+        .filter(Boolean)
+        .join(" ")}
+    >
       {variant === "embedded" ? (
         <button
           type="button"
