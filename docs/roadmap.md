@@ -46,7 +46,7 @@
 - [x] `cn()` 유틸 추가 (`src/lib/cn.ts`, 조건부 className 합치기)
 - [x] 쓰지 않는 컴포넌트 삭제: `MobileFilterMenu`
 - [x] `console.log` 8개 삭제
-- [ ] 주석 처리된 옛 코드 삭제 (`task.ts` 등)
+- [x] 주석 처리된 옛 코드 삭제 (`task.ts` 등)
 - [ ] import 자동 정렬 설정 (ESLint `import/order` 또는 Prettier 플러그인)
 - [ ] 화면 문구 "업무" → "태스크" (22곳)
 - [ ] 주소 `/backlog` → `/memos` (리다이렉트 남김), 코드 이름 `Backlog*` → `Memo*`

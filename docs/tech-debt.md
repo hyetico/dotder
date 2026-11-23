@@ -49,7 +49,6 @@
 | **D-2** | ✅ 완료 — README가 create-next-app 기본 → 프로젝트 소개로 교체 | 1 | 1 |
 | **D-3** | 메모 화면 주소가 `/backlog`, 코드 이름이 `Backlog*` (메뉴 이름은 "메모") | 라우트 2 · 컴포넌트 | 2 |
 | **D-4** | 앱 이름이 3가지로 다름 (저장소 `flow-choice` · package.json `projectflow` · 화면 `FlowPJECT` — `layout.tsx` 탭 제목, `Sidebar.tsx` 로고, `navConfig.tsx`) | 4곳 | 이름 확정 후 |
-| **X-3** | 주석 처리된 옛 코드 (`task.ts` 등) | - | 2 |
 | **X-4** | 학습용 긴 주석 (`useTaskMutations.ts` 등) | - | 2 |
 | **X-5** | 문서 주석이 없는 **export 함수** (`export function`, `export const 이름 = (`) | 412개 중 190개 | 수시 |
 | **X-8** | lint 경고 7개 (오류는 0, `npm run lint` 통과). `@next/next/no-img-element` 3 (`SidebarProfile`, `ProfileSummary`, `ProjectAdminField` 아바타 — `next/image`로 바꾸려면 이미지 주소 설정이 필요) · `react-hooks/incompatible-library` 4 (react-hook-form `watch()`를 쓰는 `GoalForm`, `ProjectForm`, `ProjectEditForm`, `ProjectCreateWizard` — `useWatch`로 바꾸거나 폼을 나눌 때 함께) | 7 | 6 |
