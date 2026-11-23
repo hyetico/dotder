@@ -49,7 +49,6 @@
 | **D-2** | ✅ 완료 — README가 create-next-app 기본 → 프로젝트 소개로 교체 | 1 | 1 |
 | **D-3** | 메모 화면 주소가 `/backlog`, 코드 이름이 `Backlog*` (메뉴 이름은 "메모") | 라우트 2 · 컴포넌트 | 2 |
 | **D-4** | 앱 이름이 3가지로 다름 (저장소 `flow-choice` · package.json `projectflow` · 화면 `FlowPJECT` — `layout.tsx` 탭 제목, `Sidebar.tsx` 로고, `navConfig.tsx`) | 4곳 | 이름 확정 후 |
-| **X-1** | `console.log` 남음 | 8곳 | 2 |
 | **X-3** | 주석 처리된 옛 코드 (`task.ts` 등) | - | 2 |
 | **X-4** | 학습용 긴 주석 (`useTaskMutations.ts` 등) | - | 2 |
 | **X-5** | 문서 주석이 없는 **export 함수** (`export function`, `export const 이름 = (`) | 412개 중 190개 | 수시 |
@@ -84,11 +83,8 @@ grep -rhoE '(min|max)-\[[0-9]+px\]:' --include='*.tsx' src | wc -l
 
 # S-4 고정 색
 grep -rhoE '\b(bg|text|border)-(white|black)\b' --include='*.tsx' src | wc -l
-
-# X-1 console.log
-grep -rn 'console\.log' --include='*.ts' --include='*.tsx' src | wc -l
 ```
 
-2026-11-21 기준 결과: S-1 154 · 전체 301 · S-3 150 · S-2 60 · B-1 68 · S-4 147 · X-1 8
+2026-11-21 기준 결과: S-1 154 · 전체 301 · S-3 150 · S-2 60 · B-1 68 · S-4 147
 
 > 숫자를 적을 때는 반드시 위 명령으로 센 값을 쓴다. 다른 방법(`grep -c` 등)으로 세면 한 줄에 여러 개 있는 경우를 놓친다.
