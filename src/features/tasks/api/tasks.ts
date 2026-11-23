@@ -756,11 +756,7 @@ let mockTasks: Task[] = [
 ];
 
 export async function getTasks(scope: ProjectScope): Promise<Task[]> {
-  console.log("[tasks.getTasks] scope:", scope);
-
   const result = scope === "all" ? mockTasks : mockTasks.filter((task) => task.projectId === scope);
-
-  console.log("[tasks.getTasks] result:", result);
 
   return result;
 }
@@ -772,31 +768,19 @@ export async function createTask(newTask: Task): Promise<Task> {
     throw new Error("보류 중인 프로젝트에는 태스크를 추가할 수 없습니다.");
   }
 
-  console.log("[tasks.createTask] input:", newTask);
-
   mockTasks = [...mockTasks, newTask];
-
-  console.log("[tasks.createTask] saved. total:", mockTasks.length);
 
   return newTask;
 }
 
 export async function updateTask(updatedTask: Task): Promise<Task> {
-  console.log("[tasks.updateTask] input:", updatedTask);
-
   mockTasks = mockTasks.map((task) => (task.id === updatedTask.id ? updatedTask : task));
-
-  console.log("[tasks.updateTask] saved:", updatedTask);
 
   return updatedTask;
 }
 
 export async function deleteTask(taskId: number): Promise<number> {
-  console.log("[tasks.deleteTask] taskId:", taskId);
-
   mockTasks = mockTasks.filter((task) => task.id !== taskId);
-
-  console.log("[tasks.deleteTask] deleted. remaining:", mockTasks.length);
 
   return taskId;
 }
