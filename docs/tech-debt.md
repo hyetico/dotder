@@ -46,7 +46,7 @@
 | **A-3** | `PageHeading` 대신 `<h1>` 직접 사용 | 5곳 | 5 |
 | **A-4** | 이모지를 아이콘으로 사용 | 6곳 | 5 |
 | **D-2** | ✅ 완료 — README가 create-next-app 기본 → 프로젝트 소개로 교체 | 1 | 1 |
-| **D-3** | 메모 화면 주소가 `/backlog`, 코드 이름이 `Backlog*` (메뉴 이름은 "메모") | 라우트 2 · 컴포넌트 | 2 |
+| **D-3** | 프로젝트 디테일의 메모 하위 주소가 아직 `/projects/[id]/backlog` (메모 목록 `/memos`와 코드 이름은 2단계에서 바꿈) | 라우트 1 | 7 |
 | **D-4** | 앱 이름이 3가지로 다름 (저장소 `flow-choice` · package.json `projectflow` · 화면 `FlowPJECT` — `layout.tsx` 탭 제목, `Sidebar.tsx` 로고, `navConfig.tsx`) | 4곳 | 이름 확정 후 |
 | **X-4** | 학습용 긴 주석 (`useTaskMutations.ts` 등) | - | 2 |
 | **X-5** | 문서 주석이 없는 **export 함수** (`export function`, `export const 이름 = (`) | 412개 중 190개 | 수시 |

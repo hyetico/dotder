@@ -151,7 +151,7 @@
 | 목표 | goal | |
 | 태스크 | task | 업무, 할 일(상태 이름 "할 일"은 예외) |
 | 메모 | memo | |
-| 메모 화면 주소 | `/memos` | 백로그 (지금 주소 `/backlog`) |
+| 메모 화면 주소 | `/memos` | 백로그 (옛 주소 `/backlog`는 리다이렉트) |
 | 메인 프로젝트 | main project | 대표 프로젝트 |
 | 즐겨찾기 | favorite | |
 | 맞춤 탭 | custom tab | 커스텀 뷰 |
