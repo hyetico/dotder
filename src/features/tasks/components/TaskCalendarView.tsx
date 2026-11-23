@@ -614,14 +614,6 @@ export default function TaskCalendarView({
                         </div>
                       </div>
                     </div>
-
-                    {/* <div
-                        className="
-                          min-h-0
-                          flex-1
-                        "
-                        aria-hidden="true"
-                      /> */}
                   </div>
                 </div>
               );
