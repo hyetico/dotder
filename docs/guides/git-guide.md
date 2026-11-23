@@ -48,17 +48,25 @@
 
 ## 4. push와 PR
 
-- push는 **roadmap 단계가 끝날 때** 확인을 받고 한다. 이때 PR 제목·본문(안)도 함께 보여준다.
-- 단계 끝(push 전)에는 [code-guide](code-guide.md) 7장의 "단계 끝" 검사까지 통과해야 한다.
-- PR은 `develop`으로 보내고 **Squash and merge**로 합친다. `develop` → `main`은 배포할 때만.
+**PR 합치기도 Claude Code가 한다.** 단계(또는 작업 브랜치)가 끝나면 이 순서로 한다.
+
+1. [code-guide](code-guide.md) 7장의 "단계 끝" 검사 4가지(`tsc` · `lint` · `format:check` · `build`)를 돌린다. 하나라도 실패하면 멈추고 실패 내용부터 알린다.
+2. 보고한다: 검사 결과 · 바뀐 점 · PR 제목·본문(안).
+3. 사용자가 **"응"**이라고 답하면 push → PR 만들기(base `develop`) → `gh pr merge --squash --delete-branch`로 합친다. 오타처럼 보이는 답이면 다시 묻는다.
+4. `git switch develop && git pull` 뒤 roadmap의 다음 단계 브랜치를 만들어 바로 시작한다.
+
+- PR은 `develop`으로만 보낸다. `develop` → `main`은 배포할 때만, 사용자가 따로 요청할 때 한다.
 
 ```bash
 git switch develop && git pull
 git switch -c <브랜치 이름>
-# 작업, 의미 단위로 커밋
+# 작업, 의미 단위로 커밋 (커밋마다 "응"을 받는다)
+# 단계 끝 검사 4가지 → 보고 → "응"
 git push -u origin <브랜치 이름>
-# GitHub에서 Compare & pull request → base: develop
-# Squash and merge → Delete branch
+gh pr create --base develop --title "<제목>" --body-file <본문 파일>
+gh pr merge --squash --delete-branch
+git switch develop && git pull
+git switch -c <다음 단계 브랜치>
 ```
 
 ## 5. 기타
