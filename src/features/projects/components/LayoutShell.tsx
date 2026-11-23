@@ -7,7 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getProjects } from "@/features/projects/api/projects";
 import CreateProjectPrompt from "@/features/projects/components/CreateProjectPrompt";
 
-import { isBacklogListPath, isGoalsListPath, isProjectsListPath } from "@/lib/projectRoutes";
+import { isMemosListPath, isGoalsListPath, isProjectsListPath } from "@/lib/projectRoutes";
 import { projectQueryKeys } from "@/lib/queryKeys";
 
 type LayoutShellProps = {
@@ -26,7 +26,7 @@ export default function LayoutShell({ children }: LayoutShellProps) {
 
   const page = showCreatePage ? <CreateProjectPrompt /> : children;
 
-  if (!isProjectsListPath(pathname) && !isGoalsListPath(pathname) && !isBacklogListPath(pathname)) {
+  if (!isProjectsListPath(pathname) && !isGoalsListPath(pathname) && !isMemosListPath(pathname)) {
     return page;
   }
 

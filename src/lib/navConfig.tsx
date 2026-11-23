@@ -47,7 +47,7 @@ export const primaryNavItems: NavItem[] = [
   },
   {
     label: "메모",
-    href: "/backlog",
+    href: "/memos",
     icon: Inbox,
   },
   {

@@ -103,7 +103,7 @@ src/features/<기능>/
 | `TabMenu` | 탭 바탕 | ✅ |
 | `LineTabMenu` (11) | **모든 탭은 이것으로** | ✅ |
 | `FolderTabMenu` (1), `TileTabMenu` (1) | | ⛔ LineTabMenu로 바꾸고 삭제 |
-| `ScopeTabs` ★ | 기본 탭 + 맞춤 탭 + `+` | ★ `ProjectsScopeTabs`, `GoalsScopeTabs`, `BacklogScopeTabs`를 합침 |
+| `ScopeTabs` ★ | 기본 탭 + 맞춤 탭 + `+` | ★ `ProjectsScopeTabs`, `GoalsScopeTabs`, `MemosScopeTabs`를 합침 |
 | `StatusFilterChips` (8) | 목록 위 상태 필터 | ✅ 기준 |
 | `StatusFilterBar` (3), `StatusFilterPills` (1), `StatFilterButtons` (1) | | ⛔ StatusFilterChips로 합침 |
 | `FilterButton` (2), `FilterBottomSheet` (1), `MobileFilterDrawer` (1) | 모바일 필터 | 🔧 하나로 정리 |

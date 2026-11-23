@@ -1,9 +1,9 @@
 import LayoutShell from "@/features/projects/components/LayoutShell";
 
-type BacklogLayoutProps = {
+type MemosLayoutProps = {
   children: React.ReactNode;
 };
 
-export default function BacklogLayout({ children }: BacklogLayoutProps) {
+export default function MemosLayout({ children }: MemosLayoutProps) {
   return <LayoutShell>{children}</LayoutShell>;
 }

@@ -1,10 +1,10 @@
-export const PROJECT_VIEWS = ["tasks", "backlog", "goals"] as const;
+export const PROJECT_VIEWS = ["tasks", "memos", "goals"] as const;
 
 export type ProjectView = (typeof PROJECT_VIEWS)[number];
 
 export const FLAT_PROJECT_VIEW_ROUTES: Record<ProjectView, string> = {
   tasks: "/tasks",
-  backlog: "/backlog",
+  memos: "/memos",
   goals: "/goals",
 };
 
@@ -35,7 +35,7 @@ export function parseProjectScope(raw: string): ProjectScope {
 export function isFlatProjectViewPath(
   pathname: string,
 ): pathname is (typeof FLAT_PROJECT_VIEW_ROUTES)[ProjectView] {
-  return pathname === "/tasks" || pathname === "/backlog" || pathname === "/goals";
+  return pathname === "/tasks" || pathname === "/memos" || pathname === "/goals";
 }
 
 export function isAllGoalsPath(pathname: string): boolean {
@@ -286,61 +286,61 @@ export function isProjectsListPath(pathname: string): boolean {
 }
 
 /**
- * isMainBacklogPath
+ * isMainMemosPath
  *
- * 주소가 메인 탭 백로그 목록인지 확인합니다.
- *
- * @param pathname - 현재 주소
- * @returns 메인 탭 백로그 목록이면 true
- */
-export function isMainBacklogPath(pathname: string): boolean {
-  return pathname === "/backlog/main";
-}
-
-/**
- * getMainBacklogPath
- *
- * 메인 탭 백로그 목록 주소를 만듭니다.
- *
- * @returns 메인 탭 백로그 목록 주소
- */
-export function getMainBacklogPath(): string {
-  return "/backlog/main";
-}
-
-/**
- * isFavoriteBacklogPath
- *
- * 주소가 즐겨찾기 백로그 목록인지 확인합니다.
+ * 주소가 메인 탭 메모 목록인지 확인합니다.
  *
  * @param pathname - 현재 주소
- * @returns 즐겨찾기 백로그 목록이면 true
+ * @returns 메인 탭 메모 목록이면 true
  */
-export function isFavoriteBacklogPath(pathname: string): boolean {
-  return pathname === "/backlog/favorites";
+export function isMainMemosPath(pathname: string): boolean {
+  return pathname === "/memos/main";
 }
 
 /**
- * getFavoriteBacklogPath
+ * getMainMemosPath
  *
- * 즐겨찾기 백로그 목록 주소를 만듭니다.
+ * 메인 탭 메모 목록 주소를 만듭니다.
  *
- * @returns 즐겨찾기 백로그 목록 주소
+ * @returns 메인 탭 메모 목록 주소
  */
-export function getFavoriteBacklogPath(): string {
-  return "/backlog/favorites";
+export function getMainMemosPath(): string {
+  return "/memos/main";
 }
 
 /**
- * isBacklogListPath
+ * isFavoriteMemosPath
  *
- * 주소가 백로그 목록 화면인지 확인합니다.
+ * 주소가 즐겨찾기 메모 목록인지 확인합니다.
  *
  * @param pathname - 현재 주소
- * @returns 전체, 메인, 즐겨찾기 백로그 목록이면 true
+ * @returns 즐겨찾기 메모 목록이면 true
  */
-export function isBacklogListPath(pathname: string): boolean {
-  return pathname === "/backlog" || isMainBacklogPath(pathname) || isFavoriteBacklogPath(pathname);
+export function isFavoriteMemosPath(pathname: string): boolean {
+  return pathname === "/memos/favorites";
+}
+
+/**
+ * getFavoriteMemosPath
+ *
+ * 즐겨찾기 메모 목록 주소를 만듭니다.
+ *
+ * @returns 즐겨찾기 메모 목록 주소
+ */
+export function getFavoriteMemosPath(): string {
+  return "/memos/favorites";
+}
+
+/**
+ * isMemosListPath
+ *
+ * 주소가 메모 목록 화면인지 확인합니다.
+ *
+ * @param pathname - 현재 주소
+ * @returns 전체, 메인, 즐겨찾기 메모 목록이면 true
+ */
+export function isMemosListPath(pathname: string): boolean {
+  return pathname === "/memos" || isMainMemosPath(pathname) || isFavoriteMemosPath(pathname);
 }
 
 export function isProjectsSectionPath(pathname: string): boolean {
@@ -386,8 +386,8 @@ export function getContextualMainProjectPath(
     return buildTasksPath(projectId, parseTaskViewMode(searchParams?.get("view")));
   }
 
-  if (pathname === "/backlog" || pathname.startsWith("/backlog/")) {
-    return buildScopedViewPath(projectId, "backlog");
+  if (pathname === "/memos" || pathname.startsWith("/memos/")) {
+    return buildScopedViewPath(projectId, "memos");
   }
 
   return getProjectDetailPath(projectId);
