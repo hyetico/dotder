@@ -299,7 +299,7 @@ export default function CreateTaskButton({
       <Modal isOpen={isModalOpen} onClose={handleClose}>
         <Modal.Header
           title="새 Task"
-          description="새로운 업무 정보를 입력해주세요."
+          description="새로운 태스크 정보를 입력해주세요."
           onClose={handleClose}
           closeLabel="새 Task 창 닫기"
         />
@@ -333,12 +333,12 @@ export default function CreateTaskButton({
 
             {/*
              * =============================================
-             * 업무 제목
+             * 태스크 제목
              * =============================================
              */}
             <div>
               <label className="text-body mb-2 block font-medium text-[var(--color-text)]">
-                업무 제목
+                태스크 제목
               </label>
 
               <Input {...register("title")} placeholder="예: 로그인 API 연결" />
@@ -350,17 +350,17 @@ export default function CreateTaskButton({
 
             {/*
              * =============================================
-             * 업무 설명
+             * 태스크 설명
              * =============================================
              */}
             <div>
               <label className="text-body mb-2 block font-medium text-[var(--color-text)]">
-                업무 설명
+                태스크 설명
               </label>
 
               <Textarea
                 {...register("description")}
-                placeholder="업무 내용을 입력해주세요."
+                placeholder="태스크 내용을 입력해주세요."
                 className="min-h-[132px] leading-6"
               />
 

@@ -208,7 +208,7 @@ export default function ProjectDetailTeam({
           }
         />
         <p className="mt-2 text-[13px] leading-[21px] text-[var(--color-text-secondary)]">
-          팀 업무와 일정을 함께 관리합니다.
+          팀 태스크와 일정을 함께 관리합니다.
         </p>
         <div className="mt-4 grid gap-4 border-t border-[var(--color-border)] pt-3 sm:grid-cols-2 md:pt-4">
           <div>
@@ -233,7 +233,7 @@ export default function ProjectDetailTeam({
         <section className={`${panelClassName} flex items-center gap-3 p-[10px] md:p-4`}>
           <AppIcon icon={ListTodo} size="md" color="#111827" />
           <div>
-            <p className="text-[13px] leading-5 font-medium text-[var(--color-text-secondary)]">진행중 업무</p>
+            <p className="text-[13px] leading-5 font-medium text-[var(--color-text-secondary)]">진행중 태스크</p>
             <p className="text-[20px] leading-7 font-bold tabular-nums">{activeTaskCount}개</p>
           </div>
         </section>
@@ -289,7 +289,7 @@ export default function ProjectDetailTeam({
         <section className={`${panelClassName} p-[10px] md:p-5`}>
           <SectionHeader
             icon={<AppIcon icon={ListTodo} size="md" />}
-            title="업무 배정 확인"
+            title="태스크 배정 확인"
             titleClassName="text-[15px] leading-5 font-semibold"
             plain
           />

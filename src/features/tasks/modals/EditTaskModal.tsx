@@ -138,7 +138,7 @@ export default function EditTaskModal({
     <Modal isOpen={isOpen} onClose={handleClose}>
       <Modal.Header
         title="Task 수정"
-        description="업무 정보를 수정해주세요."
+        description="태스크 정보를 수정해주세요."
         onClose={handleClose}
         closeLabel="Task 수정창 닫기"
       />
@@ -147,7 +147,7 @@ export default function EditTaskModal({
         <form id={formId} onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div>
             <label className="text-body mb-2 block font-medium text-[var(--color-text)]">
-              업무 제목
+              태스크 제목
             </label>
 
             <Input {...register("title")} placeholder="예: 로그인 API 연결" />
@@ -159,12 +159,12 @@ export default function EditTaskModal({
 
           <div>
             <label className="text-body mb-2 block font-medium text-[var(--color-text)]">
-              업무 설명
+              태스크 설명
             </label>
 
             <Textarea
               {...register("description")}
-              placeholder="업무 내용을 입력해주세요."
+              placeholder="태스크 내용을 입력해주세요."
               className="min-h-[132px] leading-6"
             />
 
