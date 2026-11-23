@@ -43,7 +43,7 @@
 동작은 바뀌지 않는 작업만.
 
 - [x] lint 오류 18개 · 경고 13개 정리 (tech-debt X-7). 오류 0 · 경고 7 남음 (X-8). 2단계 완료 기준이 lint 통과라서 가장 먼저 한다
-- [ ] `cn()` 유틸 추가 (`src/lib/cn.ts`, 조건부 className 합치기)
+- [x] `cn()` 유틸 추가 (`src/lib/cn.ts`, 조건부 className 합치기)
 - [ ] 쓰지 않는 컴포넌트 삭제: `MobileFilterMenu`
 - [ ] `console.log` 8개 삭제
 - [ ] 주석 처리된 옛 코드 삭제 (`task.ts` 등)

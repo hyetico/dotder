@@ -54,7 +54,6 @@
 | **X-3** | 주석 처리된 옛 코드 (`task.ts` 등) | - | 2 |
 | **X-4** | 학습용 긴 주석 (`useTaskMutations.ts` 등) | - | 2 |
 | **X-5** | 문서 주석이 없는 **export 함수** (`export function`, `export const 이름 = (`) | 412개 중 190개 | 수시 |
-| **X-6** | 조건부 className 유틸 `cn()` 없음 | 1 | 2 |
 | **X-8** | lint 경고 7개 (오류는 0, `npm run lint` 통과). `@next/next/no-img-element` 3 (`SidebarProfile`, `ProfileSummary`, `ProjectAdminField` 아바타 — `next/image`로 바꾸려면 이미지 주소 설정이 필요) · `react-hooks/incompatible-library` 4 (react-hook-form `watch()`를 쓰는 `GoalForm`, `ProjectForm`, `ProjectEditForm`, `ProjectCreateWizard` — `useWatch`로 바꾸거나 폼을 나눌 때 함께) | 7 | 6 |
 | **X-9** | Prettier 형식이 맞지 않는 파일 41개. 단계 끝 검사 `npm run format:check`가 실패함 (2026-11-23) | 41 | 2 |
 

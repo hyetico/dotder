@@ -121,7 +121,7 @@ export function DrawerRow({ label, htmlFor, aside, children }: DrawerRowProps) {
 
 - 값은 토큰으로만. ([style-guide](style-guide.md) 0장)
 - 클래스는 한 줄로 이어 쓴다. 길어지면 문자열을 쪼개지 말고 컴포넌트 위에 `const xxxClassName = "..."`로 뺀다.
-- 조건부 클래스는 `[base, cond ? a : b].filter(Boolean).join(" ")`. 여러 곳에서 쓰면 `cn()` 유틸(★ 추가)을 쓴다.
+- 조건부 클래스는 `cn()`(`@/lib/cn`)으로 합친다. 예: `cn(base, isActive && activeClassName, className)`. 겹치는 Tailwind 클래스는 정리해 주지 않으니 같은 속성을 두 번 넘기지 않는다.
 - 클래스 순서는 `prettier-plugin-tailwindcss`가 자동으로 정렬한다.
 - 반응형은 Tailwind 이름(`md:`, `lg:`, `xl:`)만. ([layout-guide](layout-guide.md) 2장)
 
