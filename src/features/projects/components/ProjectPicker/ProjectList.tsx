@@ -15,7 +15,6 @@ type ProjectListProps = {
   disabledIds?: number[];
   onSelect?: (project: Project) => void;
   renderExtra?: (project: Project) => ReactNode;
-  pairDelay?: boolean;
   emptyLabel: string;
   label?: string;
 };
@@ -54,7 +53,6 @@ export function ListScroll({ children }: ListScrollProps) {
  * @param props.disabledIds - 선택할 수 없는 프로젝트 아이디
  * @param props.onSelect - 줄을 눌렀을 때 실행되는 함수
  * @param props.renderExtra - 줄 아래에 추가로 그릴 내용
- * @param props.pairDelay - 지연이면 진행 상태 옆에 지연 뱃지를 둘지 여부
  * @param props.emptyLabel - 프로젝트가 없을 때 보여줄 문구
  * @param props.label - 목록의 접근 이름
  */
@@ -65,7 +63,6 @@ export default function ProjectList({
   disabledIds = [],
   onSelect,
   renderExtra,
-  pairDelay = false,
   emptyLabel,
   label = "프로젝트",
 }: ProjectListProps) {
@@ -95,7 +92,6 @@ export default function ProjectList({
           disabled={disabled.has(project.id)}
           onSelect={onSelect ? () => onSelect(project) : undefined}
           extra={renderExtra ? renderExtra(project) : undefined}
-          pairDelay={pairDelay}
         />
       ))}
     </ul>

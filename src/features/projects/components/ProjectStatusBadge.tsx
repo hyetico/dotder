@@ -1,4 +1,4 @@
-import Badge, { badgeIconSize, type BadgeSize } from "@/components/ui/badge/Badge";
+import StatusBadge from "@/components/ui/badge/StatusBadge";
 
 import ProjectStatusIcon from "@/features/projects/components/ProjectStatusIcon";
 import {
@@ -7,8 +7,9 @@ import {
   getProjectVisualStatus,
 } from "@/features/projects/utils/projectUtils";
 
+import { getStatusTone } from "@/lib/statusColors";
+
 import type { ProjectStatus } from "@/features/projects/types/project";
-import type { ReactNode } from "react";
 
 const statusIconSize = 20;
 const statusIconMarkClassName = "inline-flex h-5 w-5 shrink-0 items-center justify-center";
@@ -35,41 +36,28 @@ export function ProjectStatusIconMark({ status }: { status: ProjectStatus }) {
 
 type ProjectStatusBadgeProps = {
   status: ProjectStatus;
+  /** 마감이 지났는지. 진행 중일 때만 상태 옆에 「지연」 뱃지를 붙인다. */
   delayed?: boolean;
-  icon?: ReactNode | null;
-  count?: number;
-  size?: BadgeSize;
   className?: string;
 };
 
+/**
+ * 프로젝트 상태 뱃지. `StatusBadge` 위에 상태 이름과 색만 정한다.
+ *
+ * @example
+ * <ProjectStatusBadge status="IN_PROGRESS" delayed />
+ */
 export default function ProjectStatusBadge({
   status,
   delayed = false,
-  icon,
-  count,
-  size = "md",
   className = "",
 }: ProjectStatusBadgeProps) {
-  const appearance = getProjectVisualStatus(status, delayed);
-
-  const styles = getProjectStatusStyles(appearance);
-  const hideIconOnMobile = appearance === "IN_PROGRESS";
-  const statusIcon =
-    appearance === "DELAYED" ? null : icon === undefined ? (
-      <ProjectStatusIcon status={appearance} size={badgeIconSize[size]} />
-    ) : (
-      icon
-    );
+  const isDelayed = getProjectVisualStatus(status, delayed) === "DELAYED";
 
   return (
-    <Badge className={`${styles.badge} ${className}`} shape="rounded" size={size}>
-      {statusIcon ? (
-        <span className={`inline-flex ${hideIconOnMobile ? "max-md:hidden" : ""} `}>
-          {statusIcon}
-        </span>
-      ) : null}
-      {getProjectStatusLabel(appearance)}
-      {count != null ? <span className="tabular-nums">{count > 99 ? "+99" : count}</span> : null}
-    </Badge>
+    <span className={`inline-flex shrink-0 items-center gap-1 ${className}`}>
+      <StatusBadge label={getProjectStatusLabel(status)} tone={getStatusTone(status)} />
+      {isDelayed ? <StatusBadge label="지연" tone="danger" showDot={false} /> : null}
+    </span>
   );
 }

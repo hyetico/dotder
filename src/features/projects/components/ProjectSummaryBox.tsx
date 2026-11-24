@@ -236,7 +236,7 @@ export default function ProjectSummaryBox({
             label="상태"
             value={
               <span className="inline-flex flex-wrap items-center justify-end gap-1.5">
-                <ProjectStatusBadge status={project.status} icon={null} />
+                <ProjectStatusBadge status={project.status} />
                 {delayed ? (
                   <Badge shape="rounded" className={getProjectStatusStyles("DELAYED").badge}>
                     {snapshot.overdueDays}일 지연
