@@ -385,6 +385,9 @@
   --color-kind-task: #6d28d9;
   --color-kind-memo: #c4a574;
 
+  /* 폴더 카드·뱃지 바탕에 섞는 프로젝트 색 비율 (style-guide 1-8) */
+  --project-tint: 18%;
+
   /*
    * 사이드 메뉴.
    * 기본·호버는 검정 글자.
@@ -512,6 +515,7 @@
   --color-kind-goal: #6fc2a5;
   --color-kind-task: #a78bfa;
   --color-kind-memo: #d9bd8f;
+  --project-tint: 20%;
   --color-nav-active: #2a2e35;
   --color-nav-active-text: #f3f4f6;
   --shadow-overlay: 0 12px 32px rgb(0 0 0 / 50%);
