@@ -451,24 +451,45 @@
 
 /*
  * 다크 모드. <html data-theme="dark">일 때만 적용된다.
- * 아직 전환 버튼은 없고, 색 토큰만 준비해 둔 상태다.
+ * 아직 전환 버튼은 없다(8단계). 모든 색 토큰의 다크 값은 여기 있다.
  * 컴포넌트에 직접 쓴 흰색(bg-white 등)은 따로 토큰으로 바꿔야 다크 모드에서 맞는다.
  */
 :root[data-theme="dark"] {
+  /* 기존 토큰의 다크 값 (style-guide 1장) */
   --color-page: #191b1e;
-  --color-background: #24282d;
-  --color-surface: #24282d;
+  --color-background: #16181c;
+  --color-surface: #1b1e22;
   --color-muted: #2a2f35;
-  --color-border: #3a4047;
-  --color-text: #f2f3f4;
+  --color-hover: #30353c;
+  --color-hover-soft: #2a2f35;
+  --color-hover-strong: #3a4047;
+  --color-border: #30353b;
+  --color-text: #e7e9ec;
+  --color-text-secondary: #aab2bb;
+  --color-text-muted: #8b949e;
+  --color-text-disabled: #6b737c;
+  --color-primary: #d1d5db;
+  --color-primary-hover: #e5e7eb;
+  --color-primary-soft: #30353c;
+  --color-primary-ring: #5b636c;
   --color-field: #2a2f35;
-  --color-field-disabled: #24282d;
-  --color-field-text: #f2f3f4;
+  --color-field-disabled: #22262b;
+  --color-field-text: #e7e9ec;
   --color-field-placeholder: #a8b0b8;
-  --color-field-border: #3a4047;
-  --color-field-hover: #a8b0b8;
-  --color-field-focus: #f2f3f4;
-  --color-field-error: #ef4444;
+  --color-field-border: #6b737c;
+  --color-field-hover: #9aa2ab;
+  --color-field-focus: #d1d5db;
+  --color-field-error: #f87171;
+  --color-success: #4ade80;
+  --color-warning: #fb923c;
+  --color-danger: #f87171;
+  --color-nav-text: #e7e9ec;
+  --color-nav-icon: #e7e9ec;
+  --color-nav-hover: #30353c;
+  --color-nav-hover-text: #e7e9ec;
+  --color-nav-selected-bg: #2a2e35;
+  --color-nav-selected: #f3f4f6;
+  --color-nav-disabled: #5b636c;
 
   /* 새 토큰의 다크 값 (style-guide 1장) */
   --color-surface-raised: #2c3138;
