@@ -30,7 +30,6 @@
 | **S-13** | `text-badge-sm-mobile` 5곳. 의미 클래스(`text-*`)가 `@layer` 밖 일반 CSS라 `lg:` 같은 변형을 못 붙이고, `font-medium` 같은 유틸리티보다 항상 이긴다(굵기를 덮어씀). Tailwind `@utility`로 옮기면 변형이 되지만 굵기가 함께 쓰인 101곳의 모양이 바뀐다 | 5 / 101곳 | 5 |
 | **S-14** | 컨트롤 높이 토큰이 style-guide와 다름: `--control-sm` 32 (가이드 36), `--control-xs`(28) 없음 | 2 | 5 |
 | **S-16** | 숨김 화면(`TeamScopeModal`, `ProjectDetailTeam`)도 4단계 일괄 치환(글자 크기 · 색 토큰)으로 바뀜. 동작은 그대로 | 기록 | - |
-| **S-18** | 페이지 제목 ~ 한 줄 요약 간격 `--page-title-gap` 8 (원본 4), 제목 아래 `--page-title-below` 32 (원본 제목→탭 24). 목록 페이지 전체가 같이 바뀌어서 따로 정함. 프로젝트 목록만 탭에서 −8로 맞춰 둠 | 토큰 2 | 5 |
 | **C-3** | 상태 필터 3종(`StatusFilterBar` · `StatusFilterChips` · `StatusFilterPills`)과 모바일 시트(`FilterBottomSheet`). 원본(Components 17)은 "Segmented(트랙 36 · 버튼 32) + 필터 팝오버 280"과 바텀시트 1개. **마감(2026-11-24) 뒤로 미룸** | 3 + 1 | 마감 뒤 |
 | **C-4** | 모바일 필터: `FilterButton` · `MobileFilterDrawer`는 5단계에서 삭제(쓰는 곳 0). 남은 `FilterBottomSheet`는 C-3과 같이 | 1 | 마감 뒤 |
 | **C-5** | 상태 뱃지 3종(`ProjectStatusBadge` · `GoalStatusBadge` · `TaskStatusBadge`) 공통 바탕 `StatusBadge` 없음 (토스트 2종은 공통 `Toast`로 합침, handoff B5) | 5 | 5 |
