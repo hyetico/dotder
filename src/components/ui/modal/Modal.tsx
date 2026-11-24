@@ -47,7 +47,7 @@ function ModalRoot({
   onClose,
   children,
   panelClassName = "",
-  maxWidthClassName = "max-w-[640px]",
+  maxWidthClassName = "max-w-[var(--modal-width)]",
   zIndexClassName = "z-[var(--z-modal)]",
   padded = true,
   labelledBy,

@@ -164,7 +164,6 @@ export default function FavoriteProjectsModal({
       padded={false}
       labelledBy="favorite-projects-modal-title"
       zIndexClassName="z-[var(--z-modal)]"
-      maxWidthClassName="max-w-[520px]"
       panelClassName={stableListModalPanelClassName}
     >
       <Modal.Header

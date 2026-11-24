@@ -94,7 +94,7 @@ export default function LinkedProjectInfoModal({
   const delayed = project ? isProjectDelayed(project) : false;
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} labelledBy={titleId} maxWidthClassName="max-w-[520px]">
+    <Modal isOpen={isOpen} onClose={onClose} labelledBy={titleId}>
       <Modal.Header id={titleId} title="연결 프로젝트 정보" onClose={onClose} />
 
       <Modal.Body className="!pt-1">

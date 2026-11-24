@@ -331,7 +331,7 @@ export function HeaderMoreMenu({ label, items, className = "" }: HeaderMoreMenuP
       <DropdownMenu
         label={label}
         triggerClassName={headerIconButtonClassName()}
-        panelClassName="z-40 w-44!"
+        panelClassName="z-40"
       >
         {(close) =>
           items.map((item) => (

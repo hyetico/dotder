@@ -68,8 +68,8 @@ src/features/<기능>/
 | `DrawerFrame` | (역할 확인 후 `Drawer`와 합칠지 결정) | 🔧 |
 | `CreateDrawer` ★ | 생성 드로어 공통 틀 ([design-guide](design-guide.md) 4장) | ★ |
 | `DrawerRow` ★ | 라벨 80 + 값 + 오른쪽 보조 | ★ |
-| `Modal` | 선택·설정 모달 바탕 | ✅ |
-| `AlertModal` | 삭제·상태 변경 확인 | ✅ |
+| `Modal` | 선택·설정 모달 바탕. 기본 너비 `--modal-width` 480 (handoff B2), 검색은 `--search-width` 600. 모바일 바텀시트는 아직 | ✅ |
+| `AlertModal` | 삭제·상태 변경 확인. 너비 `--confirm-width` 320, 모바일도 가운데 | ✅ |
 | `Toast` | 결과 알림 + 되돌리기 하나. 4초(되돌리기 있으면 6초), 마우스·초점 동안 멈춤, `role="status"` | ✅ (handoff B5, `DeadlineToast`·`FavoriteRemovedToast` 삭제) |
 | `Notice` | 화면 안에 계속 보이는 한 줄 안내. i 16 + 글자 14/20 보조색, 바탕 · 테두리 · 닫기 없음, `role="status"`, 툴바 바로 아래 8 (Components 12). 행동이 필요하면 글 끝에 링크 1개 | ✅ `components/ui/Notice.tsx` (`HoldAddNotice`가 사용) |
 
@@ -109,7 +109,7 @@ src/features/<기능>/
 | `StatusFilterBar` (3), `StatusFilterPills` (1) | | ⛔ StatusFilterChips로 합침 (`StatFilterButtons`는 쓰는 곳이 없어 5단계에서 삭제) |
 | `FilterBottomSheet` (1) | 모바일 필터 시트 (`StatusFilterBar` 안) | 🔧 (`FilterButton`, `MobileFilterDrawer`는 쓰는 곳이 없어 5단계에서 삭제) |
 | `StatusChoiceButton` | 상태 하나 고르기 | ✅ |
-| `DropdownMenu`, `MenuLink` | `···` 메뉴 | ✅ |
+| `DropdownMenu`, `MenuLink` | `···` 메뉴. 너비 `--popover-menu` 220 (handoff B4), 쓰는 쪽에서 너비를 바꾸지 않는다 | ✅ |
 
 ## 4. 레이아웃 컴포넌트 (`src/components/layout`)
 

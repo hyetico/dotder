@@ -117,7 +117,7 @@ export default function ProjectPreviewModal({
   const descriptionText = trimmedDescription || "설명을 입력하세요";
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} labelledBy={titleId} maxWidthClassName="max-w-[480px]">
+    <Modal isOpen={isOpen} onClose={onClose} labelledBy={titleId}>
       <Modal.Header id={titleId} title="프로젝트 미리보기" onClose={onClose} />
 
       <Modal.Body className="!pt-0">
