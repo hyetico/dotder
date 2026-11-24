@@ -70,7 +70,7 @@ src/features/<기능>/
 | `DrawerRow` ★ | 라벨 80 + 값 + 오른쪽 보조 | ★ |
 | `Modal` | 선택·설정 모달 바탕 | ✅ |
 | `AlertModal` | 삭제·상태 변경 확인 | ✅ |
-| `Toast` ★ | 결과 알림 + 되돌리기 | ★ `DeadlineToast`, `FavoriteRemovedToast` 대체 |
+| `Toast` | 결과 알림 + 되돌리기 하나. 4초(되돌리기 있으면 6초), 마우스·초점 동안 멈춤, `role="status"` | ✅ (handoff B5, `DeadlineToast`·`FavoriteRemovedToast` 삭제) |
 | `Notice` ★ | 화면 안 안내 띠 | ★ `HoldAddNotice` 대체 |
 
 ### 화면 상태
@@ -190,3 +190,10 @@ src/features/<기능>/
 - 쓰지 말 때: 흰 바탕 목록·상세 (알약 모양 상태 뱃지)
 - 변형: `tone` neutral · info · warning · success · danger, `delayLabel`
 - 예시: `<StatusText label="진행 중" tone="info" delayLabel="81일 지연" />`
+
+### Toast
+- 위치: src/components/ui/Toast.tsx
+- 언제: 저장 · 삭제 · 해제처럼 끝난 일을 알릴 때. 화면 아래 가운데
+- 쓰지 말 때: 오류 (그 영역 안에 보여준다), 화면 안 안내 띠 (`Notice`)
+- 변형: `tone` default · success, `action` (되돌리기 하나)
+- 예시: `<Toast message="즐겨찾기에서 해제했어요." action={{ label: "실행 취소", onClick: undo }} onClose={hide} />`

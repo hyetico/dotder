@@ -1010,6 +1010,23 @@ textarea:-webkit-autofill:focus {
   overscroll-behavior: none;
 }
 
+/* 토스트: 아래에서 위로 200ms. 움직임 줄이기면 제자리에서 보이기만 (handoff B5) */
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+.toast-enter {
+  animation: toast-in var(--duration-toast) var(--ease-out) both;
+}
+
 @keyframes drawer-slide-in {
   from {
     transform: translateX(100%);
@@ -1078,5 +1095,8 @@ textarea:-webkit-autofill:focus {
   .drawer-fade-in,
   .drawer-fade-out {
     animation-duration: 1ms;
+  }
+  .toast-enter {
+    animation: none;
   }
 }

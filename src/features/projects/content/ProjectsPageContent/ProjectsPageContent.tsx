@@ -12,10 +12,10 @@ import { CheckCircle2, Circle, Folder, PauseCircle, Plus, Star } from "@/compone
 import SearchInput from "@/components/ui/input/SearchInput";
 import StatCountCard from "@/components/ui/stats/StatCountCard";
 import StatCountGrid, { statCountWideCardClassName } from "@/components/ui/stats/StatCountGrid";
+import Toast from "@/components/ui/Toast";
 
 import { getProjectListItems } from "@/features/projects/api/projects";
 import FavoriteAddCard from "@/features/projects/components/FavoriteAddCard";
-import FavoriteRemovedToast from "@/features/projects/components/FavoriteRemovedToast";
 import ProjectsScopeTabs, {
   type ProjectsScopeTab,
 } from "@/features/projects/components/ProjectsScopeTabs";
@@ -345,7 +345,12 @@ export default function ProjectsPageContent() {
         onClose={() => setIsFavoriteModalOpen(false)}
       />
       {isEditingFavorites && removedFavoriteIds.length > 0 ? (
-        <FavoriteRemovedToast onUndo={undoFavoriteRemoval} />
+        <Toast
+          key={removedFavoriteIds.length}
+          message="즐겨찾기에서 해제했어요."
+          action={{ label: "실행 취소", onClick: undoFavoriteRemoval }}
+          onClose={() => setRemovedFavoriteIds([])}
+        />
       ) : null}
     </>
   );

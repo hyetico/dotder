@@ -14,6 +14,7 @@ import DatePicker from "@/components/ui/date-picker/DatePicker";
 import FieldNotice from "@/components/ui/FieldNotice";
 import { AppIcon, CalendarSync, CircleAlert, CircleCheck, History } from "@/components/ui/icon";
 import StatusChoiceButton from "@/components/ui/StatusChoiceButton";
+import Toast from "@/components/ui/Toast";
 
 import { useSyncProjectAccent } from "@/features/projects/components/ProjectAccent";
 import { WizardBasicInfoStep } from "@/features/projects/components/ProjectCreateWizard/steps/WizardBasicInfoStep";
@@ -23,7 +24,6 @@ import {
 } from "@/features/projects/components/ProjectCreateWizard/steps/WizardScheduleStep";
 import { WizardSettingsStep } from "@/features/projects/components/ProjectCreateWizard/steps/WizardSettingsStep";
 import AdminSelect from "@/features/projects/components/ProjectForm/AdminSelect";
-import { DeadlineToast } from "@/features/projects/components/ProjectForm/DeadlineToast";
 import { FieldError, FormLabel } from "@/features/projects/components/ProjectForm/FormParts";
 import {
   deadlineChangeLabel,
@@ -726,7 +726,14 @@ export default function ProjectEditForm({
         onSubmit={applyPendingDeadline}
       />
 
-      <DeadlineToast deadlineToast={deadlineToast} setDeadlineToast={setDeadlineToast} />
+      {deadlineToast ? (
+        <Toast
+          tone="success"
+          message="마감일이 변경되었습니다."
+          description={deadlineToast.description}
+          onClose={() => setDeadlineToast(null)}
+        />
+      ) : null}
     </form>
   );
 }
