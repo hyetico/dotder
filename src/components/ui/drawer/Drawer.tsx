@@ -14,6 +14,12 @@ const overlayClassName =
   "fixed inset-0 z-[var(--z-overlay)] bg-[var(--color-overlay)] transition-opacity duration-[400ms] ease-in-out motion-reduce:duration-[1ms]";
 const panelClassName =
   "fixed inset-y-0 right-0 z-[var(--z-drawer)] flex h-full w-full flex-col bg-[var(--color-surface)] shadow-[var(--shadow-overlay)] transition-[transform,max-width] duration-[400ms] ease-in-out motion-reduce:duration-[1ms]";
+// 모바일(767 이하)은 아래에서 올라오는 바텀시트: 위 모서리 16 · 최대 화면 90% (Layout Spec 05 · 08)
+const mobileSheetClassName =
+  "max-md:top-auto max-md:bottom-0 max-md:h-auto max-md:max-h-[90dvh] max-md:rounded-t-[var(--radius-lg)]";
+// 손잡이 36 × 4 · 가운데 · 위 8
+const sheetHandleClassName =
+  "mx-auto mt-2 h-1 w-9 shrink-0 rounded-full bg-[var(--color-border-strong)] md:hidden";
 const barShellClassName = "flex h-[54px] shrink-0 items-center border-[var(--color-border)]";
 const headerFrameClassName = "flex h-full items-center gap-2 px-3";
 const headerControlsClassName = "hidden shrink-0 items-center gap-0.5 md:flex";
@@ -22,7 +28,9 @@ const fullscreenIconClassName = "origin-center scale-[0.67]";
 const bodyScrollClassName =
   "thin-scrollbar flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain py-5 ![scrollbar-gutter:auto]";
 const bodyFrameClassName = "flex min-h-full flex-col gap-4 px-5";
-const footerFrameClassName = "flex h-full items-center justify-end gap-2 px-5";
+// 모바일 바텀시트는 주 버튼(맨 끝)이 남은 폭을 모두 쓴다 (Layout Spec 08)
+const footerFrameClassName =
+  "flex h-full items-center justify-end gap-2 px-5 max-md:[&>*:last-child]:flex-1 max-md:[&>*:last-child]:justify-center";
 
 type DrawerProps = {
   isEntered: boolean;
@@ -145,8 +153,15 @@ function DrawerRoot({
   const panelWidthClassName = isExpanded
     ? "max-w-[100vw]"
     : "max-w-[var(--drawer-width)] border-l border-[var(--color-border)]";
-  const panelMotionClassName = isEntered ? "translate-x-0" : "translate-x-full";
-  const panelStateClassName = [panelClassName, panelWidthClassName, panelMotionClassName].join(" ");
+  const panelMotionClassName = isEntered
+    ? "translate-x-0 max-md:translate-y-0"
+    : "translate-x-full max-md:translate-x-0 max-md:translate-y-full";
+  const panelStateClassName = [
+    panelClassName,
+    panelWidthClassName,
+    mobileSheetClassName,
+    panelMotionClassName,
+  ].join(" ");
   const overlayStateClassName = [overlayClassName, isEntered ? "opacity-100" : "opacity-0"].join(
     " ",
   );
@@ -222,7 +237,15 @@ function DrawerRoot({
           onClick={onClose}
           className={overlayStateClassName}
         />
-      ) : null}
+      ) : (
+        // 웹에서 오버레이 없이 옆에 붙는 드로어도 모바일 바텀시트에서는 뒤를 어둡게 한다
+        <button
+          type="button"
+          aria-label={closeLabel}
+          onClick={onClose}
+          className={`${overlayStateClassName} md:hidden`}
+        />
+      )}
 
       <aside
         ref={setPanelNode}
@@ -232,6 +255,7 @@ function DrawerRoot({
         aria-label={hasTitle ? undefined : closeLabel}
         className={panelStateClassName}
       >
+        <span aria-hidden className={sheetHandleClassName} />
         <div className={`${barShellClassName} border-b`}>
           <DrawerFrame className={headerFrameClassName}>
             <div className={headerControlsClassName}>

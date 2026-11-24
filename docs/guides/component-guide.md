@@ -64,7 +64,7 @@ src/features/<기능>/
 
 | 컴포넌트 | 언제 | 상태 |
 |---|---|---|
-| `Drawer` (+`Body`, `Footer`) | 드로어 바탕 | ✅ |
+| `Drawer` (+`Body`, `Footer`) | 드로어 바탕. 웹 · 태블릿 오른쪽 400, 모바일은 바텀시트(손잡이 · 위 모서리 16 · 최대 90% · 주 버튼 남은 폭) | ✅ |
 | `DrawerFrame` | (역할 확인 후 `Drawer`와 합칠지 결정) | 🔧 |
 | `CreateDrawer` ★ | 생성 드로어 공통 틀 ([design-guide](design-guide.md) 4장) | ★ |
 | `DrawerRow` ★ | 라벨 80 + 값 + 오른쪽 보조 | ★ |
@@ -109,7 +109,7 @@ src/features/<기능>/
 | `StatusFilterBar` (3), `StatusFilterPills` (1) | | ⛔ StatusFilterChips로 합침 (`StatFilterButtons`는 쓰는 곳이 없어 5단계에서 삭제) |
 | `FilterBottomSheet` (1) | 모바일 필터 시트 (`StatusFilterBar` 안) | 🔧 (`FilterButton`, `MobileFilterDrawer`는 쓰는 곳이 없어 5단계에서 삭제) |
 | `StatusChoiceButton` | 상태 하나 고르기 | ✅ |
-| `DropdownMenu`, `MenuLink` | `···` 메뉴. 너비 `--popover-menu` 220 (handoff B4), 쓰는 쪽에서 너비를 바꾸지 않는다 | ✅ |
+| `DropdownMenu`, `MenuLink` | `···` 메뉴. 너비 `--popover-menu` 220 (handoff B4), 쓰는 쪽에서 너비를 바꾸지 않는다. 모바일은 바텀시트(항목 44) | ✅ |
 
 ## 4. 레이아웃 컴포넌트 (`src/components/layout`)
 

@@ -81,6 +81,8 @@
 
   /* 펼쳐진 Sidebar */
   --sidebar-width: 245px;
+  /* 모바일 ☰ → 왼쪽 시트 (Layout Spec 01) */
+  --sidebar-sheet-width: 300px;
 
   /*
    * 드로어. 웹 · 태블릿 모두 400 (handoff B1).

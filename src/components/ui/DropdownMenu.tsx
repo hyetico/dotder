@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState, type ReactNode } from "react";
+import { createPortal } from "react-dom";
 
 import { AppIcon, MoreVertical, type LucideIcon } from "@/components/ui/icon";
 
@@ -13,6 +14,21 @@ type DropdownMenuProps = {
   triggerClassName?: string;
 };
 
+const MOBILE_QUERY = "(max-width: 767px)";
+
+// 모바일(767 이하)은 아래에서 올라오는 바텀시트 · 항목 높이 44 (Components 12 「메뉴 … 모바일은 바텀시트」)
+const sheetOverlayClassName = "fixed inset-0 z-[var(--z-modal)] bg-[var(--color-overlay)]";
+const sheetPanelClassName =
+  "fixed inset-x-0 bottom-0 z-[var(--z-modal)] flex flex-col rounded-t-[var(--radius-lg)] border-t border-[var(--color-border)] bg-[var(--color-surface)] px-2 pb-4 shadow-[var(--shadow-overlay)] [&_a]:min-h-11 [&_button]:min-h-11";
+const sheetHandleClassName =
+  "mx-auto mt-2 mb-2 h-1 w-9 shrink-0 rounded-full bg-[var(--color-border-strong)]";
+
+/**
+ * 점 세 개(⋯) 메뉴. 웹 · 태블릿은 버튼 아래 팝오버 220, 모바일은 바텀시트.
+ *
+ * @example
+ * <DropdownMenu label="메모 메뉴">{(close) => <button onClick={close}>삭제</button>}</DropdownMenu>
+ */
 export default function DropdownMenu({
   label,
   children,
@@ -21,8 +37,10 @@ export default function DropdownMenu({
   triggerClassName = "",
 }: DropdownMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [isSheet, setIsSheet] = useState(false);
 
   const menuRef = useRef<HTMLDivElement>(null);
+  const sheetRef = useRef<HTMLDivElement>(null);
 
   const close = () => {
     setIsOpen(false);
@@ -32,7 +50,13 @@ export default function DropdownMenu({
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+      const target = event.target as Node;
+
+      if (
+        menuRef.current &&
+        !menuRef.current.contains(target) &&
+        !sheetRef.current?.contains(target)
+      ) {
         close();
       }
     };
@@ -74,6 +98,7 @@ export default function DropdownMenu({
             return;
           }
 
+          setIsSheet(window.matchMedia(MOBILE_QUERY).matches);
           setIsOpen((prev) => !prev);
         }}
         className={
@@ -84,13 +109,36 @@ export default function DropdownMenu({
         <AppIcon icon={MoreVertical} size="md" />
       </button>
 
-      {isOpen && (
+      {isOpen && !isSheet && (
         <div
           className={`absolute top-10 right-0 z-30 w-[var(--popover-menu)] rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] p-1.5 shadow-[var(--shadow-overlay)] ${panelClassName} `}
         >
           {content}
         </div>
       )}
+
+      {isOpen && isSheet
+        ? createPortal(
+            <>
+              <div aria-hidden className={sheetOverlayClassName} />
+              <div
+                ref={sheetRef}
+                role="menu"
+                aria-label={label}
+                className={sheetPanelClassName}
+                onClick={(event) => {
+                  if (stopPropagation) {
+                    event.stopPropagation();
+                  }
+                }}
+              >
+                <span aria-hidden className={sheetHandleClassName} />
+                {content}
+              </div>
+            </>,
+            document.body,
+          )
+        : null}
     </div>
   );
 }
