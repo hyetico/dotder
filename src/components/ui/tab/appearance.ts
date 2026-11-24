@@ -23,19 +23,6 @@ const lineTabStackIconClassName = "max-md:size-[18px]";
 const lineTabStackSelectedIconClassName = "max-md:size-[18px] md:text-[var(--color-primary)]";
 const lineTabStackLabelClassName = "inline-flex items-center gap-1 md:contents";
 
-const tileTabListClassName = "grid gap-2";
-const tileTabItemClassName =
-  "flex w-full flex-col items-center justify-center gap-1.5 rounded-[var(--radius-md)]! bg-[var(--color-surface)] px-2 py-3 text-sm leading-5 border border-[var(--color-border)] disabled:opacity-100!";
-const tileTabLabelClassName = "inline-flex items-center gap-1";
-
-const folderTabListClassName = "flex items-center gap-1";
-const folderTabItemClassName =
-  "inline-flex h-8 shrink-0 items-center gap-1.5 rounded-[10px]! px-3 text-sm leading-5 font-medium disabled:opacity-100!";
-const folderTabOpenClassName = "bg-transparent text-[var(--color-text)]";
-const folderTabClosedClassName =
-  "border border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text)] hover:bg-[var(--color-hover)]";
-const folderTabLabelClassName = "inline-flex items-center gap-1";
-
 /**
  * getTabTextClassName
  *
@@ -161,56 +148,6 @@ export function lineTabAppearance(stackOnMobile: boolean, count: number): TabMen
           : undefined,
       labelClassName: stackOnMobile ? lineTabStackLabelClassName : "contents",
       markClassName: lineTabSelectedMarkClassName(state, stackOnMobile),
-    }),
-  };
-}
-
-/**
- * tileTabAppearance
- *
- * 타일 탭에 입힐 모양을 돌려줍니다.
- *
- * @param count - 칸을 나눌 탭 개수
- * @returns 타일 탭 모양
- */
-export function tileTabAppearance(count: number): TabMenuAppearance {
-  return {
-    listClassName: tileTabListClassName,
-    listStyle: { gridTemplateColumns: `repeat(${count}, minmax(0, 1fr))` },
-    item: (state) => ({
-      itemClassName: [
-        tileTabItemClassName,
-        tabFontClassName(state),
-        getTabTextClassName(state),
-      ].join(" "),
-      iconSize: "md",
-      iconClassName: state.selected && !state.disabled ? "text-[var(--color-primary)]" : undefined,
-      labelClassName: tileTabLabelClassName,
-    }),
-  };
-}
-
-/**
- * folderTabAppearance
- *
- * 폴더 어깨에 두는 서브폴더 탭 모양을 돌려줍니다.
- * 열린 탭은 글자만 두고, 닫힌 탭은 흰 둥근 칸으로 보여 줍니다.
- *
- * @returns 서브폴더 탭 모양
- */
-export function folderTabAppearance(): TabMenuAppearance {
-  return {
-    listClassName: folderTabListClassName,
-    item: (state) => ({
-      itemClassName: [
-        folderTabItemClassName,
-        state.selected && !state.disabled ? folderTabOpenClassName : folderTabClosedClassName,
-        state.disabled ? "text-[var(--color-nav-disabled)]" : "",
-      ]
-        .filter(Boolean)
-        .join(" "),
-      iconSize: "sm",
-      labelClassName: folderTabLabelClassName,
     }),
   };
 }
