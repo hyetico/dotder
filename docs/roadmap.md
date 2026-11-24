@@ -101,7 +101,7 @@
 - [x] 탭: `FolderTabMenu`, `TileTabMenu` → `LineTabMenu` (쓰는 곳이 없어 삭제)
 - [ ] 필터: `StatusFilterBar`, `StatusFilterPills`, `StatFilterButtons` → `StatusFilterChips` — 마감 뒤로 미룸 (tech-debt C-3). `StatFilterButtons`는 삭제
 - [ ] `StatusBadge` 만들고 상태 뱃지 3종을 그 위로
-- [ ] `Toast`, `Notice`, `EmptyState`, `Skeleton`, `ErrorState` 만들기
+- [ ] `Toast`, `Notice`, `EmptyState`, `Skeleton`, `ErrorState` 만들기 — `Toast` 완료 (B5)
 - [x] `PageHeading` `variant="form"` 추가, 직접 쓴 `<h1>` 4곳 교체, 사이드바 로고 `<h1>` 제거 (상세 1곳은 7단계)
 - [ ] `div onClick` 2곳 → 링크
 - [x] 이모지 아이콘 → `AppIcon` (숨긴 팀 목업 데이터만 남음)
@@ -110,22 +110,22 @@
 - [x] 메뉴 정리: 리포트 숨김, 플레이그라운드는 개발 환경에서만, 스프린트 페이지 제거 (P-6, P-7)
 - [ ] component-guide 상태 표시 갱신
 
-- [ ] handoff B1 드로어 너비 400 (웹·태블릿), 드로어 안 확인창은 드로어 가운데
+- [ ] handoff B1 드로어 너비 400 (웹·태블릿), 드로어 안 확인창은 드로어 가운데 — 너비 400 완료, 확인창 위치 남음
 - [ ] handoff B2 모달 480, 모바일은 바텀시트 (확인창만 가운데)
-- [ ] handoff B3 모든 오버레이의 닫기는 X 버튼 하나 + 툴팁 "닫기 · Esc"
+- [x] handoff B3 모든 오버레이의 닫기는 X 버튼 하나 + 툴팁 "닫기 · Esc"
 - [ ] handoff B4 팝오버 너비 (메뉴 220 · 필터 280)
-- [ ] handoff B5 토스트 4초 / 6초 · 멈춤 · `role="status"` · reduced-motion
+- [x] handoff B5 토스트 4초 / 6초 · 멈춤 · `role="status"` · reduced-motion
 - [ ] handoff B6 `DatePicker`: 브라우저 기본 날짜 입력 없애기, 달력 팝오버 282, 모바일 바텀시트 — 기본 날짜 입력 0곳 · 웹·태블릿 팝오버 완료, 모바일 바텀시트 남음 (C-9)
 - [ ] handoff B7 고르는 목록에서 이름 자르지 않기
 - [ ] handoff B8 고르는 목록의 메인 표시 = 프로젝트 색 왕관
 - [x] handoff A4 다크 메인 왕관 색 · A5 다크 로고
 - [ ] 폴더 카드 그림자 정리 (handoff C1과 같이, tech-debt S-6)
-- [ ] handoff B9 `StatusText` ★ (폴더 카드 전용 글자형 상태)
+- [x] handoff B9 `StatusText` ★ (폴더 카드 전용 글자형 상태)
 - [ ] handoff B10 체크 목록 (상자 18 + 색 점 + 이름)
 - [ ] handoff B11 모바일 선택 시트 줄 (터치 44)
-- [ ] handoff C1 폴더 카드: 폴더 탭 글씨는 메인만, 제목 16/24 2줄, 상태 줄
+- [x] handoff C1 폴더 카드: 폴더 탭 글씨는 메인만, 제목 16/24 2줄, 상태 줄 (바탕 18% · 패딩 18 포함. 활동 모자이크는 C-11)
 - [ ] handoff C3 태스크 목록 줄 끝 `⋯` 메뉴, 모바일 줄 높이 56
-- [ ] 목록 페이지 순서: 제목 + 요약 → 탭 → 툴바 → 내용 (layout-guide 5-1)
+- [x] 목록 페이지 순서: 제목 + 요약 → 탭 → 툴바 → 내용 (layout-guide 5-1) — 프로젝트 · 목표 · 태스크 · 메모
 - [ ] 모바일: 하단 앱 바 → 햄버거 + 왼쪽 시트 300, 드로어·팝오버·모달은 바텀시트 (layout-guide 2장)
 
 **완료 기준:** component-guide의 ⛔ 항목 0개.
