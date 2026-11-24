@@ -12,7 +12,7 @@
 | 1. 문서 확정 | `docs/guides` | ✅ |
 | 2. 청소 | `chore/cleanup` | ✅ |
 | 3. 반응형 버그 | `fix/breakpoints` | ✅ |
-| 4. 디자인 토큰 | `refactor/design-tokens` | ⬜ |
+| 4. 디자인 토큰 | `refactor/design-tokens` | ✅ |
 | 5. 공통 컴포넌트 정리 | `refactor/ui-components` | ⬜ |
 | 6. 생성 드로어 통일 | `refactor/create-drawer` | ⬜ |
 | 7. 디테일 페이지 | `refactor/project-detail-page` | ⬜ |
@@ -65,7 +65,7 @@
 
 **완료 기준:** 임의 기준점 0곳.
 
-## 4. 디자인 토큰 — `refactor/design-tokens`
+## 4. 디자인 토큰 — `refactor/design-tokens` ✅
 
 양이 많아서 커밋을 나눈다.
 
@@ -76,23 +76,23 @@
 >
 > 커밋마다 주요 화면(프로젝트 목록·목표·태스크 보드·드로어)을 캡처해서 `.tmp/`에 전후 비교를 남긴다.
 
-- [ ] globals.css: style-guide의 ★ 토큰 추가, ◆ 토큰 이름 변경
-- [ ] 다크 모드 값 전부 채우기
-- [ ] 글자: 홀수 크기 60곳 → 짝수 의미 클래스, `text-body-sm` → `text-caption`
-- [ ] 색: 하드코딩 hex, UI 코드 154곳 → 토큰 (팔레트 원본·목업 데이터는 예외, tech-debt S-1)
-- [ ] 고정 색 147곳 (`bg-white` 86 · `text-white` 29 · `text-black` 21 · `bg-black` 10 · `border-white` 1) → 토큰
-- [ ] 상태 색 파일 2개 → `lib/statusColors.ts` 하나로
-- [ ] 모서리·그림자·z-index 임의 값 → 토큰
-- [ ] `lib/date.ts` 만들고 날짜 형식 함수 14개 합치기
+- [x] globals.css: style-guide의 ★ 토큰 추가, ◆ 토큰 이름 변경
+- [x] 다크 모드 값 전부 채우기 (주 버튼 그라데이션도 토큰으로)
+- [x] 글자: 홀수 크기 60곳 → 짝수, 임의 크기 150곳 → 0, `text-body-sm` → `text-caption` (`text-badge-sm-mobile`은 S-13)
+- [x] 색: 하드코딩 hex, UI 코드 154곳 → 10곳 (남은 곳은 v1 숨김 팀 모달 · 팔레트 값, tech-debt S-1). Tailwind 기본 팔레트(`red-500` 등) 약 200곳도 토큰으로
+- [x] 고정 색 147곳 (`bg-white` 86 · `text-white` 29 · `text-black` 21 · `bg-black` 10 · `border-white` 1) → 토큰
+- [x] 상태 색 파일 2개 → `lib/statusColors.ts` 하나로
+- [x] 모서리·그림자·z-index 임의 값 → 토큰 (폴더 카드 그림자는 5단계 C1, S-6)
+- [x] `lib/date.ts` 만들고 날짜 형식 함수 합치기 (18개 삭제)
 
 - [x] (시작 전) 저장소 docs 가이드를 `design/boards/docs/` 값과 맞추기 — `docs/design-handoff`
-- [ ] handoff A1 입력칸 선 대비 3:1 (`--color-field-border`, `-hover`) (handoff A1 등은 `design/_handoff/CHANGES-2026-11-23.md`의 번호)
-- [ ] handoff A2 지연 글자·뱃지 `#b91c1c` / `#ff8a8a`
-- [ ] handoff A3 다크 폴더 카드 바탕 20% · 카드 위 보조 글자 `#aab2bb`
-- [ ] handoff A4 다크 메인 왕관 색 (프로젝트 색 + 흰색 30%)
-- [ ] handoff A5 다크 로고: `design/svg/` 로고로 교체
-- [ ] handoff A6 글자 11 · 13 → 12 (위 "홀수 크기"와 같이)
-- [ ] 프로젝트 9색으로 바꾸기, Ivory · Ink 옮기기 (tech-debt S-12)
+- [x] handoff A1 입력칸 선 대비 3:1 (`--color-field-border`, `-hover`) (handoff A1 등은 `design/_handoff/CHANGES-2026-11-23.md`의 번호)
+- [x] handoff A2 지연 글자·뱃지 `#b91c1c` / `#ff8a8a`
+- [x] handoff A3 다크 폴더 카드 바탕 20% · 카드 위 보조 글자 `#aab2bb`
+- [ ] handoff A4 다크 메인 왕관 색 (프로젝트 색 + 흰색 30%) → 5단계 B8과 같이 (S-15)
+- [ ] handoff A5 다크 로고: `design/svg/` 로고로 교체 → 5단계 사이드바 로고(A-2)와 같이 (S-15)
+- [x] handoff A6 글자 11 · 13 → 12 (위 "홀수 크기"와 같이)
+- [x] 프로젝트 9색으로 바꾸기 (이미 저장된 Ivory · Ink 옮기기는 8단계, S-12)
 
 **완료 기준:** 하드코딩 색·글자 크기 0곳. `data-theme="dark"`를 붙여도 글자가 다 보인다.
 
@@ -118,6 +118,8 @@
 - [ ] handoff B6 `DatePicker`: 브라우저 기본 날짜 입력 없애기, 달력 팝오버 282, 모바일 바텀시트
 - [ ] handoff B7 고르는 목록에서 이름 자르지 않기
 - [ ] handoff B8 고르는 목록의 메인 표시 = 프로젝트 색 왕관
+- [ ] handoff A4 다크 메인 왕관 색 · A5 다크 로고 (4단계에서 옮김, tech-debt S-15)
+- [ ] 폴더 카드 그림자 정리 (handoff C1과 같이, tech-debt S-6)
 - [ ] handoff B9 `StatusText` ★ (폴더 카드 전용 글자형 상태)
 - [ ] handoff B10 체크 목록 (상자 18 + 색 점 + 이름)
 - [ ] handoff B11 모바일 선택 시트 줄 (터치 44)

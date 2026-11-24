@@ -9,7 +9,7 @@ import {
 
 const circleClassName =
   "relative z-10 flex h-8 w-8 items-center justify-center rounded-full text-body font-semibold transition-colors";
-const circleDoneClassName = `${circleClassName} bg-primary-gradient text-white`;
+const circleDoneClassName = `${circleClassName} bg-primary-gradient text-[var(--color-text-inverse)]`;
 const circleTodoClassName = `${circleClassName} bg-[var(--color-hover-strong)] text-[var(--color-text-muted)]`;
 const lineClassName = "absolute top-[15px] left-1/2 h-0.5 w-full transition-colors";
 

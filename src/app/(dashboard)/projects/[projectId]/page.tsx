@@ -19,14 +19,18 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
     <PageInset
       top="header"
       bottom={false}
-      className="text-body-sm py-12 text-center text-[var(--color-text-secondary)]"
+      className="text-caption py-12 text-center text-[var(--color-text-secondary)]"
     >
       프로젝트를 찾을 수 없습니다.
     </PageInset>
   );
 
   if (!Number.isFinite(projectId)) {
-    return <div className="-mt-[var(--header-height)] min-h-dvh bg-white">{missingProject}</div>;
+    return (
+      <div className="-mt-[var(--header-height)] min-h-dvh bg-[var(--color-surface)]">
+        {missingProject}
+      </div>
+    );
   }
 
   const [project, goals, tasks] = await Promise.all([
@@ -36,7 +40,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
   ]);
 
   return (
-    <div className="-mt-[var(--header-height)] min-h-dvh bg-white">
+    <div className="-mt-[var(--header-height)] min-h-dvh bg-[var(--color-surface)]">
       {project ? (
         <ProjectDetailPageContent project={project} goals={goals} tasks={tasks} />
       ) : (

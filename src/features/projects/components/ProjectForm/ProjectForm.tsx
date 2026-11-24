@@ -256,7 +256,7 @@ export default function ProjectForm({
             ? splitFillsViewport
               ? `flex flex-1 flex-col md:min-h-0 md:overflow-hidden`
               : "flex flex-col"
-            : `rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] p-6 shadow-[var(--shadow-card)] md:p-8`
+            : `rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] p-6 md:p-8`
         } `}
       >
         {splitLayout ? (

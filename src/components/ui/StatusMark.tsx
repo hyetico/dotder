@@ -42,7 +42,7 @@ export default function StatusMark({
     <span
       title={label}
       aria-label={label}
-      className={`inline-flex shrink-0 items-center justify-center rounded-full text-white ${config.box} ${className} `}
+      className={`inline-flex shrink-0 items-center justify-center rounded-full text-[var(--color-text-inverse)] ${config.box} ${className} `}
       style={{
         backgroundColor: color,
       }}

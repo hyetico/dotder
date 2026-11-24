@@ -8,11 +8,10 @@ const favoriteEditToolbarClassName =
   "flex min-h-10 min-w-0 flex-wrap items-center justify-between gap-3";
 const favoriteEditSelectClassName = "flex min-w-0 items-center";
 const favoriteEditCheckClassName = "flex min-w-0 items-center gap-2";
-const favoriteEditSelectLabelClassName =
-  "text-[14px] leading-5 font-medium text-[var(--color-text)]";
+const favoriteEditSelectLabelClassName = "text-sm leading-5 font-medium text-[var(--color-text)]";
 const favoriteEditDividerClassName = "mx-4 h-4 w-px shrink-0 bg-[var(--color-border)]";
 const favoriteEditCountClassName =
-  "text-[14px] leading-5 font-medium text-[var(--color-text-secondary)] tabular-nums";
+  "text-sm leading-5 font-medium text-[var(--color-text-secondary)] tabular-nums";
 const favoriteEditRemoveButtonClassName = "!h-7 !rounded-full !px-3";
 
 type FavoriteEditToolbarProps = {

@@ -6,37 +6,34 @@ import Badge from "@/components/ui/badge/Badge";
 import DropdownMenu from "@/components/ui/DropdownMenu";
 import { AppIcon, ChevronDown, FileText, Folder, Trash2 } from "@/components/ui/icon";
 
-import {
-  formatMemoDate,
-  getMemoProjectLabel,
-  getMemoRegistrationLabel,
-} from "@/features/memos/utils/memoDisplay";
+import { getMemoProjectLabel, getMemoRegistrationLabel } from "@/features/memos/utils/memoDisplay";
 
+import { formatDateTime } from "@/lib/date";
 import { buildTasksPath, getGoalDetailPath } from "@/lib/projectRoutes";
 
 import type { Memo } from "@/features/memos/types/memo";
 
 const archiveShellClassName =
-  "overflow-hidden rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-white";
+  "overflow-hidden rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)]";
 const archiveRowClassName =
   "flex items-center gap-3 border-b border-[var(--color-border)] px-4 py-3";
 const archiveTitleClassName =
-  "w-full truncate text-left text-[14px] leading-5 font-medium text-[var(--color-text)]";
+  "w-full truncate text-left text-sm leading-5 font-medium text-[var(--color-text)]";
 const archiveMetaClassName =
-  "flex shrink-0 items-center gap-1 text-[12px] leading-4 text-[var(--color-text-muted)]";
+  "flex shrink-0 items-center gap-1 text-xs leading-4 text-[var(--color-text-muted)]";
 const archiveMoreClassName =
-  "flex h-11 w-full items-center justify-center gap-1 text-[13px] font-medium text-[var(--color-text-secondary)] transition-colors hover:bg-[var(--color-hover-soft)] hover:text-[var(--color-text)]";
+  "flex h-11 w-full items-center justify-center gap-1 text-xs font-medium text-[var(--color-text-secondary)] transition-colors hover:bg-[var(--color-hover-soft)] hover:text-[var(--color-text)]";
 const archiveMenuItemClassName =
-  "text-body-sm flex w-full items-center gap-2 rounded-[var(--radius-sm)] px-3 py-2 text-left font-medium text-[var(--color-text)] transition-colors hover:bg-[var(--color-hover-soft)]";
+  "text-caption flex w-full items-center gap-2 rounded-[var(--radius-sm)] px-3 py-2 text-left font-medium text-[var(--color-text)] transition-colors hover:bg-[var(--color-hover-soft)]";
 const archiveDeleteItemClassName =
-  "text-body-sm flex w-full items-center gap-2 rounded-[var(--radius-sm)] px-3 py-2 text-left font-medium text-red-500 transition-colors hover:bg-red-50";
+  "text-caption flex w-full items-center gap-2 rounded-[var(--radius-sm)] px-3 py-2 text-left font-medium text-[var(--color-danger-text)] transition-colors hover:bg-[var(--color-danger-soft)]";
 const archiveProjectBadgeClassName = "bg-[var(--color-field)] text-[var(--color-text-secondary)]";
 const archiveRegisteredBadgeClassName =
   "bg-[var(--color-primary-soft)] text-[var(--color-primary)]";
 const archiveLinkClassName =
-  "text-[12px] font-medium text-[var(--color-text-secondary)] hover:text-[var(--color-text)]";
+  "text-xs font-medium text-[var(--color-text-secondary)] hover:text-[var(--color-text)]";
 const archiveEmptyClassName =
-  "rounded-[var(--radius-lg)] border border-dashed border-[var(--color-border)] px-4 py-8 text-center text-[13px] text-[var(--color-text-secondary)]";
+  "rounded-[var(--radius-lg)] border border-dashed border-[var(--color-border)] px-4 py-8 text-center text-xs text-[var(--color-text-secondary)]";
 
 type MemoProject = {
   id: number;
@@ -154,7 +151,7 @@ export default function MemoArchiveList({
               <span className="truncate">{getMemoProjectLabel(project)}</span>
             </span>
             <time dateTime={memo.createdAt} className={`${archiveMetaClassName} tabular-nums`}>
-              {formatMemoDate(memo.createdAt)}
+              {formatDateTime(memo.createdAt)}
             </time>
             <DropdownMenu label={`${memo.title} 메뉴`} stopPropagation panelClassName="w-44">
               {(close) => (

@@ -29,7 +29,6 @@ const panelClassName = `
   border
   border-[var(--color-border)]
   bg-[var(--color-surface)]
-  shadow-[var(--shadow-card)]
 `;
 
 const columns: ListColumn[] = [
@@ -194,55 +193,55 @@ export default function ProjectDetailTeam({
         <SectionHeader
           icon={<AppIcon icon={Users} size="md" />}
           title={project.isPersonal ? "개인 프로젝트" : project.teamName}
-          titleClassName="text-[15px] leading-5 font-semibold"
+          titleClassName="text-base leading-5 font-semibold"
           plain
           actions={
             <span className="flex items-center gap-2">
               <Link
                 href="/teams"
-                className="text-body-sm inline-flex h-9 items-center gap-1.5 rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-white px-3 font-medium hover:bg-[var(--color-hover-soft)]"
+                className="text-caption inline-flex h-9 items-center gap-1.5 rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-[var(--color-surface)] px-3 font-medium hover:bg-[var(--color-hover-soft)]"
               >
                 <AppIcon icon={Settings} size="sm" />팀 관리
               </Link>
             </span>
           }
         />
-        <p className="mt-2 text-[13px] leading-[21px] text-[var(--color-text-secondary)]">
+        <p className="mt-2 text-sm leading-5 text-[var(--color-text-secondary)]">
           팀 태스크와 일정을 함께 관리합니다.
         </p>
         <div className="mt-4 grid gap-4 border-t border-[var(--color-border)] pt-3 sm:grid-cols-2 md:pt-4">
           <div>
-            <p className="text-[13px] leading-5 font-medium text-[var(--color-text-secondary)]">
+            <p className="text-xs leading-5 font-medium text-[var(--color-text-secondary)]">
               프로젝트 담당자
             </p>
-            <p className="mt-1 text-[14px] leading-5 font-medium">{project.creatorName}</p>
+            <p className="mt-1 text-sm leading-5 font-medium">{project.creatorName}</p>
           </div>
           <div>
-            <p className="text-[13px] leading-5 font-medium text-[var(--color-text-secondary)]">
+            <p className="text-xs leading-5 font-medium text-[var(--color-text-secondary)]">
               팀 관리자
             </p>
-            <p className="mt-1 text-[14px] leading-5 font-medium">{manager?.name ?? "없음"}</p>
+            <p className="mt-1 text-sm leading-5 font-medium">{manager?.name ?? "없음"}</p>
           </div>
         </div>
       </section>
 
       <div className="grid gap-3 sm:grid-cols-2">
         <section className={`${panelClassName} flex items-center gap-3 p-[10px] md:p-4`}>
-          <AppIcon icon={Users} size="md" color="#111827" />
+          <AppIcon icon={Users} size="md" color="var(--color-text)" />
           <div>
-            <p className="text-[13px] leading-5 font-medium text-[var(--color-text-secondary)]">
+            <p className="text-xs leading-5 font-medium text-[var(--color-text-secondary)]">
               참여 팀원
             </p>
-            <p className="text-[20px] leading-7 font-bold tabular-nums">{members.length}명</p>
+            <p className="text-xl leading-7 font-bold tabular-nums">{members.length}명</p>
           </div>
         </section>
         <section className={`${panelClassName} flex items-center gap-3 p-[10px] md:p-4`}>
-          <AppIcon icon={ListTodo} size="md" color="#111827" />
+          <AppIcon icon={ListTodo} size="md" color="var(--color-text)" />
           <div>
-            <p className="text-[13px] leading-5 font-medium text-[var(--color-text-secondary)]">
+            <p className="text-xs leading-5 font-medium text-[var(--color-text-secondary)]">
               진행중 태스크
             </p>
-            <p className="text-[20px] leading-7 font-bold tabular-nums">{activeTaskCount}개</p>
+            <p className="text-xl leading-7 font-bold tabular-nums">{activeTaskCount}개</p>
           </div>
         </section>
       </div>
@@ -278,7 +277,7 @@ export default function ProjectDetailTeam({
           />
         </div>
         {project.isPersonal || members.length === 0 ? (
-          <p className="px-5 py-8 text-center text-[13px] leading-[21px] text-[var(--color-text-secondary)]">
+          <p className="px-5 py-8 text-center text-sm leading-5 text-[var(--color-text-secondary)]">
             {project.isPersonal ? "개인 프로젝트에는 팀 멤버가 없습니다." : "팀 멤버가 없습니다."}
           </p>
         ) : (
@@ -298,28 +297,28 @@ export default function ProjectDetailTeam({
           <SectionHeader
             icon={<AppIcon icon={ListTodo} size="md" />}
             title="태스크 배정 확인"
-            titleClassName="text-[15px] leading-5 font-semibold"
+            titleClassName="text-base leading-5 font-semibold"
             plain
           />
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
             <div className="rounded-[var(--radius-sm)] bg-[var(--color-hover-soft)] px-3 py-3">
-              <p className="text-[13px] leading-5 font-medium text-[var(--color-text-secondary)]">
+              <p className="text-xs leading-5 font-medium text-[var(--color-text-secondary)]">
                 미배정 목표
               </p>
-              <p className="mt-1 text-[20px] leading-7 font-bold tabular-nums">
+              <p className="mt-1 text-xl leading-7 font-bold tabular-nums">
                 {unassignedGoals.length}건
               </p>
             </div>
             <div className="rounded-[var(--radius-sm)] bg-[var(--color-hover-soft)] px-3 py-3">
-              <p className="text-[13px] leading-5 font-medium text-[var(--color-text-secondary)]">
+              <p className="text-xs leading-5 font-medium text-[var(--color-text-secondary)]">
                 담당목표 없는 팀원
               </p>
-              <p className="mt-1 text-[20px] leading-7 font-bold tabular-nums">
+              <p className="mt-1 text-xl leading-7 font-bold tabular-nums">
                 {idleMembers.length}명
               </p>
             </div>
           </div>
-          <p className="mt-3 text-[13px] leading-[21px] text-[var(--color-text-secondary)]">
+          <p className="mt-3 text-sm leading-5 text-[var(--color-text-secondary)]">
             참여역할을 확인한 뒤 필요한 목표를 배정해주세요.
           </p>
         </section>
@@ -328,12 +327,12 @@ export default function ProjectDetailTeam({
           <SectionHeader
             icon={<AppIcon icon={Shield} size="md" />}
             title="접근 권한 안내"
-            titleClassName="text-[15px] leading-5 font-semibold"
+            titleClassName="text-base leading-5 font-semibold"
             plain
           />
           <table className="mt-4 w-full">
             <thead>
-              <tr className="text-left text-[13px] leading-5 font-medium text-[var(--color-text-secondary)]">
+              <tr className="text-left text-xs leading-5 font-medium text-[var(--color-text-secondary)]">
                 <th className="pb-2 font-medium">역할</th>
                 <th className="pb-2 font-medium">주요 권한</th>
               </tr>
@@ -341,8 +340,8 @@ export default function ProjectDetailTeam({
             <tbody>
               {roleGuide.map((item) => (
                 <tr key={item.role} className="border-t border-[var(--color-border)]">
-                  <td className="py-2 pr-3 text-[14px] leading-5 font-medium">{item.role}</td>
-                  <td className="py-2 text-[13px] leading-[21px] text-[var(--color-text-secondary)]">
+                  <td className="py-2 pr-3 text-sm leading-5 font-medium">{item.role}</td>
+                  <td className="py-2 text-sm leading-5 text-[var(--color-text-secondary)]">
                     {item.access}
                   </td>
                 </tr>

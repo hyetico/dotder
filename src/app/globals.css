@@ -19,6 +19,8 @@
     "Pretendard Variable", Pretendard, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
     "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 
+  --text-2xs: var(--type-2xs);
+  --text-2xs--line-height: var(--type-2xs-line);
   --text-xs: var(--type-xs);
   --text-xs--line-height: var(--type-xs-line);
   --text-sm: var(--type-sm);
@@ -31,10 +33,10 @@
   --text-xl--line-height: var(--type-xl-line);
   --text-2xl: var(--type-2xl);
   --text-2xl--line-height: var(--type-2xl-line);
-  --text-3xl: 28px;
-  --text-3xl--line-height: 36px;
-  --text-4xl: 32px;
-  --text-4xl--line-height: 40px;
+  --text-3xl: var(--type-3xl);
+  --text-3xl--line-height: var(--type-3xl-line);
+  --text-4xl: var(--type-4xl);
+  --text-4xl--line-height: var(--type-4xl-line);
 }
 
 /*
@@ -75,9 +77,27 @@
   /* 펼쳐진 Sidebar */
   --sidebar-width: 245px;
 
-  /* 새 목표 드로어. 넓은 화면에서는 이 너비만큼 본문을 줄인다. */
-  --goal-drawer-width: 560px;
-  --goal-drawer-offset: 0px;
+  /*
+   * 드로어. 넓은 화면에서는 이 너비만큼 본문을 줄인다(--drawer-offset).
+   * style-guide 4장 목표값은 400. 지금 너비 560은 5단계(handoff B1)에서 바꾼다.
+   */
+  --drawer-width: 560px;
+  --drawer-offset: 0px;
+
+  /* 모달·팝오버 너비 (style-guide 4장) */
+  --modal-width: 480px;
+  --confirm-width: 320px;
+  --search-width: 600px;
+  --popover-menu: 220px;
+  --popover-sort: 200px;
+  --popover-filter: 280px;
+  --popover-switcher: 320px;
+  --popover-calendar: 282px;
+
+  /* 드로어 안 행 (style-guide 3장). 모바일 좌우는 20 */
+  --drawer-padding-x: 20px;
+  --drawer-label-width: 80px;
+  --drawer-row-py: 16px;
 
   /*
    * 접힌 Sidebar. 1280px 미만(태블릿 768–1023, 1024–1279)에서 쓴다.
@@ -134,6 +154,8 @@
   --space-6: 24px;
   --space-8: 32px;
   --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
 
   /*
    * 목록 페이지 제목.
@@ -217,6 +239,35 @@
   /* Modal / Drawer */
   --radius-lg: 16px;
 
+  /* xs 버튼 */
+  --radius-xs: 6px;
+
+  /* 알약 모양 칩·태그, 스위치 */
+  --radius-full: 9999px;
+
+  /*
+   * ---------------------------------------------------------
+   * 겹침 순서 (style-guide 7장)
+   * ---------------------------------------------------------
+   */
+  --z-header: 10;
+  --z-overlay: 50;
+  --z-drawer: 60;
+  --z-modal: 70;
+  --z-popover: 80;
+  --z-toast: 90;
+
+  /*
+   * ---------------------------------------------------------
+   * 움직임 (style-guide 8장)
+   * ---------------------------------------------------------
+   */
+  --duration-popover: 120ms;
+  --duration-overlay: 150ms;
+  --duration-drawer: 180ms;
+  --duration-toast: 200ms;
+  --ease-out: ease-out;
+
   /*
    * ---------------------------------------------------------
    * Colors
@@ -240,9 +291,17 @@
    * 왼쪽 #343840에서 오른쪽 #484D56까지 대비를 작게 두어 차콜이 은은하게 보이게 한다.
    * 호버는 같은 방향으로 한 단계만 어둡게 한다.
    */
-  --gradient-primary: linear-gradient(90deg, #343840 0%, #484d56 100%);
-  --gradient-primary-hover: linear-gradient(90deg, #2c3037 0%, #3d424b 100%);
-  --gradient-nav-bar: linear-gradient(90deg, #343840 0%, #484d56 100%);
+  --color-primary-hover-mid: #3d424b;
+  --gradient-primary: linear-gradient(
+    90deg,
+    var(--color-primary) 0%,
+    var(--color-primary-mid) 100%
+  );
+  --gradient-primary-hover: linear-gradient(
+    90deg,
+    var(--color-primary-hover) 0%,
+    var(--color-primary-hover-mid) 100%
+  );
 
   /* Background */
   --color-background: #ffffff;
@@ -256,6 +315,10 @@
   /* 리스트 호버(--color-hover)보다 한 단계 연한 호버·보조 배경. */
   --color-hover-soft: #f7f7f5;
   --color-hover-strong: #e9ebef;
+  /* 메뉴, 팝오버처럼 위에 뜨는 면 */
+  --color-surface-raised: #ffffff;
+  /* 모달·드로어·바텀시트 뒤를 어둡게. 이것 하나만 쓴다. */
+  --color-overlay: rgb(15 18 22 / 35%);
 
   /* Text */
   /*
@@ -267,6 +330,10 @@
   --color-text-secondary: #475569;
   --color-text-muted: #6b7280;
   --color-text-disabled: #9ca3af;
+  /* 큰 제목 입력칸 placeholder */
+  --color-text-placeholder: #c9c7c3;
+  /* 주 버튼 위 글자 (text-white 대신) */
+  --color-text-inverse: #ffffff;
 
   /*
    * 입력폼 컬러
@@ -276,10 +343,12 @@
   --color-field-disabled: #f8f8f7;
   --color-field-text: #292d32;
   --color-field-placeholder: #68717a;
-  --color-field-border: #e2e5e7;
-  --color-field-hover: #68717a;
+  /* 입력칸 선은 바탕 대비 3:1 이상 (handoff A1). 장식 테두리 --color-border와 섞지 않는다. */
+  --color-field-border: #868c94;
   --color-field-focus: #343840;
   --color-field-error: #ef4444;
+  /* 입력칸 선 호버 */
+  --color-field-border-hover: #5f6670;
 
   /*
    * 선택 테두리.
@@ -290,11 +359,42 @@
 
   /* Border */
   --color-border: #e2e5e7;
+  /* 체크박스, 장식 테두리 */
+  --color-border-strong: #d1d5db;
+  /* 드로어 안 구분선 */
+  --color-border-subtle: #f0f0ee;
 
-  /* Semantic */
+  /*
+   * Semantic (style-guide 1-5)
+   * 기본 색은 막대·점·넓은 면에만. 글자와 작은 아이콘은 -text 토큰.
+   */
   --color-success: #22c55e;
   --color-warning: #f97316;
   --color-danger: #ef4444;
+  --color-info: #3b82f6;
+  --color-neutral: #9ca3af;
+  --color-neutral-soft: #f1f1ef;
+  --color-info-soft: #eff6ff;
+  --color-warning-soft: #fff7ed;
+  --color-success-soft: #ecfdf3;
+  --color-danger-soft: #fef2f2;
+  --color-neutral-text: #475569;
+  --color-info-text: #1d4ed8;
+  --color-success-text: #15803d;
+  --color-warning-text: #c2410c;
+  --color-danger-text: #b91c1c;
+
+  /*
+   * 종류 색 (style-guide 1-6).
+   * 사이드바·검색 아이콘, 기록 점, 빈 상태 그림, 로고에만. 버튼·탭·뱃지에는 쓰지 않는다.
+   */
+  --color-kind-project: #6b2d5b;
+  --color-kind-goal: #2f6b5a;
+  --color-kind-task: #6d28d9;
+  --color-kind-memo: #c4a574;
+
+  /* 폴더 카드·뱃지 바탕에 섞는 프로젝트 색 비율 (style-guide 1-8) */
+  --project-tint: 18%;
 
   /*
    * 사이드 메뉴.
@@ -305,17 +405,16 @@
   --color-nav-icon: #000000;
   --color-nav-hover: #f4f5f7;
   --color-nav-hover-text: #000000;
-  --color-nav-selected-bg: #343840;
-  --color-nav-selected: #ffffff;
   --color-nav-disabled: #cbd5e1;
+  /* 선택된 메뉴 (style-guide 1-7) */
+  --color-nav-active: #343840;
+  --color-nav-active-text: #ffffff;
 
   /*
    * ---------------------------------------------------------
    * Shadow
    * ---------------------------------------------------------
    */
-
-  --shadow-card: 0 1px 2px rgba(15, 23, 42, 0.04), 0 1px 3px rgba(15, 23, 42, 0.04);
 
   /*
    * 프로젝트 보드 카드.
@@ -325,7 +424,8 @@
 
   --shadow-project-card-hover: 0 6px 14px rgb(0 0 0 / 16%), 0 0 0 1px rgb(0 0 0 / 8%);
 
-  --shadow-dropdown: 0 10px 30px rgba(15, 23, 42, 0.1);
+  /* 팝오버, 메뉴, 드로어, 모달. 그림자는 이것 하나로 맞춘다 (style-guide 6장). */
+  --shadow-overlay: 0 12px 32px rgb(0 0 0 / 16%);
 
   /*
    * ---------------------------------------------------------
@@ -336,8 +436,10 @@
    * 사이드 메뉴(14/20)와 같은 스케일.
    */
 
+  --type-2xs: 10px;
+  --type-2xs-line: 12px;
   --type-xs: 12px;
-  --type-xs-line: 16px;
+  --type-xs-line: 18px;
   --type-sm: 14px;
   --type-sm-line: 20px;
   --type-md: 16px;
@@ -348,28 +450,81 @@
   --type-xl-line: 28px;
   --type-2xl: 24px;
   --type-2xl-line: 32px;
+  --type-3xl: 28px;
+  --type-3xl-line: 36px;
+  --type-4xl: 32px;
+  --type-4xl-line: 40px;
 }
 
 /*
  * 다크 모드. <html data-theme="dark">일 때만 적용된다.
- * 아직 전환 버튼은 없고, 색 토큰만 준비해 둔 상태다.
+ * 아직 전환 버튼은 없다(8단계). 모든 색 토큰의 다크 값은 여기 있다.
  * 컴포넌트에 직접 쓴 흰색(bg-white 등)은 따로 토큰으로 바꿔야 다크 모드에서 맞는다.
  */
 :root[data-theme="dark"] {
+  /* 기존 토큰의 다크 값 (style-guide 1장) */
   --color-page: #191b1e;
-  --color-background: #24282d;
-  --color-surface: #24282d;
+  --color-background: #16181c;
+  --color-surface: #1b1e22;
   --color-muted: #2a2f35;
-  --color-border: #3a4047;
-  --color-text: #f2f3f4;
+  --color-hover: #30353c;
+  --color-hover-soft: #2a2f35;
+  --color-hover-strong: #3a4047;
+  --color-border: #30353b;
+  --color-text: #e7e9ec;
+  --color-text-secondary: #aab2bb;
+  --color-text-muted: #8b949e;
+  --color-text-disabled: #6b737c;
+  --color-primary: #d1d5db;
+  --color-primary-hover: #e5e7eb;
+  --color-primary-soft: #30353c;
+  --color-primary-ring: #5b636c;
+  --color-primary-mid: #dfe2e6;
+  --color-primary-hover-mid: #eef0f2;
   --color-field: #2a2f35;
-  --color-field-disabled: #24282d;
-  --color-field-text: #f2f3f4;
+  --color-field-disabled: #22262b;
+  --color-field-text: #e7e9ec;
   --color-field-placeholder: #a8b0b8;
-  --color-field-border: #3a4047;
-  --color-field-hover: #a8b0b8;
-  --color-field-focus: #f2f3f4;
-  --color-field-error: #ef4444;
+  --color-field-border: #6b737c;
+  --color-field-focus: #d1d5db;
+  --color-field-error: #f87171;
+  --color-success: #4ade80;
+  --color-warning: #fb923c;
+  --color-danger: #f87171;
+  --color-nav-text: #e7e9ec;
+  --color-nav-icon: #e7e9ec;
+  --color-nav-hover: #30353c;
+  --color-nav-hover-text: #e7e9ec;
+  --color-nav-disabled: #5b636c;
+
+  /* 새 토큰의 다크 값 (style-guide 1장) */
+  --color-surface-raised: #2c3138;
+  --color-overlay: rgb(0 0 0 / 55%);
+  --color-border-strong: #3a4047;
+  --color-border-subtle: #30353c;
+  --color-text-placeholder: #5b636c;
+  --color-text-inverse: #16181c;
+  --color-field-border-hover: #9aa2ab;
+  --color-info: #60a5fa;
+  --color-neutral: #6b737c;
+  --color-neutral-soft: #262a30;
+  --color-info-soft: #1c2a40;
+  --color-warning-soft: #3a2716;
+  --color-success-soft: #16301f;
+  --color-danger-soft: #3d1c1e;
+  --color-neutral-text: #aab2bb;
+  --color-info-text: #8ab4ff;
+  --color-success-text: #6fd69a;
+  --color-warning-text: #f5a66b;
+  --color-danger-text: #ff8a8a;
+  --color-kind-project: #c98bb6;
+  --color-kind-goal: #6fc2a5;
+  --color-kind-task: #a78bfa;
+  --color-kind-memo: #d9bd8f;
+  --project-tint: 20%;
+  --color-nav-active: #2a2e35;
+  --color-nav-active-text: #f3f4f6;
+  --shadow-overlay: 0 12px 32px rgb(0 0 0 / 50%);
 }
 
 /*
@@ -399,28 +554,16 @@
   letter-spacing: -0.01em;
 }
 
-/*
- * 프로젝트 카드 제목. 16px, 줄 높이 18px.
- * 두 줄이 36px이라 옆의 프로젝트 아이콘(36px)과 높이가 맞는다.
- * 카드 제목 크기가 바뀌면 보드 카드와 드로어 카드가 같이 바뀐다.
- */
-.text-project-card-title {
-  font-size: var(--type-md);
-  line-height: 18px;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-}
-
 .text-body {
   font-size: var(--type-sm);
   line-height: var(--type-sm-line);
   font-weight: 400;
 }
 
-.text-body-sm {
-  font-size: var(--type-xs);
-  line-height: var(--type-xs-line);
-  font-weight: 400;
+.text-label {
+  font-size: var(--type-sm);
+  line-height: var(--type-sm-line);
+  font-weight: 600;
 }
 
 .text-caption {
@@ -704,25 +847,24 @@ a.sidebar-nav-link:hover svg {
   color: var(--color-nav-hover-text);
 }
 
+/* 선택된 메뉴는 단색. 그라데이션은 주 버튼에만 쓴다 (style-guide 1-3, 1-7). */
 a.sidebar-nav-link[data-active="true"] {
-  background-color: var(--color-nav-selected-bg);
-  background-image: var(--gradient-primary);
-  color: var(--color-nav-selected);
+  background-color: var(--color-nav-active);
+  color: var(--color-nav-active-text);
   font-weight: 400;
 }
 
 a.sidebar-nav-link[data-active="true"] svg {
-  color: var(--color-nav-selected);
+  color: var(--color-nav-active-text);
 }
 
 a.sidebar-nav-link[data-active="true"]:hover {
-  background-color: var(--color-primary-hover);
-  background-image: var(--gradient-primary-hover);
-  color: var(--color-nav-selected);
+  background-color: var(--color-nav-active);
+  color: var(--color-nav-active-text);
 }
 
 a.sidebar-nav-link[data-active="true"]:hover svg {
-  color: var(--color-nav-selected);
+  color: var(--color-nav-active-text);
 }
 
 .sidebar-nav-tooltip {

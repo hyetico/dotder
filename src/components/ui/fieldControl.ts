@@ -3,7 +3,7 @@ export const fieldPaddingClassName = "px-2.5 md:px-4";
 export const fieldInactiveClassName =
   "cursor-not-allowed border-[var(--color-field-border)] bg-[var(--color-field-disabled)] text-[var(--color-field-placeholder)]";
 
-export const fieldHoverClassName = "hover:border-[var(--color-field-hover)]";
+export const fieldHoverClassName = "hover:border-[var(--color-field-border-hover)]";
 
 export const fieldFocusRingClassName =
   "focus:border-[var(--color-field-focus)] focus:shadow-[0_0_0_1px_var(--color-field-focus)]";

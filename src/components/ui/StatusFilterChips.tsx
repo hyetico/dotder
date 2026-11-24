@@ -2,7 +2,7 @@
 
 import type { ReactNode } from "react";
 
-const pillMutedColor = "#787774";
+const pillMutedColor = "var(--color-text-muted)";
 const pillButtonClassName =
   "text-body inline-flex h-9 shrink-0 items-center gap-1.5 rounded-full border-0 px-3 font-medium whitespace-nowrap transition-colors focus-visible:ring-2 focus-visible:ring-[var(--color-primary-ring)] focus-visible:outline-none";
 
@@ -77,22 +77,22 @@ export function StatusFilterChipButton<T extends string>({
       onClick={onClick}
       className={
         isPill
-          ? `${pillButtonClassName} ${selected ? "bg-white text-[var(--color-text)] shadow-sm" : "bg-transparent text-[var(--color-text-secondary)] hover:bg-[var(--color-hover-soft)]"} ${className}`
+          ? `${pillButtonClassName} ${selected ? "bg-[var(--color-surface)] text-[var(--color-text)] shadow-sm" : "bg-transparent text-[var(--color-text-secondary)] hover:bg-[var(--color-hover-soft)]"} ${className}`
           : `text-body inline-flex shrink-0 items-center gap-1.5 ${
               framed || grouped
-                ? "rounded-[6px] border-0 px-2.5"
+                ? "rounded-[var(--radius-xs)] border-0 px-2.5"
                 : "rounded-[var(--radius-sm)] border px-3"
             } font-medium whitespace-nowrap text-[var(--color-text)] transition-[background-color,box-shadow] focus-visible:ring-2 focus-visible:ring-[var(--color-primary-ring)] focus-visible:outline-none ${
               framed
-                ? `h-9 bg-white shadow-sm`
+                ? `h-9 bg-[var(--color-surface)] shadow-sm`
                 : grouped
                   ? `h-8 border-transparent ${
-                      selected ? `bg-white shadow-sm` : `bg-transparent hover:bg-white/80`
-                    } `
-                  : `h-9 border-[var(--color-border)] bg-white ${
                       selected
-                        ? `shadow-[0_1px_2px_rgba(15,23,42,0.08),0_1px_3px_rgba(15,23,42,0.06)]`
-                        : "hover:bg-[var(--color-hover-soft)]"
+                        ? `bg-[var(--color-surface)] shadow-sm`
+                        : `bg-transparent hover:bg-[var(--color-surface)]/80`
+                    } `
+                  : `h-9 border-[var(--color-border)] bg-[var(--color-surface)] ${
+                      selected ? `` : "hover:bg-[var(--color-hover-soft)]"
                     } `
             } ${className} `
       }
@@ -121,7 +121,7 @@ export function StatusFilterChipButton<T extends string>({
   }
 
   return (
-    <div className="inline-flex h-10 shrink-0 items-center rounded-[var(--radius-sm)] bg-[#F1F3F5] p-0.5">
+    <div className="inline-flex h-10 shrink-0 items-center rounded-[var(--radius-sm)] bg-[var(--color-hover)] p-0.5">
       {control}
     </div>
   );
@@ -155,7 +155,7 @@ export default function StatusFilterChips<T extends string>({
       className={
         pill
           ? "inline-flex max-w-full min-w-0 flex-wrap items-center gap-1.5"
-          : "inline-flex max-w-full min-w-0 flex-wrap items-center gap-0.5 rounded-[var(--radius-sm)] bg-[#F1F3F5] p-0.5"
+          : "inline-flex max-w-full min-w-0 flex-wrap items-center gap-0.5 rounded-[var(--radius-sm)] bg-[var(--color-hover)] p-0.5"
       }
     >
       {items.map((item) => {

@@ -460,7 +460,10 @@ export default function SidebarDrawer({ isOpen, onClose, projects }: SidebarDraw
           icon={Star}
           title="즐겨찾기 프로젝트"
           info={
-            <Badge size="sm" className="bg-gray-100 font-medium text-[var(--color-text-secondary)]">
+            <Badge
+              size="sm"
+              className="bg-[var(--color-hover)] font-medium text-[var(--color-text-secondary)]"
+            >
               {favoriteProjects.length}/{MAX_FAVORITES}
             </Badge>
           }
@@ -566,19 +569,19 @@ export default function SidebarDrawer({ isOpen, onClose, projects }: SidebarDraw
   }
 
   return createPortal(
-    <div ref={setScrollRoot} className="fixed inset-0 z-[120]" role="presentation">
+    <div ref={setScrollRoot} className="fixed inset-0 z-[var(--z-drawer)]" role="presentation">
       <button
         type="button"
         aria-label="내 프로젝트 닫기"
         onClick={onClose}
-        className="absolute inset-0 bg-black/20 transition-opacity duration-300"
+        className="absolute inset-0 bg-[var(--color-overlay)] transition-opacity duration-300"
       />
 
       <aside
         role="dialog"
         aria-modal="true"
         aria-label="내 프로젝트"
-        className="absolute top-0 right-0 flex h-full w-[min(100vw,480px)] flex-col border-l border-[var(--color-border)] bg-[var(--color-surface)] shadow-[var(--shadow-dropdown)] transition-transform duration-300 ease-out"
+        className="absolute top-0 right-0 flex h-full w-[min(100vw,480px)] flex-col border-l border-[var(--color-border)] bg-[var(--color-surface)] shadow-[var(--shadow-overlay)] transition-transform duration-300 ease-out"
       >
         <Modal.Header
           title="내 프로젝트"

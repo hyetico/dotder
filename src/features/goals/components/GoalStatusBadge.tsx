@@ -8,13 +8,13 @@ import {
 import type { GoalStatus } from "@/features/goals/types/goal";
 import type { ReactNode } from "react";
 
-const badgeFill = "bg-[linear-gradient(180deg,#ffffff_0%,#f3f4f6_100%)]";
+const badgeFill = "bg-[var(--color-surface)]";
 
 const statusOutlineClass: Record<ReturnType<typeof getGoalVisualStatus>, string> = {
-  NOT_STARTED: "border-slate-400 text-[var(--color-text-secondary)]",
-  IN_PROGRESS: "border-blue-500 text-blue-600",
-  COMPLETED: "border-green-500 text-green-600",
-  DELAYED: "border-red-500 text-red-600",
+  NOT_STARTED: "border-[var(--color-border-strong)] text-[var(--color-text-secondary)]",
+  IN_PROGRESS: "border-[var(--color-info)] text-[var(--color-info-text)]",
+  COMPLETED: "border-[var(--color-success)] text-[var(--color-success-text)]",
+  DELAYED: "border-[var(--color-danger)] text-[var(--color-danger-text)]",
 };
 
 type GoalStatusBadgeProps = {
@@ -50,7 +50,7 @@ export default function GoalStatusBadge({
       title={spokenLabel ? `${statusLabel} ${spokenLabel}` : undefined}
       aria-label={spokenLabel ? `${statusLabel} ${spokenLabel}` : undefined}
       className={`inline-flex shrink-0 items-center justify-center ${
-        shape === "rounded" ? "rounded-[6px]" : "rounded-full"
+        shape === "rounded" ? "rounded-[var(--radius-xs)]" : "rounded-full"
       } border-0 ${plain ? "" : `${badgeFill} ${statusOutlineClass[appearance]}`} ${
         size === "sm"
           ? "text-badge-sm h-4 gap-0.5 px-1.5 leading-none"

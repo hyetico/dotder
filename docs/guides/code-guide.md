@@ -133,7 +133,7 @@ export function DrawerRow({ label, htmlFor, aside, children }: DrawerRowProps) {
 - 생성·수정·삭제는 기능별 `useXxxMutations` 훅에 모은다.
 - 계산할 수 있는 값(진행률, 지연, 상태)은 저장하지 않고 `utils`의 함수로 계산한다.
 - 폼 검증은 zod 스키마(`features/<기능>/schemas`)에서만. 오류 문구도 스키마에 둔다.
-- 날짜 다루기와 형식은 `src/lib/date.ts`(★)에서만.
+- 날짜 다루기와 형식은 `src/lib/date.ts`에서만.
 
 ## 6. 금지
 

@@ -7,12 +7,10 @@ import { AppIcon, ClipboardList, LayoutDashboard, Plus } from "@/components/ui/i
 
 import HoldAddNotice from "@/features/projects/components/HoldAddNotice";
 import SectionHeader from "@/features/projects/components/SectionHeader";
-import {
-  PROJECT_STATUS_COLOR_SCALES,
-  progressGradients,
-} from "@/features/projects/constants/projectStatusColors";
 import CreateTaskButton from "@/features/tasks/components/board/CreateTaskButton";
 import { useTaskMutations } from "@/features/tasks/hooks/useTaskMutations";
+
+import { PROJECT_STATUS_COLOR_SCALES, progressGradients } from "@/lib/statusColors";
 
 import type { Goal } from "@/features/goals/types/goal";
 import type { ProjectListItem } from "@/features/projects/types/project";
@@ -26,7 +24,7 @@ const progressFormulaItems = [
 ] as const;
 
 const panelClassName =
-  "relative rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] shadow-[var(--shadow-card)]";
+  "relative rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)]";
 
 type ProjectDetailProgressProps = {
   project: ProjectListItem;
@@ -66,22 +64,21 @@ function countTasks(tasks: Task[]): TaskCounts {
  *
  * @param props - ProgressDonut 컴포넌트 Props
  * @param props.value - 0부터 100 사이의 완료 비율
- * @param props.gradient - 프로젝트 카드와 같은 진행 구간 그라데이션
+ * @param props.color - 진행 구간 시작 색. 끝으로 갈수록 바탕 쪽으로 옅어진다
  * @param props.trackColor - 진행률 고리의 남은 구간 색
  */
 function ProgressDonut({
   value,
-  gradient,
-  trackColor = "#E8EDF5",
+  color,
+  trackColor = "var(--color-hover)",
 }: {
   value: number;
-  gradient: string;
+  color: string;
   trackColor?: string;
 }) {
   const gradientId = useId().replace(/:/g, "");
-  const stops = gradient.match(/#[0-9A-Fa-f]{6}/g) ?? [];
-  const from = stops[0] ?? "#6B7280";
-  const to = stops[1] ?? from;
+  const from = color;
+  const to = `color-mix(in srgb, ${color} 50%, var(--color-surface))`;
   const shown = Math.min(100, Math.max(0, value));
   const radius = 42;
   const trackStroke = 12;
@@ -99,8 +96,8 @@ function ProgressDonut({
       >
         <defs>
           <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor={from} />
-            <stop offset="100%" stopColor={to} />
+            <stop offset="0%" style={{ stopColor: from }} />
+            <stop offset="100%" style={{ stopColor: to }} />
           </linearGradient>
         </defs>
         <circle
@@ -108,7 +105,7 @@ function ProgressDonut({
           cy="60"
           r={radius}
           fill="none"
-          stroke={trackColor}
+          style={{ stroke: trackColor }}
           strokeWidth={trackStroke}
         />
         {shown > 0 ? (
@@ -125,7 +122,7 @@ function ProgressDonut({
           />
         ) : null}
       </svg>
-      <span className="absolute inset-0 flex items-center justify-center text-[22px] leading-7 font-bold text-[var(--color-text)] tabular-nums">
+      <span className="absolute inset-0 flex items-center justify-center text-2xl leading-7 font-bold text-[var(--color-text)] tabular-nums">
         {shown}%
       </span>
     </div>
@@ -144,16 +141,14 @@ function ProgressDonut({
 function ProgressCountLabel({ done, total }: { done: number; total: number }) {
   return (
     <span className="inline-flex flex-col items-center text-center">
-      <span className="text-[14px] leading-5 font-medium whitespace-nowrap text-[var(--color-text)]">
+      <span className="text-sm leading-5 font-medium whitespace-nowrap text-[var(--color-text)]">
         <span className="tabular-nums">완료 {done}</span>
         <span className="tabular-nums">
           {" / 전체 "}
           {total}개
         </span>
       </span>
-      <span className="text-[13px] leading-[21px] text-[var(--color-text-secondary)]">
-        전체 태스크 기준
-      </span>
+      <span className="text-sm leading-5 text-[var(--color-text-secondary)]">전체 태스크 기준</span>
     </span>
   );
 }
@@ -179,9 +174,12 @@ export default function ProjectDetailProgress({
   const progressGradient = project.isDelayed
     ? progressGradients.IN_PROGRESS
     : progressGradients[project.status];
+  const progressColor = project.isDelayed
+    ? PROJECT_STATUS_COLOR_SCALES.IN_PROGRESS.progress
+    : PROJECT_STATUS_COLOR_SCALES[project.status].progress;
   const progressTrackColor = project.isDelayed
     ? PROJECT_STATUS_COLOR_SCALES.DELAYED.progress
-    : "#E8EDF5";
+    : "var(--color-hover)";
   const hasTasks = counts.total > 0;
   const hasGoals = goals.length > 0;
   const onHold = project.status === "ON_HOLD";
@@ -191,7 +189,7 @@ export default function ProjectDetailProgress({
       <SectionHeader
         icon={<AppIcon icon={LayoutDashboard} size="md" />}
         title="프로젝트 진행 현황"
-        titleClassName="text-[15px] leading-5 font-semibold"
+        titleClassName="text-base leading-5 font-semibold"
         plain
         tooltip="완료한 태스크를 전체 태스크로 나눈 값입니다. 태스크가 없으면 집계하지 않습니다."
         tooltipItems={progressFormulaItems}
@@ -202,7 +200,7 @@ export default function ProjectDetailProgress({
 
       {!hasTasks && !hasGoals ? (
         <div className="flex flex-col items-center py-10 text-center">
-          <span className="flex h-14 w-14 items-center justify-center rounded-full bg-[#F3F4F6] text-[var(--color-text-secondary)]">
+          <span className="flex h-14 w-14 items-center justify-center rounded-full bg-[var(--color-hover)] text-[var(--color-text-secondary)]">
             <AppIcon icon={ClipboardList} size="xl" />
           </span>
           <p className="mt-4 text-sm leading-5 font-semibold text-[var(--color-text)]">
@@ -218,7 +216,9 @@ export default function ProjectDetailProgress({
               <div className="mt-5 flex justify-center">
                 <PrimaryButton
                   className="h-9 max-h-9 min-h-9"
-                  icon={<AppIcon icon={Plus} size="sm" className="text-white" />}
+                  icon={
+                    <AppIcon icon={Plus} size="sm" className="text-[var(--color-text-inverse)]" />
+                  }
                   onClick={() => setCreateOpen(true)}
                 >
                   태스크 추가
@@ -232,7 +232,7 @@ export default function ProjectDetailProgress({
           {hasTasks ? (
             <div className="w-full md:hidden">
               <div className="flex items-center justify-between gap-3">
-                <p className="text-[22px] leading-7 font-bold text-[var(--color-text)] tabular-nums">
+                <p className="text-2xl leading-7 font-bold text-[var(--color-text)] tabular-nums">
                   {counts.percent}%
                 </p>
                 <p className="text-sm leading-5 text-[var(--color-text-secondary)]">
@@ -278,7 +278,7 @@ export default function ProjectDetailProgress({
               <>
                 <ProgressDonut
                   value={counts.percent}
-                  gradient={progressGradient}
+                  color={progressColor}
                   trackColor={progressTrackColor}
                 />
                 <p className="mt-3 flex w-full justify-center">
@@ -287,7 +287,7 @@ export default function ProjectDetailProgress({
               </>
             ) : (
               <>
-                <div className="flex h-40 w-40 items-center justify-center rounded-full border-2 border-dashed border-[#D1D5DB] text-[22px] leading-7 font-bold text-[var(--color-text-muted)]">
+                <div className="flex h-40 w-40 items-center justify-center rounded-full border-2 border-dashed border-[var(--color-border-strong)] text-2xl leading-7 font-bold text-[var(--color-text-muted)]">
                   —
                 </div>
                 <p className="mt-3 text-sm leading-5 font-medium text-[var(--color-text)]">

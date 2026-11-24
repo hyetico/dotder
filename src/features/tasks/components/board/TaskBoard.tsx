@@ -109,8 +109,8 @@ export default function TaskBoard({
 
   if (isLoading) {
     return (
-      <div className="overflow-hidden rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] px-6 py-12 shadow-[var(--shadow-card)]">
-        <p className="text-body-sm text-center text-[var(--color-text-secondary)]">
+      <div className="overflow-hidden rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] px-6 py-12">
+        <p className="text-caption text-center text-[var(--color-text-secondary)]">
           Task를 불러오는 중입니다...
         </p>
       </div>
@@ -119,8 +119,10 @@ export default function TaskBoard({
 
   if (isError) {
     return (
-      <div className="overflow-hidden rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] px-6 py-12 shadow-[var(--shadow-card)]">
-        <p className="text-body-sm text-center text-red-500">Task를 불러오지 못했습니다.</p>
+      <div className="overflow-hidden rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] px-6 py-12">
+        <p className="text-caption text-center text-[var(--color-danger-text)]">
+          Task를 불러오지 못했습니다.
+        </p>
       </div>
     );
   }
@@ -232,14 +234,14 @@ export default function TaskBoard({
   };
 
   return (
-    <div className="overflow-hidden rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] shadow-[var(--shadow-card)]">
+    <div className="overflow-hidden rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)]">
       <div className="flex items-center justify-between gap-3 border-b border-[var(--color-border)] px-3 py-2.5 md:px-4">
         <div className="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1">
           <h2 className="text-card-title shrink-0 font-semibold text-[var(--color-text)]">
             Task 보드
           </h2>
 
-          <span className="shrink-0 rounded-full bg-gray-100 px-2 py-1 text-xs text-[var(--color-text-secondary)]">
+          <span className="shrink-0 rounded-full bg-[var(--color-hover)] px-2 py-1 text-xs text-[var(--color-text-secondary)]">
             {filteredTasks.length}
           </span>
         </div>
@@ -256,7 +258,7 @@ export default function TaskBoard({
 
       {isSearchEmpty ? (
         <div className="flex min-h-[240px] flex-col items-center justify-center px-6 py-10 text-center">
-          <p className="text-body-sm text-[var(--color-text-secondary)]">
+          <p className="text-caption text-[var(--color-text-secondary)]">
             {hasSearchQuery && !hasStatusFilter
               ? "검색 결과가 없습니다."
               : "조건에 맞는 태스크가 없습니다."}

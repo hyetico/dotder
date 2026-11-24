@@ -33,7 +33,12 @@ function IllustrationBurst() {
  * 그림 아래에 깔리는 옅은 바닥 그림자입니다.
  */
 function IllustrationGround() {
-  return <div aria-hidden className="mx-auto mt-4 h-2.5 w-28 rounded-full bg-black/5 blur-[2px]" />;
+  return (
+    <div
+      aria-hidden
+      className="mx-auto mt-4 h-2.5 w-28 rounded-full bg-[var(--color-hover)] blur-[2px]"
+    />
+  );
 }
 
 /**
@@ -52,8 +57,8 @@ export function FolderIllustration({ color }: { color: string | null }) {
 
         <ProjectFolder color={color} className="w-[132px]">
           <div className="flex h-[84px] flex-col justify-end gap-1.5 p-4">
-            <span className="h-1.5 w-12 rounded-full bg-black/5" />
-            <span className="h-1.5 w-8 rounded-full bg-black/5" />
+            <span className="h-1.5 w-12 rounded-full bg-[var(--color-hover)]" />
+            <span className="h-1.5 w-8 rounded-full bg-[var(--color-hover)]" />
           </div>
         </ProjectFolder>
       </div>
@@ -74,7 +79,7 @@ export function CalendarIllustration() {
       <div className="relative">
         <IllustrationBurst />
 
-        <div className="relative w-[132px] overflow-hidden rounded-[var(--radius-md)] border border-[var(--color-border)] bg-white shadow-[var(--shadow-card)]">
+        <div className="relative w-[132px] overflow-hidden rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)]">
           <div className="h-6 border-b border-[var(--color-border)] bg-[var(--color-muted)]" />
 
           <div className="grid grid-cols-4 gap-x-3 gap-y-2.5 px-4 py-4">
@@ -82,7 +87,9 @@ export function CalendarIllustration() {
               <span
                 key={key}
                 className={`h-1.5 w-1.5 rounded-full ${
-                  key === calendarTodayIndex ? "bg-[var(--color-primary)]" : "bg-gray-300"
+                  key === calendarTodayIndex
+                    ? "bg-[var(--color-primary)]"
+                    : "bg-[var(--color-border-strong)]"
                 }`}
               />
             ))}

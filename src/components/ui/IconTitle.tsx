@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 
 const sizeClassName = {
-  sm: "gap-1.5 text-body-sm",
+  sm: "gap-1.5 text-caption",
   md: "gap-2 text-body",
 } as const;
 

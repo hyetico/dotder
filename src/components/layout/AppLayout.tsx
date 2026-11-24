@@ -12,7 +12,7 @@ type AppLayoutProps = {
 };
 
 const appColumnClassName =
-  "relative z-0 flex min-w-0 flex-1 flex-col transition-[margin-right] duration-[400ms] ease-in-out motion-reduce:duration-[1ms] lg:mr-[var(--goal-drawer-offset)]";
+  "relative z-0 flex min-w-0 flex-1 flex-col transition-[margin-right] duration-[400ms] ease-in-out motion-reduce:duration-[1ms] lg:mr-[var(--drawer-offset)]";
 
 function AppLayoutFrame({ children }: AppLayoutProps) {
   /*
@@ -106,7 +106,7 @@ function AppLayoutFrame({ children }: AppLayoutProps) {
           type="button"
           aria-label="모바일 메뉴 닫기"
           onClick={closeMobileSidebar}
-          className="fixed inset-0 z-40 bg-black/40 md:hidden"
+          className="fixed inset-0 z-40 bg-[var(--color-overlay)] md:hidden"
         />
       )}
 

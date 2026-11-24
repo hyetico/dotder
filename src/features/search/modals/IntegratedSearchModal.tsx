@@ -197,7 +197,7 @@ type ScopeChipProps = {
  */
 function ScopeChip({ icon, label, clearLabel, onClear }: ScopeChipProps) {
   return (
-    <div className="text-caption flex h-6 w-fit max-w-[14rem] min-w-0 items-center gap-1 rounded-[6px] border border-[#E6E8EC] bg-[#F3F4F6] px-2 text-[var(--color-text-secondary)]">
+    <div className="text-caption flex h-6 w-fit max-w-[14rem] min-w-0 items-center gap-1 rounded-[var(--radius-xs)] border border-[var(--color-border)] bg-[var(--color-hover)] px-2 text-[var(--color-text-secondary)]">
       <AppIcon icon={icon} size="xs" className="shrink-0" />
       <span className="min-w-0 truncate">{label}</span>
       <button
@@ -231,7 +231,7 @@ function ViewLink({ label, onClick }: ViewLinkProps) {
     <button
       type="button"
       onClick={onClick}
-      className="text-badge-sm inline-flex h-5 shrink-0 items-center rounded-[4px] border border-[var(--color-border)] bg-white px-1 leading-3 font-medium whitespace-nowrap text-[var(--color-text)] transition-colors hover:border-[#6B7280] hover:bg-[#6B7280] hover:text-white"
+      className="text-badge-sm inline-flex h-5 shrink-0 items-center rounded-[var(--radius-xs)] border border-[var(--color-border)] bg-[var(--color-surface)] px-1 leading-3 font-medium whitespace-nowrap text-[var(--color-text)] transition-colors hover:border-[var(--color-border-strong)] hover:bg-[var(--color-text-muted)] hover:text-[var(--color-text-inverse)]"
     >
       {label}
     </button>
@@ -243,9 +243,9 @@ const goalSearchStatusClassName =
 
 const goalSearchStatusColor: Record<GoalVisualStatus, string> = {
   NOT_STARTED: "text-[var(--color-text-secondary)]",
-  IN_PROGRESS: "text-blue-600",
-  COMPLETED: "text-green-600",
-  DELAYED: "text-red-600",
+  IN_PROGRESS: "text-[var(--color-info-text)]",
+  COMPLETED: "text-[var(--color-success-text)]",
+  DELAYED: "text-[var(--color-danger-text)]",
 };
 
 type GoalSearchStatusProps = {
@@ -308,7 +308,7 @@ function ResultRow({ leading, title, subtitle, status, onOpen, extra }: ResultRo
         >
           {leading}
           <span className="min-w-0 flex-1">
-            <span className="text-body-sm block truncate font-semibold text-[var(--color-text)]">
+            <span className="text-caption block truncate font-semibold text-[var(--color-text)]">
               {title}
             </span>
             {subtitle ? (
@@ -500,35 +500,35 @@ export default function IntegratedSearchModal({
         id: "all",
         label: "전체",
         count: queriedGoals.length,
-        iconColor: "#6B7280",
+        iconColor: "var(--color-text-muted)",
         icon: <AppIcon icon={Target} size="sm" />,
       },
       {
         id: "NOT_STARTED",
         label: getGoalStatusLabel("NOT_STARTED"),
         count: count("NOT_STARTED"),
-        iconColor: "#9CA3AF",
+        iconColor: "var(--color-neutral-text)",
         icon: <GoalStatusIcon status="NOT_STARTED" size={iconSize.sm} />,
       },
       {
         id: "IN_PROGRESS",
         label: getGoalStatusLabel("IN_PROGRESS"),
         count: count("IN_PROGRESS"),
-        iconColor: "#3B82F6",
+        iconColor: "var(--color-info-text)",
         icon: <GoalStatusIcon status="IN_PROGRESS" size={iconSize.sm} />,
       },
       {
         id: "COMPLETED",
         label: getGoalStatusLabel("COMPLETED"),
         count: count("COMPLETED"),
-        iconColor: "#10B981",
+        iconColor: "var(--color-success-text)",
         icon: <GoalStatusIcon status="COMPLETED" size={iconSize.sm} />,
       },
       {
         id: "DELAYED",
         label: "마감 초과",
         count: count("DELAYED"),
-        iconColor: "#EF4444",
+        iconColor: "var(--color-danger-text)",
         icon: <GoalStatusIcon status="DELAYED" size={iconSize.sm} />,
       },
     ];
@@ -576,28 +576,28 @@ export default function IntegratedSearchModal({
         id: "all",
         label: "전체",
         count: queriedTasks.length,
-        iconColor: "#6B7280",
+        iconColor: "var(--color-text-muted)",
         icon: <AppIcon icon={List} size="sm" />,
       },
       {
         id: "TODO",
         label: getTaskStatusLabel("TODO"),
         count: count("TODO"),
-        iconColor: "#94A3B8",
+        iconColor: "var(--color-neutral-text)",
         icon: <TaskStatusIcon status="TODO" size={iconSize.sm} />,
       },
       {
         id: "IN_PROGRESS",
         label: getTaskStatusLabel("IN_PROGRESS"),
         count: count("IN_PROGRESS"),
-        iconColor: "#2563EB",
+        iconColor: "var(--color-info-text)",
         icon: <TaskStatusIcon status="IN_PROGRESS" size={iconSize.sm} />,
       },
       {
         id: "DONE",
         label: getTaskStatusLabel("DONE"),
         count: count("DONE"),
-        iconColor: "#16A34A",
+        iconColor: "var(--color-success-text)",
         icon: <TaskStatusIcon status="DONE" size={iconSize.sm} />,
       },
     ];
@@ -737,7 +737,7 @@ export default function IntegratedSearchModal({
         </div>
         <ListScroll>
           {visibleGoals.length === 0 ? (
-            <p className="text-body-sm px-2 py-8 text-center text-[var(--color-text-secondary)]">
+            <p className="text-caption px-2 py-8 text-center text-[var(--color-text-secondary)]">
               {scopedGoals.length === 0 ? "해당하는 목표가 없습니다." : "검색 결과가 없습니다."}
             </p>
           ) : (
@@ -749,7 +749,7 @@ export default function IntegratedSearchModal({
                   <ResultRow
                     key={goal.id}
                     leading={
-                      <span className="flex size-9 shrink-0 items-center justify-center rounded-full border border-[var(--color-border)] bg-white text-[var(--color-text-secondary)]">
+                      <span className="flex size-9 shrink-0 items-center justify-center rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-secondary)]">
                         <AppIcon icon={Target} size="sm" />
                       </span>
                     }
@@ -762,7 +762,7 @@ export default function IntegratedSearchModal({
                         <GoalSearchStatus status={goal.status} />
                         {goal.status !== "COMPLETED" &&
                         getGoalScheduleMark(goal).tone === "delayed" ? (
-                          <span className="text-badge-sm inline-flex h-4 shrink-0 items-center leading-none text-red-600">
+                          <span className="text-badge-sm inline-flex h-4 shrink-0 items-center leading-none text-[var(--color-danger-text)]">
                             마감 초과
                           </span>
                         ) : null}
@@ -817,7 +817,7 @@ export default function IntegratedSearchModal({
         </div>
         <ListScroll>
           {visibleTasks.length === 0 ? (
-            <p className="text-body-sm px-2 py-8 text-center text-[var(--color-text-secondary)]">
+            <p className="text-caption px-2 py-8 text-center text-[var(--color-text-secondary)]">
               {scopedTasks.length === 0 ? "해당하는 태스크가 없습니다." : "검색 결과가 없습니다."}
             </p>
           ) : (
@@ -843,7 +843,7 @@ export default function IntegratedSearchModal({
                       <span className="inline-flex items-center gap-1">
                         <TaskStatusBadge status={task.status} size="sm" />
                         {isTaskPastDue(task) ? (
-                          <span className="text-badge-sm inline-flex h-4 shrink-0 items-center leading-none text-red-600">
+                          <span className="text-badge-sm inline-flex h-4 shrink-0 items-center leading-none text-[var(--color-danger-text)]">
                             마감 초과
                           </span>
                         ) : null}
@@ -869,7 +869,7 @@ export default function IntegratedSearchModal({
       onClose={onClose}
       padded={false}
       labelledBy="integrated-search-modal-title"
-      zIndexClassName="z-[180]"
+      zIndexClassName="z-[var(--z-modal)]"
       maxWidthClassName="max-w-[520px]"
       panelClassName={stableListModalPanelClassName}
     >

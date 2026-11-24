@@ -44,7 +44,7 @@ const stackedHeaderClassName = "flex items-center justify-between gap-3";
 const stackedLabelClassName = "flex min-w-0 items-center gap-1";
 const identityClassName = "flex min-w-0 items-center gap-2";
 const teamMarkClassName =
-  "flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white text-base leading-none";
+  "flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[var(--color-surface)] text-base leading-none";
 
 /**
  * SettingRow

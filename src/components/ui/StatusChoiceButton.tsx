@@ -58,12 +58,12 @@ export default function StatusChoiceButton({
           ? ` ${className || "h-9"} justify-center gap-2.5 rounded-[var(--radius-sm)] border-2 bg-transparent px-3 text-center text-[var(--color-text)] md:justify-start md:text-left ${
               selected
                 ? "border-[var(--color-field-focus)]"
-                : "border-gray-200 hover:border-gray-300"
+                : "border-[var(--color-border)] hover:border-[var(--color-border-strong)]"
             } `
           : `h-9 justify-center gap-1 overflow-hidden rounded-[var(--radius-sm)] border px-4 text-center ${
               selected
-                ? `bg-primary-gradient border-transparent text-white`
-                : `border-[var(--color-border)] bg-white text-[var(--color-text)] hover:bg-[var(--color-hover)]`
+                ? `bg-primary-gradient border-transparent text-[var(--color-text-inverse)]`
+                : `border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text)] hover:bg-[var(--color-hover)]`
             } `
       } ${dimmed ? "cursor-not-allowed opacity-40" : disabled ? "cursor-default" : ""} `}
     >

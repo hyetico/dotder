@@ -66,7 +66,7 @@ export function FormSectionIntro({
           <span className="text-card-title hidden text-[var(--color-text)] md:inline">{title}</span>
         </h2>
 
-        <p className="text-body-sm mt-1 text-[var(--color-text-secondary)] md:mt-0.5">
+        <p className="text-caption mt-1 text-[var(--color-text-secondary)] md:mt-0.5">
           <span className="md:hidden">{mobileDescription ?? description}</span>
 
           <span className="hidden md:inline">{description}</span>
@@ -84,7 +84,7 @@ export function FormSectionIntro({
       <div className="min-w-0">
         <h2 className="text-card-title text-[var(--color-text)]">{title}</h2>
 
-        <p className="text-body-sm mt-0.5 text-[var(--color-text-secondary)]">{description}</p>
+        <p className="text-caption mt-0.5 text-[var(--color-text-secondary)]">{description}</p>
       </div>
     </div>
   );

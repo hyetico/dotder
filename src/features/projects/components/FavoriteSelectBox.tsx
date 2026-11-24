@@ -3,9 +3,10 @@
 import { AppIcon, Check, Minus } from "@/components/ui/icon";
 
 const favoriteSelectBoxClassName =
-  "grid size-4 shrink-0 cursor-pointer place-items-center rounded-[4px] border text-white";
-const favoriteSelectBoxOnClassName = "border-[#292D32] bg-[#292D32]";
-const favoriteSelectBoxOffClassName = "border-[#D0D5DD] bg-white";
+  "grid size-4 shrink-0 cursor-pointer place-items-center rounded-[var(--radius-xs)] border text-[var(--color-text-inverse)]";
+const favoriteSelectBoxOnClassName = "border-[var(--color-primary)] bg-[var(--color-primary)]";
+const favoriteSelectBoxOffClassName =
+  "border-[var(--color-border-strong)] bg-[var(--color-surface)]";
 
 type FavoriteSelectBoxProps = {
   checked: boolean;

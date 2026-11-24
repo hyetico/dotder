@@ -43,7 +43,7 @@ const projectsPageShellClassName = "min-w-0";
 const projectsPageFrameClassName = "project-board-width @container";
 const projectsPageBodyClassName = "space-y-5";
 const favoriteEditButtonClassName =
-  "inline-flex h-[32px] shrink-0 cursor-pointer items-center rounded-[8px] px-[12px] text-[13px]! leading-none! font-medium! text-[var(--color-text-secondary)] transition-colors hover:bg-[var(--color-hover-soft)] hover:text-[var(--color-text)]";
+  "inline-flex h-[32px] shrink-0 cursor-pointer items-center rounded-[var(--radius-sm)] px-[12px] text-xs! leading-none! font-medium! text-[var(--color-text-secondary)] transition-colors hover:bg-[var(--color-hover-soft)] hover:text-[var(--color-text)]";
 
 /**
  * ProjectsPageContent
@@ -237,20 +237,20 @@ export default function ProjectsPageContent() {
         label="진행 중"
         count={stats.inProgress}
         icon={ProjectInProgressIcon}
-        iconClassName="text-blue-600"
-        pair={{ label: "지연", count: stats.delayed, className: "text-red-600" }}
+        iconClassName="text-[var(--color-info-text)]"
+        pair={{ label: "지연", count: stats.delayed, className: "text-[var(--color-danger-text)]" }}
       />
       <StatCountCard
         label="보류"
         count={stats.onHold}
         icon={PauseCircle}
-        iconClassName="text-amber-600"
+        iconClassName="text-[var(--color-warning-text)]"
       />
       <StatCountCard
         label="완료"
         count={stats.done}
         icon={CheckCircle2}
-        iconClassName="text-green-600"
+        iconClassName="text-[var(--color-success-text)]"
       />
     </StatCountGrid>
   );
@@ -264,7 +264,7 @@ export default function ProjectsPageContent() {
           <PageInset>
             <div className={projectsPageFrameClassName}>
               {pageHeading}
-              <p className="text-body-sm py-12 text-center text-[var(--color-text-secondary)]">
+              <p className="text-caption py-12 text-center text-[var(--color-text-secondary)]">
                 프로젝트를 불러오는 중...
               </p>
             </div>

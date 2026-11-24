@@ -60,7 +60,7 @@ const goalsAfterTitleClassName = "flex min-w-0 flex-col gap-4";
 const favoriteFolderIconsClassName = "flex min-w-0 flex-wrap items-start gap-3";
 const compactHeadingClassName = "flex min-w-0 flex-wrap items-start justify-between gap-3";
 const compactHeadingCopyClassName = "min-w-[12rem] flex-1";
-const goalsLoadingClassName = "text-body-sm py-12 text-center text-[var(--color-text-secondary)]";
+const goalsLoadingClassName = "text-caption py-12 text-center text-[var(--color-text-secondary)]";
 
 /**
  * GoalsPageLayout
@@ -355,27 +355,27 @@ function GoalsPageLayout() {
             count: visibleGoals.filter(
               (goal) => goal.status === "NOT_STARTED" && isGoalShownDelayed(goal, projects),
             ).length,
-            className: "text-red-600",
+            className: "text-[var(--color-danger-text)]",
           }}
         />
         <StatCountCard
           label="진행 중"
           count={visibleGoals.filter((goal) => goal.status === "IN_PROGRESS").length}
           icon={Clock}
-          iconClassName="text-blue-600"
+          iconClassName="text-[var(--color-info-text)]"
           pair={{
             label: "마감 초과",
             count: visibleGoals.filter(
               (goal) => goal.status === "IN_PROGRESS" && isGoalShownDelayed(goal, projects),
             ).length,
-            className: "text-red-600",
+            className: "text-[var(--color-danger-text)]",
           }}
         />
         <StatCountCard
           label="완료"
           count={visibleGoals.filter((goal) => goal.status === "COMPLETED").length}
           icon={CheckCircle2}
-          iconClassName="text-green-600"
+          iconClassName="text-[var(--color-success-text)]"
         />
       </StatCountGrid>
     ) : null;
@@ -527,7 +527,7 @@ export default function GoalsPageContent() {
         <PageInset
           top="none"
           bottom={false}
-          className="text-body-sm py-12 text-center text-[var(--color-text-secondary)]"
+          className="text-caption py-12 text-center text-[var(--color-text-secondary)]"
         >
           목표를 불러오는 중...
         </PageInset>

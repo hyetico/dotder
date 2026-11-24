@@ -18,9 +18,9 @@ import ProjectDetailStatus, {
   type ProjectDetailSection,
 } from "@/features/projects/content/ProjectDetailPageContent/ProjectDetailStatus/ProjectDetailStatus";
 import ProjectDetailTeam from "@/features/projects/content/ProjectDetailPageContent/ProjectDetailTeam";
-import { formatProjectDate } from "@/features/projects/utils/projectUtils";
 import { getTaskStatusLabel } from "@/features/tasks/utils/taskUtils";
 
+import { formatDate } from "@/lib/date";
 import { getTeamMembers } from "@/lib/mock/teamMembers";
 import { getProjectEditPath } from "@/lib/projectRoutes";
 
@@ -38,7 +38,7 @@ type ProjectDetailPageContentProps = {
 
 const columnClassName = "flex min-h-0 min-w-0 flex-col px-5 pt-4 pb-5";
 const secondaryTabClassName =
-  "inline-flex h-8 items-center border-b-2 px-1 text-[13px]! leading-[18px]!";
+  "inline-flex h-8 items-center border-b-2 px-1 text-xs! leading-[18px]!";
 
 /**
  * DetailRecordList
@@ -64,10 +64,10 @@ function DetailRecordList({ items }: { items: { id: string; title: string; meta:
           key={item.id}
           className="flex items-center justify-between gap-3 border-b border-[var(--color-border)] py-2.5 last:border-b-0"
         >
-          <span className="min-w-0 truncate text-[14px] leading-5 font-medium text-[var(--color-text)]">
+          <span className="min-w-0 truncate text-sm leading-5 font-medium text-[var(--color-text)]">
             {item.title}
           </span>
-          <span className="shrink-0 text-[13px] leading-5 font-medium text-[var(--color-text-secondary)]">
+          <span className="shrink-0 text-xs leading-5 font-medium text-[var(--color-text-secondary)]">
             {item.meta}
           </span>
         </li>
@@ -184,7 +184,7 @@ export default function ProjectDetailPageContent({
                   ariaLabel="프로젝트 상세 메뉴"
                   value={tab}
                   onChange={setTab}
-                  itemClassName="text-[14px]! leading-5!"
+                  itemClassName="text-sm! leading-5!"
                   items={[
                     { id: "status", label: "개요", icon: LayoutDashboard },
                     { id: "goals", label: "목표", count: goals.length, icon: Target },
@@ -196,10 +196,10 @@ export default function ProjectDetailPageContent({
                   {tab === "status" ? (
                     <div className="flex flex-col gap-3">
                       <div>
-                        <h2 className="text-[22px] leading-8 font-bold text-[var(--color-text)]">
+                        <h2 className="text-2xl leading-8 font-bold text-[var(--color-text)]">
                           프로젝트 개요
                         </h2>
-                        <p className="mt-1 text-[13px] leading-[21px] text-[var(--color-text-secondary)]">
+                        <p className="mt-1 text-sm leading-5 text-[var(--color-text-secondary)]">
                           프로젝트의 진행 상태와 주요 일정을 한눈에 확인합니다.
                         </p>
                       </div>
@@ -226,7 +226,7 @@ export default function ProjectDetailPageContent({
                       items={tasks.map((task) => ({
                         id: String(task.id),
                         title: task.title,
-                        meta: `${getTaskStatusLabel(task.status)} · ${formatProjectDate(task.dueDate)}`,
+                        meta: `${getTaskStatusLabel(task.status)} · ${formatDate(task.dueDate)}`,
                       }))}
                     />
                   ) : null}

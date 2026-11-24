@@ -47,9 +47,9 @@ function readSidebarCollapsed() {
 }
 
 const overlaySidebarClassName =
-  "fixed inset-y-0 left-0 z-50 hidden h-dvh w-[var(--sidebar-width)] border-r border-[var(--color-border)] shadow-[0_0_32px_rgba(17,24,39,0.18)] md:flex";
+  "fixed inset-y-0 left-0 z-50 hidden h-dvh w-[var(--sidebar-width)] border-r border-[var(--color-border)] shadow-[var(--shadow-overlay)] md:flex";
 
-const overlayBackdropClassName = "fixed inset-0 z-40 hidden bg-black/40 md:block";
+const overlayBackdropClassName = "fixed inset-0 z-40 hidden bg-[var(--color-overlay)] md:block";
 
 const overlaySpacerClassName = "hidden w-[var(--sidebar-collapsed-width)] shrink-0 md:block";
 
@@ -112,7 +112,7 @@ function SidebarNavList({
               <AppIcon icon={Icon} size="lg" className="shrink-0" />
 
               {isDesktopCollapsed ? (
-                <span className="sidebar-nav-tooltip pointer-events-none absolute top-1/2 left-[calc(100%+20px)] z-50 h-9 -translate-y-1/2 items-center rounded-xl bg-[var(--color-nav-hover)]/50 px-3 text-sm font-normal whitespace-nowrap text-black uppercase shadow-[var(--shadow-dropdown)] backdrop-blur-sm">
+                <span className="sidebar-nav-tooltip pointer-events-none absolute top-1/2 left-[calc(100%+20px)] z-50 h-9 -translate-y-1/2 items-center rounded-xl bg-[var(--color-nav-hover)]/50 px-3 text-sm font-normal whitespace-nowrap text-[var(--color-text)] uppercase shadow-[var(--shadow-overlay)] backdrop-blur-sm">
                   {item.label}
                 </span>
               ) : (
@@ -226,7 +226,7 @@ export default function Sidebar({ variant = "desktop", onNavigate }: SidebarProp
     .filter(Boolean)
     .join(" ");
   const sidebarClassName = isMobile
-    ? `${sidebarFrameClassName} relative z-20 h-full w-[min(var(--sidebar-width),calc(100vw-48px))] shadow-[0_0_32px_rgba(17,24,39,0.18)]`
+    ? `${sidebarFrameClassName} relative z-20 h-full w-[min(var(--sidebar-width),calc(100vw-48px))] shadow-[var(--shadow-overlay)]`
     : isSettingsOpen
       ? `${sidebarFrameClassName} hidden`
       : isOverlayOpen
@@ -263,7 +263,7 @@ export default function Sidebar({ variant = "desktop", onNavigate }: SidebarProp
             <IconButton
               label="사이드바 펼치기"
               onClick={toggleSidebar}
-              className="size-9! shrink-0 rounded-xl! text-black hover:bg-gray-100 hover:text-black"
+              className="size-9! shrink-0 rounded-xl! text-[var(--color-text)] hover:bg-[var(--color-hover)] hover:text-[var(--color-text)]"
             >
               <AppIcon icon={PanelLeftOpen} size="lg" />
             </IconButton>
@@ -277,17 +277,17 @@ export default function Sidebar({ variant = "desktop", onNavigate }: SidebarProp
               } `}
             >
               <div
-                className={`flex size-6 shrink-0 items-center justify-center rounded-md bg-white ${
+                className={`flex size-6 shrink-0 items-center justify-center rounded-md bg-[var(--color-surface)] ${
                   isDesktopCollapsed ? "" : "ml-3"
                 } `}
               >
-                <span className="bg-primary-gradient flex size-6 items-center justify-center rounded-sm text-white">
+                <span className="bg-primary-gradient flex size-6 items-center justify-center rounded-sm text-[var(--color-text-inverse)]">
                   <AppIcon icon={Folder} size="sm" />
                 </span>
               </div>
 
               {!isDesktopCollapsed && (
-                <h1 className="truncate text-[16px] leading-5 font-bold tracking-tight text-[var(--color-text)]">
+                <h1 className="truncate text-base leading-5 font-bold tracking-tight text-[var(--color-text)]">
                   Tessera
                 </h1>
               )}
@@ -298,7 +298,7 @@ export default function Sidebar({ variant = "desktop", onNavigate }: SidebarProp
             <IconButton
               label={isMobile || isOverlayOpen ? "사이드바 닫기" : "사이드바 접기"}
               onClick={isMobile ? onNavigate : toggleSidebar}
-              className="size-9! shrink-0 rounded-xl! text-black hover:bg-gray-100 hover:text-black"
+              className="size-9! shrink-0 rounded-xl! text-[var(--color-text)] hover:bg-[var(--color-hover)] hover:text-[var(--color-text)]"
             >
               {isMobile ? (
                 <AppIcon icon={X} size="md" />
@@ -337,7 +337,7 @@ export default function Sidebar({ variant = "desktop", onNavigate }: SidebarProp
 
         <div className={`shrink-0 px-[10px] ${isDesktopCollapsed ? "pb-4" : "pb-5"} `}>
           {!isDesktopCollapsed ? (
-            <div className="rounded-xl border border-[var(--color-border)] bg-white p-3 md:p-4">
+            <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-3 md:p-4">
               <p className="text-xs font-semibold text-[var(--color-text)]">이번 주 진행률</p>
 
               <div className="mt-4 flex justify-center">
@@ -347,12 +347,12 @@ export default function Sidebar({ variant = "desktop", onNavigate }: SidebarProp
                     background: `conic-gradient(
                     var(--color-primary)
                     ${mockWeeklyProgress.percent}%,
-                    #e5e7eb
+                    var(--color-hover-strong)
                     ${mockWeeklyProgress.percent}%
                   )`,
                   }}
                 >
-                  <div className="flex h-[74px] w-[74px] items-center justify-center rounded-full bg-white">
+                  <div className="flex h-[74px] w-[74px] items-center justify-center rounded-full bg-[var(--color-surface)]">
                     <span className="text-lg font-bold text-[var(--color-text)]">
                       {mockWeeklyProgress.percent}%
                     </span>
@@ -377,7 +377,7 @@ export default function Sidebar({ variant = "desktop", onNavigate }: SidebarProp
           ) : (
             <MenuLink
               href="/reports"
-              className="flex h-10 justify-center rounded-xl border border-[var(--color-border)] bg-white px-0 hover:bg-[var(--color-hover-soft)] lg:h-12"
+              className="flex h-10 justify-center rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] px-0 hover:bg-[var(--color-hover-soft)] lg:h-12"
             >
               <span className="text-xs font-bold text-[var(--color-primary)]">
                 {mockWeeklyProgress.percent}%

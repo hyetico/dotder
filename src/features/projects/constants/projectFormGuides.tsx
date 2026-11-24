@@ -20,9 +20,10 @@ import {
 import { type InfoTooltipItem } from "@/components/ui/InfoTooltip";
 
 import ProjectStatusIcon from "@/features/projects/components/ProjectStatusIcon";
-import { PROJECT_STATUS_COLOR_SCALES } from "@/features/projects/constants/projectStatusColors";
 import { type ProjectStatus } from "@/features/projects/types/project";
 import { projectTeamGuideItems } from "@/features/projects/utils/projectTeam";
+
+import { PROJECT_STATUS_COLOR_SCALES } from "@/lib/statusColors";
 
 function GuideIcon({ color, children }: { color: string; children: ReactNode }) {
   return (

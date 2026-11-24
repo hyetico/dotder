@@ -70,7 +70,7 @@ export default function ProjectNewPageContent() {
   return (
     <ProjectAccent>
       {isLoading ? (
-        <p className="text-body-sm py-12 text-center text-[var(--color-text-secondary)]">
+        <p className="text-caption py-12 text-center text-[var(--color-text-secondary)]">
           프로젝트 정보를 불러오는 중...
         </p>
       ) : (

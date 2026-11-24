@@ -98,21 +98,21 @@ export function headerIconButtonClassName(pressed = false) {
 
     active:border-transparent
     active:bg-[var(--color-primary)]
-    active:text-white
+    active:text-[var(--color-text-inverse)]
 
     ${
       pressed
         ? `
           border-transparent
           bg-[var(--color-primary)]
-          text-white
+          text-[var(--color-text-inverse)]
 
           hover:bg-[var(--color-primary-hover)]
-          hover:text-white
+          hover:text-[var(--color-text-inverse)]
         `
         : `
           border-[var(--color-border)]
-          bg-white
+          bg-[var(--color-surface)]
           text-[var(--color-text)]
 
           hover:bg-[var(--color-hover-soft)]
@@ -150,7 +150,7 @@ const headerActionClassName = `
 const headerActionToneClassName = {
   default: `
     border-[var(--color-border)]
-    bg-white
+    bg-[var(--color-surface)]
     text-[var(--color-text)]
 
     hover:bg-[var(--color-hover-soft)]
@@ -161,7 +161,7 @@ const headerActionToneClassName = {
 
     border-transparent
     bg-primary-gradient
-    text-white
+    text-[var(--color-text-inverse)]
   `,
 };
 

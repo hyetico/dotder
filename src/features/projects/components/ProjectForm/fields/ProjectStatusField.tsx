@@ -9,11 +9,12 @@ import StatusChoiceButton from "@/components/ui/StatusChoiceButton";
 import { FieldError, FormLabel } from "@/features/projects/components/ProjectForm/FormParts";
 import ProjectStatusIcon from "@/features/projects/components/ProjectStatusIcon";
 import { getProjectStatusGuideItems } from "@/features/projects/constants/projectFormGuides";
-import { PROJECT_STATUS_FILTER_ICON_COLORS } from "@/features/projects/constants/projectStatusColors";
 import { type ProjectDeadlineState } from "@/features/projects/hooks/useProjectDeadlineChange";
 import { type ProjectFormData } from "@/features/projects/schemas/projectSchema";
 import { PROJECT_STATUSES } from "@/features/projects/types/project";
 import { getProjectStatusLabel } from "@/features/projects/utils/projectUtils";
+
+import { PROJECT_STATUS_FILTER_ICON_COLORS } from "@/lib/statusColors";
 
 /**
  * ProjectStatusField
@@ -103,25 +104,33 @@ export function ProjectStatusField({
       />
 
       {isDelayed ? (
-        <div className="mt-3 flex items-start gap-2 rounded-[var(--radius-sm)] border border-red-200 bg-red-50 px-3 py-3">
-          <AppIcon icon={CircleAlert} size="sm" className="mt-0.5 shrink-0 text-red-500" />
+        <div className="mt-3 flex items-start gap-2 rounded-[var(--radius-sm)] border border-[var(--color-danger)]/40 bg-[var(--color-danger-soft)] px-3 py-3">
+          <AppIcon
+            icon={CircleAlert}
+            size="sm"
+            className="mt-0.5 shrink-0 text-[var(--color-danger-text)]"
+          />
 
           <div className="min-w-0">
-            <p className="text-body-sm font-medium text-red-600">
+            <p className="text-caption font-medium text-[var(--color-danger-text)]">
               <span className="md:hidden">{delayDays}일 지연되었습니다.</span>
               <span className="hidden md:inline">프로젝트가 {delayDays}일 지연되었습니다.</span>
             </p>
 
-            <p className="text-caption mt-1 text-red-600">
+            <p className="text-caption mt-1 text-[var(--color-danger-text)]">
               지연 중에는 상태를 변경할 수 없습니다. 마감일을 변경해야 저장할 수 있습니다.
             </p>
           </div>
         </div>
       ) : recoveredFromDelay ? (
-        <div className="mt-3 flex items-start gap-2 rounded-[var(--radius-sm)] border border-blue-200 bg-blue-50 px-3 py-3">
-          <AppIcon icon={CircleCheck} size="sm" className="mt-0.5 shrink-0 text-blue-600" />
+        <div className="mt-3 flex items-start gap-2 rounded-[var(--radius-sm)] border border-[var(--color-info)]/40 bg-[var(--color-info-soft)] px-3 py-3">
+          <AppIcon
+            icon={CircleCheck}
+            size="sm"
+            className="mt-0.5 shrink-0 text-[var(--color-info-text)]"
+          />
 
-          <p className="text-body-sm text-blue-700">
+          <p className="text-caption text-[var(--color-info-text)]">
             마감일이 변경되어 프로젝트가 진행 중으로 전환되었습니다. 필요에 따라 다른 정보를 수정할
             수 있습니다.
           </p>

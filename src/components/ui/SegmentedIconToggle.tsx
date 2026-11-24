@@ -18,9 +18,9 @@ type SegmentedIconToggleProps<T extends string> = {
 };
 
 const viewTrackClassName =
-  "flex h-11 shrink-0 items-center rounded-[22px] border border-[#E5E7EB] bg-white p-1";
+  "flex h-11 shrink-0 items-center rounded-[var(--radius-full)] border border-[var(--color-border)] bg-[var(--color-surface)] p-1";
 
-const viewDividerClassName = "h-5 w-px shrink-0 bg-[#D1D5DB]";
+const viewDividerClassName = "h-5 w-px shrink-0 bg-[var(--color-border-strong)]";
 
 /**
  * viewSegmentClassName
@@ -39,7 +39,7 @@ function viewSegmentClassName(isActive: boolean, side: "left" | "right") {
     "inline-flex h-9 w-14 shrink-0 items-center justify-center transition-colors focus-visible:ring-2 focus-visible:ring-[var(--color-primary-ring)] focus-visible:outline-none",
     radius,
     isActive
-      ? "bg-[#EEF0F3] text-[var(--color-text)]"
+      ? "bg-[var(--color-hover)] text-[var(--color-text)]"
       : "text-[var(--color-text-muted)] hover:bg-[var(--color-hover-soft)]",
   ].join(" ");
 }
@@ -48,7 +48,7 @@ function viewSegmentClassName(isActive: boolean, side: "left" | "right") {
  * SegmentedIconToggle
  *
  * 보기 전환을 높이 44px 알약 안에 아이콘 칸으로 보여 줍니다.
- * 칸 사이에는 세로 구분선이 있고, 선택된 칸 배경은 #EEF0F3입니다.
+ * 칸 사이에는 세로 구분선이 있고, 선택된 칸 배경은 --color-hover입니다.
  *
  * @param props - SegmentedIconToggle 컴포넌트 Props
  * @param props.label - 보기 묶음의 접근 이름

@@ -86,7 +86,7 @@ export default function Select({
         }}
         className={`${selectTriggerClassName} ${
           isSmall
-            ? `text-body-sm h-9 gap-2 px-3`
+            ? `text-caption h-9 gap-2 px-3`
             : `text-body h-10 gap-3 lg:h-11 ${fieldPaddingClassName}`
         } ${isOpen ? fieldOpenClassName : fieldHoverClassName}`}
       >
@@ -110,7 +110,7 @@ export default function Select({
       {isOpen && (
         <ul
           role="listbox"
-          className="absolute top-[calc(100%+4px)] left-0 z-20 w-max min-w-full overflow-hidden rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-white py-1 shadow-[var(--shadow-dropdown)]"
+          className="absolute top-[calc(100%+4px)] left-0 z-20 w-max min-w-full overflow-hidden rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-[var(--color-surface)] py-1 shadow-[var(--shadow-overlay)]"
         >
           {options.map((option) => {
             const isSelected = option.value === value;

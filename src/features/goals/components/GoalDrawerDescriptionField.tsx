@@ -19,7 +19,7 @@ const descriptionShellInvalidFocusClassName =
 const descriptionAreaClassName =
   "text-body block w-full resize-none overflow-hidden bg-transparent p-0 text-[var(--color-field-text)] outline-none placeholder:text-[var(--color-field-placeholder)]";
 const descriptionCountClassName =
-  "mt-2 w-full text-right text-[12px] leading-[18px] font-[400] text-[#64748B] tabular-nums";
+  "mt-2 w-full text-right text-xs leading-[18px] font-[400] text-[var(--color-text-muted)] tabular-nums";
 
 type GoalDrawerDescriptionFieldProps = {
   id: string;

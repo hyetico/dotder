@@ -1,10 +1,10 @@
 import { computeProjectGoalStats } from "@/features/goals/utils/goalUtils";
 import { getProjectTeamLabel } from "@/features/projects/utils/projectTeam";
 
+import { getDayDelta, parseDateKey } from "@/lib/date";
 import { getUserName } from "@/lib/mock/users";
 
 import type { Goal } from "@/features/goals/types/goal";
-import type { ProjectStatusColorKey } from "@/features/projects/constants/projectStatusColors";
 import type {
   Project,
   ProjectDeadlineChange,
@@ -12,6 +12,7 @@ import type {
   ProjectStatus,
 } from "@/features/projects/types/project";
 import type { Task } from "@/features/tasks/types/task";
+import type { ProjectStatusColorKey } from "@/lib/statusColors";
 
 export function getProjectVisualStatus(
   status: ProjectStatus,
@@ -65,52 +66,50 @@ export function getProjectStatusStyles(status: ProjectStatusColorKey) {
   switch (status) {
     case "PLANNED":
       return {
-        badge:
-          "bg-[linear-gradient(135deg,#f7f7f5_0%,#e2e8f0_52%,#cbd5e1_100%)] text-[var(--color-text-secondary)]",
+        badge: "bg-[var(--color-neutral-soft)] text-[var(--color-neutral-text)]",
         text: "text-[var(--color-text-muted)]",
-        dot: "bg-slate-400",
-        bar: "bg-slate-400",
+        dot: "bg-[var(--color-neutral)]",
+        bar: "bg-[var(--color-neutral)]",
       };
 
     case "IN_PROGRESS":
       return {
-        badge: "bg-[linear-gradient(135deg,#eff6ff_0%,#bfdbfe_52%,#93c5fd_100%)] text-blue-700",
-        text: "text-blue-600",
-        dot: "bg-blue-600",
-        bar: "bg-blue-600",
+        badge: "bg-[var(--color-info-soft)] text-[var(--color-info-text)]",
+        text: "text-[var(--color-info-text)]",
+        dot: "bg-[var(--color-info)]",
+        bar: "bg-[var(--color-info)]",
       };
 
     case "ON_HOLD":
       return {
-        badge: "bg-[linear-gradient(135deg,#fffbeb_0%,#fde68a_52%,#fcd34d_100%)] text-amber-800",
-        text: "text-amber-600",
-        dot: "bg-amber-600",
-        bar: "bg-amber-600",
+        badge: "bg-[var(--color-warning-soft)] text-[var(--color-warning-text)]",
+        text: "text-[var(--color-warning-text)]",
+        dot: "bg-[var(--color-warning)]",
+        bar: "bg-[var(--color-warning)]",
       };
 
     case "DONE":
       return {
-        badge: "bg-[linear-gradient(135deg,#ecfdf5_0%,#a7f3d0_52%,#6ee7b7_100%)] text-emerald-800",
-        text: "text-green-600",
-        dot: "bg-green-600",
-        bar: "bg-green-600",
+        badge: "bg-[var(--color-success-soft)] text-[var(--color-success-text)]",
+        text: "text-[var(--color-success-text)]",
+        dot: "bg-[var(--color-success)]",
+        bar: "bg-[var(--color-success)]",
       };
 
     case "DELAYED":
       return {
-        badge: "bg-[linear-gradient(135deg,#fef2f2_0%,#fecaca_52%,#fca5a5_100%)] text-red-700",
-        text: "text-red-600",
-        dot: "bg-red-500",
-        bar: "bg-red-500",
+        badge: "bg-[var(--color-danger-soft)] text-[var(--color-danger-text)]",
+        text: "text-[var(--color-danger-text)]",
+        dot: "bg-[var(--color-danger)]",
+        bar: "bg-[var(--color-danger)]",
       };
 
     default:
       return {
-        badge:
-          "bg-[linear-gradient(135deg,#f7f7f5_0%,#e5e7eb_52%,#d1d5db_100%)] text-[var(--color-text)]",
+        badge: "bg-[var(--color-hover)] text-[var(--color-text)]",
         text: "text-[var(--color-text-secondary)]",
-        dot: "bg-gray-400",
-        bar: "bg-gray-400",
+        dot: "bg-[var(--color-neutral)]",
+        bar: "bg-[var(--color-neutral)]",
       };
   }
 }
@@ -131,9 +130,7 @@ function startOfLocalDay(date: Date) {
 }
 
 function parseProjectDay(value: string) {
-  const [year, month, day] = value.split("-").map(Number);
-
-  return new Date(year, month - 1, day);
+  return parseDateKey(value) ?? new Date(Number.NaN);
 }
 
 export function getProjectDaysAfterEnd(endDate: string, today: Date = new Date()) {
@@ -232,57 +229,12 @@ export function resolveProjectProgress(status: ProjectStatus, calculatedProgress
   }
 }
 
-export function formatProjectDate(value: string) {
-  return value.replace(/-/g, ".");
-}
-
-export function formatProjectDateRange(startDate: string, endDate: string) {
-  return `${formatProjectDate(startDate)} ~ ${formatProjectDate(endDate)}`;
-}
-
-export function getProjectDayDelta(fromDate: string, toDate: string) {
-  const from = parseProjectDay(fromDate);
-  const to = parseProjectDay(toDate);
-
-  return Math.round((to.getTime() - from.getTime()) / 86_400_000);
-}
-
 export function formatSignedProjectDays(days: number) {
   if (days > 0) {
     return `+${days}일`;
   }
 
   return `${days}일`;
-}
-
-export function formatProjectRelativeTime(value: string, today: Date = new Date()) {
-  const changedAt = new Date(value);
-
-  const elapsed = today.getTime() - changedAt.getTime();
-
-  const minute = 60_000;
-  const hour = 60 * minute;
-  const day = 24 * hour;
-
-  if (Number.isNaN(changedAt.getTime()) || elapsed < minute) {
-    return "방금 전";
-  }
-
-  if (elapsed < hour) {
-    return `${Math.floor(elapsed / minute)}분 전`;
-  }
-
-  if (elapsed < day) {
-    return `${Math.floor(elapsed / hour)}시간 전`;
-  }
-
-  const days = Math.floor(elapsed / day);
-
-  if (days < 30) {
-    return `${days}일 전`;
-  }
-
-  return formatProjectDate(value.slice(0, 10));
 }
 
 export type ProjectDeadlineHistorySummary = {
@@ -311,7 +263,7 @@ export function summarizeProjectDeadlineChanges(
   const originalEndDate = ordered[0]?.previousEndDate ?? currentEndDate;
 
   const totalExtendedDays = ordered.reduce((sum, change) => {
-    const delta = getProjectDayDelta(change.previousEndDate, change.nextEndDate);
+    const delta = getDayDelta(change.previousEndDate, change.nextEndDate);
 
     return delta > 0 ? sum + delta : sum;
   }, 0);
@@ -319,7 +271,7 @@ export function summarizeProjectDeadlineChanges(
   return {
     changeCount: ordered.length,
     totalExtendedDays,
-    slipFromOriginalDays: getProjectDayDelta(originalEndDate, currentEndDate),
+    slipFromOriginalDays: getDayDelta(originalEndDate, currentEndDate),
     originalEndDate,
   };
 }

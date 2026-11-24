@@ -32,7 +32,7 @@ export default function PageHeading({
   countTitle,
 }: PageHeadingProps) {
   const countBadgeClassName =
-    "h-6! bg-gray-100 px-2.5! text-sm! text-[var(--color-text-secondary)] @[640px]:hidden";
+    "h-6! bg-[var(--color-hover)] px-2.5! text-sm! text-[var(--color-text-secondary)] @[640px]:hidden";
 
   return (
     <div className="@container mb-[var(--page-title-below)] min-w-0">

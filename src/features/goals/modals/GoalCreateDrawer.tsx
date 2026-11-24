@@ -28,6 +28,7 @@ import { getTodayDateValue } from "@/features/goals/utils/goalDates";
 import { getGoalStatusLabel } from "@/features/goals/utils/goalUtils";
 import { FieldError } from "@/features/projects/components/ProjectForm/FormParts";
 
+import { formatDate } from "@/lib/date";
 import { currentUser } from "@/lib/mock/users";
 import { goalQueryKeys } from "@/lib/queryKeys";
 
@@ -41,40 +42,42 @@ const GOAL_CREATE_ICON: GoalIcon = "layout";
 const SLIDE_MS = 400;
 
 const goalIconPreviewClassName =
-  "flex size-12 shrink-0 items-center justify-center rounded-[12px] bg-[var(--color-hover-soft)] text-[22px] leading-none";
+  "flex size-12 shrink-0 items-center justify-center rounded-[var(--radius-md)] bg-[var(--color-hover-soft)] text-2xl leading-none";
 const goalTitleAreaClassName =
-  "text-[24px]! leading-[32px]! font-[700]! text-[#292D32]! placeholder:text-[24px] placeholder:leading-[32px] placeholder:font-[700] placeholder:text-[#e1e0de]! focus:placeholder:text-[#e1e0de]!";
+  "text-2xl! leading-[32px]! font-[700]! text-[var(--color-text)]! placeholder:text-2xl placeholder:leading-[32px] placeholder:font-[700] placeholder:text-[var(--color-text-placeholder)]! focus:placeholder:text-[var(--color-text-placeholder)]!";
 const goalDescriptionAreaClassName =
-  "placeholder:text-[#e1e0de]! focus:placeholder:text-[#e1e0de]!";
+  "placeholder:text-[var(--color-text-placeholder)]! focus:placeholder:text-[var(--color-text-placeholder)]!";
 const goalTitleBlockClassName = "flex w-full min-w-0 flex-col items-stretch gap-[16px]";
 const drawerBodyClassName = "!px-[62px]";
 const drawerRowClassName = "flex min-w-0 items-center gap-[12px] py-4";
 const drawerRowTopClassName = "mt-[32px] flex min-w-0 items-start gap-[12px] pb-4";
 const drawerRowLabelClassName =
-  "w-[80px] shrink-0 text-[14px] leading-[20px] font-[500] text-[#78746E]";
+  "w-[80px] shrink-0 text-sm leading-[20px] font-[500] text-[var(--color-text-muted)]";
 const drawerAsideClassName =
-  "ml-auto inline-flex shrink-0 items-center gap-1 text-[12px] leading-[18px] font-[400] whitespace-nowrap text-[#64748B]";
+  "ml-auto inline-flex shrink-0 items-center gap-1 text-xs leading-[18px] font-[400] whitespace-nowrap text-[var(--color-text-muted)]";
 const projectNameClassName =
-  "min-w-0 flex-1 truncate text-[14px] leading-[20px] font-[400] text-[#292D32]";
+  "min-w-0 flex-1 truncate text-sm leading-[20px] font-[400] text-[var(--color-text)]";
 const periodTextClassName =
-  "min-w-0 flex-1 truncate text-[14px] leading-[20px] font-[400] text-[#292D32]";
+  "min-w-0 flex-1 truncate text-sm leading-[20px] font-[400] text-[var(--color-text)]";
 const periodLinkClassName =
-  "ml-auto inline-flex shrink-0 items-center gap-1 text-[12px] leading-[18px] font-[400] whitespace-nowrap text-[#64748B]";
-const tagLimitClassName = "text-[12px] leading-[20px] font-[400] text-[#64748B] tabular-nums";
+  "ml-auto inline-flex shrink-0 items-center gap-1 text-xs leading-[18px] font-[400] whitespace-nowrap text-[var(--color-text-muted)]";
+const tagLimitClassName =
+  "text-xs leading-[20px] font-[400] text-[var(--color-text-muted)] tabular-nums";
 const tagListClassName = "mt-[8px] flex min-w-0 flex-wrap items-center gap-1.5";
-const tagEmptyClassName = "mt-[8px] text-[14px] leading-[20px] font-[400] text-[#64748B]";
+const tagEmptyClassName =
+  "mt-[8px] text-sm leading-[20px] font-[400] text-[var(--color-text-muted)]";
 const goalTagSectionClassName = "py-4";
 const tagButtonClassName =
-  "max-w-full min-w-0 cursor-pointer rounded-[9px] disabled:cursor-not-allowed";
+  "max-w-full min-w-0 cursor-pointer rounded-[var(--radius-sm)] disabled:cursor-not-allowed";
 const tagSelectedClassName = "outline outline-1 outline-[var(--color-text)]";
 const assigneeSummaryClassName =
-  "h-auto! w-auto! shrink-0 border-transparent! bg-transparent! px-0! py-0! md:px-0! [&_.truncate]:text-[14px]! [&_.truncate]:leading-[20px]! [&_.truncate]:font-[400]! [&_.truncate]:text-[#292D32]!";
+  "h-auto! w-auto! shrink-0 border-transparent! bg-transparent! px-0! py-0! md:px-0! [&_.truncate]:text-sm! [&_.truncate]:leading-[20px]! [&_.truncate]:font-[400]! [&_.truncate]:text-[var(--color-text)]!";
 const statusTextClassName =
-  "inline-flex min-w-0 items-center gap-1.5 text-[14px] leading-[20px] font-[400] text-[#292D32]";
+  "inline-flex min-w-0 items-center gap-1.5 text-sm leading-[20px] font-[400] text-[var(--color-text)]";
 const dateButtonEmptyClassName =
-  "w-full justify-start text-[14px]! leading-[20px]! font-[400]! text-[#64748B]! [&_span]:text-[14px]! [&_span]:leading-[20px]! [&_span]:font-[400]! [&_span]:text-[#64748B]!";
+  "w-full justify-start text-sm! leading-[20px]! font-[400]! text-[var(--color-text-muted)]! [&_span]:text-sm! [&_span]:leading-[20px]! [&_span]:font-[400]! [&_span]:text-[var(--color-text-muted)]!";
 const dateButtonValueClassName =
-  "w-full justify-start text-[14px]! leading-[20px]! font-[400]! text-[#292D32]! [&_span]:text-[14px]! [&_span]:leading-[20px]! [&_span]:font-[400]! [&_span]:text-[#292D32]!";
+  "w-full justify-start text-sm! leading-[20px]! font-[400]! text-[var(--color-text)]! [&_span]:text-sm! [&_span]:leading-[20px]! [&_span]:font-[400]! [&_span]:text-[var(--color-text)]!";
 
 const goalStatusAutoRules: { condition: string; status: GoalStatus }[] = [
   { condition: "태스크 없음 또는 모두 미시작", status: "NOT_STARTED" },
@@ -82,7 +85,7 @@ const goalStatusAutoRules: { condition: string; status: GoalStatus }[] = [
   { condition: "1개 이상 연결되며 모두 완료", status: "COMPLETED" },
 ];
 const goalStatusAutoInfoButtonClassName =
-  "inline-flex size-[22px] shrink-0 cursor-pointer items-center justify-center rounded-full p-0 leading-none text-[#64748B] transition-colors hover:bg-[var(--color-primary-soft)] hover:text-[var(--color-primary)]";
+  "inline-flex size-[22px] shrink-0 cursor-pointer items-center justify-center rounded-full p-0 leading-none text-[var(--color-text-muted)] transition-colors hover:bg-[var(--color-primary-soft)] hover:text-[var(--color-primary)]";
 const goalStatusAutoRuleClassName =
   "flex min-w-0 items-center justify-between gap-3 border-b border-[var(--color-border)] py-3 last:border-b-0";
 
@@ -116,24 +119,6 @@ const emptyErrors: GoalCreateErrors = {
 };
 
 /**
- * formatGoalPeriodDate
- *
- * 목표 기간 칸에 보여줄 날짜를 만듭니다.
- *
- * @param value - YYYY-MM-DD 날짜
- * @returns `2026.11.09` 형태의 날짜. 값이 없으면 빈 문자열
- */
-function formatGoalPeriodDate(value: string) {
-  const [year, month, day] = value.split("-");
-
-  if (!year || !month || !day) {
-    return "";
-  }
-
-  return `${year}.${month}.${day}`;
-}
-
-/**
  * GoalStatusAutoInfo
  *
  * 목표 상태가 연결된 태스크에 따라 계산되는 규칙을 모달로 보여 줍니다.
@@ -160,7 +145,7 @@ function GoalStatusAutoInfo() {
         isOpen={isOpen}
         onClose={close}
         labelledBy={titleId}
-        zIndexClassName="z-[180]"
+        zIndexClassName="z-[var(--z-modal)]"
         maxWidthClassName="max-w-[440px]"
       >
         <Modal.Header
@@ -174,7 +159,7 @@ function GoalStatusAutoInfo() {
           <ul>
             {goalStatusAutoRules.map((rule) => (
               <li key={rule.status} className={goalStatusAutoRuleClassName}>
-                <span className="text-body-sm min-w-0 text-[var(--color-text-secondary)]">
+                <span className="text-caption min-w-0 text-[var(--color-text-secondary)]">
                   {rule.condition}
                 </span>
                 <GoalStatusLabel status={rule.status} />
@@ -271,7 +256,7 @@ function GoalCreateDrawerPanel({
     : startDate || today;
   const endDateMax = hasProjectPeriod ? projectEnd : undefined;
   const periodLocked = project != null;
-  const linkedPeriodText = [formatGoalPeriodDate(projectStart), formatGoalPeriodDate(projectEnd)]
+  const linkedPeriodText = [formatDate(projectStart), formatDate(projectEnd)]
     .filter(Boolean)
     .join(" ~ ");
   const isTagLimitReached = tags.length >= GOAL_TAG_LIMIT;
@@ -590,11 +575,11 @@ function GoalCreateDrawerPanel({
 
                         setErrors((current) => ({ ...current, startDate: "", endDate: "" }));
                       }}
-                      formatValue={formatGoalPeriodDate}
+                      formatValue={formatDate}
                       min={startDateMin}
                       max={startDateMax}
                       invalid={Boolean(errors.startDate)}
-                      zIndexClassName="z-[180]"
+                      zIndexClassName="z-[var(--z-popover)]"
                     />
 
                     <DatePicker
@@ -610,11 +595,11 @@ function GoalCreateDrawerPanel({
                         setEndDate(value);
                         setErrors((current) => ({ ...current, endDate: "" }));
                       }}
-                      formatValue={formatGoalPeriodDate}
+                      formatValue={formatDate}
                       min={endDateMin}
                       max={endDateMax}
                       invalid={Boolean(errors.endDate)}
-                      zIndexClassName="z-[180]"
+                      zIndexClassName="z-[var(--z-popover)]"
                     />
                   </div>
                 )}

@@ -18,16 +18,16 @@ type SecondaryButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 const toneClassName = {
   default: `
     border-[var(--color-border)]
-    bg-white
+    bg-[var(--color-surface)]
     text-[var(--color-text)]
     hover:bg-[var(--color-hover-soft)]
   `,
   danger: `
-    border-red-200
-    bg-white
-    text-red-600
-    hover:border-red-300
-    hover:bg-red-50
+    border-[var(--color-danger)]/40
+    bg-[var(--color-surface)]
+    text-[var(--color-danger-text)]
+    hover:border-[var(--color-danger)]/40
+    hover:bg-[var(--color-danger-soft)]
   `,
 };
 

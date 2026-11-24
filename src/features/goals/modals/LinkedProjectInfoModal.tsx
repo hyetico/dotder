@@ -14,6 +14,7 @@ import ProjectStatusBadge from "@/features/projects/components/ProjectStatusBadg
 import { getProjectTeamLabel } from "@/features/projects/utils/projectTeam";
 import { isProjectDelayed } from "@/features/projects/utils/projectUtils";
 
+import { formatDateRange } from "@/lib/date";
 import { getUserName } from "@/lib/mock/users";
 
 import type { ProjectStatus } from "@/features/projects/types/project";
@@ -37,44 +38,6 @@ type LinkedProjectInfoModalProps = {
   onClose: () => void;
   project: LinkedProject | null;
 };
-
-/**
- * formatLinkedProjectDate
- *
- * 연결 프로젝트 날짜를 목표 기간 입력과 같은 표기로 바꿉니다.
- *
- * @param value - `YYYY-MM-DD` 날짜
- * @returns `2026. 08. 01.` 형태의 문구. 날짜가 없으면 빈 문자열
- */
-function formatLinkedProjectDate(value: string) {
-  const [year, month, day] = value.split("-");
-
-  if (!year || !month || !day) {
-    return "";
-  }
-
-  return `${year}. ${month}. ${day}.`;
-}
-
-/**
- * formatLinkedProjectPeriod
- *
- * 시작일과 마감일을 연결 프로젝트 기간 문구로 바꿉니다.
- *
- * @param startDate - 시작일
- * @param endDate - 마감일
- * @returns 기간 문구. 날짜가 없으면 빈 문자열
- */
-function formatLinkedProjectPeriod(startDate: string, endDate: string) {
-  const start = formatLinkedProjectDate(startDate);
-  const end = formatLinkedProjectDate(endDate);
-
-  if (start && end) {
-    return `${start} ~ ${end}`;
-  }
-
-  return start || end;
-}
 
 /**
  * LinkedProjectInfoRow
@@ -101,7 +64,7 @@ function LinkedProjectInfoRow({
         align === "start" ? "items-start" : "items-center"
       } `}
     >
-      <dt className="text-body-sm text-[var(--color-text-secondary)]">{label}</dt>
+      <dt className="text-caption text-[var(--color-text-secondary)]">{label}</dt>
 
       <dd className="min-w-0">{children}</dd>
     </div>
@@ -127,7 +90,7 @@ export default function LinkedProjectInfoModal({
 
   const description = project?.description.trim() ?? "";
 
-  const period = project ? formatLinkedProjectPeriod(project.startDate, project.endDate) : "";
+  const period = project ? formatDateRange(project.startDate, project.endDate) : "";
 
   const delayed = project ? isProjectDelayed(project) : false;
 

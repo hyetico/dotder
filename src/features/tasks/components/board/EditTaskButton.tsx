@@ -22,7 +22,7 @@ export default function EditTaskButton({ onClick }: EditTaskButtonProps) {
 
         onClick();
       }}
-      className="text-body-sm flex w-full items-center gap-2 rounded-[var(--radius-sm)] px-3 py-2 text-left font-medium text-[var(--color-text)] transition-colors hover:bg-[var(--color-hover-soft)]"
+      className="text-caption flex w-full items-center gap-2 rounded-[var(--radius-sm)] px-3 py-2 text-left font-medium text-[var(--color-text)] transition-colors hover:bg-[var(--color-hover-soft)]"
     >
       <AppIcon icon={Pencil} size="sm" />
 

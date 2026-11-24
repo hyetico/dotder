@@ -9,7 +9,7 @@ import {
   type LucideIcon,
 } from "@/components/ui/icon";
 
-import type { ProjectStatusColorKey } from "@/features/projects/constants/projectStatusColors";
+import type { ProjectStatusColorKey } from "@/lib/statusColors";
 
 type ProjectInProgressIconProps = {
   size?: number | string;

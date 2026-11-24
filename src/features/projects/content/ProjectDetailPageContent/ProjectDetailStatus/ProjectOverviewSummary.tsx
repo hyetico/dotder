@@ -5,39 +5,39 @@ import { AppIcon, ArrowRight, Calendar, CircleAlert } from "@/components/ui/icon
 
 import { getGoalScheduleMark } from "@/features/goals/utils/goalUtils";
 import {
-  formatProjectDate,
   getProjectDaysAfterEnd,
   getProjectScheduleSnapshot,
   getProjectStatusStyles,
 } from "@/features/projects/utils/projectUtils";
 import { taskTodayStamp } from "@/features/tasks/utils/taskUtils";
 
+import { formatDate } from "@/lib/date";
 import { getGoalDetailPath } from "@/lib/projectRoutes";
 
 import type { Goal } from "@/features/goals/types/goal";
 import type { ProjectListItem } from "@/features/projects/types/project";
 import type { Task } from "@/features/tasks/types/task";
 
-const sectionTitleClassName = "text-[18px] leading-7 font-bold text-[var(--color-text)]";
-const labelClassName = "text-[12px] leading-4 font-medium text-[var(--color-text-secondary)]";
-const valueClassName = "text-[16px] leading-6 font-bold text-[var(--color-text)] tabular-nums";
-const bodyClassName = "text-[14px] leading-5 font-medium text-[var(--color-text)]";
+const sectionTitleClassName = "text-lg leading-7 font-bold text-[var(--color-text)]";
+const labelClassName = "text-xs leading-4 font-medium text-[var(--color-text-secondary)]";
+const valueClassName = "text-base leading-6 font-bold text-[var(--color-text)] tabular-nums";
+const bodyClassName = "text-sm leading-5 font-medium text-[var(--color-text)]";
 const viewLinkClassName =
-  "inline-flex shrink-0 items-center gap-1 text-[13px] leading-5 font-medium text-[var(--color-text-secondary)]";
+  "inline-flex shrink-0 items-center gap-1 text-xs leading-5 font-medium text-[var(--color-text-secondary)]";
 const noticeCardClassName =
   "rounded-[var(--radius-md)] border border-[var(--color-border)] px-4 py-4";
-const summaryTrackClassName = "h-3 overflow-hidden rounded-full bg-[#E8EEF5]";
-const goalTrackClassName = "h-2 overflow-hidden rounded-full bg-[#E8EEF5]";
-const taskTrackClassName = "h-4 overflow-hidden rounded-full bg-[#E8EEF5]";
-const progressFillClassName = "h-full rounded-full bg-[#3B82F6]";
+const summaryTrackClassName = "h-3 overflow-hidden rounded-full bg-[var(--color-hover)]";
+const goalTrackClassName = "h-2 overflow-hidden rounded-full bg-[var(--color-hover)]";
+const taskTrackClassName = "h-4 overflow-hidden rounded-full bg-[var(--color-hover)]";
+const progressFillClassName = "h-full rounded-full bg-[var(--color-info)]";
 const delayBadgeClassName = getProjectStatusStyles("DELAYED").badge;
 const dueBadgeClassName = getProjectStatusStyles("IN_PROGRESS").badge;
 
 const taskSegmentColors = {
-  done: "#3B82F6",
-  active: "#93C5FD",
-  delayed: "#EF4444",
-  waiting: "#D1D5DB",
+  done: "var(--color-info)",
+  active: "color-mix(in srgb, var(--color-info) 50%, var(--color-surface))",
+  delayed: "var(--color-danger)",
+  waiting: "var(--color-border-strong)",
 } as const;
 
 type ScheduleItem = {
@@ -186,10 +186,10 @@ export default function ProjectOverviewSummary({
         <h2 className={sectionTitleClassName}>진행 요약</h2>
         <div className="mt-4 flex flex-col gap-4 sm:flex-row sm:items-center">
           <div className="shrink-0 sm:w-[7.5rem]">
-            <p className="text-[32px] leading-9 font-bold text-[var(--color-text)] tabular-nums">
+            <p className="text-4xl leading-9 font-bold text-[var(--color-text)] tabular-nums">
               {percent}%
             </p>
-            <p className="mt-1 text-[12px] leading-4 text-[var(--color-text-secondary)]">
+            <p className="mt-1 text-xs leading-4 text-[var(--color-text-secondary)]">
               전체 태스크 기준
             </p>
           </div>
@@ -219,7 +219,7 @@ export default function ProjectOverviewSummary({
         <section className="min-w-0 md:pr-6">
           <h2 className={sectionTitleClassName}>진행 중인 목표</h2>
           {activeGoals.length === 0 ? (
-            <p className="mt-4 text-[13px] leading-[21px] text-[var(--color-text-secondary)]">
+            <p className="mt-4 text-sm leading-5 text-[var(--color-text-secondary)]">
               진행 중인 목표가 없습니다.
             </p>
           ) : (
@@ -232,7 +232,7 @@ export default function ProjectOverviewSummary({
                   <li key={goal.id}>
                     <div className="flex items-baseline justify-between gap-3">
                       <p className={`min-w-0 truncate ${bodyClassName}`}>{goal.title}</p>
-                      <p className="shrink-0 text-[14px] leading-5 font-bold text-[var(--color-text)] tabular-nums">
+                      <p className="shrink-0 text-sm leading-5 font-bold text-[var(--color-text)] tabular-nums">
                         {goalPercent}%
                       </p>
                     </div>
@@ -240,7 +240,7 @@ export default function ProjectOverviewSummary({
                       <div className={progressFillClassName} style={{ width: `${goalPercent}%` }} />
                     </div>
                     <div className="mt-2 flex items-center justify-between gap-3">
-                      <p className="flex min-w-0 items-center gap-2 text-[13px] leading-5 font-medium text-[var(--color-text-secondary)]">
+                      <p className="flex min-w-0 items-center gap-2 text-xs leading-5 font-medium text-[var(--color-text-secondary)]">
                         <span className="tabular-nums">
                           태스크 {goal.completedTasks} / {goal.totalTasks}
                         </span>
@@ -271,14 +271,12 @@ export default function ProjectOverviewSummary({
             {[
               { label: "완료", count: doneCount, className: "text-[var(--color-text)]" },
               { label: "진행 중", count: activeCount, className: "text-[var(--color-text)]" },
-              { label: "지연", count: delayedCount, className: "text-red-500" },
+              { label: "지연", count: delayedCount, className: "text-[var(--color-danger-text)]" },
               { label: "미시작", count: waitingCount, className: "text-[var(--color-text)]" },
             ].map((item) => (
               <div key={item.label} className="min-w-0 text-center">
                 <p className={labelClassName}>{item.label}</p>
-                <p
-                  className={`mt-1 text-[24px] leading-8 font-bold tabular-nums ${item.className}`}
-                >
+                <p className={`mt-1 text-2xl leading-8 font-bold tabular-nums ${item.className}`}>
                   {item.count}
                 </p>
               </div>
@@ -315,16 +313,14 @@ export default function ProjectOverviewSummary({
             <div className="mt-4 flex items-center justify-between gap-3">
               <p className={`min-w-0 truncate ${bodyClassName}`}>{upcoming.title}</p>
               <p className="flex shrink-0 items-center gap-2">
-                <span className={`${bodyClassName} tabular-nums`}>
-                  {formatProjectDate(upcoming.date)}
-                </span>
+                <span className={`${bodyClassName} tabular-nums`}>{formatDate(upcoming.date)}</span>
                 <Badge shape="pill" size="sm" className={dueBadgeClassName}>
                   {formatDueBadge(upcoming.daysAfter)}
                 </Badge>
               </p>
             </div>
           ) : (
-            <p className="mt-4 text-[13px] leading-[21px] text-[var(--color-text-secondary)]">
+            <p className="mt-4 text-sm leading-5 text-[var(--color-text-secondary)]">
               다가오는 일정이 없습니다.
             </p>
           )}
@@ -332,11 +328,11 @@ export default function ProjectOverviewSummary({
 
         <section className={noticeCardClassName}>
           <div className="flex items-center gap-2">
-            <AppIcon icon={CircleAlert} size="sm" className="text-red-500" />
+            <AppIcon icon={CircleAlert} size="sm" className="text-[var(--color-danger-text)]" />
             <h2 className={sectionTitleClassName}>확인 필요</h2>
           </div>
           {attention.length === 0 ? (
-            <p className="mt-4 text-[13px] leading-[21px] text-[var(--color-text-secondary)]">
+            <p className="mt-4 text-sm leading-5 text-[var(--color-text-secondary)]">
               확인할 항목이 없습니다.
             </p>
           ) : (

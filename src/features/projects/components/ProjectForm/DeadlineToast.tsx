@@ -25,10 +25,10 @@ export function DeadlineToast({
 
   return (
     <div
-      className="fixed top-4 left-1/2 z-[180] flex w-[min(24rem,calc(100%-2rem))] -translate-x-1/2 items-start gap-3 rounded-[var(--radius-md)] border border-[var(--color-border)] bg-white px-3 py-3 shadow-[var(--shadow-dropdown)] md:px-4"
+      className="fixed top-4 left-1/2 z-[var(--z-toast)] flex w-[min(24rem,calc(100%-2rem))] -translate-x-1/2 items-start gap-3 rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-3 shadow-[var(--shadow-overlay)] md:px-4"
       role="status"
     >
-      <span className="mt-0.5 inline-flex shrink-0 text-green-600">
+      <span className="mt-0.5 inline-flex shrink-0 text-[var(--color-success-text)]">
         <AppIcon icon={CircleCheck} size="md" />
       </span>
 

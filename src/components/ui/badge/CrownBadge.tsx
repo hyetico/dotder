@@ -24,7 +24,7 @@ export default function CrownBadge({
   const resolvedTitle = title ?? (variant === "label" || overlay ? "메인 프로젝트" : undefined);
   const badgeClassName = `
     font-medium
-    text-white
+    text-[var(--color-text-inverse)]
 
     ${muted ? "bg-[var(--color-gray-500)]" : "bg-accent-gradient"}
 

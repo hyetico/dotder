@@ -35,19 +35,19 @@ const stripTheme: Record<
   }
 > = {
   COMPLETED: {
-    badgeClassName: "bg-[#e8f8ef] text-[#16a34a]",
-    barClassName: "bg-[#22c55e]",
-    percentClassName: "text-[#16a34a]",
+    badgeClassName: "bg-[var(--color-success-soft)] text-[var(--color-success-text)]",
+    barClassName: "bg-[var(--color-success)]",
+    percentClassName: "text-[var(--color-success-text)]",
   },
   IN_PROGRESS: {
-    badgeClassName: "bg-[#eaf2ff] text-[#2563eb]",
-    barClassName: "bg-[#3b82f6]",
-    percentClassName: "text-[#2563eb]",
+    badgeClassName: "bg-[var(--color-info-soft)] text-[var(--color-info-text)]",
+    barClassName: "bg-[var(--color-info)]",
+    percentClassName: "text-[var(--color-info-text)]",
   },
   NOT_STARTED: {
-    badgeClassName: "bg-[#f3f4f6] text-[#9ca3af]",
-    barClassName: "bg-[#d1d5db]",
-    percentClassName: "text-[#9ca3af]",
+    badgeClassName: "bg-[var(--color-hover)] text-[var(--color-text-disabled)]",
+    barClassName: "bg-[var(--color-border-strong)]",
+    percentClassName: "text-[var(--color-text-disabled)]",
   },
 };
 
@@ -55,38 +55,40 @@ const goalGridClassName =
   "grid min-w-0 grid-cols-1 items-stretch gap-4 @[680px]:grid-cols-2 @[1080px]:grid-cols-4";
 
 const goalCardButtonClassName =
-  "block h-full w-full min-w-0 cursor-pointer rounded-[16px] bg-transparent p-0 text-left outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary)]";
+  "block h-full w-full min-w-0 cursor-pointer rounded-[var(--radius-lg)] bg-transparent p-0 text-left outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary)]";
 
 const goalCardClassName =
-  "flex h-full min-w-0 flex-col gap-3 rounded-[16px] bg-[var(--color-surface)] p-4 shadow-[0_1px_2px_rgb(20_25_35/4%)] transition-shadow hover:shadow-[0_6px_14px_rgb(20_25_35/8%)]";
-const goalCardBorderClassName = "border border-[#e6e8eb]";
+  "flex h-full min-w-0 flex-col gap-3 rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] p-4 transition-colors hover:border-[var(--color-border-strong)]";
+const goalCardBorderClassName = "border border-[var(--color-border)]";
 const goalSelectedCardClassName = "selected-border";
 
 const goalTitleClassName =
-  "min-w-0 flex-1 basis-0 break-words break-keep text-[16px] leading-6 font-semibold tracking-[-0.01em] text-[var(--color-text)]";
+  "min-w-0 flex-1 basis-0 break-words break-keep text-base leading-6 font-semibold tracking-[-0.01em] text-[var(--color-text)]";
 
 const goalTaskCountClassName =
-  "inline-flex shrink-0 items-center gap-1 rounded-[8px] px-2 py-1 text-[12px] leading-none font-semibold tabular-nums";
+  "inline-flex shrink-0 items-center gap-1 rounded-[var(--radius-sm)] px-2 py-1 text-xs leading-none font-semibold tabular-nums";
 
-const goalProgressTrackClassName = "h-2 min-w-0 flex-1 overflow-hidden rounded-full bg-[#eceff3]";
+const goalProgressTrackClassName =
+  "h-2 min-w-0 flex-1 overflow-hidden rounded-full bg-[var(--color-hover)]";
 
-const goalProgressPercentClassName = "shrink-0 text-[13px] leading-5 font-semibold tabular-nums";
+const goalProgressPercentClassName = "shrink-0 text-xs leading-5 font-semibold tabular-nums";
 
 const goalStatusRowClassName = "mt-auto flex items-center gap-3 pt-1";
 
 const goalStatusGroupClassName = "inline-flex min-w-0 items-center gap-2";
 
-const goalOverdueDividerClassName = "shrink-0 text-[13px] leading-5 font-normal text-[#d1d5db]";
+const goalOverdueDividerClassName =
+  "shrink-0 text-xs leading-5 font-normal text-[var(--color-text-disabled)]";
 
 const goalOverdueClassName =
-  "inline-flex min-w-0 items-center text-[13px] leading-5 font-semibold text-[#e5484d]";
+  "inline-flex min-w-0 items-center text-xs leading-5 font-semibold text-[var(--color-danger-text)]";
 
 const goalTagRowClassName = "flex min-h-7 flex-wrap gap-1.5";
 const goalProjectLineClassName =
-  "flex min-w-0 items-center gap-1.5 text-[12px] leading-none font-semibold text-[var(--color-text-secondary)]";
+  "flex min-w-0 items-center gap-1.5 text-xs leading-none font-semibold text-[var(--color-text-secondary)]";
 
 const goalPreviewTitleClassName =
-  "min-w-0 flex-1 basis-0 break-words break-keep text-[16px] leading-6 font-semibold tracking-[-0.01em] text-[var(--color-text-muted)]";
+  "min-w-0 flex-1 basis-0 break-words break-keep text-base leading-6 font-semibold tracking-[-0.01em] text-[var(--color-text-muted)]";
 
 /**
  * goalOverdueLabel
@@ -315,8 +317,8 @@ export default function GoalBoardList({
 
   if (goals.length === 0 && !draft) {
     return (
-      <div className="w-full rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] shadow-[var(--shadow-card)]">
-        <p className="text-body-sm px-5 py-8 text-center text-[var(--color-text-secondary)]">
+      <div className="w-full rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)]">
+        <p className="text-caption px-5 py-8 text-center text-[var(--color-text-secondary)]">
           {empty}
         </p>
       </div>

@@ -80,12 +80,12 @@ function FilterSheetButton({
       onClick={onClick}
       className={`text-body relative inline-flex shrink-0 items-center justify-center transition-colors before:absolute before:top-1/2 before:left-1/2 before:h-11 before:w-full before:min-w-11 before:-translate-x-1/2 before:-translate-y-1/2 before:content-[''] focus-visible:ring-2 focus-visible:ring-[var(--color-primary-ring)] focus-visible:outline-none ${
         isSoft
-          ? `size-9 rounded-[6px] lg:size-8 ${
+          ? `size-9 rounded-[var(--radius-xs)] lg:size-8 ${
               active
-                ? `bg-white text-[var(--color-text)] shadow-sm`
+                ? `bg-[var(--color-surface)] text-[var(--color-text)] shadow-sm`
                 : `text-[var(--color-text-muted)] hover:text-[var(--color-text-secondary)]`
             } `
-          : `h-10 w-10 rounded-[var(--radius-sm)] border border-[#E5E7EB] bg-white text-[var(--color-text)] hover:bg-[var(--color-hover-soft)] ${className} `
+          : `h-10 w-10 rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text)] hover:bg-[var(--color-hover-soft)] ${className} `
       } `}
     >
       <AppIcon icon={Funnel} size={iconSize} className={hideIconOnMobile ? "max-md:hidden" : ""} />
@@ -107,7 +107,7 @@ function FilterSheetButton({
 
   return (
     <span
-      className={`inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-[var(--radius-sm)] bg-[#F1F3F5] p-0.5 lg:h-9 lg:w-9 ${className} `}
+      className={`inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-[var(--radius-sm)] bg-[var(--color-hover)] p-0.5 lg:h-9 lg:w-9 ${className} `}
     >
       {button}
     </span>
@@ -230,19 +230,23 @@ export default function FilterBottomSheet<T extends string>({
 
       {isMounted && isOpen
         ? createPortal(
-            <div ref={setScrollRoot} className="fixed inset-0 z-[120]" role="presentation">
+            <div
+              ref={setScrollRoot}
+              className="fixed inset-0 z-[var(--z-drawer)]"
+              role="presentation"
+            >
               <button
                 type="button"
                 aria-label="필터 닫기"
                 onClick={() => setIsOpen(false)}
-                className="absolute inset-0 bg-black/20"
+                className="absolute inset-0 bg-[var(--color-overlay)]"
               />
 
               <aside
                 role="dialog"
                 aria-modal="true"
                 aria-label={label}
-                className="absolute inset-x-0 bottom-0 flex max-h-[85dvh] flex-col rounded-t-[20px] bg-[var(--color-surface)] shadow-[var(--shadow-dropdown)]"
+                className="absolute inset-x-0 bottom-0 flex max-h-[85dvh] flex-col rounded-t-[20px] bg-[var(--color-surface)] shadow-[var(--shadow-overlay)]"
               >
                 <div className="flex shrink-0 items-center justify-between gap-3 px-5 pt-5 pb-2">
                   <h2 className="text-card-title text-[var(--color-text)]">{title}</h2>
@@ -250,7 +254,7 @@ export default function FilterBottomSheet<T extends string>({
                 </div>
 
                 <div className="min-h-0 flex-1 overflow-y-auto overscroll-none px-5 pb-4">
-                  <p className="text-body-sm mb-1 font-medium text-[var(--color-text-secondary)]">
+                  <p className="text-caption mb-1 font-medium text-[var(--color-text-secondary)]">
                     {sectionLabel}
                   </p>
 
@@ -271,10 +275,12 @@ export default function FilterBottomSheet<T extends string>({
                             className={`flex size-5 shrink-0 items-center justify-center rounded-full border ${
                               selected
                                 ? "border-[var(--color-primary)] bg-[var(--color-primary)]"
-                                : "border-[#D1D5DB] bg-white"
+                                : "border-[var(--color-border-strong)] bg-[var(--color-surface)]"
                             } `}
                           >
-                            {selected ? <span className="size-2 rounded-full bg-white" /> : null}
+                            {selected ? (
+                              <span className="size-2 rounded-full bg-[var(--color-surface)]" />
+                            ) : null}
                           </span>
                           <span>
                             {option.label}

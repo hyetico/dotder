@@ -8,7 +8,8 @@ import Modal from "@/components/ui/modal/Modal";
 import GoalTag from "@/features/goals/components/GoalTag";
 import ProjectBadge from "@/features/projects/components/ProjectBadge";
 import ProjectStatusBadge from "@/features/projects/components/ProjectStatusBadge";
-import { formatProjectDate, formatProjectDateRange } from "@/features/projects/utils/projectUtils";
+
+import { formatDateRange } from "@/lib/date";
 
 import type { ProjectStatus } from "@/features/projects/types/project";
 
@@ -27,31 +28,6 @@ type ProjectPreviewModalProps = {
   adminName: string;
   tags: string[];
 };
-
-/**
- * PreviewPeriod
- *
- * 시작일과 마감일을 미리보기 기간 문구로 바꿉니다.
- *
- * @param startDate - 시작일
- * @param endDate - 마감일
- * @returns 기간 문구. 날짜가 없으면 빈 문자열
- */
-function formatPreviewPeriod(startDate: string, endDate: string) {
-  if (startDate && endDate) {
-    return formatProjectDateRange(startDate, endDate);
-  }
-
-  if (startDate) {
-    return `${formatProjectDate(startDate)} ~`;
-  }
-
-  if (endDate) {
-    return formatProjectDate(endDate);
-  }
-
-  return "";
-}
 
 /**
  * PreviewRow
@@ -131,7 +107,7 @@ export default function ProjectPreviewModal({
 }: ProjectPreviewModalProps) {
   const titleId = useId();
 
-  const period = formatPreviewPeriod(startDate, endDate);
+  const period = formatDateRange(startDate, endDate);
 
   const trimmedName = name.trim();
 

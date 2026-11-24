@@ -78,7 +78,7 @@ export default function DropdownMenu({
         }}
         className={
           triggerClassName ||
-          `flex h-8 w-8 items-center justify-center rounded-[var(--radius-sm)] border border-transparent text-[var(--color-text-muted)] transition-colors hover:border-gray-200 hover:bg-[var(--color-hover-soft)] hover:text-[var(--color-text)]`
+          `flex h-8 w-8 items-center justify-center rounded-[var(--radius-sm)] border border-transparent text-[var(--color-text-muted)] transition-colors hover:border-[var(--color-border)] hover:bg-[var(--color-hover-soft)] hover:text-[var(--color-text)]`
         }
       >
         <AppIcon icon={MoreVertical} size="md" />
@@ -86,7 +86,7 @@ export default function DropdownMenu({
 
       {isOpen && (
         <div
-          className={`absolute top-10 right-0 z-30 w-32 rounded-[var(--radius-md)] border border-[var(--color-border)] bg-white p-1.5 shadow-[var(--shadow-dropdown)] ${panelClassName} `}
+          className={`absolute top-10 right-0 z-30 w-32 rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] p-1.5 shadow-[var(--shadow-overlay)] ${panelClassName} `}
         >
           {content}
         </div>
@@ -118,7 +118,7 @@ export function DropdownMenuLink({ href, icon, children, onClick }: DropdownMenu
     <Link
       href={href}
       onClick={onClick}
-      className="text-body-sm flex w-full items-center gap-2 rounded-[var(--radius-sm)] px-3 py-2 text-left font-medium text-[var(--color-text)] transition-colors hover:bg-[var(--color-hover-soft)]"
+      className="text-caption flex w-full items-center gap-2 rounded-[var(--radius-sm)] px-3 py-2 text-left font-medium text-[var(--color-text)] transition-colors hover:bg-[var(--color-hover-soft)]"
     >
       {icon ? <AppIcon icon={icon} size="sm" /> : null}
       <span className="min-w-0 truncate">{children}</span>

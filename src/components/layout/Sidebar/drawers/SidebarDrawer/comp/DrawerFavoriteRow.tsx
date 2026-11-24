@@ -6,10 +6,10 @@ import ProjectProgressMeter from "@/components/layout/Sidebar/drawers/SidebarDra
 import DropdownMenu, { DropdownMenuLink } from "@/components/ui/DropdownMenu";
 
 import ProjectBadge from "@/features/projects/components/ProjectBadge";
-import { progressGradients } from "@/features/projects/constants/projectStatusColors";
 import { getProjectVisualStatus, isProjectDelayed } from "@/features/projects/utils/projectUtils";
 
 import { getProjectDetailPath } from "@/lib/projectRoutes";
+import { progressGradients } from "@/lib/statusColors";
 
 import type { Project } from "@/features/projects/types/project";
 
@@ -92,7 +92,7 @@ export default function DrawerFavoriteRow({
                     close();
                     onToggleFavorite();
                   }}
-                  className="text-body-sm flex w-full items-center rounded-[var(--radius-sm)] px-3 py-2 text-left font-medium text-[var(--color-text)] transition-colors hover:bg-[var(--color-hover-soft)]"
+                  className="text-caption flex w-full items-center rounded-[var(--radius-sm)] px-3 py-2 text-left font-medium text-[var(--color-text)] transition-colors hover:bg-[var(--color-hover-soft)]"
                 >
                   {isFavorite ? "즐겨찾기 해제" : "즐겨찾기"}
                 </button>
