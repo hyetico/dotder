@@ -71,7 +71,7 @@ export function GoalTagField({
   return (
     <>
       <FormLabel
-        label="프로젝트 목표 태그"
+        label="태그"
         counter={`${tags.length}/${PROJECT_TAG_LIMIT}`}
         guideItems={getProjectGoalTagGuideItems(accentColor)}
       />

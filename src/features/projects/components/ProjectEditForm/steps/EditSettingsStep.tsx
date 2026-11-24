@@ -177,12 +177,12 @@ function TeamSettingRow({
 }
 
 /**
- * WizardSettingsStep
+ * EditSettingsStep
  *
  * 3단계 입력입니다. 연결할 팀을 고르고, 프로젝트 관리자를 확인하고, 메인 프로젝트 여부를 정합니다.
  * 아래에는 지금까지 정한 설정을 한 번 더 요약해서 보여줍니다.
  *
- * @param props - WizardSettingsStep 컴포넌트 Props
+ * @param props - EditSettingsStep 컴포넌트 Props
  * @param props.control - 폼 컨트롤
  * @param props.accentColor - 프로젝트 강조 색
  * @param props.nameValue - 입력한 프로젝트 이름
@@ -195,7 +195,7 @@ function TeamSettingRow({
  * @param props.adminAction - 관리자 줄 오른쪽에 둘 변경 버튼
  * @param props.footer - 설정 요약 아래에 붙일 내용
  */
-export function WizardSettingsStep({
+export function EditSettingsStep({
   control,
   accentColor,
   nameValue,
