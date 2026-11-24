@@ -117,7 +117,8 @@ src/features/<기능>/
 |---|---|---|
 | `AppLayout` | 앱 전체 골격 | ✅ |
 | `Header`, `HeaderActions`, `HeaderSearchButton` | 헤더, 페이지별 액션 | ✅ |
-| `Sidebar`, `SidebarDrawer` | 사이드바 (19KB) | ✅ 로고는 `<h1>` 아님 |
+| `Sidebar` | 사이드바 (19KB) | ✅ 로고는 `<h1>` 아님 |
+| `SidebarMainProject` · `ProjectSwitcherPanel` | 사이드바 프로젝트 전환 칸(높이 44 · 점 · 왕관 + 메인 이름 + ▾)과 전환 팝오버 320(검색 · 메인 · 즐겨찾기 n/3 · 최근 3 · 프로젝트 추가 · 모든 프로젝트 보기). 모바일은 바텀시트, 접힌 사이드바는 칸 오른쪽에 연다 (Layout Spec 02 · 07) | ✅ (예전 `SidebarDrawer`는 지움 — 메인은 프로젝트 수정의 「메인」, 즐겨찾기는 즐겨찾기 탭에서) |
 | `PageInset` | 페이지 바깥 여백 | ✅ |
 | `PageHeading` | 페이지 제목. `<h1>`은 여기서만. `variant`(`page` 목록 · `form` 수정·생성), `align`, `icon` | ✅ (프로젝트 상세 `DetailTitle`의 `<h1>`은 7단계) |
 | `CreatePageFrame`, `BottomAppBar` | 수정 페이지 틀, 하단 바 | ✅ |
