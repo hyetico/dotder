@@ -33,7 +33,6 @@
 | **S-19** | 전체 태스크(`/tasks`) 바탕이 `--color-page` 회색 (원본 10은 흰색). 다른 목록은 흰색. 보드 보기 때문인지 확인 필요 | 1 | 5 |
 | **C-3** | 상태 필터 3종(`StatusFilterBar` · `StatusFilterChips` · `StatusFilterPills`)과 모바일 시트(`FilterBottomSheet`). 원본(Components 17)은 "Segmented(트랙 36 · 버튼 32) + 필터 팝오버 280"과 바텀시트 1개. **마감(2026-11-24) 뒤로 미룸** | 3 + 1 | 마감 뒤 |
 | **C-4** | 모바일 필터: `FilterButton` · `MobileFilterDrawer`는 5단계에서 삭제(쓰는 곳 0). 남은 `FilterBottomSheet`는 C-3과 같이 | 1 | 마감 뒤 |
-| **C-5** | 상태 뱃지 3종(`ProjectStatusBadge` · `GoalStatusBadge` · `TaskStatusBadge`) 공통 바탕 `StatusBadge` 없음 (토스트 2종은 공통 `Toast`로 합침, handoff B5) | 5 | 5 |
 | **C-7** | 15KB 넘는 파일 12개 (`GoalForm` 44KB 최대) | 12 | 5~7 |
 | **C-8** | 쿼리 스코프 탭 3종 (`ProjectsScopeTabs` 등) | 3 | 9 |
 | **C-9** | `DatePicker` 모바일이 아직 가운데 모달 · 칸 36 (handoff B6: 바텀시트 · 칸 44). 공통 바텀시트가 없음(`FilterBottomSheet`는 필터 전용). 부르는 곳의 빈 칸 글자가 「시작일 선택」 「마감일 선택」 등 「~ 선택」으로 남음 | 1 + 부르는 곳 | 5 |
