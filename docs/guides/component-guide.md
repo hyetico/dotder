@@ -54,7 +54,7 @@ src/features/<기능>/
 |---|---|---|
 | `Input`, `Textarea`, `SearchInput` | 한 줄, 여러 줄, 검색 | ✅ |
 | `Select` | 정해진 선택지 | ✅ |
-| `DatePicker` | 날짜 (`variant="button"`은 드로어 행용) | 🔧 17KB, 날짜 형식 함수를 `lib/date.ts`로 |
+| `DatePicker` | 날짜 (`variant="button"`은 드로어 행용) | 🔧 17KB (날짜 형식은 4단계에서 `lib/date.ts`로 옮김) |
 | `Switch` | 켜기·끄기 | ✅ |
 | `SegmentedControl` ★ | 2~4개 중 하나 (아이콘·글자) | `SegmentedIconToggle`을 넓혀서 대체 |
 | `FieldNotice` | 입력칸 아래 안내 | ✅ |

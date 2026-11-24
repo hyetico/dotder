@@ -13,7 +13,6 @@
 | ID | 내용 | 규모 | 단계 |
 |---|---|---|---|
 | **B-2** | 서버 컴포넌트와 클라이언트가 서로 다른 목업 데이터를 봄. 새로 만든 프로젝트 상세가 "찾을 수 없음" | 구조 | 10 |
-| **B-3** | 다크 모드 토큰 일부 누락. 켜면 어두운 배경에 어두운 글자 | 토큰 10여 개 | 4 |
 | **B-4** | `/goals` 첫 화면에서 하이드레이션 불일치 경고 (서버 HTML과 클라이언트 속성이 다름). `GoalsScopeTabs` → `LineTabMenu` 부근. `before-refactor` 시점부터 있음 (2026-11-23 확인) | 1곳 | 미정 |
 | **P-1** | 목표 진행률을 저장값으로 가짐. 태스크를 완료해도 목표 진행률이 안 바뀜 | 구조 | 10 |
 | **P-2** | 프로젝트 상태를 사용자가 직접 고름 (PRD: 자동 계산) | 스키마·UI | 6, 10 |
@@ -22,23 +21,21 @@
 | **P-5** | 프로젝트 생성이 3단계 위저드 페이지 (PRD: 드로어) | 화면 | 6 |
 | **P-6** | 팀·리포트·플레이그라운드가 메뉴에 보이고, 프로젝트 생성·수정에 팀 선택이 있음 (PRD: v1 숨김) | 메뉴 · 폼 | 5 |
 | **P-7** | 스프린트 페이지가 빈 화면 (PRD: 제거) | 1곳 | 5 |
-| **S-1** | 하드코딩 색 hex. 전체 301곳 중 **UI 코드 154곳 / 36파일**이 고칠 대상 (색 정의 파일 109곳, 목업 데이터 38곳은 제외. 아래 "숫자 다시 세는 법" 참고) | 154곳 | 4 |
-| **S-2** | 홀수 글자 크기 (`13px` 51 · `15px` 8 · `9px` 1) | 60곳 | 4 |
-| **S-3** | 임의 글자 크기 `text-[Npx]` 전체 / 임의 줄 높이 | 150 / 40곳 | 4 |
-| **S-4** | 고정 색 클래스 (`bg-white` 86 · `text-white` 29 · `text-black` 21 · `bg-black` 10 · `border-white` 1) | 147곳 | 4 |
-| **S-5** | 체계 밖 모서리 (`rounded-[6px]` 등) | 26곳 | 4 |
-| **S-6** | 임의 그림자 `shadow-[...]` | 52곳 | 4 |
-| **S-7** | 임의 z-index (`z-[110]`~`z-[200]`) | 18곳 | 4 |
+| **S-1** | 하드코딩 색 hex. UI 코드에 **10곳** 남음: `TeamScopeModal` 9 (v1 숨김, PRD 5-4라 손대지 않음), `MemoRegisterDrawer` 기본 프로젝트 색 1 (팔레트 값). 4단계에서 154곳 → 10곳 | 10곳 | 5 (팀 화면 정리 때) |
+| **S-3** | 임의 줄 높이 `leading-[Npx]` (글자 크기 `text-[Npx]`는 4단계에서 0곳) | 27곳 | 5 (점진) |
+| **S-5** | 체계 밖 모서리 2곳: `TeamScopeModal` `rounded-[6px]` (v1 숨김), `tab/appearance.ts` 폴더 탭 `rounded-[10px]` (`FolderTabMenu`는 5단계에서 삭제 예정) | 2곳 | 5 |
+| **S-6** | 폴더 카드 그림자: `--shadow-project-card`(`-hover`), `ProjectBoardCard`·`ProjectFolder`의 `shadow-[0_…]` 7곳. 폴더 카드 모양(handoff C1)과 같이 정리. (입력칸 포커스 링 `shadow-[0_0_0_1px_var(…)]`은 토큰을 쓰는 테두리라 제외) | 9곳 | 5 |
 | **S-8** | 강제 덮어쓰기 `!` | 55곳 | 4, 5 |
 | **S-9** | 임의 px 값 전체 | 490곳 | 4 (점진) |
-| **S-10** | 상태 색 정의 파일 2개로 분리, hex 직접 사용 (`statusColors.ts` 61 · `projectStatusColors.ts` 30) → 하나로 합치고 토큰 참조로 | 91곳 | 4 |
-| **S-11** | `text-body-sm`과 `text-caption`이 같은 값 | 1 | 4 |
-| **S-12** | 프로젝트 색이 원본 9색과 다름. 코드에만 있는 Ivory `#e7ddd0` · Ink `#2a2430`을 지우고 블루 · 코랄을 추가해야 함. 이미 저장된 Ivory · Ink 값은 가까운 색으로 옮긴다 (안: Ivory → 골드 `#c4a574`, Ink → 플럼 `#6b2d5b`. 확정 전). `label` 이름도 화면 이름에 맞춤 (style-guide 1-8) | 2색 + 저장값 | 4 |
+| **S-12** | 이미 저장된 Ivory `#e7ddd0` · Ink `#2a2430` 프로젝트 색을 가까운 색으로 옮기기 (안: Ivory → 골드 `#c4a574`, Ink → 플럼 `#6b2d5b`. 확정 전). 고르는 9색과 화면 이름은 4단계에서 바꿈. 지금 목업 데이터에 Ivory 6곳 | 저장값 | 8 (D-5와 같이) |
+| **S-13** | `text-badge-sm-mobile` 5곳. 의미 클래스(`text-*`)가 `@layer` 밖 일반 CSS라 `lg:` 같은 변형을 못 붙이고, `font-medium` 같은 유틸리티보다 항상 이긴다(굵기를 덮어씀). Tailwind `@utility`로 옮기면 변형이 되지만 굵기가 함께 쓰인 101곳의 모양이 바뀐다 | 5 / 101곳 | 5 |
+| **S-14** | 컨트롤 높이 토큰이 style-guide와 다름: `--control-sm` 32 (가이드 36), `--control-xs`(28) 없음 | 2 | 5 |
+| **S-15** | handoff A4 다크 메인 왕관 색(프로젝트 색 + 흰색 30%)과 A5 다크 로고. 앱 사이드바 로고가 아직 `design/svg/` 로고가 아닌 폴더 아이콘이라 로고 교체와 같이 한다 | 2 | 5 (B8 · A-2와 같이) |
+| **S-16** | 숨김 화면(`TeamScopeModal`, `ProjectDetailTeam`)도 4단계 일괄 치환(글자 크기 · 색 토큰)으로 바뀜. 동작은 그대로 | 기록 | - |
 | **C-2** | 탭 3종 (`Line`, `Folder`, `Tile`) | 3 | 5 |
 | **C-3** | 상태 필터 4종 | 4 | 5 |
 | **C-4** | 모바일 필터 3종 | 3 | 5 |
 | **C-5** | 상태 뱃지 3종 바탕 없음, 토스트 2종 따로 | 5 | 5 |
-| **C-6** | 날짜 형식 함수가 14곳에 따로 있음 | 14 | 4 |
 | **C-7** | 15KB 넘는 파일 12개 (`GoalForm` 44KB 최대) | 12 | 5~7 |
 | **C-8** | 쿼리 스코프 탭 3종 (`ProjectsScopeTabs` 등) | 3 | 9 |
 | **A-1** | `div onClick` (`ProjectBoardCard`, `ProjectListRow`) | 2곳 | 5 |
@@ -59,13 +56,13 @@
 저장소 맨 위에서 실행한다. 맥 기본 셸(zsh)에서도 되도록 `--include` 값은 반드시 따옴표로 감싼다.
 
 **하드코딩 색 제외 규칙:** 아래 파일은 S-1 숫자에서 뺀다.
-- 색 정의 파일: `src/lib/statusColors.ts`, `src/features/projects/constants/projectStatusColors.ts` (S-10에서 따로 셈), `src/features/projects/utils/projectColors.ts` (팔레트 원본이라 hex 허용)
+- 색 정의 파일: `src/lib/statusColors.ts` (4단계부터 hex 0), `src/features/projects/utils/projectColors.ts` (팔레트 원본이라 hex 허용)
 - 목업 데이터: `src/lib/mock/` (데이터 값이라 허용)
 
 ```bash
 # S-1 하드코딩 색 (UI 코드만, 제외 규칙 적용)
 grep -rhoE '#[0-9A-Fa-f]{6}\b' --include='*.ts' --include='*.tsx' src \
-  --exclude='statusColors.ts' --exclude='projectStatusColors.ts' --exclude='projectColors.ts' \
+  --exclude='statusColors.ts' --exclude='projectColors.ts' \
   --exclude-dir='mock' | wc -l
 
 # 하드코딩 색 전체 (참고용)
@@ -85,5 +82,7 @@ grep -rhoE '\b(bg|text|border)-(white|black)\b' --include='*.tsx' src | wc -l
 ```
 
 2026-11-21 기준 결과: S-1 154 · 전체 301 · S-3 150 · S-2 60 · B-1 68 · S-4 147 (B-1은 2026-11-24 3단계에서 0곳. 2단계 정리 뒤 실제로 바꾼 곳은 67곳)
+
+2026-11-24 4단계 뒤: S-1 10 · 전체 65 · S-3(글자) 0 · S-2 0 · S-4 0 · 임의 기준점 0
 
 > 숫자를 적을 때는 반드시 위 명령으로 센 값을 쓴다. 다른 방법(`grep -c` 등)으로 세면 한 줄에 여러 개 있는 경우를 놓친다.
