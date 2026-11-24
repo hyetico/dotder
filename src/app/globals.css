@@ -456,6 +456,19 @@
   --type-4xl-line: 40px;
 }
 
+/* 로고는 테마마다 다른 파일 (handoff A5, design/svg/) */
+.logo-dark {
+  display: none;
+}
+
+:root[data-theme="dark"] .logo-light {
+  display: none;
+}
+
+:root[data-theme="dark"] .logo-dark {
+  display: block;
+}
+
 /*
  * 다크 모드. <html data-theme="dark">일 때만 적용된다.
  * 아직 전환 버튼은 없다(8단계). 모든 색 토큰의 다크 값은 여기 있다.
