@@ -177,7 +177,7 @@ export default function FavoritesPanel({ projects, activity, onShowAll }: Favori
         </div>
       )}
 
-      <ul className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+      <ul className="grid grid-cols-[repeat(auto-fill,minmax(min(--spacing(80),100%),1fr))] gap-6">
         {favorites.map((project) => {
           const isSelected = selected.includes(project.id);
           const toggle = () =>

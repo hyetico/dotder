@@ -75,7 +75,9 @@ export default function FolderCard({
             title
           )}
         </h3>
-        {titleAction ? <span className="relative z-10 -mr-1.5 shrink-0">{titleAction}</span> : null}
+        {titleAction ? (
+          <span className="relative z-10 -mt-0.5 -mr-1.5 shrink-0">{titleAction}</span>
+        ) : null}
       </div>
       {status ? <div className="-mt-1 flex items-center gap-2.5 text-xs">{status}</div> : null}
       {meta ? (

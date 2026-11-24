@@ -5,7 +5,7 @@ import { cn } from "@/lib/cn";
 import type { ButtonHTMLAttributes, ReactNode, Ref } from "react";
 
 export type ButtonVariant =
-  "primary" | "secondary" | "secondaryDanger" | "ghost" | "danger" | "onToast";
+  "primary" | "secondary" | "secondaryDanger" | "ghost" | "ghostText" | "danger" | "onToast";
 export type ButtonSize = "md" | "sm" | "xs";
 
 type ButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "children"> & {
@@ -47,6 +47,9 @@ const variantClassName: Record<ButtonVariant, string> = {
     "border-[var(--border)] bg-[var(--surface)] text-[var(--bad)] hover:border-[var(--btn-secondary-line-h)] hover:bg-[var(--s2)] disabled:opacity-40 aria-disabled:opacity-40",
   ghost:
     "border-transparent text-[var(--t2)] hover:bg-[var(--s3)] hover:text-[var(--text)] disabled:opacity-40 aria-disabled:opacity-40",
+  // 본문 글자색 ghost (카드 ⋯ · 보드 01: --text + 투명도 0.7은 부르는 쪽)
+  ghostText:
+    "border-transparent text-[var(--text)] hover:bg-[var(--s3)] disabled:opacity-40 aria-disabled:opacity-40",
   // 토스트(어두운 바탕) 안 글자 버튼 「되돌리기」
   onToast:
     "border-transparent text-[var(--toast-fg)] hover:bg-[var(--toast-hover)] disabled:opacity-40 aria-disabled:opacity-40",

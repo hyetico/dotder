@@ -147,7 +147,7 @@ export default function ProjectListScreen({ scope }: { scope: ProjectListScope }
                 text="필터를 바꾸거나 새 프로젝트를 추가해 보세요."
               />
             ) : view === "card" ? (
-              <ul className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+              <ul className="grid grid-cols-[repeat(auto-fill,minmax(min(--spacing(80),100%),1fr))] gap-6">
                 {visible.map((project) => (
                   <li key={project.id} className="min-w-0">
                     <ProjectCard project={project} activity={activity[project.id] ?? NO_ACTIVITY} />
