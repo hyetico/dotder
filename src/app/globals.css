@@ -78,10 +78,10 @@
   --sidebar-width: 245px;
 
   /*
-   * 드로어. 넓은 화면에서는 이 너비만큼 본문을 줄인다(--drawer-offset).
-   * style-guide 4장 목표값은 400. 지금 너비 560은 5단계(handoff B1)에서 바꾼다.
+   * 드로어. 웹 · 태블릿 모두 400 (handoff B1).
+   * 넓은 화면에서는 이 너비만큼 본문을 줄인다(--drawer-offset).
    */
-  --drawer-width: 560px;
+  --drawer-width: 400px;
   --drawer-offset: 0px;
 
   /* 모달·팝오버 너비 (style-guide 4장) */
