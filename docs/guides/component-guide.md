@@ -131,9 +131,10 @@ src/features/<기능>/
 | | `ActivityMosaic` | ✅ 폴더 카드 활동 모자이크 (7줄 × 20주 · 칸 11 · 간격 3 · 빈 날 점 3 · 1–4단계 5 · 7 · 9 · 11, Design Guide 11). 색은 프로젝트 색 하나(`--mosaic-color` = 팔레트 변수, 다크는 다크 값). 계산은 `utils/activityMosaic.ts`, 기록은 `getProjectActivity` |
 | | `ProjectMark` | ✅ 고르는 목록 · 프로젝트 전환의 프로젝트 표시. 색 점 10, 메인은 프로젝트 색 왕관 14 (읽는 이름 「메인」, 팔레트 변수라 다크는 다크 값, handoff B8) |
 | | `ProjectListItem` (`ProjectPicker`) | ✅ 고르는 목록 한 줄: 라디오 · 체크 18 + `ProjectMark` + 이름(자르지 않음) + 상태. 줄 높이 웹 40 · 터치 44 (C-16 · B7 · B11) |
-| `projects/modals` | `ProjectCreateDrawer` · `ProjectCreateDrawerRoute` | ✅ 프로젝트 만들기 드로어 (`/projects?new=1`, 원본 01a). 이름 * · 색상 · 「더 설정하기 · 상태, 기간, 설명, 태그, 메인」(접어 둠, 요약 글은 이대로). 상태 칸은 드로어 폭 때문에 2열. 이름만 필수 · 마감 없어도 됨 · 상태는 고르지 않으면 자동. `MainProjectModal`은 지움 — 메인은 이 드로어 · 수정 화면의 「메인 프로젝트」에서 |
+| `projects/modals` | `ProjectCreateDrawer` · `ProjectCreateDrawerRoute` | ✅ 프로젝트 만들기 드로어 (`/projects?new=1`). 모양은 보드 01-a, 펼친 안쪽 · 동작은 프로토타입 `projectForm`. 이름 *(「예: 포트폴리오 리뉴얼」 · 50자 · 비우면 「이름을 적어 주세요」, 비어 있으면 「추가」 막힘 · ⌘/Ctrl+Enter로 추가) · 색상 · 「더 설정하기 · 기간, 설명, 태그」(누르면 버튼은 사라지고 시작일/마감일 → 설명 → 태그). 상태는 자동(P-2) · 메인은 ⋯ 메뉴에서 — 만들기 드로어에는 없음. `MainProjectModal`은 지움 |
 | `projects/components` | `ProjectColorPicker` | ✅ 색 고르기 칸 (원본 01a). 웹 · 태블릿 칸 28 · 한 줄 10개(폭 334), 모바일 칸 44 · 5개씩 2줄, 간격 6. 바탕 tint + 가운데 점 10, 선택은 그 색 테두리 2. 라디오 묶음 · ← → 로 이동 |
 | | `ProjectPickField` | ✅ 드로어 안 「프로젝트」 칸 (목표 · 메모 드로어 공통). 점 · 왕관 + 이름(1줄 …) + [변경], 비면 「프로젝트 선택」 + [고르기]. [변경]은 드로어 위 모달 대신 드로어 안 팝오버(칸 폭) · 모바일은 시트 안 화면으로 검색 + 고르는 목록 줄(이름 자르지 않음) + 「프로젝트 없음」(`allowNone`). Esc · 바깥 누르기로 닫히고 [변경]으로 초점이 돌아온다 |
+| | `ProjectTagEditor` | ✅ 프로젝트 태그 편집 (프로토타입 tagEditor). 칩(24 · 모서리 6 · ×로 지움) + 줄 끝 입력칸 「+ 태그 (Enter)」 150 + 「n / 10」. Enter로 추가(같은 이름 · 빈 값 무시, 한글 조합 중 Enter 무시), 최대 10. 새 프로젝트는 기본 태그 3개 |
 | | `ProjectFolder` | 🔧 목록 카드 전용으로 단순화 (디테일 모드 제거) |
 | | `ProjectStatusBadge` | ✅ `StatusBadge` 위. 진행 중 + 지연이면 「지연」 뱃지를 옆에 붙임 |
 | | `ProjectCreateWizard` | 지움 (6단계) — 만들기는 `ProjectCreateDrawer`. 수정 화면이 쓰던 단계 3개는 `ProjectEditForm/steps/Edit…Step`으로 옮김 |
