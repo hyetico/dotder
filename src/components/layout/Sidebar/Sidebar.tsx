@@ -133,13 +133,12 @@ export default function Sidebar({ variant = "desktop", onNavigate }: SidebarProp
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [isNarrowLayout, setIsNarrowLayout] = useState(true);
   const [hasSidebarDefault, setHasSidebarDefault] = useState(false);
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   const isMobile = variant === "mobile";
 
   const isDesktopCollapsed = !isMobile && isCollapsed;
 
-  const isOverlayOpen = !isMobile && isNarrowLayout && !isCollapsed && !isSettingsOpen;
+  const isOverlayOpen = !isMobile && isNarrowLayout && !isCollapsed;
 
   const toggleSidebar = () => {
     setIsCollapsed((prev) => !prev);
@@ -221,11 +220,9 @@ export default function Sidebar({ variant = "desktop", onNavigate }: SidebarProp
     .join(" ");
   const sidebarClassName = isMobile
     ? `${sidebarFrameClassName} relative z-20 h-full w-[min(var(--sidebar-width),calc(100vw-48px))] shadow-[var(--shadow-overlay)]`
-    : isSettingsOpen
-      ? `${sidebarFrameClassName} hidden`
-      : isOverlayOpen
-        ? `${sidebarFrameClassName} ${overlaySidebarClassName}`
-        : `${sidebarFrameClassName} relative z-20 ${desktopSidebarClassName}`;
+    : isOverlayOpen
+      ? `${sidebarFrameClassName} ${overlaySidebarClassName}`
+      : `${sidebarFrameClassName} relative z-20 ${desktopSidebarClassName}`;
 
   const navListProps = {
     pathname,
@@ -313,11 +310,7 @@ export default function Sidebar({ variant = "desktop", onNavigate }: SidebarProp
         </div>
 
         <div className="shrink-0 px-[10px] pb-2">
-          <SidebarMainProject
-            isCollapsed={isDesktopCollapsed}
-            onNavigate={handleSidebarNavigate}
-            onDrawerOpenChange={isMobile ? undefined : setIsSettingsOpen}
-          />
+          <SidebarMainProject isCollapsed={isDesktopCollapsed} onNavigate={handleSidebarNavigate} />
         </div>
 
         <nav
