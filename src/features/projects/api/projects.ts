@@ -1,8 +1,10 @@
 import { getGoals } from "@/features/goals/api/goals";
+import { decodeActivityCounts, type ActivityDay } from "@/features/projects/utils/activityMosaic";
 import { getProjectInitial } from "@/features/projects/utils/projectDisplay";
 import { enrichProject, getProjectDaysAfterEnd } from "@/features/projects/utils/projectUtils";
 import { getTasks } from "@/features/tasks/api/tasks";
 
+import { MOCK_ACTIVITY_FROM, mockProjectActivity } from "@/lib/mock/projectActivity";
 import {
   recordProjectDeadlineChange,
   removeProjectDeadlineChanges,
@@ -26,6 +28,20 @@ export async function getProjectListItems(): Promise<ProjectListItem[]> {
   const [tasks, goals] = await Promise.all([getTasks("all"), getGoals("all")]);
 
   return mockProjects.map((project) => enrichProject(project, tasks, goals));
+}
+
+/**
+ * 프로젝트별 날짜별 활동 기록을 읽는다 (활동 모자이크).
+ *
+ * @returns 프로젝트 id → 기록이 있는 날 목록. 기록이 없는 프로젝트는 빠진다
+ */
+export async function getProjectActivity(): Promise<Record<number, ActivityDay[]>> {
+  return Object.fromEntries(
+    mockProjectActivity.map((item) => [
+      item.projectId,
+      decodeActivityCounts(MOCK_ACTIVITY_FROM, item.counts),
+    ]),
+  );
 }
 
 export function readProject(projectId: number): Project | undefined {

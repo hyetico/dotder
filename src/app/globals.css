@@ -247,6 +247,9 @@
   /* xs 버튼 */
   --radius-xs: 6px;
 
+  /* 활동 모자이크 조각 */
+  --radius-tile: 2px;
+
   /* 알약 모양 칩·태그, 스위치 */
   --radius-full: 9999px;
 
@@ -1107,6 +1110,64 @@ textarea:-webkit-autofill:focus {
 
 .drawer-fade-out {
   animation: drawer-fade-out 400ms ease-in-out both;
+}
+
+/*
+ * 활동 모자이크 (Design Guide 11). 색은 프로젝트 색 한 가지(--mosaic-color, 카드에서 넣음).
+ * 다크는 메인 왕관과 같이 흰색 30%를 섞어 바탕 대비를 올린다 (handoff A4).
+ * 조각은 클수록 진하다.
+ */
+.activity-mosaic {
+  --mosaic-ink: var(--mosaic-color, var(--color-neutral));
+}
+
+:root[data-theme="dark"] .activity-mosaic {
+  --mosaic-ink: color-mix(in srgb, var(--mosaic-color, var(--color-neutral)) 70%, white);
+}
+
+.activity-mosaic-box {
+  background-color: color-mix(in srgb, var(--color-surface) 50%, transparent);
+}
+
+/* 다크는 상자를 카드보다 어둡게, 조각은 덜 비치게 (design/screens 01 다크) */
+:root[data-theme="dark"] .activity-mosaic-box {
+  background-color: color-mix(in srgb, var(--color-page) 70%, transparent);
+}
+
+:root[data-theme="dark"] .mosaic-tone-0 {
+  background-color: color-mix(in srgb, var(--mosaic-ink) 40%, transparent);
+}
+
+:root[data-theme="dark"] .mosaic-tone-1 {
+  background-color: color-mix(in srgb, var(--mosaic-ink) 60%, transparent);
+}
+
+:root[data-theme="dark"] .mosaic-tone-2 {
+  background-color: color-mix(in srgb, var(--mosaic-ink) 75%, transparent);
+}
+
+:root[data-theme="dark"] .mosaic-tone-3 {
+  background-color: color-mix(in srgb, var(--mosaic-ink) 90%, transparent);
+}
+
+.mosaic-tone-0 {
+  background-color: color-mix(in srgb, var(--mosaic-ink) 30%, transparent);
+}
+
+.mosaic-tone-1 {
+  background-color: color-mix(in srgb, var(--mosaic-ink) 40%, transparent);
+}
+
+.mosaic-tone-2 {
+  background-color: color-mix(in srgb, var(--mosaic-ink) 60%, transparent);
+}
+
+.mosaic-tone-3 {
+  background-color: color-mix(in srgb, var(--mosaic-ink) 80%, transparent);
+}
+
+.mosaic-tone-4 {
+  background-color: var(--mosaic-ink);
 }
 
 /* 불러오는 중 자리 표시가 천천히 깜빡인다 (원본 .skel pulse 1.2s) */

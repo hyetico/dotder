@@ -126,7 +126,8 @@ src/features/<기능>/
 
 | 위치 | 컴포넌트 | 상태 |
 |---|---|---|
-| `projects/components` | `ProjectBoardCard` (폴더 카드) | 🔧 평소엔 링크, 즐겨찾기 편집에서는 `<label>`로 감싸 카드를 누르면 체크가 눌림. 본문은 이름 2줄 → `StatusText` → 기간·목표·태스크·진행률 (handoff C1, 활동 모자이크는 아직 없음) |
+| `projects/components` | `ProjectBoardCard` (폴더 카드) | 🔧 평소엔 링크, 즐겨찾기 편집에서는 `<label>`로 감싸 카드를 누르면 체크가 눌림. 본문은 이름 2줄 → `StatusText` → 기간·목표·태스크·진행률 → 활동 모자이크 (handoff C1, `activity`를 넘길 때만) |
+| | `ActivityMosaic` | ✅ 폴더 카드 활동 모자이크 (7줄 × 20주 · 칸 11 · 간격 3 · 빈 날 점 3 · 1–4단계 5 · 7 · 9 · 11, Design Guide 11). 색은 프로젝트 색 하나(`--mosaic-color`), 다크는 흰색 30% 섞음. 계산은 `utils/activityMosaic.ts`, 기록은 `getProjectActivity` |
 | | `ProjectFolder` | 🔧 목록 카드 전용으로 단순화 (디테일 모드 제거) |
 | | `ProjectStatusBadge` | ✅ `StatusBadge` 위. 진행 중 + 지연이면 「지연」 뱃지를 옆에 붙임 |
 | | `ProjectCreateWizard` | ⛔ 드로어로 대체 |
