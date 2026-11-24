@@ -28,6 +28,7 @@ import { getTodayDateValue } from "@/features/goals/utils/goalDates";
 import { getGoalStatusLabel } from "@/features/goals/utils/goalUtils";
 import { FieldError } from "@/features/projects/components/ProjectForm/FormParts";
 
+import { formatDate } from "@/lib/date";
 import { currentUser } from "@/lib/mock/users";
 import { goalQueryKeys } from "@/lib/queryKeys";
 
@@ -116,24 +117,6 @@ const emptyErrors: GoalCreateErrors = {
   startDate: "",
   endDate: "",
 };
-
-/**
- * formatGoalPeriodDate
- *
- * 목표 기간 칸에 보여줄 날짜를 만듭니다.
- *
- * @param value - YYYY-MM-DD 날짜
- * @returns `2026.11.09` 형태의 날짜. 값이 없으면 빈 문자열
- */
-function formatGoalPeriodDate(value: string) {
-  const [year, month, day] = value.split("-");
-
-  if (!year || !month || !day) {
-    return "";
-  }
-
-  return `${year}.${month}.${day}`;
-}
 
 /**
  * GoalStatusAutoInfo
@@ -273,7 +256,7 @@ function GoalCreateDrawerPanel({
     : startDate || today;
   const endDateMax = hasProjectPeriod ? projectEnd : undefined;
   const periodLocked = project != null;
-  const linkedPeriodText = [formatGoalPeriodDate(projectStart), formatGoalPeriodDate(projectEnd)]
+  const linkedPeriodText = [formatDate(projectStart), formatDate(projectEnd)]
     .filter(Boolean)
     .join(" ~ ");
   const isTagLimitReached = tags.length >= GOAL_TAG_LIMIT;
@@ -592,7 +575,7 @@ function GoalCreateDrawerPanel({
 
                         setErrors((current) => ({ ...current, startDate: "", endDate: "" }));
                       }}
-                      formatValue={formatGoalPeriodDate}
+                      formatValue={formatDate}
                       min={startDateMin}
                       max={startDateMax}
                       invalid={Boolean(errors.startDate)}
@@ -612,7 +595,7 @@ function GoalCreateDrawerPanel({
                         setEndDate(value);
                         setErrors((current) => ({ ...current, endDate: "" }));
                       }}
-                      formatValue={formatGoalPeriodDate}
+                      formatValue={formatDate}
                       min={endDateMin}
                       max={endDateMax}
                       invalid={Boolean(errors.endDate)}

@@ -5,8 +5,8 @@ import Link from "next/link";
 import DropdownMenu, { DropdownMenuLink } from "@/components/ui/DropdownMenu";
 
 import ProjectBadge from "@/features/projects/components/ProjectBadge";
-import { formatProjectRelativeTime } from "@/features/projects/utils/projectUtils";
 
+import { formatRelativeTime } from "@/lib/date";
 import { getProjectDetailPath } from "@/lib/projectRoutes";
 
 import type { Project } from "@/features/projects/types/project";
@@ -62,7 +62,7 @@ export default function DrawerRecentCard({
         </span>
 
         <span className="text-caption shrink-0 whitespace-nowrap text-[var(--color-text-secondary)]">
-          {formatProjectRelativeTime(openedAt)}
+          {formatRelativeTime(openedAt)}
         </span>
       </Link>
 

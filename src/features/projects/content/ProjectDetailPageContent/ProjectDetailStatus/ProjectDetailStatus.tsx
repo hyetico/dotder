@@ -23,13 +23,12 @@ import ExpandableList, {
 import SectionHeader from "@/features/projects/components/SectionHeader";
 import ProjectOverviewSummary from "@/features/projects/content/ProjectDetailPageContent/ProjectDetailStatus/ProjectOverviewSummary";
 import {
-  formatProjectDate,
   formatSignedProjectDays,
-  getProjectDayDelta,
   getProjectScheduleSnapshot,
   summarizeProjectDeadlineChanges,
 } from "@/features/projects/utils/projectUtils";
 
+import { formatDate, getDayDelta } from "@/lib/date";
 import { getProjectDeadlineChanges } from "@/lib/mock/projectDeadlineChanges";
 import { getProjectEditPath } from "@/lib/projectRoutes";
 
@@ -101,10 +100,10 @@ function formatChangedAt(value: string) {
   const clock = time.slice(0, 5);
 
   if (!clock) {
-    return formatProjectDate(date);
+    return formatDate(date);
   }
 
-  return `${formatProjectDate(date)} ${clock}`;
+  return `${formatDate(date)} ${clock}`;
 }
 
 /**
@@ -280,7 +279,7 @@ function DeadlineTimeline({ changes }: { changes: ProjectDeadlineChange[] }) {
           </p>
           <div className="min-w-0">
             <p className="text-sm leading-5 font-medium text-[var(--color-text)] tabular-nums">
-              {formatProjectDate(change.previousEndDate)} → {formatProjectDate(change.nextEndDate)}
+              {formatDate(change.previousEndDate)} → {formatDate(change.nextEndDate)}
             </p>
             <p className="mt-0.5 text-sm leading-5 text-[var(--color-text-secondary)]">
               {changeReason(change)}
@@ -317,7 +316,7 @@ export default function ProjectDetailStatus({
   const visibleChanges = showAllHistory ? changes : changes.slice(0, previewCount);
   const historyTruncated = !showAllHistory && changes.length > previewCount;
   const rows: ExpandableListRow[] = visibleChanges.map((change, index) => {
-    const delta = getProjectDayDelta(change.previousEndDate, change.nextEndDate);
+    const delta = getDayDelta(change.previousEndDate, change.nextEndDate);
 
     return {
       id: String(change.id),
@@ -326,11 +325,11 @@ export default function ProjectDetailStatus({
         schedule: (
           <span className="inline-flex items-center gap-2">
             <span className="text-[var(--color-text)] tabular-nums">
-              {formatProjectDate(change.previousEndDate)}
+              {formatDate(change.previousEndDate)}
             </span>
             <AppIcon icon={ArrowRight} size="sm" className="text-[var(--color-text-secondary)]" />
             <span className="font-semibold text-[var(--color-text)] tabular-nums">
-              {formatProjectDate(change.nextEndDate)}
+              {formatDate(change.nextEndDate)}
             </span>
           </span>
         ),
@@ -416,7 +415,7 @@ export default function ProjectDetailStatus({
                 {
                   icon: CalendarDays,
                   label: "최초 마감일",
-                  value: formatProjectDate(summary.originalEndDate),
+                  value: formatDate(summary.originalEndDate),
                   valueClassName: "text-[var(--color-text)]",
                 },
                 {

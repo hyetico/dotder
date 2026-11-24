@@ -1,6 +1,7 @@
 import { computeProjectGoalStats } from "@/features/goals/utils/goalUtils";
 import { getProjectTeamLabel } from "@/features/projects/utils/projectTeam";
 
+import { getDayDelta, parseDateKey } from "@/lib/date";
 import { getUserName } from "@/lib/mock/users";
 
 import type { Goal } from "@/features/goals/types/goal";
@@ -129,9 +130,7 @@ function startOfLocalDay(date: Date) {
 }
 
 function parseProjectDay(value: string) {
-  const [year, month, day] = value.split("-").map(Number);
-
-  return new Date(year, month - 1, day);
+  return parseDateKey(value) ?? new Date(Number.NaN);
 }
 
 export function getProjectDaysAfterEnd(endDate: string, today: Date = new Date()) {
@@ -230,57 +229,12 @@ export function resolveProjectProgress(status: ProjectStatus, calculatedProgress
   }
 }
 
-export function formatProjectDate(value: string) {
-  return value.replace(/-/g, ".");
-}
-
-export function formatProjectDateRange(startDate: string, endDate: string) {
-  return `${formatProjectDate(startDate)} ~ ${formatProjectDate(endDate)}`;
-}
-
-export function getProjectDayDelta(fromDate: string, toDate: string) {
-  const from = parseProjectDay(fromDate);
-  const to = parseProjectDay(toDate);
-
-  return Math.round((to.getTime() - from.getTime()) / 86_400_000);
-}
-
 export function formatSignedProjectDays(days: number) {
   if (days > 0) {
     return `+${days}일`;
   }
 
   return `${days}일`;
-}
-
-export function formatProjectRelativeTime(value: string, today: Date = new Date()) {
-  const changedAt = new Date(value);
-
-  const elapsed = today.getTime() - changedAt.getTime();
-
-  const minute = 60_000;
-  const hour = 60 * minute;
-  const day = 24 * hour;
-
-  if (Number.isNaN(changedAt.getTime()) || elapsed < minute) {
-    return "방금 전";
-  }
-
-  if (elapsed < hour) {
-    return `${Math.floor(elapsed / minute)}분 전`;
-  }
-
-  if (elapsed < day) {
-    return `${Math.floor(elapsed / hour)}시간 전`;
-  }
-
-  const days = Math.floor(elapsed / day);
-
-  if (days < 30) {
-    return `${days}일 전`;
-  }
-
-  return formatProjectDate(value.slice(0, 10));
 }
 
 export type ProjectDeadlineHistorySummary = {
@@ -309,7 +263,7 @@ export function summarizeProjectDeadlineChanges(
   const originalEndDate = ordered[0]?.previousEndDate ?? currentEndDate;
 
   const totalExtendedDays = ordered.reduce((sum, change) => {
-    const delta = getProjectDayDelta(change.previousEndDate, change.nextEndDate);
+    const delta = getDayDelta(change.previousEndDate, change.nextEndDate);
 
     return delta > 0 ? sum + delta : sum;
   }, 0);
@@ -317,7 +271,7 @@ export function summarizeProjectDeadlineChanges(
   return {
     changeCount: ordered.length,
     totalExtendedDays,
-    slipFromOriginalDays: getProjectDayDelta(originalEndDate, currentEndDate),
+    slipFromOriginalDays: getDayDelta(originalEndDate, currentEndDate),
     originalEndDate,
   };
 }

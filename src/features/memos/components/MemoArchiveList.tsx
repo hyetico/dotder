@@ -6,12 +6,9 @@ import Badge from "@/components/ui/badge/Badge";
 import DropdownMenu from "@/components/ui/DropdownMenu";
 import { AppIcon, ChevronDown, FileText, Folder, Trash2 } from "@/components/ui/icon";
 
-import {
-  formatMemoDate,
-  getMemoProjectLabel,
-  getMemoRegistrationLabel,
-} from "@/features/memos/utils/memoDisplay";
+import { getMemoProjectLabel, getMemoRegistrationLabel } from "@/features/memos/utils/memoDisplay";
 
+import { formatDateTime } from "@/lib/date";
 import { buildTasksPath, getGoalDetailPath } from "@/lib/projectRoutes";
 
 import type { Memo } from "@/features/memos/types/memo";
@@ -154,7 +151,7 @@ export default function MemoArchiveList({
               <span className="truncate">{getMemoProjectLabel(project)}</span>
             </span>
             <time dateTime={memo.createdAt} className={`${archiveMetaClassName} tabular-nums`}>
-              {formatMemoDate(memo.createdAt)}
+              {formatDateTime(memo.createdAt)}
             </time>
             <DropdownMenu label={`${memo.title} 메뉴`} stopPropagation panelClassName="w-44">
               {(close) => (

@@ -12,12 +12,9 @@ import ProjectAccent from "@/features/projects/components/ProjectAccent";
 import { ProjectCardShell } from "@/features/projects/components/ProjectBoardCard";
 import { ProjectStatusIconMark } from "@/features/projects/components/ProjectStatusBadge";
 import { getProjectAccentColor } from "@/features/projects/utils/projectColors";
-import {
-  formatProjectDate,
-  formatProjectDateRange,
-  getProjectScheduleMark,
-} from "@/features/projects/utils/projectUtils";
+import { getProjectScheduleMark } from "@/features/projects/utils/projectUtils";
 
+import { formatDate, formatDateRange } from "@/lib/date";
 import { getProjectDetailPath } from "@/lib/projectRoutes";
 
 import type { ProjectListItem } from "@/features/projects/types/project";
@@ -45,7 +42,7 @@ const listCardWideClassName = "hidden min-w-0 grid-cols-4 items-center md:grid";
  * @returns `26.08.01` 형태
  */
 function formatListCardDate(value: string) {
-  const formatted = formatProjectDate(value);
+  const formatted = formatDate(value);
 
   if (formatted.length < 10) {
     return formatted;
@@ -507,7 +504,7 @@ function projectListTableRow(
       period: {
         content: (
           <span className="text-sm leading-5 font-medium text-[var(--color-text-secondary)] tabular-nums">
-            {formatProjectDateRange(project.startDate, project.endDate)}
+            {formatDateRange(project.startDate, project.endDate)}
           </span>
         ),
         contentWidth: 100,

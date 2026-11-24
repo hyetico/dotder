@@ -5,13 +5,13 @@ import { AppIcon, ArrowRight, Calendar, CircleAlert } from "@/components/ui/icon
 
 import { getGoalScheduleMark } from "@/features/goals/utils/goalUtils";
 import {
-  formatProjectDate,
   getProjectDaysAfterEnd,
   getProjectScheduleSnapshot,
   getProjectStatusStyles,
 } from "@/features/projects/utils/projectUtils";
 import { taskTodayStamp } from "@/features/tasks/utils/taskUtils";
 
+import { formatDate } from "@/lib/date";
 import { getGoalDetailPath } from "@/lib/projectRoutes";
 
 import type { Goal } from "@/features/goals/types/goal";
@@ -313,9 +313,7 @@ export default function ProjectOverviewSummary({
             <div className="mt-4 flex items-center justify-between gap-3">
               <p className={`min-w-0 truncate ${bodyClassName}`}>{upcoming.title}</p>
               <p className="flex shrink-0 items-center gap-2">
-                <span className={`${bodyClassName} tabular-nums`}>
-                  {formatProjectDate(upcoming.date)}
-                </span>
+                <span className={`${bodyClassName} tabular-nums`}>{formatDate(upcoming.date)}</span>
                 <Badge shape="pill" size="sm" className={dueBadgeClassName}>
                   {formatDueBadge(upcoming.daysAfter)}
                 </Badge>

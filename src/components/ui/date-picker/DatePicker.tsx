@@ -20,6 +20,8 @@ import {
 } from "@/components/ui/icon";
 import Modal, { modalSidePaddingClassName } from "@/components/ui/modal/Modal";
 
+import { formatDate, parseDateKey, toDateKey } from "@/lib/date";
+
 import type { LucideIcon } from "@/components/ui/icon/icons";
 
 export type DatePickerMarker = {
@@ -70,50 +72,12 @@ const markerToneClassName: Record<DatePickerMarkerTone, string> = {
   pink: "bg-[var(--color-danger)]",
 };
 
-function parseDate(value: string): Date | null {
-  if (!value) {
-    return null;
-  }
-
-  const [year, month, day] = value.split("-").map(Number);
-
-  if (!year || !month || !day) {
-    return null;
-  }
-
-  return new Date(year, month - 1, day);
-}
-
-function toDateValue(date: Date): string {
-  const year = date.getFullYear();
-
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-
-  const day = String(date.getDate()).padStart(2, "0");
-
-  return `${year}-${month}-${day}`;
-}
-
-function formatDisplayDate(value: string): string {
-  const date = parseDate(value);
-
-  if (!date) {
-    return "";
-  }
-
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-
-  const day = String(date.getDate()).padStart(2, "0");
-
-  return `${date.getFullYear()}. ${month}. ${day}.`;
-}
-
 function isBeforeMin(date: Date, min?: string): boolean {
   if (!min) {
     return false;
   }
 
-  return toDateValue(date) < min;
+  return toDateKey(date) < min;
 }
 
 function isAfterMax(date: Date, max?: string): boolean {
@@ -121,7 +85,7 @@ function isAfterMax(date: Date, max?: string): boolean {
     return false;
   }
 
-  return toDateValue(date) > max;
+  return toDateKey(date) > max;
 }
 
 function isDateUnavailable(date: Date, min?: string, max?: string) {
@@ -268,7 +232,7 @@ function DatePickerCalendar({
         ))}
 
         {calendarDays.map((day) => {
-          const dateKey = toDateValue(day);
+          const dateKey = toDateKey(day);
 
           const isCurrentMonth = day.getMonth() === viewDate.getMonth();
 
@@ -363,7 +327,7 @@ export default function DatePicker({
   const [isOpen, setIsOpen] = useState(false);
 
   const [viewDate, setViewDate] = useState<Date>(
-    () => parseDate(value) ?? parseDate(min ?? "") ?? new Date(),
+    () => parseDateKey(value) ?? parseDateKey(min ?? "") ?? new Date(),
   );
 
   const [draftValue, setDraftValue] = useState(value);
@@ -374,7 +338,7 @@ export default function DatePicker({
 
   const title = placeholder.replace(/ 선택$/, "");
 
-  const selectedDate = parseDate(keepsSelection ? draftValue : value);
+  const selectedDate = parseDateKey(keepsSelection ? draftValue : value);
 
   // 열려 있는 동안 값이나 최소 날짜가 바뀌면(열릴 때 포함) 고르던 날짜와 보이는 달을 다시 맞춘다.
   const [syncedFrom, setSyncedFrom] = useState<{ value: string; min?: string } | null>(null);
@@ -386,7 +350,7 @@ export default function DatePicker({
   if (isOpen && (syncedFrom === null || syncedFrom.value !== value || syncedFrom.min !== min)) {
     setSyncedFrom({ value, min });
     setDraftValue(value);
-    setViewDate(parseDate(value) ?? parseDate(min ?? "") ?? new Date());
+    setViewDate(parseDateKey(value) ?? parseDateKey(min ?? "") ?? new Date());
   }
 
   const open = () => {
@@ -407,7 +371,7 @@ export default function DatePicker({
       return;
     }
 
-    const nextValue = toDateValue(date);
+    const nextValue = toDateKey(date);
 
     setViewDate(new Date(date.getFullYear(), date.getMonth(), 1));
 
@@ -432,7 +396,7 @@ export default function DatePicker({
     }
 
     setDraftValue("");
-    setViewDate(parseDate(min ?? "") ?? new Date());
+    setViewDate(parseDateKey(min ?? "") ?? new Date());
   };
 
   const handleConfirm = async () => {
@@ -449,7 +413,7 @@ export default function DatePicker({
       return;
     }
 
-    const draftDate = parseDate(draftValue);
+    const draftDate = parseDateKey(draftValue);
 
     if (!draftDate || isDateUnavailable(draftDate, min, max)) {
       return;
@@ -500,7 +464,7 @@ export default function DatePicker({
   }
 
   const isButton = variant === "button";
-  const valueText = value ? (formatValue ? formatValue(value) : formatDisplayDate(value)) : "";
+  const valueText = value ? (formatValue ? formatValue(value) : formatDate(value)) : "";
 
   const fieldAlignClassName = iconPosition === "start" ? "justify-start" : "justify-between";
 

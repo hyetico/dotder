@@ -41,6 +41,7 @@ import LinkedProjectInfoModal from "@/features/goals/modals/LinkedProjectInfoMod
 import { getGoalStatusLabel } from "@/features/goals/utils/goalUtils";
 import { FieldError, FormLabel } from "@/features/projects/components/ProjectForm/FormParts";
 
+import { formatDate } from "@/lib/date";
 import { getTeamMember } from "@/lib/mock/teamMembers";
 import { goalQueryKeys } from "@/lib/queryKeys";
 
@@ -99,24 +100,6 @@ type GoalDetailDrawerProps = {
   projects: Project[];
   onClose: () => void;
 };
-
-/**
- * formatGoalPeriodDate
- *
- * 목표 기간 칸에 보여줄 날짜를 만듭니다.
- *
- * @param value - YYYY-MM-DD 날짜
- * @returns `2026.11.09` 형태의 날짜. 값이 없으면 빈 문자열
- */
-function formatGoalPeriodDate(value: string) {
-  const [year, month, day] = value.split("-");
-
-  if (!year || !month || !day) {
-    return "";
-  }
-
-  return `${year}.${month}.${day}`;
-}
 
 /**
  * GoalDetailEditForm
@@ -428,7 +411,7 @@ function GoalDetailEditForm({
                     setErrors((current) => ({ ...current, startDate: "", endDate: "" }));
                   }}
                   placeholder="시작일"
-                  formatValue={formatGoalPeriodDate}
+                  formatValue={formatDate}
                   max={endDate || undefined}
                   disabled={periodLocked}
                   invalid={Boolean(errors.startDate)}
@@ -443,7 +426,7 @@ function GoalDetailEditForm({
                     setErrors((current) => ({ ...current, endDate: "" }));
                   }}
                   placeholder="마감일"
-                  formatValue={formatGoalPeriodDate}
+                  formatValue={formatDate}
                   min={startDate || undefined}
                   disabled={periodLocked}
                   invalid={Boolean(errors.endDate)}
@@ -579,9 +562,7 @@ function GoalDetailDrawerPanel({
   const assignee =
     goal?.assigneeIds.map((id) => getTeamMember(id)).find((member) => member != null) ?? null;
   const periodText = goal
-    ? [formatGoalPeriodDate(goal.startDate), formatGoalPeriodDate(goal.endDate)]
-        .filter(Boolean)
-        .join(" ~ ")
+    ? [formatDate(goal.startDate), formatDate(goal.endDate)].filter(Boolean).join(" ~ ")
     : "";
   const periodLinked =
     project != null &&

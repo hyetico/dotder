@@ -37,26 +37,6 @@ export function splitMemoText(text: string): { title: string; body: string } | n
 }
 
 /**
- * formatMemoDate
- *
- * 메모를 쓴 시각을 카드에 보여줄 문자열로 바꿉니다.
- *
- * @param value - `2026-11-09T13:48:00` 형태의 시각
- * @returns `2026.11.09 13:48`
- */
-export function formatMemoDate(value: string) {
-  const date = new Date(value);
-
-  if (Number.isNaN(date.getTime())) {
-    return value;
-  }
-
-  const pad = (part: number) => String(part).padStart(2, "0");
-
-  return `${date.getFullYear()}.${pad(date.getMonth() + 1)}.${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}`;
-}
-
-/**
  * getMemoProjectLabel
  *
  * 메모 카드에 보여줄 프로젝트 이름을 만듭니다.

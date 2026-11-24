@@ -20,6 +20,7 @@ import {
   type TaskFilterTab,
 } from "@/features/tasks/utils/taskUtils";
 
+import { formatLongDate, toDateKey } from "@/lib/date";
 import { projectQueryKeys, taskQueryKeys } from "@/lib/queryKeys";
 
 import type { Task, TaskStatus } from "@/features/tasks/types/task";
@@ -78,33 +79,6 @@ const priorityLabel: Record<TaskPriority, string> = {
 };
 
 const weekDays = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
-
-/*
- * Date를 Task dueDate 형식과 동일하게 변환
- *
- * 예:
- * 2026-09-03
- */
-function formatDateKey(date: Date) {
-  const year = date.getFullYear();
-
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-
-  const day = String(date.getDate()).padStart(2, "0");
-
-  return `${year}-${month}-${day}`;
-}
-
-/*
- * dateKey → Modal 제목용
- *
- * 예: 2026-09-03 → 2026년 9월 3일
- */
-function formatDateLabel(dateKey: string) {
-  const [year, month, day] = dateKey.split("-").map(Number);
-
-  return `${year}년 ${month}월 ${day}일`;
-}
 
 type CalendarTaskCardProps = {
   task: Task;
@@ -209,7 +183,7 @@ function createCalendarDays(currentMonth: Date): CalendarDay[] {
       return {
         date,
 
-        dateKey: formatDateKey(date),
+        dateKey: toDateKey(date),
 
         day: date.getDate(),
 
@@ -344,7 +318,7 @@ export default function TaskCalendarView({
   /*
    * 오늘 날짜
    */
-  const todayKey = formatDateKey(new Date());
+  const todayKey = toDateKey(new Date());
 
   /*
    * 이전 달
@@ -643,7 +617,7 @@ export default function TaskCalendarView({
        */}
       <Modal isOpen={expandedDateKey !== null} onClose={() => setExpandedDateKey(null)}>
         <Modal.Header
-          title={expandedDateKey ? `${formatDateLabel(expandedDateKey)} Task` : "Task 목록"}
+          title={expandedDateKey ? `${formatLongDate(expandedDateKey)} Task` : "Task 목록"}
           description={
             expandedDateKey ? `총 ${(tasksByDate[expandedDateKey] ?? []).length}개` : undefined
           }

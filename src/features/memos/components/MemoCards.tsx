@@ -7,12 +7,9 @@ import Badge from "@/components/ui/badge/Badge";
 import DropdownMenu from "@/components/ui/DropdownMenu";
 import { AppIcon, ChevronRight, FileText, Folder, Plus, Trash2 } from "@/components/ui/icon";
 
-import {
-  formatMemoDate,
-  getMemoProjectLabel,
-  getMemoRegistrationLabel,
-} from "@/features/memos/utils/memoDisplay";
+import { getMemoProjectLabel, getMemoRegistrationLabel } from "@/features/memos/utils/memoDisplay";
 
+import { formatDateTime } from "@/lib/date";
 import { buildTasksPath, getGoalDetailPath } from "@/lib/projectRoutes";
 
 import type { Memo } from "@/features/memos/types/memo";
@@ -266,7 +263,7 @@ export function MemoCard({ memo, project, registeredProject, onOpen, onDelete }:
             <span className="truncate">{projectLabel}</span>
           </span>
           <time dateTime={memo.createdAt} className="shrink-0 tabular-nums">
-            {formatMemoDate(memo.createdAt)}
+            {formatDateTime(memo.createdAt)}
           </time>
         </div>
       )}

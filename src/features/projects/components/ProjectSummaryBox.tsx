@@ -27,13 +27,13 @@ import ScheduleBadge, {
 } from "@/features/projects/components/ScheduleBadge";
 import { getProjectTeamLabel } from "@/features/projects/utils/projectTeam";
 import {
-  formatProjectDateRange,
   getProjectScheduleMark,
   getProjectScheduleSnapshot,
   getProjectStatusStyles,
   isProjectDelayed,
 } from "@/features/projects/utils/projectUtils";
 
+import { formatDateRange } from "@/lib/date";
 import { getProjectDeadlineChanges } from "@/lib/mock/projectDeadlineChanges";
 import { getUserName } from "@/lib/mock/users";
 import { getProjectDetailPath } from "@/lib/projectRoutes";
@@ -201,7 +201,7 @@ export default function ProjectSummaryBox({
     {
       icon: Calendar,
       label: "기간",
-      value: formatProjectDateRange(project.startDate, project.endDate),
+      value: formatDateRange(project.startDate, project.endDate),
     },
   ];
 

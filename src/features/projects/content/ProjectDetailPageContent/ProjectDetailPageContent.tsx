@@ -18,9 +18,9 @@ import ProjectDetailStatus, {
   type ProjectDetailSection,
 } from "@/features/projects/content/ProjectDetailPageContent/ProjectDetailStatus/ProjectDetailStatus";
 import ProjectDetailTeam from "@/features/projects/content/ProjectDetailPageContent/ProjectDetailTeam";
-import { formatProjectDate } from "@/features/projects/utils/projectUtils";
 import { getTaskStatusLabel } from "@/features/tasks/utils/taskUtils";
 
+import { formatDate } from "@/lib/date";
 import { getTeamMembers } from "@/lib/mock/teamMembers";
 import { getProjectEditPath } from "@/lib/projectRoutes";
 
@@ -226,7 +226,7 @@ export default function ProjectDetailPageContent({
                       items={tasks.map((task) => ({
                         id: String(task.id),
                         title: task.title,
-                        meta: `${getTaskStatusLabel(task.status)} · ${formatProjectDate(task.dueDate)}`,
+                        meta: `${getTaskStatusLabel(task.status)} · ${formatDate(task.dueDate)}`,
                       }))}
                     />
                   ) : null}
