@@ -54,7 +54,7 @@ src/features/<기능>/
 |---|---|---|
 | `Input`, `Textarea`, `SearchInput` | 한 줄, 여러 줄, 검색 | ✅ |
 | `Select` | 정해진 선택지 | ✅ |
-| `DatePicker` | 날짜 (`variant="button"`은 드로어 행용). `md` 이상은 입력칸 아래 팝오버 282(오늘 · 지우기), 모바일은 모달. 칸 기본은 아이콘 앞(`iconPosition="start"`), 빈 칸 글자 「날짜 고르기」 | 🔧 모바일 바텀시트 남음 (tech-debt C-9) |
+| `DatePicker` | 날짜 (`variant="button"`은 드로어 행용). `md` 이상은 입력칸 아래 팝오버 282(오늘 · 지우기), 모바일은 바텀시트(날짜 칸 44). 칸 기본은 아이콘 앞(`iconPosition="start"`), 빈 칸 글자 「날짜 고르기」 | ✅ (부르는 곳의 「~ 선택」 빈 칸 글자는 tech-debt C-9) |
 | `Switch` | 켜기·끄기 | ✅ |
 | `SegmentedControl` ★ | 2~4개 중 하나 (아이콘·글자) | `SegmentedIconToggle`을 넓혀서 대체 |
 | `FieldNotice` | 입력칸 아래 안내 | ✅ |
@@ -68,7 +68,7 @@ src/features/<기능>/
 | `DrawerFrame` | (역할 확인 후 `Drawer`와 합칠지 결정) | 🔧 |
 | `CreateDrawer` ★ | 생성 드로어 공통 틀 ([design-guide](design-guide.md) 4장) | ★ |
 | `DrawerRow` ★ | 라벨 80 + 값 + 오른쪽 보조 | ★ |
-| `Modal` | 선택·설정 모달 바탕. 기본 너비 `--modal-width` 480 (handoff B2), 검색은 `--search-width` 600. 모바일 바텀시트는 아직 | ✅ |
+| `Modal` | 선택·설정 모달 바탕. 기본 너비 `--modal-width` 480 (handoff B2), 검색은 `--search-width` 600. 모바일(767 이하)은 바텀시트(손잡이 36 × 4 · 위 모서리 16 · 최대 90% · 주 버튼 남은 폭, Layout Spec 08) — `mobileSheet={false}`면 가운데 (확인창 · 통합 검색) | ✅ |
 | `AlertModal` | 삭제·상태 변경 확인. 너비 `--confirm-width` 320, 모바일도 가운데 | ✅ |
 | `Toast` | 결과 알림 + 되돌리기 하나. 4초(되돌리기 있으면 6초), 마우스·초점 동안 멈춤, `role="status"` | ✅ (handoff B5, `DeadlineToast`·`FavoriteRemovedToast` 삭제) |
 | `Notice` | 화면 안에 계속 보이는 한 줄 안내. i 16 + 글자 14/20 보조색, 바탕 · 테두리 · 닫기 없음, `role="status"`, 툴바 바로 아래 8 (Components 12). 행동이 필요하면 글 끝에 링크 1개 | ✅ `components/ui/Notice.tsx` (`HoldAddNotice`가 사용) |

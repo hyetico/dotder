@@ -21,9 +21,15 @@ type ModalProps = {
   labelledBy?: string;
   describedBy?: string;
   maxHeightClassName?: string;
+  /**
+   * 모바일(767 이하)에서 아래에서 올라오는 바텀시트로 그린다 (Layout Spec 08 · handoff B2).
+   * 확인창(`AlertModal`)과 통합 검색은 끈다.
+   */
+  mobileSheet?: boolean;
 };
 
 const ModalPadContext = createContext(true);
+const ModalSheetContext = createContext(false);
 
 export const modalSidePaddingClassName = `
   px-[var(--page-padding-x)]
@@ -42,6 +48,13 @@ export const stableListModalPanelClassName = `
   xl:min-h-[min(36rem,calc(100dvh-2rem))]
 `;
 
+// 모바일 바텀시트: 화면 폭 전체 · 위 모서리만 16 · 최대 화면 90% (Layout Spec 08)
+const bottomSheetPanelClassName =
+  "max-md:max-h-[90dvh] max-md:max-w-none max-md:rounded-b-none max-md:border-x-0 max-md:border-b-0";
+// 손잡이 36 × 4 · 가운데 · 위 8
+const bottomSheetHandleClassName =
+  "mx-auto mt-2 h-1 w-9 shrink-0 rounded-full bg-[var(--color-border-strong)] md:hidden";
+
 function ModalRoot({
   isOpen,
   onClose,
@@ -53,6 +66,7 @@ function ModalRoot({
   labelledBy,
   describedBy,
   maxHeightClassName = "max-h-[min(720px,calc(100dvh-2rem))]",
+  mobileSheet = true,
 }: ModalProps) {
   const dialogRef = useRef<HTMLDivElement>(null);
   const accentStyle = useProjectAccentStyle();
@@ -101,7 +115,9 @@ function ModalRoot({
     >
       <div
         role="presentation"
-        className="flex min-h-full items-center justify-center bg-[var(--color-overlay)] p-4 backdrop-blur-[1px]"
+        className={`flex min-h-full justify-center bg-[var(--color-overlay)] backdrop-blur-[1px] ${
+          mobileSheet ? "items-end md:items-center md:p-4" : "items-center p-4"
+        }`}
         onMouseDown={(event) => {
           event.stopPropagation();
           onClose();
@@ -113,12 +129,17 @@ function ModalRoot({
           aria-modal="true"
           aria-labelledby={labelledBy}
           aria-describedby={describedBy}
-          className={`flex w-full ${maxHeightClassName} flex-col overflow-hidden rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] shadow-[var(--shadow-overlay)] ${maxWidthClassName} ${panelClassName} `}
+          className={`flex w-full ${maxHeightClassName} flex-col overflow-hidden rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] shadow-[var(--shadow-overlay)] ${maxWidthClassName} ${
+            mobileSheet ? bottomSheetPanelClassName : ""
+          } ${panelClassName} `}
           onMouseDown={(event) => {
             event.stopPropagation();
           }}
         >
-          <ModalPadContext.Provider value={padded}>{children}</ModalPadContext.Provider>
+          {mobileSheet ? <span aria-hidden className={bottomSheetHandleClassName} /> : null}
+          <ModalSheetContext.Provider value={mobileSheet}>
+            <ModalPadContext.Provider value={padded}>{children}</ModalPadContext.Provider>
+          </ModalSheetContext.Provider>
         </div>
       </div>
     </div>,
@@ -207,9 +228,14 @@ type ModalFooterProps = {
 };
 
 function ModalFooter({ children, className = "" }: ModalFooterProps) {
+  const isSheet = useContext(ModalSheetContext);
+
   return (
     <div
-      className={`flex min-h-[var(--bottom-app-bar-height)] shrink-0 items-center justify-end gap-2 border-t border-[var(--color-border)] bg-[var(--color-surface)] ${modalSidePaddingClassName} py-2 ${className} `}
+      className={`flex min-h-[var(--bottom-app-bar-height)] shrink-0 items-center justify-end gap-2 border-t border-[var(--color-border)] bg-[var(--color-surface)] ${modalSidePaddingClassName} py-2 ${
+        // 바텀시트는 주 버튼(맨 끝)이 남은 폭을 모두 쓴다
+        isSheet ? "max-md:[&>*:last-child]:flex-1 max-md:[&>*:last-child]:justify-center" : ""
+      } ${className} `}
     >
       {children}
     </div>

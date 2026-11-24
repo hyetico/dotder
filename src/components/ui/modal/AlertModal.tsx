@@ -105,6 +105,7 @@ export default function AlertModal({
       isOpen={isOpen}
       onClose={onClose}
       maxWidthClassName="max-w-[var(--confirm-width)]"
+      mobileSheet={false}
       zIndexClassName="z-[var(--z-modal)]"
       labelledBy={titleId}
       describedBy={description ? descriptionId : undefined}
