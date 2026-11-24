@@ -11,6 +11,8 @@ import {
 
 import { getProjectAccentStyle } from "@/features/projects/utils/projectColors";
 
+import type { ProjectColorKey } from "@/lib/projectPalette";
+
 const ProjectAccentStyleContext = createContext<CSSProperties | undefined>(undefined);
 
 const ProjectAccentSetterContext = createContext<
@@ -53,7 +55,7 @@ export function useSyncProjectAccent(color: string | null) {
 }
 
 type ProjectAccentProps = {
-  color?: string | null;
+  color?: ProjectColorKey | null;
   children: ReactNode;
 };
 

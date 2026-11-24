@@ -61,6 +61,7 @@ import { isProjectDelayed } from "@/features/projects/utils/projectUtils";
 import { currentUser } from "@/lib/mock/users";
 
 import type { ProjectStatus } from "@/features/projects/types/project";
+import type { ProjectColorKey } from "@/lib/projectPalette";
 
 const noProjectGuideItems: InfoTooltipItem[] = [
   {
@@ -114,7 +115,7 @@ type GoalProjectSummary = {
   tags: string[];
   startDate: string;
   endDate: string;
-  color: string | null;
+  color: ProjectColorKey | null;
   isMain: boolean;
   status: ProjectStatus;
   teamId: number | null;
@@ -1138,8 +1139,9 @@ export default function GoalForm({
                       render={({ field }) => {
                         const isNoneSelected = !field.value;
 
+                        // 칸 간격 6 (Components 04)
                         return (
-                          <div className="flex flex-wrap items-center gap-3">
+                          <div className="flex flex-wrap items-center gap-1.5">
                             {splitLayout ? (
                               <GoalColorSwatch
                                 selected={isNoneSelected}

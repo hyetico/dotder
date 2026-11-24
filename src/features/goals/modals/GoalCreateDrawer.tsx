@@ -42,7 +42,7 @@ const GOAL_CREATE_ICON: GoalIcon = "layout";
 const SLIDE_MS = 400;
 
 const goalIconPreviewClassName =
-  "flex size-12 shrink-0 items-center justify-center rounded-[var(--radius-md)] bg-[var(--color-hover-soft)] text-[var(--color-kind-goal)]";
+  "flex size-12 shrink-0 items-center justify-center rounded-[var(--radius-md)] bg-[var(--color-hover-soft)] text-[var(--color-text-secondary)]";
 const goalTitleAreaClassName =
   "text-2xl! leading-[32px]! font-[700]! text-[var(--color-text)]! placeholder:text-2xl placeholder:leading-[32px] placeholder:font-[700] placeholder:text-[var(--color-text-placeholder)]! focus:placeholder:text-[var(--color-text-placeholder)]!";
 const goalDescriptionAreaClassName =

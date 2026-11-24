@@ -13,20 +13,21 @@ import ProjectBadge from "@/features/projects/components/ProjectBadge";
 import { formatDateRange } from "@/lib/date";
 
 import type { GoalStatus } from "@/features/goals/types/goal";
+import type { ProjectColorKey } from "@/lib/projectPalette";
 
 type GoalPreviewModalProps = {
   isOpen: boolean;
   onClose: () => void;
   title: string;
   description: string;
-  color: string | null;
+  color: ProjectColorKey | null;
   status: GoalStatus;
   delayed?: boolean;
   startDate: string;
   endDate: string;
   projectName: string;
   projectEmptyLabel: string;
-  projectColor: string | null;
+  projectColor: ProjectColorKey | null;
   projectIsMain?: boolean;
   authorName: string;
   tags: string[];

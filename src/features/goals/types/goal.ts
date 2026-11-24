@@ -1,3 +1,5 @@
+import type { ProjectColorKey } from "@/lib/projectPalette";
+
 export type GoalStatus = "NOT_STARTED" | "IN_PROGRESS" | "COMPLETED";
 
 export const GOAL_STATUSES: GoalStatus[] = ["NOT_STARTED", "IN_PROGRESS", "COMPLETED"];
@@ -10,7 +12,8 @@ export type Goal = {
   title: string;
   description: string;
   status: GoalStatus;
-  color: string | null;
+  /** 색 키 (lib/projectPalette.ts). `null`은 「색 없음」 */
+  color: ProjectColorKey | null;
   icon: GoalIcon;
   tags: string[];
   startDate: string;

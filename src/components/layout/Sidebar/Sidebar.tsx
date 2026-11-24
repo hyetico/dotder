@@ -103,7 +103,12 @@ function SidebarNavList({
               data-active={isActive}
               className={getNavLinkClassName(isDesktopCollapsed)}
             >
-              <AppIcon icon={Icon} size="lg" className="shrink-0" />
+              {/* 종류 색 대신 보조 글자색 (Design Guide 12). 선택된 메뉴는 글자색을 따른다 */}
+              <AppIcon
+                icon={Icon}
+                size="lg"
+                className="shrink-0 text-[var(--color-text-secondary)] in-data-[active=true]:text-current"
+              />
 
               {isDesktopCollapsed ? (
                 <span className="sidebar-nav-tooltip pointer-events-none absolute top-1/2 left-[calc(100%+20px)] z-50 h-9 -translate-y-1/2 items-center rounded-xl bg-[var(--color-nav-hover)]/50 px-3 text-sm font-normal whitespace-nowrap text-[var(--color-text)] uppercase shadow-[var(--shadow-overlay)] backdrop-blur-sm">

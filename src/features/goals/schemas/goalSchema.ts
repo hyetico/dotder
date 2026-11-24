@@ -2,6 +2,8 @@ import { z } from "zod";
 
 import { getTodayDateValue } from "@/features/goals/utils/goalDates";
 
+import { PROJECT_COLOR_KEYS } from "@/lib/projectPalette";
+
 const goalSchema = z
   .object({
     title: z
@@ -12,7 +14,7 @@ const goalSchema = z
 
     description: z.string().max(100, "목표 설명은 100자 이하로 입력해주세요."),
 
-    color: z.string().nullable(),
+    color: z.enum(PROJECT_COLOR_KEYS).nullable(),
 
     startDate: z.string().min(1, "시작일을 선택해주세요."),
 

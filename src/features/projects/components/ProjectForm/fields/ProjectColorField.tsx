@@ -27,23 +27,10 @@ export function ProjectColorField({ control }: { control: Control<ProjectFormDat
         name="color"
         control={control}
         render={({ field }) => {
-          const isNoneSelected = !field.value;
-
+          // 10색 중 하나는 꼭 고른다 (「색상 없음」 없음 · 칸 간격 6, Components 04).
+          // 모바일은 5개씩 2줄, 웹 · 태블릿은 한 줄 10개
           return (
-            <div className="flex flex-wrap items-center gap-3">
-              <ProjectColorSwatch
-                selected={isNoneSelected}
-                label="색상 없음"
-                onClick={() => field.onChange(null)}
-              >
-                <ProjectBadge
-                  color={null}
-                  mark="radio"
-                  selected={isNoneSelected}
-                  className={colorBadgeClassName}
-                />
-              </ProjectColorSwatch>
-
+            <div className="grid w-fit grid-cols-5 gap-1.5 md:flex md:items-center">
               {PROJECT_COLOR_OPTIONS.map((option) => {
                 const isSelected = field.value === option.value;
 
@@ -52,7 +39,7 @@ export function ProjectColorField({ control }: { control: Control<ProjectFormDat
                     key={option.value}
                     selected={isSelected}
                     label={`${option.label} 색상 선택`}
-                    onClick={() => field.onChange(isSelected ? null : option.value)}
+                    onClick={() => field.onChange(option.value)}
                   >
                     <ProjectBadge
                       color={option.value}

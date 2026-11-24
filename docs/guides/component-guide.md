@@ -128,8 +128,8 @@ src/features/<기능>/
 | 위치 | 컴포넌트 | 상태 |
 |---|---|---|
 | `projects/components` | `ProjectBoardCard` (폴더 카드) | 🔧 평소엔 링크, 즐겨찾기 편집에서는 `<label>`로 감싸 카드를 누르면 체크가 눌림. 본문은 이름 2줄 → `StatusText` → 기간·목표·태스크·진행률 → 활동 모자이크 (handoff C1, `activity`를 넘길 때만) |
-| | `ActivityMosaic` | ✅ 폴더 카드 활동 모자이크 (7줄 × 20주 · 칸 11 · 간격 3 · 빈 날 점 3 · 1–4단계 5 · 7 · 9 · 11, Design Guide 11). 색은 프로젝트 색 하나(`--mosaic-color`), 다크는 흰색 30% 섞음. 계산은 `utils/activityMosaic.ts`, 기록은 `getProjectActivity` |
-| | `ProjectMark` | ✅ 고르는 목록 · 프로젝트 전환의 프로젝트 표시. 색 점 10, 메인은 프로젝트 색 왕관 14 (읽는 이름 「메인」, 다크는 흰색 30%, handoff B8) |
+| | `ActivityMosaic` | ✅ 폴더 카드 활동 모자이크 (7줄 × 20주 · 칸 11 · 간격 3 · 빈 날 점 3 · 1–4단계 5 · 7 · 9 · 11, Design Guide 11). 색은 프로젝트 색 하나(`--mosaic-color` = 팔레트 변수, 다크는 다크 값). 계산은 `utils/activityMosaic.ts`, 기록은 `getProjectActivity` |
+| | `ProjectMark` | ✅ 고르는 목록 · 프로젝트 전환의 프로젝트 표시. 색 점 10, 메인은 프로젝트 색 왕관 14 (읽는 이름 「메인」, 팔레트 변수라 다크는 다크 값, handoff B8) |
 | | `ProjectListItem` (`ProjectPicker`) | ✅ 고르는 목록 한 줄: 라디오 · 체크 18 + `ProjectMark` + 이름(자르지 않음) + 상태. 줄 높이 웹 40 · 터치 44 (C-16 · B7 · B11) |
 | | `ProjectFolder` | 🔧 목록 카드 전용으로 단순화 (디테일 모드 제거) |
 | | `ProjectStatusBadge` | ✅ `StatusBadge` 위. 진행 중 + 지연이면 「지연」 뱃지를 옆에 붙임 |
