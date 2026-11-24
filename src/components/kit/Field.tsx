@@ -11,6 +11,8 @@ type FieldProps = {
   labelId?: string;
   /** 필수 표시 `*` (--bad) */
   required?: boolean;
+  /** 라벨 옆 작은 글 (태그 개수 「3 / 10」 등, 12 --t3) */
+  labelAside?: ReactNode;
   /** 라벨 아래 · 칸 위 안내 글 (프로토타입 태그 칸처럼). 12/18 --t3 */
   hint?: ReactNode;
   /** 칸 아래 안내 글. 오류가 있으면 오류 글이 대신 나온다 */
@@ -36,6 +38,7 @@ export default function Field({
   htmlFor,
   labelId,
   required = false,
+  labelAside,
   hint,
   help,
   error,
@@ -56,6 +59,9 @@ export default function Field({
           <span aria-hidden className="text-[var(--bad)]">
             *
           </span>
+        ) : null}
+        {labelAside ? (
+          <span className="text-xs font-normal text-[var(--t3)] tabular-nums">{labelAside}</span>
         ) : null}
       </LabelTag>
       {hint ? <p className="-mt-0.5 text-xs text-[var(--t3)]">{hint}</p> : null}

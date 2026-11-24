@@ -5,9 +5,19 @@ import { createContext, useCallback, useContext, useRef, useState, type ReactNod
 import Button from "@/components/kit/Button";
 import { CircleAlert, Check } from "@/components/ui/icon";
 
+import { BUTTON_LABEL, TOAST_TEXT } from "@/content/ui";
+
 type ToastKind = "ok" | "bad";
-type ToastItem = { id: number; text: string; kind: ToastKind; undo?: () => void };
-type ShowToast = (text: string, options?: { kind?: ToastKind; undo?: () => void }) => void;
+type ToastOptions = {
+  /** ok(기본) · bad(오류) */
+  kind?: ToastKind;
+  /** 「되돌리기」를 붙인다 (6초) */
+  undo?: () => void;
+  /** 「다시 시도」를 붙인다 (오류 토스트, 6초) */
+  retry?: () => void;
+};
+type ToastItem = ToastOptions & { id: number; text: string; kind: ToastKind };
+type ShowToast = (text: string, options?: ToastOptions) => void;
 
 const ToastContext = createContext<ShowToast | null>(null);
 
@@ -20,8 +30,9 @@ const UNDO_DURATION_MS = 6000;
  *
  * @example
  * const toast = useToast();
- * toast("태스크를 추가했어요");
- * toast("삭제했어요", { undo: restore });
+ * toast(TOAST_TEXT.saved);
+ * toast(TOAST_TEXT.deleted, { undo: restore });
+ * toast(TOAST_TEXT.saveFailed, { retry: save });
  */
 export function useToast(): ShowToast {
   const show = useContext(ToastContext);
@@ -49,7 +60,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
     seq.current += 1;
     setItems((list) => [
       ...list,
-      { id: seq.current, text, kind: options?.kind ?? "ok", undo: options?.undo },
+      { ...options, id: seq.current, text, kind: options?.kind ?? (options?.retry ? "bad" : "ok") },
     ]);
   }, []);
 
@@ -62,10 +73,15 @@ export function ToastProvider({ children }: { children: ReactNode }) {
             key={item.id}
             item={item}
             onDone={() => remove(item.id)}
-            onUndo={() => {
-              item.undo?.();
+            onAction={() => {
               remove(item.id);
-              show("되돌렸어요");
+
+              if (item.undo) {
+                item.undo();
+                show(TOAST_TEXT.undone);
+              } else {
+                item.retry?.();
+              }
             }}
           />
         ))}
@@ -77,14 +93,15 @@ export function ToastProvider({ children }: { children: ReactNode }) {
 function ToastRow({
   item,
   onDone,
-  onUndo,
+  onAction,
 }: {
   item: ToastItem;
   onDone: () => void;
-  onUndo: () => void;
+  onAction: () => void;
 }) {
   const timer = useRef<number | null>(null);
-  const left = useRef(item.undo ? UNDO_DURATION_MS : DURATION_MS);
+  const hasAction = Boolean(item.undo || item.retry);
+  const left = useRef(hasAction ? UNDO_DURATION_MS : DURATION_MS);
   const startedAt = useRef(0);
 
   const start = useCallback(() => {
@@ -119,9 +136,9 @@ function ToastRow({
         <CircleAlert size={16} aria-hidden className="shrink-0 text-[var(--toast-bad)]" />
       )}
       <span className="min-w-0 flex-1 truncate">{item.text}</span>
-      {item.undo ? (
-        <Button variant="onToast" size="xs" onClick={onUndo}>
-          되돌리기
+      {hasAction ? (
+        <Button variant="onToast" size="xs" onClick={onAction}>
+          {item.undo ? BUTTON_LABEL.undo : BUTTON_LABEL.retry}
         </Button>
       ) : null}
     </div>

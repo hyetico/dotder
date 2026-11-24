@@ -95,11 +95,38 @@
   --folder-ink: #5e5459;
   /* 보드 크기: 드로어 폭 · 모바일 시트 모서리 · 시트 푸터 버튼(보드 M 01-a 48) · 빈 상태 점선 */
   --drawer-w: 400px;
+  /* 모바일 ☰ 시트 폭 (보드 M 01-g) */
+  --sheet-nav-w: 300px;
   --radius-sheet: 20px;
   --btn-h-sheet: 48px;
   --line-dash: 1.5px;
   /* 보드 .kbd 모서리 */
   --radius-kbd: 4px;
+  /* 보드 .badge (바탕 · 글자 · 점) · 지연 글자 (handoff CLAUDE 1장) */
+  --badge-n-bg: #f1f1ef;
+  --badge-n-fg: #475569;
+  --badge-n-dot: #9ca3af;
+  --badge-info-bg: #dbeafe;
+  --badge-info-fg: #2563eb;
+  --badge-info-dot: #3b82f6;
+  --badge-ok-bg: #dcfce7;
+  --badge-ok-fg: #15803d;
+  --badge-ok-dot: #22c55e;
+  --badge-warn-bg: #ffedd5;
+  --badge-warn-fg: #c2410c;
+  --badge-warn-dot: #f97316;
+  --badge-bad-bg: #fee2e2;
+  --badge-bad-fg: #b91c1c;
+  --badge-bad-dot: #ef4444;
+  --late: #b91c1c;
+  /* 즐겨찾기 별 (보드 01-b) · 사람 동그라미 (보드 .av) */
+  --star: #c9a233;
+  --avatar-bg: #e9ebef;
+  /* 보드 .cb 체크박스 선 */
+  --cb-line: #9ca3af;
+  /* 보드 .sw 스위치 */
+  --switch-off: #d1d5db;
+  --switch-knob: #fff;
 }
 
 :root[data-theme="dark"] {
@@ -151,6 +178,27 @@
   --mosaic-box: color-mix(in srgb, var(--bg) 60%, transparent);
   /* 프로토타입 .app.dark .fold .muted */
   --folder-ink: var(--t2);
+  --badge-n-bg: #262a30;
+  --badge-n-fg: #aab2bb;
+  --badge-n-dot: #9aa2ab;
+  --badge-info-bg: #1c2a45;
+  --badge-info-fg: #8fb2ff;
+  --badge-info-dot: #5b8ff7;
+  --badge-ok-bg: #173322;
+  --badge-ok-fg: #6ee59a;
+  --badge-ok-dot: #34c76a;
+  --badge-warn-bg: #3a2616;
+  --badge-warn-fg: #fdb67a;
+  --badge-warn-dot: #f9853a;
+  --badge-bad-bg: #3d1c1e;
+  --badge-bad-fg: #ff8a8a;
+  --badge-bad-dot: #f25f5f;
+  --late: #ff8a8a;
+  --switch-off: #9aa2ab;
+  --switch-knob: #1b1e22;
+  --star: #d9be70;
+  --avatar-bg: #2e3339;
+  --cb-line: #9aa2ab;
 }
 
 /*

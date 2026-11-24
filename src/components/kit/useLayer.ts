@@ -2,6 +2,8 @@
 
 import { useEffect, useId, useRef, useState, useSyncExternalStore, type RefObject } from "react";
 
+import { useIsClient } from "@/hooks/useIsClient";
+
 /** 들어오기 · 나가기 시간 (프로토타입 slide .18s · fade .15s) */
 export const LAYER_MOTION_MS = 180;
 
@@ -59,7 +61,10 @@ export function usePresence(isOpen: boolean) {
     return () => window.clearTimeout(timer);
   }, [isOpen]);
 
-  return { isPresent, isShown };
+  // 서버 그리기에는 레이어가 없으니, 브라우저에 붙은 뒤에만 그린다 (처음부터 열린 주소 ?new=1 등)
+  const isClient = useIsClient();
+
+  return { isPresent: isPresent && isClient, isShown };
 }
 
 type UseLayerOptions = {
@@ -134,6 +139,11 @@ export function useLayer({
       }
 
       if (event.key === "Escape") {
+        // 안에서 Esc를 따로 쓰는 칸(태그 입력 등)은 그 칸이 처리한다
+        if ((event.target as HTMLElement | null)?.closest?.("[data-esc-local]")) {
+          return;
+        }
+
         event.preventDefault();
         event.stopPropagation();
         onCloseRef.current();

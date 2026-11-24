@@ -5,7 +5,7 @@ import { useId, useRef, useState, type ReactNode } from "react";
 import Button from "@/components/kit/Button";
 import { Chip, Tag } from "@/components/kit/Chip";
 import ColorSwatches from "@/components/kit/ColorSwatches";
-import ConfirmDialog from "@/components/kit/ConfirmDialog";
+import { DeleteConfirmDialog, DiscardConfirmDialog } from "@/components/kit/ConfirmDialog";
 import Drawer from "@/components/kit/Drawer";
 import EmptyState from "@/components/kit/EmptyState";
 import Field from "@/components/kit/Field";
@@ -14,9 +14,11 @@ import Kbd from "@/components/kit/Kbd";
 import { MenuItem, MenuSeparator, MoreMenu, PickRow } from "@/components/kit/Menu";
 import Mosaic from "@/components/kit/Mosaic";
 import Popover from "@/components/kit/Popover";
+import QuickAddInput from "@/components/kit/QuickAddInput";
 import SearchField from "@/components/kit/SearchField";
 import Segmented from "@/components/kit/Segmented";
 import Tabs from "@/components/kit/Tabs";
+import TagField from "@/components/kit/TagField";
 import { TextArea, TextInput } from "@/components/kit/TextInput";
 import { ToastProvider, useToast } from "@/components/kit/Toast";
 import {
@@ -27,6 +29,8 @@ import {
   ListChecks,
   Plus,
 } from "@/components/ui/icon";
+
+import { BUTTON_LABEL, QUICK_ADD_PLACEHOLDER, TOAST_TEXT } from "@/content/ui";
 
 import { DEFAULT_PROJECT_COLOR, type ProjectColorKey } from "@/lib/projectPalette";
 
@@ -71,6 +75,7 @@ function Gallery() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [isPopOpen, setIsPopOpen] = useState(false);
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [picked, setPicked] = useState<number | null>(1);
   const panelRef = useRef<HTMLElement>(null);
   const popAnchorRef = useRef<HTMLButtonElement>(null);
@@ -236,13 +241,26 @@ function Gallery() {
               </>
             )}
           </MoreMenu>
-          <Button onClick={() => toast("태스크를 추가했어요")}>토스트</Button>
+          <Button onClick={() => toast(TOAST_TEXT.saved)}>토스트</Button>
           <Button variant="ghost">
             검색 <Kbd>⌘K</Kbd>
           </Button>
-          <Button onClick={() => toast("프로젝트를 삭제했어요", { undo: () => undefined })}>
+          <Button onClick={() => toast(TOAST_TEXT.deleted, { undo: () => undefined })}>
             되돌리기 토스트
           </Button>
+          <Button onClick={() => toast(TOAST_TEXT.saveFailed, { retry: () => undefined })}>
+            오류 토스트
+          </Button>
+          <Button variant="danger" onClick={() => setIsDeleteOpen(true)}>
+            삭제 확인
+          </Button>
+          <div className="w-90 max-w-full">
+            <QuickAddInput
+              placeholder={QUICK_ADD_PLACEHOLDER.task}
+              ariaLabel="태스크 추가"
+              onSubmit={(value) => toast(`${value} · ${TOAST_TEXT.saved}`)}
+            />
+          </div>
           <Popover
             isOpen={isPopOpen}
             onClose={() => setIsPopOpen(false)}
@@ -310,8 +328,8 @@ function Gallery() {
         panelRef={panelRef}
         footer={
           <>
-            <Button onClick={() => setIsConfirmOpen(true)}>취소</Button>
-            <Button variant="primary">추가</Button>
+            <Button onClick={() => setIsConfirmOpen(true)}>{BUTTON_LABEL.cancel}</Button>
+            <Button variant="primary">{BUTTON_LABEL.create}</Button>
           </>
         }
       >
@@ -326,19 +344,24 @@ function Gallery() {
           추가 설정
           <span className="text-[var(--t3)]">· 기간, 설명, 태그</span>
         </Button>
+        <TagField tags={tags} onChange={setTags} />
       </Drawer>
-      <ConfirmDialog
+      <DiscardConfirmDialog
         isOpen={isConfirmOpen}
-        title="저장하지 않고 닫을까요?"
-        text="입력한 내용은 저장되지 않아요."
-        confirmLabel="닫기"
-        cancelLabel="계속 편집"
-        danger
         withinRef={panelRef}
         onClose={() => setIsConfirmOpen(false)}
         onConfirm={() => {
           setIsConfirmOpen(false);
           setIsDrawerOpen(false);
+        }}
+      />
+      <DeleteConfirmDialog
+        target="프로젝트"
+        isOpen={isDeleteOpen}
+        onClose={() => setIsDeleteOpen(false)}
+        onConfirm={() => {
+          setIsDeleteOpen(false);
+          toast(TOAST_TEXT.deleted, { undo: () => undefined });
         }}
       />
     </main>
