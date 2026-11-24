@@ -1,5 +1,5 @@
-import ProjectsPageContent from "@/features/projects/content/ProjectsPageContent/ProjectsPageContent";
+import ProjectListScreen from "@/features/projects/list/ProjectListScreen";
 
 export default function ProjectsPage() {
-  return <ProjectsPageContent />;
+  return <ProjectListScreen scope="all" />;
 }
