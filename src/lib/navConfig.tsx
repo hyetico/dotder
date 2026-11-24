@@ -99,7 +99,7 @@ export function getPageNavFromPath(pathname: string): PageNavMeta {
   }
 
   return {
-    title: "Tessera",
+    title: "Dotder",
     href: "/projects",
     icon: Folder,
   };

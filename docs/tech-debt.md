@@ -42,7 +42,7 @@
 | **A-4** | 이모지 아이콘: 숨긴 팀 목업 데이터(`lib/mock/teams.ts`) 6개만 남음 | 6곳 | v2 |
 | **D-2** | ✅ 완료 — README가 create-next-app 기본 → 프로젝트 소개로 교체 | 1 | 1 |
 | **D-3** | 프로젝트 디테일의 메모 하위 주소가 아직 `/projects/[id]/backlog` (메모 목록 `/memos`와 코드 이름은 2단계에서 바꿈) | 라우트 1 | 7 |
-| **D-4** | 앱 이름은 Tessera로 통일했지만 GitHub 저장소 이름이 아직 `flow-choice`. 바꾸면 원격 주소(`git remote`)도 갱신 | 1 | 공개 전 |
+| **D-4** | 앱 이름은 Dotder로 통일했지만 GitHub 저장소 이름이 아직 `flow-choice`. 바꾸면 원격 주소(`git remote`)도 갱신 | 1 | 공개 전 |
 | **D-5** | localStorage 키 앞머리가 옛 이름 `projectflow:` (`projectSwitcherPreferences.ts` 3개). 바꾸면 저장된 즐겨찾기·최근 목록이 사라지므로 옮기는 코드와 함께 | 3 | 8 |
 | **X-4** | 학습용 긴 주석 (`useTaskMutations.ts` 등) | - | 2 |
 | **X-5** | 문서 주석이 없는 **export 함수** (`export function`, `export const 이름 = (`) | 412개 중 190개 | 수시 |

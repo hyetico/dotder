@@ -5,7 +5,7 @@ import Providers from "@/app/providers";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Tessera",
+  title: "Dotder",
   description: "Task management dashboard",
 };
 

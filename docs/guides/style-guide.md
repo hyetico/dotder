@@ -170,6 +170,7 @@
 
 - `text-project-card-title`, `text-body-sm`은 4단계에서 지웠다. **남은 것:** `text-badge-sm-mobile` (5곳). 의미 클래스가 `@layer` 밖 일반 CSS라 `lg:text-badge` 같은 변형을 쓸 수 없어서 남겼다 (tech-debt S-13).
 - Tailwind 기본 크기(`text-sm`, `text-xl` …)는 쓰지 않는다. 의미 클래스만 쓴다.
+- 자간 토큰: `tracking-logo` (−0.02em, 사이드바 로고 글자 `dotder` 16 / 700). 로고 글자는 소문자, 문장 안에서는 `Dotder`.
 - 숫자가 바뀌는 자리에는 `tabular-nums`.
 
 ## 3. 간격
