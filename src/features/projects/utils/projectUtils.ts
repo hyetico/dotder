@@ -26,7 +26,7 @@ export function getProjectVisualStatus(
 }
 
 export const holdAddNoticeMessage =
-  "목표, 태스크를 추가할 수 없습니다. 프로젝트 상태를 변경해주세요.";
+  "보류 중인 프로젝트에는 목표 · 태스크를 추가할 수 없어요. 상태를 바꾸면 추가할 수 있어요.";
 
 /**
  * canAddProjectItems

@@ -3,6 +3,8 @@ import { z } from "zod";
 import { PROJECT_TAG_LIMIT } from "@/features/projects/constants/projectTags";
 import { isProjectDelayed } from "@/features/projects/utils/projectUtils";
 
+import { PROJECT_COLOR_KEYS } from "@/lib/projectPalette";
+
 import type { ProjectStatus } from "@/features/projects/types/project";
 
 const projectSchema = z
@@ -15,7 +17,7 @@ const projectSchema = z
 
     description: z.string().max(500, "프로젝트 설명은 500자 이하로 입력해주세요."),
 
-    color: z.string().nullable(),
+    color: z.enum(PROJECT_COLOR_KEYS),
 
     teamId: z.string(),
 

@@ -277,10 +277,11 @@ export default function ProjectListRow({
 
   if (onToggleSelected) {
     return (
-      <div className="relative block min-w-0 cursor-pointer" onClick={onToggleSelected}>
+      // 줄 어디를 눌러도 안의 체크 버튼이 눌린다 (label 기본 동작). 키보드는 체크 버튼으로.
+      <label className="relative block min-w-0 cursor-pointer">
         {card}
         {cornerAction}
-      </div>
+      </label>
     );
   }
 

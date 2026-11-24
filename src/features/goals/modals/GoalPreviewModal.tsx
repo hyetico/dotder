@@ -13,20 +13,21 @@ import ProjectBadge from "@/features/projects/components/ProjectBadge";
 import { formatDateRange } from "@/lib/date";
 
 import type { GoalStatus } from "@/features/goals/types/goal";
+import type { ProjectColorKey } from "@/lib/projectPalette";
 
 type GoalPreviewModalProps = {
   isOpen: boolean;
   onClose: () => void;
   title: string;
   description: string;
-  color: string | null;
+  color: ProjectColorKey | null;
   status: GoalStatus;
   delayed?: boolean;
   startDate: string;
   endDate: string;
   projectName: string;
   projectEmptyLabel: string;
-  projectColor: string | null;
+  projectColor: ProjectColorKey | null;
   projectIsMain?: boolean;
   authorName: string;
   tags: string[];
@@ -123,7 +124,7 @@ export default function GoalPreviewModal({
   const descriptionText = trimmedDescription || "목표에 대한 설명을 입력하세요";
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} labelledBy={titleId} maxWidthClassName="max-w-[480px]">
+    <Modal isOpen={isOpen} onClose={onClose} labelledBy={titleId}>
       <Modal.Header id={titleId} title="목표 미리보기" onClose={onClose} />
 
       <Modal.Body className="!pt-0">

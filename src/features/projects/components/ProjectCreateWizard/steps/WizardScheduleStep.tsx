@@ -141,7 +141,7 @@ export function WizardScheduleStep({
                   onChange={field.onChange}
                   min={minDate}
                   invalid={Boolean(errors.startDate)}
-                  placeholder="시작일 선택"
+                  title="시작일"
                   iconPosition="start"
                   applyOnConfirm
                 />
@@ -163,7 +163,7 @@ export function WizardScheduleStep({
                   onChange={field.onChange}
                   min={endDateMin}
                   invalid={Boolean(errors.endDate)}
-                  placeholder="마감일 선택"
+                  title="마감일"
                   iconPosition="start"
                   applyOnConfirm
                 />

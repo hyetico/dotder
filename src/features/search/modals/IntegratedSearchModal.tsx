@@ -682,7 +682,6 @@ export default function IntegratedSearchModal({
           <ProjectList
             projects={visibleProjects}
             mark="folder"
-            pairDelay
             onSelect={(project) => onNavigate(getProjectDetailPath(project.id), project.id)}
             emptyLabel={
               projects.length === 0 ? "등록된 프로젝트가 없습니다." : "검색 결과가 없습니다."
@@ -840,14 +839,14 @@ export default function IntegratedSearchModal({
                     subtitle={goal ? `목표: ${goal.title}` : project ? project.name : undefined}
                     status={
                       <span className="inline-flex items-center gap-1">
-                        <TaskStatusBadge status={task.status} size="sm" />
+                        <TaskStatusBadge status={task.status} />
                         {isTaskPastDue(task) ? (
                           <span className="text-badge-sm inline-flex h-4 shrink-0 items-center leading-none text-[var(--color-danger-text)]">
                             마감 초과
                           </span>
                         ) : null}
                         {project && task.status !== "DONE" && isProjectDelayed(project) ? (
-                          <GoalStatusBadge status="IN_PROGRESS" delayed size="sm" />
+                          <GoalStatusBadge status="IN_PROGRESS" delayed />
                         ) : null}
                       </span>
                     }
@@ -869,7 +868,8 @@ export default function IntegratedSearchModal({
       padded={false}
       labelledBy="integrated-search-modal-title"
       zIndexClassName="z-[var(--z-modal)]"
-      maxWidthClassName="max-w-[520px]"
+      maxWidthClassName="max-w-[var(--search-width)]"
+      mobileSheet={false}
       panelClassName={stableListModalPanelClassName}
     >
       <Modal.Header

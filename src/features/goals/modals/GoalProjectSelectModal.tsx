@@ -103,7 +103,6 @@ export default function GoalProjectSelectModal({
       padded={false}
       labelledBy="goal-project-select-title"
       zIndexClassName="z-[var(--z-modal)]"
-      maxWidthClassName="max-w-[520px]"
       panelClassName={stableListModalPanelClassName}
     >
       <Modal.Header

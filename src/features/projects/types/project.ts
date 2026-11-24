@@ -1,3 +1,5 @@
+import type { ProjectColorKey } from "@/lib/projectPalette";
+
 export type ProjectStatus = "PLANNED" | "IN_PROGRESS" | "ON_HOLD" | "DONE";
 
 export const PROJECT_STATUSES: ProjectStatus[] = ["PLANNED", "IN_PROGRESS", "ON_HOLD", "DONE"];
@@ -12,7 +14,8 @@ export type Project = {
   isPersonal: boolean;
 
   icon: string;
-  color: string | null;
+  /** 색 키 (lib/projectPalette.ts). hex를 저장하지 않는다. */
+  color: ProjectColorKey;
 
   startDate: string;
   endDate: string;

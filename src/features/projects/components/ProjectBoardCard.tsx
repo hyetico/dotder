@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Crown } from "@/components/ui/icon";
 import StatusText, { type StatusTextTone } from "@/components/ui/StatusText";
 
+import ActivityMosaic from "@/features/projects/components/ActivityMosaic";
 import FavoriteSelectBox from "@/features/projects/components/FavoriteSelectBox";
 import ProjectFolder from "@/features/projects/components/ProjectFolder";
 import { getProjectAccentColor } from "@/features/projects/utils/projectColors";
@@ -15,6 +16,7 @@ import { formatDate } from "@/lib/date";
 import { getProjectDetailPath } from "@/lib/projectRoutes";
 
 import type { ProjectListItem, ProjectStatus } from "@/features/projects/types/project";
+import type { ActivityDay } from "@/features/projects/utils/activityMosaic";
 import type { ReactNode } from "react";
 
 type ProjectBoardCardProps = {
@@ -25,6 +27,8 @@ type ProjectBoardCardProps = {
   onToggleSelected?: () => void;
   onSelect?: () => void;
   pressed?: boolean;
+  /** 날짜별 활동 기록. 넘기면 카드 아래에 활동 모자이크를 그린다 (프로젝트 목록). */
+  activity?: readonly ActivityDay[];
 };
 
 type ProjectCardLabelPlacement = "top" | "start";
@@ -170,6 +174,7 @@ export default function ProjectBoardCard({
   onToggleSelected,
   onSelect,
   pressed = false,
+  activity,
 }: ProjectBoardCardProps) {
   const folderClassName = [
     projectBoardCardBaseClassName,
@@ -204,15 +209,19 @@ export default function ProjectBoardCard({
           }
           trailing={cornerAction}
         />
+        {activity ? (
+          <div className="px-4.5 pb-4">
+            <ActivityMosaic days={activity} color={project.color} />
+          </div>
+        ) : null}
       </div>
     </ProjectFolder>
   );
 
   if (onToggleSelected) {
     return (
-      <div className="group relative block min-w-0 cursor-pointer" onClick={onToggleSelected}>
-        {folder}
-      </div>
+      // 카드 어디를 눌러도 안의 체크 버튼이 눌린다 (label 기본 동작). 키보드는 체크 버튼으로.
+      <label className="group relative block min-w-0 cursor-pointer">{folder}</label>
     );
   }
 

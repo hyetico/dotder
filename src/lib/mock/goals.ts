@@ -1,6 +1,11 @@
+import { toOptionalProjectColorKey } from "@/lib/projectPalette";
+
 import type { Goal } from "@/features/goals/types/goal";
 
-export const mockGoals: Goal[] = [
+/** 옛 저장 형식: 색이 hex 문자열이거나 비어 있다 (2026-11-24 이전). */
+type StoredGoal = Omit<Goal, "color"> & { color: string | null };
+
+const storedGoals: StoredGoal[] = [
   {
     id: 1,
     projectId: 1,
@@ -411,3 +416,9 @@ export const mockGoals: Goal[] = [
     updatedAt: "2026-10-21T09:00:00",
   },
 ];
+
+/** 앱이 쓰는 목표 목록. 옛 색 값(hex)을 읽어 들일 때 한 번 색 키로 바꿔 저장한다. */
+export const mockGoals: Goal[] = storedGoals.map((goal) => ({
+  ...goal,
+  color: toOptionalProjectColorKey(goal.color),
+}));

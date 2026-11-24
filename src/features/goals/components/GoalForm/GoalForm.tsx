@@ -61,6 +61,7 @@ import { isProjectDelayed } from "@/features/projects/utils/projectUtils";
 import { currentUser } from "@/lib/mock/users";
 
 import type { ProjectStatus } from "@/features/projects/types/project";
+import type { ProjectColorKey } from "@/lib/projectPalette";
 
 const noProjectGuideItems: InfoTooltipItem[] = [
   {
@@ -114,7 +115,7 @@ type GoalProjectSummary = {
   tags: string[];
   startDate: string;
   endDate: string;
-  color: string | null;
+  color: ProjectColorKey | null;
   isMain: boolean;
   status: ProjectStatus;
   teamId: number | null;
@@ -329,7 +330,7 @@ function GoalStatusAutoCard() {
       <div className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 rounded-[var(--radius-sm)] bg-[var(--color-hover-soft)] px-3 py-2.5">
         <span className="text-caption text-[var(--color-text-secondary)]">생성 시</span>
 
-        <GoalStatusBadge status="NOT_STARTED" compact plain />
+        <GoalStatusBadge status="NOT_STARTED" />
 
         <Badge className="!h-6 bg-[var(--color-hover)] text-[var(--color-text-secondary)]">
           <AppIcon icon={ListTodo} size="xs" className="max-md:hidden" />
@@ -352,7 +353,7 @@ function GoalStatusAutoCard() {
               {rule.condition}
             </span>
 
-            <GoalStatusBadge status={rule.status} compact plain />
+            <GoalStatusBadge status={rule.status} />
           </li>
         ))}
       </ol>
@@ -762,7 +763,7 @@ export default function GoalForm({
                 max={startDateMax}
                 readOnly={periodLocked}
                 invalid={Boolean(errors.startDate)}
-                placeholder="시작일 선택"
+                title="시작일"
               />
             )}
           />
@@ -794,7 +795,7 @@ export default function GoalForm({
                 max={endDateMax}
                 readOnly={periodLocked}
                 invalid={Boolean(errors.endDate)}
-                placeholder="마감일 선택"
+                title="마감일"
               />
             )}
           />
@@ -1138,8 +1139,9 @@ export default function GoalForm({
                       render={({ field }) => {
                         const isNoneSelected = !field.value;
 
+                        // 칸 간격 6 (Components 04)
                         return (
-                          <div className="flex flex-wrap items-center gap-3">
+                          <div className="flex flex-wrap items-center gap-1.5">
                             {splitLayout ? (
                               <GoalColorSwatch
                                 selected={isNoneSelected}

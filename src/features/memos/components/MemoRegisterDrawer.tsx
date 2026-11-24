@@ -18,6 +18,7 @@ import { registerMemo } from "@/features/memos/api/memos";
 import { createTask, getTasks } from "@/features/tasks/api/tasks";
 
 import { currentUser } from "@/lib/mock/users";
+import { DEFAULT_PROJECT_COLOR } from "@/lib/projectPalette";
 import { goalQueryKeys, memoQueryKeys, taskQueryKeys } from "@/lib/queryKeys";
 
 import type { Memo, MemoRegistrationKind } from "@/features/memos/types/memo";
@@ -121,7 +122,7 @@ function MemoRegisterForm({
           title: trimmedTitle,
           description: body.trim(),
           status: "NOT_STARTED",
-          color: project?.color ?? "#6B2D5B",
+          color: project?.color ?? DEFAULT_PROJECT_COLOR,
           icon: "layout",
           tags: [],
           startDate: today,

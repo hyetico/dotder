@@ -36,6 +36,8 @@ type DatePickerProps = {
   value: string;
   onChange: (value: string) => void;
   placeholder?: string;
+  /** 팝오버 · 시트 제목(읽는 이름). 예: "시작일". 없으면 빈 칸 글자에서 「선택」 「고르기」를 뗀 것. */
+  title?: string;
   disabled?: boolean;
   readOnly?: boolean;
   invalid?: boolean;
@@ -136,6 +138,8 @@ type DatePickerCalendarProps = {
   onPrevMonth: () => void;
   onNextMonth: () => void;
   onSelect: (date: Date) => void;
+  /** 모바일 바텀시트에서 켠다. 날짜 칸 36 → 44 (Components 08 「모바일은 바텀시트(칸 44)」). */
+  touch?: boolean;
 };
 
 /**
@@ -164,6 +168,7 @@ function DatePickerCalendar({
   onPrevMonth,
   onNextMonth,
   onSelect,
+  touch = false,
 }: DatePickerCalendarProps) {
   const today = new Date();
 
@@ -200,7 +205,7 @@ function DatePickerCalendar({
   const showMarkerRow = markers.length > 0;
 
   return (
-    <div className="mx-auto w-full max-w-63">
+    <div className={`mx-auto w-full ${touch ? "max-w-77" : "max-w-63"}`}>
       <div className="mb-2 flex items-center justify-between gap-2">
         <p className="text-body min-w-0 truncate font-semibold text-[var(--color-text)]">
           {heading}
@@ -265,11 +270,11 @@ function DatePickerCalendar({
                 onSelect(day);
               }}
               className={`flex ${
-                showMarkerRow ? "h-10" : "h-9"
+                touch ? (showMarkerRow ? "h-12" : "h-11") : showMarkerRow ? "h-10" : "h-9"
               } flex-col items-center justify-center`}
             >
               <span
-                className={`text-body flex size-9 items-center justify-center rounded-[var(--radius-sm)] leading-none transition-colors ${
+                className={`text-body flex ${touch ? "size-11" : "size-9"} items-center justify-center rounded-[var(--radius-sm)] leading-none transition-colors ${
                   isUnavailable
                     ? "cursor-not-allowed text-[var(--color-text-disabled)]"
                     : isSelected
@@ -306,6 +311,7 @@ export default function DatePicker({
   value,
   onChange,
   placeholder = "날짜 고르기",
+  title: titleProp,
   disabled = false,
   readOnly = false,
   invalid = false,
@@ -350,7 +356,7 @@ export default function DatePicker({
 
   const keepsSelection = applyOnConfirm || belowCalendar !== undefined;
 
-  const title = placeholder.replace(/ (선택|고르기)$/, "");
+  const title = titleProp ?? placeholder.replace(/ (선택|고르기)$/, "");
 
   const selectedDate = parseDateKey(keepsSelection ? draftValue : value);
 
@@ -537,8 +543,9 @@ export default function DatePicker({
     setViewDate((prev) => new Date(prev.getFullYear(), prev.getMonth() + 1, 1));
   };
 
-  const calendar = (
+  const renderCalendar = (touch = false) => (
     <DatePickerCalendar
+      touch={touch}
       viewDate={viewDate}
       selectedDate={selectedDate}
       min={min}
@@ -550,6 +557,7 @@ export default function DatePicker({
       onSelect={handleSelect}
     />
   );
+  const calendar = renderCalendar();
 
   if (variant === "inline") {
     return <div className={`w-full ${className} `}>{calendar}</div>;
@@ -726,7 +734,7 @@ export default function DatePicker({
           icon={<AppIcon icon={Calendar} size="md" />}
         />
 
-        <div className={` ${modalSidePaddingClassName} py-4`}>{calendar}</div>
+        <div className={` ${modalSidePaddingClassName} py-4`}>{renderCalendar(true)}</div>
 
         {belowCalendar && draftValue ? (
           <div className="border-t border-[var(--color-border)]">

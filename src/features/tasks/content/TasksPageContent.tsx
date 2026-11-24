@@ -5,6 +5,8 @@ import { Suspense, useMemo, useState } from "react";
 
 import { useQuery } from "@tanstack/react-query";
 
+import { HeaderActionButton, HeaderActions } from "@/components/layout/Header/HeaderActions";
+import PageHeading from "@/components/layout/pages/Page/PageHeading";
 import PageInset from "@/components/layout/pages/Page/PageInset";
 import PrimaryButton from "@/components/ui/button/PrimaryButton";
 import { AppIcon, CheckCircle2, Circle, ListTodo, LoaderCircle, Plus } from "@/components/ui/icon";
@@ -32,6 +34,13 @@ import { projectQueryKeys, taskQueryKeys } from "@/lib/queryKeys";
 import type { StatusFilterChipItem } from "@/components/ui/StatusFilterChips";
 
 const tasksPageClassName = "space-y-4 pt-3 md:space-y-6 md:pt-6";
+// 전체 태스크(/tasks)는 목록 페이지 순서: 제목 + 요약 → 툴바 (design 10)
+const tasksListPageClassName = "space-y-4 md:space-y-6";
+
+type TasksPageContentProps = {
+  /** 전체 태스크 페이지(`/tasks`)일 때 켠다. 제목 · 요약을 그리고 「추가」를 헤더에 둔다. 프로젝트 디테일 탭에서는 끈다. */
+  showHeading?: boolean;
+};
 
 /**
  * TasksPageLayout
@@ -40,7 +49,7 @@ const tasksPageClassName = "space-y-4 pt-3 md:space-y-6 md:pt-6";
  *
  * @returns 태스크 화면
  */
-function TasksPageLayout() {
+function TasksPageLayout({ showHeading = false }: TasksPageContentProps) {
   const searchParams = useSearchParams();
   const projectScope = useCurrentProjectScope();
   const viewMode = parseTaskViewMode(searchParams.get("view"));
@@ -58,6 +67,12 @@ function TasksPageLayout() {
   const { data: tasks = [] } = useQuery({
     queryKey: taskQueryKeys.list(projectScope),
     queryFn: () => getTasks(projectScope),
+  });
+  // 요약은 프로젝트 고르기와 상관없이 전체 태스크 기준이다 (프로토타입과 같음).
+  const { data: allTasks = [] } = useQuery({
+    queryKey: taskQueryKeys.list("all"),
+    queryFn: () => getTasks("all"),
+    enabled: showHeading,
   });
 
   const scopedProject =
@@ -115,33 +130,79 @@ function TasksPageLayout() {
   ];
 
   const hideTaskAdd = taskAddDisabled && tasks.length === 0;
+  const todayTaskCount = allTasks.filter(
+    (task) => task.dueDate === today && task.status !== "DONE",
+  ).length;
+  const delayedTaskCount = allTasks.filter((task) =>
+    matchesTaskStatusFilter(task, "DELAYED", today),
+  ).length;
 
   return (
-    <PageInset top="none" className={tasksPageClassName}>
-      {taskAddDisabled && tasks.length > 0 ? <HoldAddNotice /> : null}
-      <TasksToolbar
-        searchQuery={searchQuery}
-        onSearchChange={setSearchQuery}
-        activeFilter={activeFilter}
-        onFilterChange={setActiveFilter}
-        sortValue={sortValue}
-        onSortChange={setSortValue}
-        filterItems={filterItems}
-        action={
-          hideTaskAdd ? null : (
-            <PrimaryButton
-              icon={<AppIcon icon={Plus} size="md" className="text-[var(--color-text-inverse)]" />}
-              aria-label="새 태스크"
-              title={taskAddDisabled ? holdAddNoticeMessage : "새 태스크"}
-              disabled={taskAddDisabled}
-              onClick={() => setCreateOpen(true)}
-              className="!h-[var(--button-icon)] !w-[var(--button-icon)] justify-center !px-0 lg:!h-[var(--button-height)] lg:!w-auto lg:!px-[var(--button-px)]"
-            >
-              <span className="hidden lg:inline">새 태스크</span>
-            </PrimaryButton>
-          )
-        }
-      />
+    <PageInset
+      top={showHeading ? "page" : "none"}
+      className={showHeading ? tasksListPageClassName : tasksPageClassName}
+    >
+      {showHeading ? (
+        <>
+          {hideTaskAdd ? null : (
+            <HeaderActions>
+              <HeaderActionButton
+                label="추가"
+                icon={Plus}
+                tone="primary"
+                disabled={taskAddDisabled}
+                title={taskAddDisabled ? holdAddNoticeMessage : "추가"}
+                onClick={() => setCreateOpen(true)}
+              />
+            </HeaderActions>
+          )}
+          <PageHeading
+            title="태스크"
+            description={
+              <>
+                오늘 할 일 {todayTaskCount}개
+                {delayedTaskCount > 0 ? (
+                  <>
+                    {" · "}
+                    <span className="text-[var(--color-danger-text)]">
+                      지연 {delayedTaskCount}개
+                    </span>
+                  </>
+                ) : null}
+              </>
+            }
+          />
+        </>
+      ) : null}
+      <div className="space-y-2">
+        <TasksToolbar
+          searchQuery={searchQuery}
+          onSearchChange={setSearchQuery}
+          activeFilter={activeFilter}
+          onFilterChange={setActiveFilter}
+          sortValue={sortValue}
+          onSortChange={setSortValue}
+          filterItems={filterItems}
+          action={
+            showHeading || hideTaskAdd ? null : (
+              <PrimaryButton
+                icon={
+                  <AppIcon icon={Plus} size="md" className="text-[var(--color-text-inverse)]" />
+                }
+                aria-label="새 태스크"
+                title={taskAddDisabled ? holdAddNoticeMessage : "새 태스크"}
+                disabled={taskAddDisabled}
+                onClick={() => setCreateOpen(true)}
+                className="!h-[var(--button-icon)] !w-[var(--button-icon)] justify-center !px-0 lg:!h-[var(--button-height)] lg:!w-auto lg:!px-[var(--button-px)]"
+              >
+                <span className="hidden lg:inline">새 태스크</span>
+              </PrimaryButton>
+            )
+          }
+        />
+        {/* Notice는 툴바 바로 아래 8 (Components 12) */}
+        {taskAddDisabled && tasks.length > 0 ? <HoldAddNotice /> : null}
+      </div>
 
       <div className="pt-2 md:pt-4">
         {viewMode === "board" ? (
@@ -181,7 +242,7 @@ function TasksPageLayout() {
  * 태스크 목록 화면입니다.
  * 주소의 보기와 프로젝트 범위를 읽기 위해 로딩 경계를 둡니다.
  */
-export default function TasksPageContent() {
+export default function TasksPageContent({ showHeading = false }: TasksPageContentProps) {
   return (
     <Suspense
       fallback={
@@ -192,7 +253,7 @@ export default function TasksPageContent() {
         </PageInset>
       }
     >
-      <TasksPageLayout />
+      <TasksPageLayout showHeading={showHeading} />
     </Suspense>
   );
 }

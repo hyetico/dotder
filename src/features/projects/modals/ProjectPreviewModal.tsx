@@ -13,13 +13,14 @@ import { formatDateRange } from "@/lib/date";
 import { TEAM_FEATURES_VISIBLE } from "@/lib/v1Scope";
 
 import type { ProjectStatus } from "@/features/projects/types/project";
+import type { ProjectColorKey } from "@/lib/projectPalette";
 
 type ProjectPreviewModalProps = {
   isOpen: boolean;
   onClose: () => void;
   name: string;
   description: string;
-  color: string | null;
+  color: ProjectColorKey | null;
   isMain: boolean;
   status: ProjectStatus;
   delayed?: boolean;
@@ -117,7 +118,7 @@ export default function ProjectPreviewModal({
   const descriptionText = trimmedDescription || "설명을 입력하세요";
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} labelledBy={titleId} maxWidthClassName="max-w-[480px]">
+    <Modal isOpen={isOpen} onClose={onClose} labelledBy={titleId}>
       <Modal.Header id={titleId} title="프로젝트 미리보기" onClose={onClose} />
 
       <Modal.Body className="!pt-0">
@@ -139,7 +140,7 @@ export default function ProjectPreviewModal({
           </PreviewRow>
 
           <PreviewRow label="프로젝트 상태">
-            <ProjectStatusBadge status={status} delayed={delayed} className="!h-5" />
+            <ProjectStatusBadge status={status} delayed={delayed} />
           </PreviewRow>
 
           <PreviewRow label="프로젝트 설명" align="start">

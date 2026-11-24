@@ -7,6 +7,7 @@ import {
 } from "@/features/projects/utils/projectColors";
 
 import type { ProjectStatus } from "@/features/projects/types/project";
+import type { ProjectColorKey } from "@/lib/projectPalette";
 
 const badgeSizes = {
   xxs: {
@@ -95,7 +96,7 @@ function ProjectBadgeGlyph({ mark, selected, iconSize }: ProjectBadgeGlyphProps)
 }
 
 type ProjectBadgeProps = {
-  color: string | null;
+  color: ProjectColorKey | null;
   size?: keyof typeof badgeSizes;
   className?: string;
   selected?: boolean;
@@ -132,7 +133,7 @@ export default function ProjectBadge({
 }: ProjectBadgeProps) {
   const config = badgeSizes[size];
 
-  const hasColor = Boolean(color?.trim());
+  const hasColor = color != null;
 
   const resolvedMark =
     mark ?? (selected ? "check" : isMain ? "main" : isFavorite ? "favorite" : "folder");
@@ -149,7 +150,7 @@ export default function ProjectBadge({
           ? {
               backgroundColor: getProjectTintColor(color),
               borderColor: getProjectTintLineColor(color),
-              color: getProjectTintInkColor(color ?? ""),
+              color: getProjectTintInkColor(color),
             }
           : undefined
       }

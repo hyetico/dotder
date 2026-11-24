@@ -6,11 +6,12 @@ import GoalBadge from "@/features/goals/components/GoalBadge";
 import { isGoalDelayed } from "@/features/goals/utils/goalUtils";
 
 import type { GoalStatus } from "@/features/goals/types/goal";
+import type { ProjectColorKey } from "@/lib/projectPalette";
 
 type GoalTitlePreviewProps = {
   title: string;
   description: string;
-  color: string | null;
+  color: ProjectColorKey | null;
   status: GoalStatus;
   projectDelayed?: boolean;
 };

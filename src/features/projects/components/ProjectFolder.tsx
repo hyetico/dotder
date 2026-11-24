@@ -7,8 +7,10 @@ import {
   getProjectTintLineColor,
 } from "@/features/projects/utils/projectColors";
 
+import type { ProjectColorKey } from "@/lib/projectPalette";
+
 type ProjectFolderProps = {
-  color?: string | null;
+  color?: ProjectColorKey | null;
   children: ReactNode;
   className?: string;
   fill?: boolean;

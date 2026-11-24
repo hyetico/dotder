@@ -441,11 +441,7 @@ export default function CreateTaskButton({
                   name="dueDate"
                   control={control}
                   render={({ field }) => (
-                    <DatePicker
-                      value={field.value}
-                      onChange={field.onChange}
-                      placeholder="마감일 선택"
-                    />
+                    <DatePicker value={field.value} onChange={field.onChange} title="마감일" />
                   )}
                 />
 

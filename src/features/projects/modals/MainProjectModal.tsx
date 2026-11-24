@@ -139,7 +139,6 @@ export default function MainProjectModal({
       padded={false}
       labelledBy="main-project-modal-title"
       zIndexClassName="z-[var(--z-modal)]"
-      maxWidthClassName="max-w-[520px]"
       panelClassName={stableListModalPanelClassName}
     >
       <Modal.Header

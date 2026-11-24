@@ -4,6 +4,7 @@ import { AppIcon, ArrowUpRight } from "@/components/ui/icon";
 
 import {
   getProjectTintColor,
+  getProjectTintHoverColor,
   getProjectTintInkColor,
   getProjectTintLineColor,
 } from "@/features/projects/utils/projectColors";
@@ -40,14 +41,12 @@ const compactFolderPath =
  * @param props.project - 표시할 프로젝트
  */
 export default function ProjectCompactCard({ project }: ProjectCompactCardProps) {
-  const color = project.color?.trim() || null;
+  const color = project.color;
   const folderStyle = {
     "--folder-fill": getProjectTintColor(color),
     "--folder-line": getProjectTintLineColor(color),
-    "--folder-ink": color ? getProjectTintInkColor(color) : "var(--color-text-secondary)",
-    "--folder-fill-hover": color
-      ? `color-mix(in srgb, ${color} 22%, white)`
-      : "var(--color-hover-strong)",
+    "--folder-ink": getProjectTintInkColor(color),
+    "--folder-fill-hover": getProjectTintHoverColor(color),
   } as CSSProperties;
 
   return (

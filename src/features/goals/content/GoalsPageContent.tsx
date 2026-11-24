@@ -8,9 +8,8 @@ import { useQuery } from "@tanstack/react-query";
 import { HeaderActionButton, HeaderActions } from "@/components/layout/Header/HeaderActions";
 import PageHeading from "@/components/layout/pages/Page/PageHeading";
 import PageInset from "@/components/layout/pages/Page/PageInset";
-import { CheckCircle2, Circle, Clock, Plus, Target } from "@/components/ui/icon";
-import StatCountCard from "@/components/ui/stats/StatCountCard";
-import StatCountGrid, { statCountWideCardClassName } from "@/components/ui/stats/StatCountGrid";
+import { Plus } from "@/components/ui/icon";
+import Skeleton from "@/components/ui/state/Skeleton";
 
 import { getGoals } from "@/features/goals/api/goals";
 import GoalCategoryBoard from "@/features/goals/components/GoalCategoryBoard";
@@ -60,7 +59,6 @@ const goalsAfterTitleClassName = "flex min-w-0 flex-col gap-4";
 const favoriteFolderIconsClassName = "flex min-w-0 flex-wrap items-start gap-3";
 const compactHeadingClassName = "flex min-w-0 flex-wrap items-start justify-between gap-3";
 const compactHeadingCopyClassName = "min-w-[12rem] flex-1";
-const goalsLoadingClassName = "text-caption py-12 text-center text-[var(--color-text-secondary)]";
 
 /**
  * GoalsPageLayout
@@ -219,6 +217,12 @@ function GoalsPageLayout() {
     queryFn: () => getGoals(goalScope),
     enabled: isProjectsReady && (!isFavoriteGoals || storedFavoriteIds != null),
   });
+  // 페이지 요약은 탭과 상관없이 전체 목표 기준이다 (design 09 · 프로토타입).
+  const { data: allGoals = [] } = useQuery({
+    queryKey: goalQueryKeys.list(ALL_PROJECTS_SCOPE),
+    queryFn: () => getGoals(ALL_PROJECTS_SCOPE),
+    enabled: isProjectsReady,
+  });
   const visibleGoals = isFavoriteGoals
     ? goals.filter(
         (goal) =>
@@ -312,73 +316,40 @@ function GoalsPageLayout() {
       })
     : [];
   const scopeTabs = (
-    <GoalsScopeTabs value={scopeTab} mainDisabled={mainProject == null} onChange={changeScope} />
+    <GoalsScopeTabs
+      placement="page"
+      value={scopeTab}
+      mainDisabled={mainProject == null}
+      onChange={changeScope}
+    />
   );
-  const scopeTitle = isFavoriteGoals
-    ? "즐겨찾기 프로젝트 목표"
-    : isAllGoals
-      ? "전체 목표"
-      : "메인 프로젝트 목표";
-  const goalsHeading =
-    scopeTab !== "project" ? (
-      <PageHeading
-        title={scopeTitle}
-        description={
-          isFavoriteGoals
-            ? "즐겨찾기한 프로젝트의 목표를 확인하고 관리하세요."
-            : isAllGoals
-              ? "프로젝트별 목표를 한곳에서 확인하고 관리하세요."
-              : "메인 프로젝트의 목표를 확인하고 관리하세요."
-        }
-        count={isGoalsPending ? null : visibleGoals.length}
-        countTitle={`${scopeTitle} ${visibleGoals.length}개`}
-      />
-    ) : null;
-  const goalCountCards =
-    scopeTab !== "project" ? (
-      <StatCountGrid>
-        <div className={statCountWideCardClassName}>
-          <StatCountCard
-            label="전체 목표"
-            count={visibleGoals.length}
-            icon={Target}
-            iconClassName="text-[var(--color-text)]"
-          />
-        </div>
-        <StatCountCard
-          label="미시작"
-          count={visibleGoals.filter((goal) => goal.status === "NOT_STARTED").length}
-          icon={Circle}
-          iconClassName="text-[var(--color-text-muted)]"
-          pair={{
-            label: "마감 초과",
-            count: visibleGoals.filter(
-              (goal) => goal.status === "NOT_STARTED" && isGoalShownDelayed(goal, projects),
-            ).length,
-            className: "text-[var(--color-danger-text)]",
-          }}
+  const activeGoalCount = allGoals.filter((goal) => goal.status === "IN_PROGRESS").length;
+  const delayedGoalCount = allGoals.filter((goal) => isGoalShownDelayed(goal, projects)).length;
+  const goalsHeading = (
+    <>
+      {scopeTab !== "project" ? (
+        <PageHeading
+          title="목표"
+          description={
+            isGoalsPending ? null : (
+              <>
+                {allGoals.length}개 중 {activeGoalCount}개 진행 중
+                {delayedGoalCount > 0 ? (
+                  <>
+                    {" · "}
+                    <span className="text-[var(--color-danger-text)]">
+                      {delayedGoalCount}개 마감 지남
+                    </span>
+                  </>
+                ) : null}
+              </>
+            )
+          }
         />
-        <StatCountCard
-          label="진행 중"
-          count={visibleGoals.filter((goal) => goal.status === "IN_PROGRESS").length}
-          icon={Clock}
-          iconClassName="text-[var(--color-info-text)]"
-          pair={{
-            label: "마감 초과",
-            count: visibleGoals.filter(
-              (goal) => goal.status === "IN_PROGRESS" && isGoalShownDelayed(goal, projects),
-            ).length,
-            className: "text-[var(--color-danger-text)]",
-          }}
-        />
-        <StatCountCard
-          label="완료"
-          count={visibleGoals.filter((goal) => goal.status === "COMPLETED").length}
-          icon={CheckCircle2}
-          iconClassName="text-[var(--color-success-text)]"
-        />
-      </StatCountGrid>
-    ) : null;
+      ) : null}
+      {scopeTabs}
+    </>
+  );
   const isMainProjectCardPending =
     showMainProjectCard && isProjectListPending && mainProjectListItem == null;
   const isFavoriteFoldersPending =
@@ -401,7 +372,13 @@ function GoalsPageLayout() {
         ))}
       </div>
     ) : null;
-  const goalsLoading = <p className={goalsLoadingClassName}>목표를 불러오는 중...</p>;
+  const goalsLoading = (
+    <div aria-busy="true" aria-label="목표를 불러오는 중" className="space-y-2">
+      {Array.from({ length: 6 }, (_, index) => (
+        <Skeleton key={index} className="h-16" />
+      ))}
+    </div>
+  );
   const mainProjectFolder = mainProjectListItem ? (
     <div className={mainGoalCardClassName}>
       <ProjectBoardCard project={mainProjectListItem} />
@@ -438,7 +415,7 @@ function GoalsPageLayout() {
     <>
       <HeaderActions>
         <HeaderActionButton
-          label="새 목표"
+          label="추가"
           icon={Plus}
           tone="primary"
           disabled={createDisabled}
@@ -446,7 +423,6 @@ function GoalsPageLayout() {
           onClick={openCreateDrawer}
         />
       </HeaderActions>
-      {scopeTabs}
       <PageInset>
         <div className={goalsPageFrameClassName}>
           {isGoalsPageLoading ? (
@@ -479,7 +455,6 @@ function GoalsPageLayout() {
                 ) : (
                   goalsHeading
                 )}
-                {goalCountCards}
               </div>
               {isGoalDrawerOpen ? null : mainProjectFolder}
               {goalBoard}
@@ -490,7 +465,6 @@ function GoalsPageLayout() {
               <div className={goalsBodyClassName}>
                 {favoriteFolderIcons}
                 {projectSummary}
-                {goalCountCards}
                 {goalBoard}
               </div>
             </>

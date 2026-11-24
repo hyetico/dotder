@@ -103,7 +103,12 @@ function SidebarNavList({
               data-active={isActive}
               className={getNavLinkClassName(isDesktopCollapsed)}
             >
-              <AppIcon icon={Icon} size="lg" className="shrink-0" />
+              {/* 종류 색 대신 보조 글자색 (Design Guide 12). 선택된 메뉴는 글자색을 따른다 */}
+              <AppIcon
+                icon={Icon}
+                size="lg"
+                className="shrink-0 text-[var(--color-text-secondary)] in-data-[active=true]:text-current"
+              />
 
               {isDesktopCollapsed ? (
                 <span className="sidebar-nav-tooltip pointer-events-none absolute top-1/2 left-[calc(100%+20px)] z-50 h-9 -translate-y-1/2 items-center rounded-xl bg-[var(--color-nav-hover)]/50 px-3 text-sm font-normal whitespace-nowrap text-[var(--color-text)] uppercase shadow-[var(--shadow-overlay)] backdrop-blur-sm">
@@ -133,13 +138,12 @@ export default function Sidebar({ variant = "desktop", onNavigate }: SidebarProp
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [isNarrowLayout, setIsNarrowLayout] = useState(true);
   const [hasSidebarDefault, setHasSidebarDefault] = useState(false);
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   const isMobile = variant === "mobile";
 
   const isDesktopCollapsed = !isMobile && isCollapsed;
 
-  const isOverlayOpen = !isMobile && isNarrowLayout && !isCollapsed && !isSettingsOpen;
+  const isOverlayOpen = !isMobile && isNarrowLayout && !isCollapsed;
 
   const toggleSidebar = () => {
     setIsCollapsed((prev) => !prev);
@@ -220,12 +224,10 @@ export default function Sidebar({ variant = "desktop", onNavigate }: SidebarProp
     .filter(Boolean)
     .join(" ");
   const sidebarClassName = isMobile
-    ? `${sidebarFrameClassName} relative z-20 h-full w-[min(var(--sidebar-width),calc(100vw-48px))] shadow-[var(--shadow-overlay)]`
-    : isSettingsOpen
-      ? `${sidebarFrameClassName} hidden`
-      : isOverlayOpen
-        ? `${sidebarFrameClassName} ${overlaySidebarClassName}`
-        : `${sidebarFrameClassName} relative z-20 ${desktopSidebarClassName}`;
+    ? `${sidebarFrameClassName} relative z-20 h-full w-[min(var(--sidebar-sheet-width),calc(100vw-48px))] shadow-[var(--shadow-overlay)]`
+    : isOverlayOpen
+      ? `${sidebarFrameClassName} ${overlaySidebarClassName}`
+      : `${sidebarFrameClassName} relative z-20 ${desktopSidebarClassName}`;
 
   const navListProps = {
     pathname,
@@ -313,11 +315,7 @@ export default function Sidebar({ variant = "desktop", onNavigate }: SidebarProp
         </div>
 
         <div className="shrink-0 px-[10px] pb-2">
-          <SidebarMainProject
-            isCollapsed={isDesktopCollapsed}
-            onNavigate={handleSidebarNavigate}
-            onDrawerOpenChange={isMobile ? undefined : setIsSettingsOpen}
-          />
+          <SidebarMainProject isCollapsed={isDesktopCollapsed} onNavigate={handleSidebarNavigate} />
         </div>
 
         <nav

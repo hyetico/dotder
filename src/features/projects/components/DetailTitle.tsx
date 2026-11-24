@@ -1,5 +1,6 @@
 import ProjectFolder from "@/features/projects/components/ProjectFolder";
 
+import type { ProjectColorKey } from "@/lib/projectPalette";
 import type { ReactNode } from "react";
 
 type DetailTitleProps = {
@@ -12,7 +13,7 @@ type DetailTitleProps = {
   descriptionDivider?: boolean;
   footer?: ReactNode;
   actions?: ReactNode;
-  accentColor?: string | null;
+  accentColor?: ProjectColorKey | null;
   compact?: boolean;
   fill?: boolean;
   framed?: boolean;

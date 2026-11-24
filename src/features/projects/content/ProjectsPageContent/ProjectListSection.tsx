@@ -2,9 +2,14 @@
 
 import { useMemo, useState, type ReactNode } from "react";
 
+import { useQuery } from "@tanstack/react-query";
+
 import Badge from "@/components/ui/badge/Badge";
+import { Folder } from "@/components/ui/icon";
+import EmptyState from "@/components/ui/state/EmptyState";
 import StatusFilterBar from "@/components/ui/StatusFilterBar";
 
+import { getProjectActivity } from "@/features/projects/api/projects";
 import FavoriteEditToolbar from "@/features/projects/components/FavoriteEditToolbar";
 import FavoriteRemoveButton, {
   favoriteRemoveButtonFloatingClassName,
@@ -24,7 +29,14 @@ import ProjectViewToggle, {
 } from "@/features/projects/content/ProjectsPageContent/ProjectViewToggle";
 import { computeProjectStats } from "@/features/projects/utils/projectUtils";
 
+import { projectQueryKeys } from "@/lib/queryKeys";
+
 import type { ProjectListItem } from "@/features/projects/types/project";
+import type { ActivityDay } from "@/features/projects/utils/activityMosaic";
+
+// 빈 배열 · 객체를 매번 새로 만들지 않게 한 번만 둔다 (모자이크 계산 메모가 다시 돌지 않게)
+const NO_ACTIVITY: readonly ActivityDay[] = [];
+const NO_ACTIVITY_MAP: Record<number, ActivityDay[]> = {};
 
 const projectBoardGridClassName = "grid min-w-0 grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3";
 const projectToolbarClassName =
@@ -112,6 +124,11 @@ export default function ProjectListSection({
   if (!editing && selectedIds.length > 0) {
     setSelectedIds([]);
   }
+
+  const { data: activity = NO_ACTIVITY_MAP } = useQuery({
+    queryKey: projectQueryKeys.activity,
+    queryFn: getProjectActivity,
+  });
 
   const normalizedQuery = searchQuery.trim().toLowerCase();
 
@@ -241,6 +258,7 @@ export default function ProjectListSection({
               <ProjectBoardCard
                 key={project.id}
                 project={project}
+                activity={activity[project.id] ?? NO_ACTIVITY}
                 selected={selectedIds.includes(project.id)}
                 onToggleSelected={editing ? () => toggleSelected(project.id) : undefined}
                 cornerAction={
@@ -289,9 +307,7 @@ export default function ProjectListSection({
             </div>
           </>
         ) : (
-          <div className="rounded-[var(--radius-md)] border border-dashed border-[var(--color-border)] bg-[var(--color-surface)] px-6 py-16 text-center">
-            <p className="text-caption text-[var(--color-text-secondary)]">{emptyLabel}</p>
-          </div>
+          <EmptyState icon={Folder} title={emptyLabel} />
         )}
       </div>
     </>

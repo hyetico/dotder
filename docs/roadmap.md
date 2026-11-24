@@ -100,33 +100,33 @@
 
 - [x] 탭: `FolderTabMenu`, `TileTabMenu` → `LineTabMenu` (쓰는 곳이 없어 삭제)
 - [ ] 필터: `StatusFilterBar`, `StatusFilterPills`, `StatFilterButtons` → `StatusFilterChips` — 마감 뒤로 미룸 (tech-debt C-3). `StatFilterButtons`는 삭제
-- [ ] `StatusBadge` 만들고 상태 뱃지 3종을 그 위로
-- [ ] `Toast`, `Notice`, `EmptyState`, `Skeleton`, `ErrorState` 만들기
+- [x] `StatusBadge` 만들고 상태 뱃지 3종을 그 위로
+- [x] `Toast`, `Notice`, `EmptyState`, `Skeleton`, `ErrorState` 만들기 (`Notice`는 2026-11-24 Components 12 규격으로)
 - [x] `PageHeading` `variant="form"` 추가, 직접 쓴 `<h1>` 4곳 교체, 사이드바 로고 `<h1>` 제거 (상세 1곳은 7단계)
-- [ ] `div onClick` 2곳 → 링크
+- [x] `div onClick` 2곳 → 즐겨찾기 편집 선택이라 링크 대신 `<label>`로 (체크 버튼이 눌림)
 - [x] 이모지 아이콘 → `AppIcon` (숨긴 팀 목업 데이터만 남음)
 - [x] `Button` 직접 사용 교체
 - [x] 팀 관련 화면 숨김: 팀 메뉴, 생성·수정의 팀 선택 (PRD 5-4, P-6). 디테일의 팀 탭은 7단계
 - [x] 메뉴 정리: 리포트 숨김, 플레이그라운드는 개발 환경에서만, 스프린트 페이지 제거 (P-6, P-7)
 - [ ] component-guide 상태 표시 갱신
 
-- [ ] handoff B1 드로어 너비 400 (웹·태블릿), 드로어 안 확인창은 드로어 가운데
-- [ ] handoff B2 모달 480, 모바일은 바텀시트 (확인창만 가운데)
-- [ ] handoff B3 모든 오버레이의 닫기는 X 버튼 하나 + 툴팁 "닫기 · Esc"
-- [ ] handoff B4 팝오버 너비 (메뉴 220 · 필터 280)
-- [ ] handoff B5 토스트 4초 / 6초 · 멈춤 · `role="status"` · reduced-motion
-- [ ] handoff B6 `DatePicker`: 브라우저 기본 날짜 입력 없애기, 달력 팝오버 282, 모바일 바텀시트 — 기본 날짜 입력 0곳 · 웹·태블릿 팝오버 완료, 모바일 바텀시트 남음 (C-9)
-- [ ] handoff B7 고르는 목록에서 이름 자르지 않기
-- [ ] handoff B8 고르는 목록의 메인 표시 = 프로젝트 색 왕관
+- [ ] handoff B1 드로어 너비 400 (웹·태블릿), 드로어 안 확인창은 드로어 가운데 — 너비 400 완료, 확인창 위치 남음
+- [x] handoff B2 모달 480, 모바일은 바텀시트 (확인창만 가운데)
+- [x] handoff B3 모든 오버레이의 닫기는 X 버튼 하나 + 툴팁 "닫기 · Esc"
+- [ ] handoff B4 팝오버 너비 (메뉴 220 · 필터 280) — 메뉴 220 완료, 필터 280은 상태 필터 통합(C-3)과 같이
+- [x] handoff B5 토스트 4초 / 6초 · 멈춤 · `role="status"` · reduced-motion
+- [x] handoff B6 `DatePicker`: 브라우저 기본 날짜 입력 없애기, 달력 팝오버 282, 모바일 바텀시트 (칸 44)
+- [x] handoff B7 고르는 목록에서 이름 자르지 않기 (프로젝트 고르는 목록 `ProjectListItem`)
+- [x] handoff B8 고르는 목록의 메인 표시 = 프로젝트 색 왕관 (`ProjectMark`)
 - [x] handoff A4 다크 메인 왕관 색 · A5 다크 로고
 - [ ] 폴더 카드 그림자 정리 (handoff C1과 같이, tech-debt S-6)
-- [ ] handoff B9 `StatusText` ★ (폴더 카드 전용 글자형 상태)
-- [ ] handoff B10 체크 목록 (상자 18 + 색 점 + 이름)
-- [ ] handoff B11 모바일 선택 시트 줄 (터치 44)
-- [ ] handoff C1 폴더 카드: 폴더 탭 글씨는 메인만, 제목 16/24 2줄, 상태 줄
-- [ ] handoff C3 태스크 목록 줄 끝 `⋯` 메뉴, 모바일 줄 높이 56
-- [ ] 목록 페이지 순서: 제목 + 요약 → 탭 → 툴바 → 내용 (layout-guide 5-1)
-- [ ] 모바일: 하단 앱 바 → 햄버거 + 왼쪽 시트 300, 드로어·팝오버·모달은 바텀시트 (layout-guide 2장)
+- [x] handoff B9 `StatusText` ★ (폴더 카드 전용 글자형 상태)
+- [ ] handoff B10 체크 목록 (상자 18 + 색 점 + 이름) — 상자 18 완료, 체크 목록은 맞춤 탭(9단계)에서
+- [x] handoff B11 모바일 선택 시트 줄 (터치 44)
+- [x] handoff C1 폴더 카드: 폴더 탭 글씨는 메인만, 제목 16/24 2줄, 상태 줄 (바탕 18% · 패딩 18 포함. 활동 모자이크 7줄 × 20주 포함)
+- [ ] handoff C3 태스크 목록 줄 끝 `⋯` 메뉴, 모바일 줄 높이 56 — 태스크 목록 보기가 아직 없음 (tech-debt C-17)
+- [x] 목록 페이지 순서: 제목 + 요약 → 탭 → 툴바 → 내용 (layout-guide 5-1) — 프로젝트 · 목표 · 태스크 · 메모
+- [x] 모바일: 햄버거 + 왼쪽 시트 300, 드로어·팝오버·모달은 바텀시트 (layout-guide 2장) — 통합 검색 모바일 전체 화면 · 시트 끌기는 남음 (tech-debt C-19)
 
 **완료 기준:** component-guide의 ⛔ 항목 0개.
 

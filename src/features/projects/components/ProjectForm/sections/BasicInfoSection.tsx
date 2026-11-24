@@ -161,7 +161,7 @@ export function BasicInfoSection({
                     min={minDate}
                     disabled={datesLocked}
                     invalid={Boolean(errors.startDate)}
-                    placeholder="시작일 선택"
+                    title="시작일"
                     applyOnConfirm={isCreating}
                   />
                 )}
@@ -190,7 +190,7 @@ export function BasicInfoSection({
                       onChange={field.onChange}
                       min={endDateMin}
                       invalid={Boolean(errors.endDate)}
-                      placeholder="마감일 선택"
+                      title="마감일"
                       applyOnConfirm={isCreating}
                     />
                   )}

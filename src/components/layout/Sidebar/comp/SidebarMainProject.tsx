@@ -1,230 +1,216 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
+import { createPortal } from "react-dom";
 
 import { useQuery } from "@tanstack/react-query";
 
-import SidebarDrawer from "@/components/layout/Sidebar/drawers/SidebarDrawer/SidebarDrawer";
-import CrownBadge from "@/components/ui/badge/CrownBadge";
-import IconButton from "@/components/ui/button/IconButton";
+import ProjectSwitcherPanel from "@/components/layout/Sidebar/comp/ProjectSwitcherPanel";
+import { AppIcon, ChevronDown } from "@/components/ui/icon";
+import Modal from "@/components/ui/modal/Modal";
 
 import { getProjects, readMainProjectId, readProject } from "@/features/projects/api/projects";
-import ProjectAccent from "@/features/projects/components/ProjectAccent";
-import ProjectSettingsIcon from "@/features/projects/components/ProjectSettingsIcon";
-import { useCurrentProjectScope } from "@/features/projects/hooks/useCurrentProjectScope";
+import ProjectMark from "@/features/projects/components/ProjectMark";
 
-import {
-  buildScopeChangeHref,
-  getContextualMainProjectPath,
-  type ProjectScope,
-} from "@/lib/projectRoutes";
 import { projectQueryKeys } from "@/lib/queryKeys";
 
 type SidebarMainProjectProps = {
   isCollapsed: boolean;
-  initialDrawerOpen?: boolean;
+  /** 프로젝트로 이동할 때. 모바일 메뉴 시트를 닫는다. */
   onNavigate?: () => void;
-  onDrawerOpenChange?: (open: boolean) => void;
 };
 
-type SidebarHoverLabelProps = {
-  children: ReactNode;
-  group?: "group" | "settings";
-};
+const POPOVER_GAP = 8;
+const MOBILE_QUERY = "(max-width: 767px)";
+const SWITCHER_TITLE = "프로젝트 전환";
+
+const triggerClassName =
+  "flex h-11 w-full min-w-0 cursor-pointer items-center gap-2 rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-[var(--color-surface)] px-2.5 text-left transition-colors hover:border-[var(--color-border-strong)]";
+const collapsedTriggerClassName =
+  "group relative mx-auto flex size-9 cursor-pointer items-center justify-center rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-[var(--color-surface)] transition-colors hover:border-[var(--color-border-strong)]";
 
 /**
- * SidebarHoverLabel
- *
- * 접힌 사이드바에서 항목 옆에 뜨는 이름 라벨입니다.
- *
- * @param props - SidebarHoverLabel 컴포넌트 Props
- * @param props.children - 라벨에 표시할 내용
- * @param props.group - 호버를 감지할 그룹 이름
+ * 접힌 사이드바에서 항목 옆에 뜨는 이름 라벨.
  */
-function SidebarHoverLabel({ children, group = "group" }: SidebarHoverLabelProps) {
+function SidebarHoverLabel({ children }: { children: ReactNode }) {
   return (
-    <span
-      className={`pointer-events-none absolute top-1/2 left-[calc(100%+20px)] z-50 hidden h-9 -translate-y-1/2 items-center rounded-xl bg-[var(--color-nav-hover)]/50 px-3 text-sm font-medium whitespace-nowrap text-[var(--color-text)] shadow-[var(--shadow-overlay)] backdrop-blur-sm ${
-        group === "settings" ? "group-hover/settings:flex" : "group-hover:flex"
-      } `}
-    >
+    <span className="pointer-events-none absolute top-1/2 left-[calc(100%+20px)] z-50 hidden h-9 -translate-y-1/2 items-center rounded-xl bg-[var(--color-nav-hover)]/50 px-3 text-sm font-medium whitespace-nowrap text-[var(--color-text)] shadow-[var(--shadow-overlay)] backdrop-blur-sm group-hover:flex">
       {children}
     </span>
   );
 }
 
-type CollapsedSettingsButtonProps = {
-  label: string;
-  boxed?: boolean;
-  onClick: () => void;
-};
-
 /**
- * CollapsedSettingsButton
+ * 사이드바의 프로젝트 전환 칸. 점(메인은 왕관) + 메인 프로젝트 이름 + ▾ (Layout Spec 02).
  *
- * 접힌 사이드바에서 프로젝트 설정을 여는 버튼입니다.
- *
- * @param props - CollapsedSettingsButton 컴포넌트 Props
- * @param props.label - 버튼과 호버 라벨에 쓸 이름
- * @param props.boxed - 흰 카드 배경과 그림자를 둘지 여부
- * @param props.onClick - 프로젝트 설정을 열 때 실행되는 함수
+ * 누르면 웹 · 태블릿은 칸 아래 팝오버 320, 모바일은 바텀시트로 `ProjectSwitcherPanel`을 연다.
+ * 접힌 사이드바는 칸 오른쪽에 연다.
  */
-function CollapsedSettingsButton({ label, boxed = false, onClick }: CollapsedSettingsButtonProps) {
-  return (
-    <span className="group/settings relative">
-      <IconButton
-        label={label}
-        onClick={onClick}
-        className={`size-9! shrink-0 rounded-xl! text-[var(--color-text)] hover:bg-[var(--color-hover)] hover:text-[var(--color-text)] ${
-          boxed ? `border border-[var(--color-border)] bg-[var(--color-surface)]` : ""
-        } `}
-      >
-        <ProjectSettingsIcon />
-      </IconButton>
-      <SidebarHoverLabel group="settings">{label}</SidebarHoverLabel>
-    </span>
-  );
-}
-
-export default function SidebarMainProject({
-  isCollapsed,
-  initialDrawerOpen = false,
-  onNavigate,
-  onDrawerOpenChange,
-}: SidebarMainProjectProps) {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const selectedProjectScope = useCurrentProjectScope();
-  const [isDrawerOpen, setIsDrawerOpen] = useState(initialDrawerOpen);
+export default function SidebarMainProject({ isCollapsed, onNavigate }: SidebarMainProjectProps) {
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const popoverRef = useRef<HTMLDivElement>(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [position, setPosition] = useState<{ top: number; left: number } | null>(null);
 
   const { data: projects = [], isPending } = useQuery({
     queryKey: projectQueryKeys.all,
     queryFn: getProjects,
   });
 
-  const handleProjectChange = (nextScope: ProjectScope) => {
-    const href = buildScopeChangeHref(pathname, searchParams, nextScope);
-
-    if (!href) {
-      return;
-    }
-
-    router.push(href);
-  };
-
-  const openSettings = () => {
-    onNavigate?.();
-    onDrawerOpenChange?.(true);
-    setIsDrawerOpen(true);
-  };
-
-  const closeSettings = () => {
-    onDrawerOpenChange?.(false);
-    setIsDrawerOpen(false);
-  };
-
   const pendingMainProjectId = isPending ? readMainProjectId() : null;
-
   const mainProject =
     projects.find((project) => project.isMain) ??
     (pendingMainProjectId == null ? null : (readProject(pendingMainProjectId) ?? null));
+  const label = mainProject?.name ?? SWITCHER_TITLE;
 
-  const mainProjectHref = mainProject
-    ? getContextualMainProjectPath(pathname, mainProject.id, searchParams)
-    : null;
+  const open = () => {
+    setIsMobile(window.matchMedia(MOBILE_QUERY).matches);
+    setPosition(null);
+    setIsOpen(true);
+  };
 
-  const href = mainProjectHref ?? "/projects";
+  const close = () => setIsOpen(false);
 
-  const drawer = (
-    <SidebarDrawer
-      isOpen={isDrawerOpen}
-      onClose={closeSettings}
-      projects={projects}
-      selectedProjectScope={selectedProjectScope}
-      onProjectChange={handleProjectChange}
-    />
+  const handleNavigate = () => {
+    close();
+    onNavigate?.();
+  };
+
+  const isPopoverOpen = isOpen && !isMobile;
+
+  useEffect(() => {
+    if (!isPopoverOpen) {
+      return;
+    }
+
+    const place = () => {
+      const rect = triggerRef.current?.getBoundingClientRect();
+      const width = popoverRef.current?.offsetWidth ?? 0;
+      const height = popoverRef.current?.offsetHeight ?? 0;
+
+      if (!rect) {
+        return;
+      }
+
+      const top = isCollapsed ? rect.top : rect.bottom + POPOVER_GAP;
+      const left = isCollapsed ? rect.right + POPOVER_GAP : rect.left;
+
+      setPosition({
+        top: Math.max(POPOVER_GAP, Math.min(top, window.innerHeight - height - POPOVER_GAP)),
+        left: Math.max(POPOVER_GAP, Math.min(left, window.innerWidth - width - POPOVER_GAP)),
+      });
+    };
+
+    const closeOnOutside = (event: PointerEvent) => {
+      const target = event.target;
+
+      if (
+        target instanceof Node &&
+        !popoverRef.current?.contains(target) &&
+        !triggerRef.current?.contains(target)
+      ) {
+        setIsOpen(false);
+      }
+    };
+
+    const closeOnEscape = (event: KeyboardEvent) => {
+      const dialogs = document.querySelectorAll("[role='dialog']");
+
+      if (event.key !== "Escape" || dialogs[dialogs.length - 1] !== popoverRef.current) {
+        return;
+      }
+
+      setIsOpen(false);
+      triggerRef.current?.focus();
+    };
+
+    place();
+    window.addEventListener("resize", place);
+    document.addEventListener("pointerdown", closeOnOutside);
+    document.addEventListener("keydown", closeOnEscape);
+
+    return () => {
+      window.removeEventListener("resize", place);
+      document.removeEventListener("pointerdown", closeOnOutside);
+      document.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [isCollapsed, isPopoverOpen]);
+
+  const isPlaced = position !== null;
+
+  useEffect(() => {
+    // 자리를 잡은 뒤 검색칸으로 초점을 옮긴다
+    if (isPopoverOpen && isPlaced) {
+      popoverRef.current?.querySelector("input")?.focus({ preventScroll: true });
+    }
+  }, [isPlaced, isPopoverOpen]);
+
+  const panel = <ProjectSwitcherPanel projects={projects} onNavigate={handleNavigate} />;
+
+  const trigger = isCollapsed ? (
+    <button
+      ref={triggerRef}
+      type="button"
+      aria-haspopup="dialog"
+      aria-expanded={isOpen}
+      aria-label={`${SWITCHER_TITLE} · ${label}`}
+      onClick={() => (isOpen ? close() : open())}
+      className={collapsedTriggerClassName}
+    >
+      <ProjectMark color={mainProject?.color ?? null} isMain={mainProject != null} />
+      <SidebarHoverLabel>{label}</SidebarHoverLabel>
+    </button>
+  ) : (
+    <button
+      ref={triggerRef}
+      type="button"
+      aria-haspopup="dialog"
+      aria-expanded={isOpen}
+      aria-label={`${SWITCHER_TITLE} · ${label}`}
+      onClick={() => (isOpen ? close() : open())}
+      className={triggerClassName}
+    >
+      <ProjectMark color={mainProject?.color ?? null} isMain={mainProject != null} />
+      <span className="text-body min-w-0 flex-1 truncate font-medium text-[var(--color-text)]">
+        {label}
+      </span>
+      <AppIcon icon={ChevronDown} size="sm" className="shrink-0 text-[var(--color-text-muted)]" />
+    </button>
   );
-
-  let content: ReactNode;
-
-  if (!mainProject) {
-    content = isCollapsed ? (
-      <div className="flex justify-center">
-        <CollapsedSettingsButton label="메인 프로젝트 설정" boxed onClick={openSettings} />
-      </div>
-    ) : (
-      <button
-        type="button"
-        onClick={openSettings}
-        className="flex h-10 w-full min-w-0 cursor-pointer items-center justify-center gap-0 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] px-2 font-medium tracking-tight text-[var(--color-text)] transition-colors hover:bg-[var(--color-nav-hover)]"
-      >
-        <span className="flex max-w-full min-w-0 items-center">
-          <span className="flex size-[34px] shrink-0 items-center justify-center">
-            <ProjectSettingsIcon />
-          </span>
-
-          <span className="min-w-0 truncate text-sm leading-5">메인 프로젝트 설정</span>
-
-          <span aria-hidden="true" className="size-[34px] shrink-0" />
-        </span>
-      </button>
-    );
-  } else if (isCollapsed) {
-    content = (
-      <div className="mx-auto flex w-9 flex-col items-center gap-1 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)]">
-        <Link
-          href={href}
-          onClick={onNavigate}
-          aria-label={`메인 프로젝트 ${mainProject.name}`}
-          title={mainProject.name}
-          className="group relative flex size-9 items-center justify-center rounded-xl hover:bg-[var(--color-nav-hover)]"
-        >
-          <ProjectAccent color={mainProject.color}>
-            <CrownBadge label="메인 프로젝트" />
-          </ProjectAccent>
-          <SidebarHoverLabel>{mainProject.name}</SidebarHoverLabel>
-        </Link>
-
-        <CollapsedSettingsButton label="내 프로젝트" onClick={openSettings} />
-      </div>
-    );
-  } else {
-    content = (
-      <div className="relative flex h-10 min-w-0 items-center rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] pr-0.5 pl-[11px]">
-        <Link
-          href={href}
-          onClick={onNavigate}
-          aria-label={`메인 프로젝트 ${mainProject.name}`}
-          className="group/main flex h-full min-w-0 flex-1 items-center gap-2 rounded-lg"
-        >
-          <ProjectAccent color={mainProject.color}>
-            <CrownBadge label="메인 프로젝트" />
-          </ProjectAccent>
-
-          <span className="min-w-0 truncate text-sm font-medium tracking-tight text-[var(--color-text)] underline-offset-4 transition-colors group-hover/main:underline">
-            {mainProject.name}
-          </span>
-        </Link>
-
-        <button
-          type="button"
-          aria-label="내 프로젝트"
-          onClick={openSettings}
-          className="flex size-[34px] shrink-0 cursor-pointer items-center justify-center rounded-xl text-[var(--color-text)] transition-colors hover:bg-[var(--color-hover)] hover:text-[var(--color-text)]"
-        >
-          <ProjectSettingsIcon />
-        </button>
-      </div>
-    );
-  }
 
   return (
     <>
-      {content}
-      {drawer}
+      {trigger}
+
+      {isPopoverOpen
+        ? createPortal(
+            <div
+              ref={popoverRef}
+              role="dialog"
+              aria-label={SWITCHER_TITLE}
+              className="fixed z-[var(--z-popover)] w-[var(--popover-switcher)] rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface-raised)] p-1 shadow-[var(--shadow-overlay)]"
+              style={
+                position
+                  ? { top: position.top, left: position.left }
+                  : { top: 0, left: 0, visibility: "hidden" }
+              }
+            >
+              {panel}
+            </div>,
+            document.body,
+          )
+        : null}
+
+      <Modal
+        isOpen={isOpen && isMobile}
+        onClose={close}
+        padded={false}
+        labelledBy="project-switcher-title"
+      >
+        <Modal.Header id="project-switcher-title" title={SWITCHER_TITLE} onClose={close} />
+        <div className="min-h-0 overflow-y-auto px-2 pb-4">{panel}</div>
+      </Modal>
     </>
   );
 }
