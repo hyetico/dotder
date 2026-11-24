@@ -24,10 +24,10 @@ import type { Memo, MemoRegistrationKind } from "@/features/memos/types/memo";
 import type { Project } from "@/features/projects/types/project";
 
 const SLIDE_MS = 400;
-const fieldLabelClassName = "mb-2 block text-[13px] leading-5 font-medium text-[var(--color-text)]";
+const fieldLabelClassName = "mb-2 block text-xs leading-5 font-medium text-[var(--color-text)]";
 const choiceRowClassName = "flex gap-2";
 const choiceButtonClassName =
-  "flex h-10 flex-1 items-center justify-center rounded-[var(--radius-sm)] border text-[14px] font-medium transition-colors";
+  "flex h-10 flex-1 items-center justify-center rounded-[var(--radius-sm)] border text-sm font-medium transition-colors";
 const choiceOnClassName =
   "border-[var(--color-primary)] bg-[var(--color-primary-soft)] text-[var(--color-primary)]";
 const choiceOffClassName =
@@ -173,7 +173,7 @@ function MemoRegisterForm({
   return (
     <>
       <Drawer.Body>
-        <p className="text-[13px] leading-5 text-[var(--color-text-secondary)]">
+        <p className="text-xs leading-5 text-[var(--color-text-secondary)]">
           등록한 목표와 태스크는 이 메모와 따로 관리됩니다. 취소하면 메모는 그대로 남습니다.
         </p>
         <div>

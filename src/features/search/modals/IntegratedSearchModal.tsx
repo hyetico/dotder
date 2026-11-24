@@ -308,7 +308,7 @@ function ResultRow({ leading, title, subtitle, status, onOpen, extra }: ResultRo
         >
           {leading}
           <span className="min-w-0 flex-1">
-            <span className="text-body-sm block truncate font-semibold text-[var(--color-text)]">
+            <span className="text-caption block truncate font-semibold text-[var(--color-text)]">
               {title}
             </span>
             {subtitle ? (
@@ -737,7 +737,7 @@ export default function IntegratedSearchModal({
         </div>
         <ListScroll>
           {visibleGoals.length === 0 ? (
-            <p className="text-body-sm px-2 py-8 text-center text-[var(--color-text-secondary)]">
+            <p className="text-caption px-2 py-8 text-center text-[var(--color-text-secondary)]">
               {scopedGoals.length === 0 ? "해당하는 목표가 없습니다." : "검색 결과가 없습니다."}
             </p>
           ) : (
@@ -817,7 +817,7 @@ export default function IntegratedSearchModal({
         </div>
         <ListScroll>
           {visibleTasks.length === 0 ? (
-            <p className="text-body-sm px-2 py-8 text-center text-[var(--color-text-secondary)]">
+            <p className="text-caption px-2 py-8 text-center text-[var(--color-text-secondary)]">
               {scopedTasks.length === 0 ? "해당하는 태스크가 없습니다." : "검색 결과가 없습니다."}
             </p>
           ) : (

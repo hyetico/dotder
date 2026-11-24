@@ -6,7 +6,7 @@ type DelayIssueBadgeProps = {
 const delayTextClassName = "shrink-0 font-medium text-[#EF4444] tabular-nums";
 const delayTextSizeClassName = {
   sm: "text-xs leading-4",
-  md: "text-[13px] leading-5",
+  md: "text-xs leading-5",
 } as const;
 
 /**

@@ -110,7 +110,7 @@ export default function TaskBoard({
   if (isLoading) {
     return (
       <div className="overflow-hidden rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] px-6 py-12 shadow-[var(--shadow-card)]">
-        <p className="text-body-sm text-center text-[var(--color-text-secondary)]">
+        <p className="text-caption text-center text-[var(--color-text-secondary)]">
           Task를 불러오는 중입니다...
         </p>
       </div>
@@ -120,7 +120,7 @@ export default function TaskBoard({
   if (isError) {
     return (
       <div className="overflow-hidden rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] px-6 py-12 shadow-[var(--shadow-card)]">
-        <p className="text-body-sm text-center text-red-500">Task를 불러오지 못했습니다.</p>
+        <p className="text-caption text-center text-red-500">Task를 불러오지 못했습니다.</p>
       </div>
     );
   }
@@ -256,7 +256,7 @@ export default function TaskBoard({
 
       {isSearchEmpty ? (
         <div className="flex min-h-[240px] flex-col items-center justify-center px-6 py-10 text-center">
-          <p className="text-body-sm text-[var(--color-text-secondary)]">
+          <p className="text-caption text-[var(--color-text-secondary)]">
             {hasSearchQuery && !hasStatusFilter
               ? "검색 결과가 없습니다."
               : "조건에 맞는 태스크가 없습니다."}

@@ -91,7 +91,7 @@ function ListCountPair({
 }) {
   return (
     <span
-      className={`text-body-sm inline-flex min-w-0 items-center gap-1 tabular-nums ${className} `}
+      className={`text-caption inline-flex min-w-0 items-center gap-1 tabular-nums ${className} `}
       title={`${completed} / ${total}`}
       aria-label={`${label} ${completed}개 완료, 전체 ${total}개`}
     >
@@ -106,7 +106,7 @@ function ListCountPair({
 }
 
 const progressValueClassName =
-  "shrink-0 text-[16px] leading-6 font-bold text-[var(--color-text)] tabular-nums";
+  "shrink-0 text-base leading-6 font-bold text-[var(--color-text)] tabular-nums";
 
 /**
  * getListDelayDays
@@ -175,7 +175,7 @@ function ProjectListCardFace({
             onChange={onToggleSelected}
           />
         ) : null}
-        <h3 className="min-w-0 flex-1 truncate text-[16px] leading-6 font-semibold tracking-[-0.01em] text-[var(--color-text)]">
+        <h3 className="min-w-0 flex-1 truncate text-base leading-6 font-semibold tracking-[-0.01em] text-[var(--color-text)]">
           {project.name}
         </h3>
         {project.isMain ? (
@@ -198,7 +198,7 @@ function ProjectListCardFace({
             completed={project.completedGoals}
             total={project.totalGoals}
           />
-          <span className="text-body-sm min-w-0 truncate font-medium text-[var(--color-text-secondary)]">
+          <span className="text-caption min-w-0 truncate font-medium text-[var(--color-text-secondary)]">
             {project.teamName}
           </span>
         </div>
@@ -209,7 +209,7 @@ function ProjectListCardFace({
             completed={project.completedTasks}
             total={project.totalTasks}
           />
-          <span className="text-body-sm font-medium whitespace-nowrap text-[var(--color-text-secondary)] tabular-nums">
+          <span className="text-caption font-medium whitespace-nowrap text-[var(--color-text-secondary)] tabular-nums">
             {formatListCardDateRange(project.startDate, project.endDate)}
           </span>
         </div>
@@ -230,10 +230,10 @@ function ProjectListCardFace({
             total={project.totalTasks}
           />
         </div>
-        <span className="text-body-sm min-w-0 truncate text-center font-medium text-[var(--color-text-secondary)]">
+        <span className="text-caption min-w-0 truncate text-center font-medium text-[var(--color-text-secondary)]">
           {project.teamName}
         </span>
-        <span className="text-body-sm min-w-0 truncate text-center font-medium whitespace-nowrap text-[var(--color-text-secondary)] tabular-nums">
+        <span className="text-caption min-w-0 truncate text-center font-medium whitespace-nowrap text-[var(--color-text-secondary)] tabular-nums">
           {formatListCardDateRange(project.startDate, project.endDate)}
         </span>
       </div>
@@ -370,7 +370,7 @@ const listBadgeClassName = `
   !gap-0.5
   !rounded
   !px-1.5
-  !text-[10px]
+  !text-2xs
   !leading-3
 
   lg:!h-5
@@ -444,7 +444,7 @@ function projectListTableRow(
               />
             ) : null}
             <h3
-              className="min-w-0 flex-1 truncate text-[16px] leading-6 font-semibold tracking-[-0.01em] text-[var(--color-text)]"
+              className="min-w-0 flex-1 truncate text-base leading-6 font-semibold tracking-[-0.01em] text-[var(--color-text)]"
               title={project.name}
             >
               {project.name}
@@ -475,7 +475,7 @@ function projectListTableRow(
       },
       goals: {
         content: (
-          <span className="text-[14px] leading-5 font-medium text-[var(--color-text-secondary)] tabular-nums">
+          <span className="text-sm leading-5 font-medium text-[var(--color-text-secondary)] tabular-nums">
             {project.completedGoals}
             <span className="mx-0.5 text-[var(--color-text-disabled)]">/</span>
             {project.totalGoals}
@@ -485,7 +485,7 @@ function projectListTableRow(
       },
       tasks: {
         content: (
-          <span className="text-[14px] leading-5 font-medium text-[var(--color-text-secondary)] tabular-nums">
+          <span className="text-sm leading-5 font-medium text-[var(--color-text-secondary)] tabular-nums">
             {project.completedTasks}
             <span className="mx-0.5 text-[var(--color-text-disabled)]">/</span>
             {project.totalTasks}
@@ -496,7 +496,7 @@ function projectListTableRow(
       team: {
         content: (
           <span
-            className="min-w-0 truncate text-[14px] leading-5 font-medium text-[var(--color-text-secondary)]"
+            className="min-w-0 truncate text-sm leading-5 font-medium text-[var(--color-text-secondary)]"
             title={project.teamName}
           >
             {project.teamName}
@@ -506,7 +506,7 @@ function projectListTableRow(
       },
       period: {
         content: (
-          <span className="text-[14px] leading-5 font-medium text-[var(--color-text-secondary)] tabular-nums">
+          <span className="text-sm leading-5 font-medium text-[var(--color-text-secondary)] tabular-nums">
             {formatProjectDateRange(project.startDate, project.endDate)}
           </span>
         ),

@@ -65,7 +65,7 @@ export default function ProjectEditPageContent({
   if (isLoading || isProjectsLoading) {
     return (
       <CreatePageLayout fitViewport>
-        <p className="text-body-sm py-12 text-center text-[var(--color-text-secondary)]">
+        <p className="text-caption py-12 text-center text-[var(--color-text-secondary)]">
           프로젝트를 불러오는 중...
         </p>
       </CreatePageLayout>
@@ -75,7 +75,7 @@ export default function ProjectEditPageContent({
   if (!project) {
     return (
       <CreatePageLayout fitViewport>
-        <p className="text-body-sm py-12 text-center text-[var(--color-text-secondary)]">
+        <p className="text-caption py-12 text-center text-[var(--color-text-secondary)]">
           프로젝트를 찾을 수 없습니다.
         </p>
       </CreatePageLayout>

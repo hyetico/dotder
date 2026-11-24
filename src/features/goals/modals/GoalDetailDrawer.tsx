@@ -58,9 +58,9 @@ const goalIconPreviewClassName =
   "flex size-10 shrink-0 items-center justify-center rounded-[var(--radius-sm)] bg-[var(--color-field)] text-[var(--color-text-secondary)]";
 const periodFieldClassName = `flex min-w-0 flex-wrap items-center gap-x-3 gap-y-2 rounded-[var(--radius-sm)] bg-[var(--color-field)] py-3 ${fieldPaddingClassName}`;
 const periodLinkClassName =
-  "text-body-sm ml-auto inline-flex shrink-0 items-center gap-1 font-medium whitespace-nowrap text-[var(--color-text-muted)]";
+  "text-caption ml-auto inline-flex shrink-0 items-center gap-1 font-medium whitespace-nowrap text-[var(--color-text-muted)]";
 const projectDetailButtonClassName =
-  "inline-flex cursor-pointer items-center gap-0.5 text-[13px] leading-none font-medium text-[var(--color-text-secondary)] transition-colors hover:text-[var(--color-text)]";
+  "inline-flex cursor-pointer items-center gap-0.5 text-xs leading-none font-medium text-[var(--color-text-secondary)] transition-colors hover:text-[var(--color-text)]";
 const plainControlClassName =
   "border-transparent! shadow-none! hover:border-transparent! hover:shadow-none!";
 const tagButtonClassName = "max-w-full min-w-0 cursor-pointer disabled:cursor-not-allowed";
@@ -626,11 +626,11 @@ function GoalDetailDrawerPanel({
           <div className="flex min-h-0 flex-1 flex-col">
             <Drawer.Body>
               {isPending ? (
-                <p className="text-body-sm py-8 text-center text-[var(--color-text-secondary)]">
+                <p className="text-caption py-8 text-center text-[var(--color-text-secondary)]">
                   목표를 불러오는 중...
                 </p>
               ) : isError || !goal ? (
-                <p className="text-body-sm py-8 text-center text-[var(--color-text-secondary)]">
+                <p className="text-caption py-8 text-center text-[var(--color-text-secondary)]">
                   목표를 찾을 수 없습니다.
                 </p>
               ) : (

@@ -86,7 +86,7 @@ export default function Select({
         }}
         className={`${selectTriggerClassName} ${
           isSmall
-            ? `text-body-sm h-9 gap-2 px-3`
+            ? `text-caption h-9 gap-2 px-3`
             : `text-body h-10 gap-3 lg:h-11 ${fieldPaddingClassName}`
         } ${isOpen ? fieldOpenClassName : fieldHoverClassName}`}
       >

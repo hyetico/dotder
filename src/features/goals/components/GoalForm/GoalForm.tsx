@@ -319,14 +319,14 @@ function GoalStatusAutoCard() {
         <div className="min-w-0">
           <h3 className="text-body font-medium text-[var(--color-text)]">자동 계산</h3>
 
-          <p className="text-body-sm mt-0.5 text-[var(--color-text-secondary)]">
+          <p className="text-caption mt-0.5 text-[var(--color-text-secondary)]">
             연결된 태스크의 상태에 따라 자동으로 변경됩니다.
           </p>
         </div>
       </div>
 
       <div className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 rounded-[var(--radius-sm)] bg-[var(--color-hover-soft)] px-3 py-2.5">
-        <span className="text-body-sm text-[var(--color-text-secondary)]">생성 시</span>
+        <span className="text-caption text-[var(--color-text-secondary)]">생성 시</span>
 
         <GoalStatusBadge status="NOT_STARTED" compact plain />
 
@@ -347,7 +347,7 @@ function GoalStatusAutoCard() {
               {index + 1}
             </span>
 
-            <span className="text-body-sm min-w-0 flex-1 text-[var(--color-text-secondary)]">
+            <span className="text-caption min-w-0 flex-1 text-[var(--color-text-secondary)]">
               {rule.condition}
             </span>
 
@@ -471,7 +471,7 @@ function FormSectionIntro({
         <span className="text-card-title hidden text-[var(--color-text)] md:inline">{title}</span>
       </h2>
 
-      <p className="text-body-sm mt-1 text-[var(--color-text-secondary)] md:mt-0.5">
+      <p className="text-caption mt-1 text-[var(--color-text-secondary)] md:mt-0.5">
         <span className="md:hidden">{mobileDescription ?? description}</span>
 
         <span className="hidden md:inline">{description}</span>

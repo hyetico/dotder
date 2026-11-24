@@ -227,7 +227,7 @@ export default function MobileFilterDrawer<T extends string>({
               type="button"
               onClick={handleReset}
               disabled={isDefaultDraft}
-              className="text-body-sm inline-flex h-10 shrink-0 items-center gap-1.5 rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-white px-3 font-medium whitespace-nowrap text-[var(--color-text)] transition-colors hover:bg-[var(--color-hover-soft)] disabled:cursor-not-allowed disabled:opacity-50"
+              className="text-caption inline-flex h-10 shrink-0 items-center gap-1.5 rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-white px-3 font-medium whitespace-nowrap text-[var(--color-text)] transition-colors hover:bg-[var(--color-hover-soft)] disabled:cursor-not-allowed disabled:opacity-50"
             >
               <AppIcon icon={RotateCcw} size="md" />
               초기화
@@ -237,7 +237,7 @@ export default function MobileFilterDrawer<T extends string>({
               type="button"
               onClick={handleApply}
               disabled={!hasChanges}
-              className="text-body-sm bg-primary-gradient flex h-10 min-w-0 flex-1 items-center justify-center rounded-[var(--radius-sm)] font-medium !text-white transition-[filter,opacity] duration-150 hover:!text-white disabled:cursor-not-allowed disabled:opacity-50"
+              className="text-caption bg-primary-gradient flex h-10 min-w-0 flex-1 items-center justify-center rounded-[var(--radius-sm)] font-medium !text-white transition-[filter,opacity] duration-150 hover:!text-white disabled:cursor-not-allowed disabled:opacity-50"
             >
               필터 적용하기
             </button>

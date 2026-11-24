@@ -266,7 +266,7 @@ export function ExpandableListDetail({
         </span>
         <div className="min-w-0 flex-1">
           <p className="text-caption font-medium text-[var(--color-text-secondary)]">{label}</p>
-          <div className="text-body-sm mt-1.5 leading-5 text-[var(--color-text-secondary)]">
+          <div className="text-caption mt-1.5 leading-5 text-[var(--color-text-secondary)]">
             {children}
           </div>
         </div>
@@ -429,7 +429,7 @@ function ExpandableListMobileSummary({
               return (
                 <div
                   key={column.id}
-                  className="text-body-sm flex min-w-0 flex-wrap items-center gap-x-1.5 gap-y-1"
+                  className="text-caption flex min-w-0 flex-wrap items-center gap-x-1.5 gap-y-1"
                 >
                   {label ? (
                     <span className="shrink-0 text-[var(--color-text-muted)]">{label}</span>
@@ -631,7 +631,7 @@ export default function ExpandableList({
   if (rows.length === 0) {
     return (
       <div className={shellClass}>
-        <p className="text-body-sm px-5 py-8 text-center text-[var(--color-text-secondary)]">
+        <p className="text-caption px-5 py-8 text-center text-[var(--color-text-secondary)]">
           {empty}
         </p>
       </div>

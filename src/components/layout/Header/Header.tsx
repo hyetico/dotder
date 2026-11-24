@@ -179,7 +179,7 @@ export default function Header({ isMobileSidebarOpen, onToggleMobileSidebar }: H
         ) : null}
 
         <nav aria-label="현재 위치" className="max-w-full min-w-0 flex-1 overflow-hidden">
-          <ol className="flex min-w-0 items-center gap-3 text-[16px] leading-5 font-medium md:text-sm">
+          <ol className="flex min-w-0 items-center gap-3 text-base leading-5 font-medium md:text-sm">
             {hideGoalsSection ? null : (
               <li
                 className={`min-w-0 shrink-0 items-center ${

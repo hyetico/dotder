@@ -125,7 +125,7 @@ function ProgressDonut({
           />
         ) : null}
       </svg>
-      <span className="absolute inset-0 flex items-center justify-center text-[22px] leading-7 font-bold text-[var(--color-text)] tabular-nums">
+      <span className="absolute inset-0 flex items-center justify-center text-2xl leading-7 font-bold text-[var(--color-text)] tabular-nums">
         {shown}%
       </span>
     </div>
@@ -144,16 +144,14 @@ function ProgressDonut({
 function ProgressCountLabel({ done, total }: { done: number; total: number }) {
   return (
     <span className="inline-flex flex-col items-center text-center">
-      <span className="text-[14px] leading-5 font-medium whitespace-nowrap text-[var(--color-text)]">
+      <span className="text-sm leading-5 font-medium whitespace-nowrap text-[var(--color-text)]">
         <span className="tabular-nums">완료 {done}</span>
         <span className="tabular-nums">
           {" / 전체 "}
           {total}개
         </span>
       </span>
-      <span className="text-[13px] leading-[21px] text-[var(--color-text-secondary)]">
-        전체 태스크 기준
-      </span>
+      <span className="text-sm leading-5 text-[var(--color-text-secondary)]">전체 태스크 기준</span>
     </span>
   );
 }
@@ -191,7 +189,7 @@ export default function ProjectDetailProgress({
       <SectionHeader
         icon={<AppIcon icon={LayoutDashboard} size="md" />}
         title="프로젝트 진행 현황"
-        titleClassName="text-[15px] leading-5 font-semibold"
+        titleClassName="text-base leading-5 font-semibold"
         plain
         tooltip="완료한 태스크를 전체 태스크로 나눈 값입니다. 태스크가 없으면 집계하지 않습니다."
         tooltipItems={progressFormulaItems}
@@ -232,7 +230,7 @@ export default function ProjectDetailProgress({
           {hasTasks ? (
             <div className="w-full md:hidden">
               <div className="flex items-center justify-between gap-3">
-                <p className="text-[22px] leading-7 font-bold text-[var(--color-text)] tabular-nums">
+                <p className="text-2xl leading-7 font-bold text-[var(--color-text)] tabular-nums">
                   {counts.percent}%
                 </p>
                 <p className="text-sm leading-5 text-[var(--color-text-secondary)]">
@@ -287,7 +285,7 @@ export default function ProjectDetailProgress({
               </>
             ) : (
               <>
-                <div className="flex h-40 w-40 items-center justify-center rounded-full border-2 border-dashed border-[#D1D5DB] text-[22px] leading-7 font-bold text-[var(--color-text-muted)]">
+                <div className="flex h-40 w-40 items-center justify-center rounded-full border-2 border-dashed border-[#D1D5DB] text-2xl leading-7 font-bold text-[var(--color-text-muted)]">
                   —
                 </div>
                 <p className="mt-3 text-sm leading-5 font-medium text-[var(--color-text)]">

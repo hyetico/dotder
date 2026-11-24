@@ -101,7 +101,7 @@ function LinkedProjectInfoRow({
         align === "start" ? "items-start" : "items-center"
       } `}
     >
-      <dt className="text-body-sm text-[var(--color-text-secondary)]">{label}</dt>
+      <dt className="text-caption text-[var(--color-text-secondary)]">{label}</dt>
 
       <dd className="min-w-0">{children}</dd>
     </div>

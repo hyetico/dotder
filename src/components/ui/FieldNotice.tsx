@@ -2,7 +2,7 @@ import { AppIcon, Info } from "@/components/ui/icon";
 
 import type { ReactNode } from "react";
 
-const noticeClassName = "text-body-sm flex min-h-5 items-center gap-1";
+const noticeClassName = "text-caption flex min-h-5 items-center gap-1";
 const dangerClassName = "mt-1 text-[var(--color-field-error)]";
 const defaultClassName = "mt-2 text-[var(--color-text-secondary)]";
 

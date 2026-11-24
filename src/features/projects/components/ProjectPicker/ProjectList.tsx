@@ -71,7 +71,7 @@ export default function ProjectList({
 }: ProjectListProps) {
   if (projects.length === 0) {
     return (
-      <p className="text-body-sm px-2 py-8 text-center text-[var(--color-text-secondary)]">
+      <p className="text-caption px-2 py-8 text-center text-[var(--color-text-secondary)]">
         {emptyLabel}
       </p>
     );

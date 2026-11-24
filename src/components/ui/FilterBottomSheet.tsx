@@ -250,7 +250,7 @@ export default function FilterBottomSheet<T extends string>({
                 </div>
 
                 <div className="min-h-0 flex-1 overflow-y-auto overscroll-none px-5 pb-4">
-                  <p className="text-body-sm mb-1 font-medium text-[var(--color-text-secondary)]">
+                  <p className="text-caption mb-1 font-medium text-[var(--color-text-secondary)]">
                     {sectionLabel}
                   </p>
 

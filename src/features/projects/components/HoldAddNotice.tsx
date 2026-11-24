@@ -14,7 +14,7 @@ type HoldAddNoticeProps = {
  */
 export default function HoldAddNotice({ className = "" }: HoldAddNoticeProps) {
   return (
-    <span className={`text-body-sm block text-[var(--color-text-secondary)] ${className} `}>
+    <span className={`text-caption block text-[var(--color-text-secondary)] ${className} `}>
       {holdAddNoticeMessage}
     </span>
   );

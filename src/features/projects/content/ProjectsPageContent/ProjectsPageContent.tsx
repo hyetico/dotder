@@ -43,7 +43,7 @@ const projectsPageShellClassName = "min-w-0";
 const projectsPageFrameClassName = "project-board-width @container";
 const projectsPageBodyClassName = "space-y-5";
 const favoriteEditButtonClassName =
-  "inline-flex h-[32px] shrink-0 cursor-pointer items-center rounded-[8px] px-[12px] text-[13px]! leading-none! font-medium! text-[var(--color-text-secondary)] transition-colors hover:bg-[var(--color-hover-soft)] hover:text-[var(--color-text)]";
+  "inline-flex h-[32px] shrink-0 cursor-pointer items-center rounded-[8px] px-[12px] text-xs! leading-none! font-medium! text-[var(--color-text-secondary)] transition-colors hover:bg-[var(--color-hover-soft)] hover:text-[var(--color-text)]";
 
 /**
  * ProjectsPageContent
@@ -264,7 +264,7 @@ export default function ProjectsPageContent() {
           <PageInset>
             <div className={projectsPageFrameClassName}>
               {pageHeading}
-              <p className="text-body-sm py-12 text-center text-[var(--color-text-secondary)]">
+              <p className="text-caption py-12 text-center text-[var(--color-text-secondary)]">
                 프로젝트를 불러오는 중...
               </p>
             </div>

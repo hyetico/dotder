@@ -101,7 +101,7 @@ export default function BoardColumn({
             aria-hidden="true"
           />
 
-          <h3 className="text-body-sm truncate font-semibold text-[var(--color-text)]">{title}</h3>
+          <h3 className="text-caption truncate font-semibold text-[var(--color-text)]">{title}</h3>
 
           <span className="shrink-0 rounded-full bg-white px-2 py-1 text-xs text-[var(--color-text-secondary)]">
             {tasks.length}
@@ -120,7 +120,7 @@ export default function BoardColumn({
 
                   setIsCreateModalOpen(true);
                 }}
-                className="text-body-sm flex w-full items-center gap-2 rounded-[var(--radius-sm)] px-3 py-2 text-left font-medium text-[var(--color-text)] transition-colors hover:bg-[var(--color-hover-soft)] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-transparent"
+                className="text-caption flex w-full items-center gap-2 rounded-[var(--radius-sm)] px-3 py-2 text-left font-medium text-[var(--color-text)] transition-colors hover:bg-[var(--color-hover-soft)] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-transparent"
               >
                 추가
               </button>
@@ -133,7 +133,7 @@ export default function BoardColumn({
                   handleDeleteAll();
                 }}
                 disabled={tasks.length === 0}
-                className="text-body-sm flex w-full items-center gap-2 rounded-[var(--radius-sm)] px-3 py-2 text-left font-medium text-red-500 transition-colors hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-transparent"
+                className="text-caption flex w-full items-center gap-2 rounded-[var(--radius-sm)] px-3 py-2 text-left font-medium text-red-500 transition-colors hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-transparent"
               >
                 전체 삭제
               </button>

@@ -166,7 +166,7 @@ export default function SidebarMainProject({
             <ProjectSettingsIcon />
           </span>
 
-          <span className="min-w-0 truncate text-[14px] leading-5">메인 프로젝트 설정</span>
+          <span className="min-w-0 truncate text-sm leading-5">메인 프로젝트 설정</span>
 
           <span aria-hidden="true" className="size-[34px] shrink-0" />
         </span>

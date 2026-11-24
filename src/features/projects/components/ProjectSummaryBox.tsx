@@ -56,12 +56,11 @@ type Fact = {
   value: string;
 };
 
-const compactLabelClassName =
-  "text-[13px] leading-5 font-medium text-[var(--color-text-secondary)]";
+const compactLabelClassName = "text-xs leading-5 font-medium text-[var(--color-text-secondary)]";
 const compactValueClassName =
-  "min-w-0 text-right text-[14px] leading-5 font-medium break-words text-[var(--color-text)] tabular-nums";
+  "min-w-0 text-right text-sm leading-5 font-medium break-words text-[var(--color-text)] tabular-nums";
 const detailLinkClassName = `
-  text-body-sm
+  text-caption
 
   ml-auto
   inline-flex
@@ -150,7 +149,7 @@ function CompactFact({
   const valueClassName =
     align === "end"
       ? compactValueClassName
-      : "min-w-0 text-left text-[13px] leading-[21px] font-normal break-words text-[var(--color-text)]";
+      : "min-w-0 text-left text-sm leading-5 font-normal break-words text-[var(--color-text)]";
 
   return (
     <div className={rowClassName}>
@@ -179,7 +178,7 @@ export default function ProjectSummaryBox({
   showDetailLink = false,
   compact = false,
   framed = true,
-  titleClassName = "text-[24px] leading-[34px] font-bold",
+  titleClassName = "text-2xl leading-[34px] font-bold",
 }: ProjectSummaryBoxProps) {
   const [open, setOpen] = useState(defaultOpen);
   const [descriptionOpen, setDescriptionOpen] = useState(false);
@@ -230,7 +229,7 @@ export default function ProjectSummaryBox({
   if (compact) {
     return (
       <section className="flex h-full min-h-0 flex-col overflow-auto px-5 pt-4 pb-5">
-        <h2 className="text-[20px] leading-7 font-bold text-[var(--color-text)]">프로젝트 정보</h2>
+        <h2 className="text-xl leading-7 font-bold text-[var(--color-text)]">프로젝트 정보</h2>
         <dl className="mt-4 flex flex-col gap-3">
           <CompactFact label="이름" value={project.name} />
           <CompactFact
@@ -272,7 +271,7 @@ export default function ProjectSummaryBox({
                   {showDescriptionToggle ? (
                     <button
                       type="button"
-                      className="inline-flex items-center gap-1 self-end text-[13px]! leading-[21px]! font-medium! text-[var(--color-text-secondary)]"
+                      className="inline-flex items-center gap-1 self-end text-sm! leading-5! font-medium! text-[var(--color-text-secondary)]"
                       onClick={() => setDescriptionOpen((current) => !current)}
                     >
                       {descriptionOpen ? "설명 접기" : "설명 전체 보기"}
@@ -364,7 +363,7 @@ export default function ProjectSummaryBox({
                       className="hidden shrink-0 text-[var(--color-text-secondary)] xl:block"
                     />
                     <div className="flex min-w-0 flex-1 items-center justify-between gap-3 xl:block">
-                      <dt className="shrink-0 text-[12px] leading-[18px] font-normal text-[var(--color-text-secondary)]">
+                      <dt className="shrink-0 text-xs leading-[18px] font-normal text-[var(--color-text-secondary)]">
                         {fact.label}
                       </dt>
                       <dd className="text-right text-sm leading-5 font-semibold text-[var(--color-text)] tabular-nums xl:mt-0.5 xl:text-left xl:font-medium">

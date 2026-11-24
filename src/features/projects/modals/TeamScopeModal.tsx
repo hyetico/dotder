@@ -330,7 +330,7 @@ function AdminHandoffSide({
           }
         />
       ) : (
-        <span className="text-body-sm text-[var(--color-text-muted)]">없음</span>
+        <span className="text-caption text-[var(--color-text-muted)]">없음</span>
       )}
     </div>
   );
@@ -820,7 +820,7 @@ export default function TeamScopeModal(props: TeamScopeModalProps) {
 
         {mode === "admin" ? <AdminHandoff before={openedMember} after={draftMember} /> : null}
 
-        <p className="text-body-sm mt-3 text-right text-[var(--color-text-secondary)] tabular-nums">
+        <p className="text-caption mt-3 text-right text-[var(--color-text-secondary)] tabular-nums">
           {activeCategory === "team"
             ? `총 ${visibleTeams.length}팀`
             : `총 ${visibleMembers.length}명`}
@@ -832,7 +832,7 @@ export default function TeamScopeModal(props: TeamScopeModalProps) {
       >
         {activeCategory === "team" ? (
           visibleTeams.length === 0 ? (
-            <p className="text-body-sm px-2 py-10 text-center text-[var(--color-text-secondary)]">
+            <p className="text-caption px-2 py-10 text-center text-[var(--color-text-secondary)]">
               {emptyLabel}
             </p>
           ) : (
@@ -844,7 +844,7 @@ export default function TeamScopeModal(props: TeamScopeModalProps) {
             />
           )
         ) : visibleMembers.length === 0 ? (
-          <p className="text-body-sm px-2 py-10 text-center text-[var(--color-text-secondary)]">
+          <p className="text-caption px-2 py-10 text-center text-[var(--color-text-secondary)]">
             {emptyLabel}
           </p>
         ) : (

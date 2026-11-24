@@ -120,7 +120,7 @@ export default function AlertModal({
         <Modal.Body>
           <p
             id={descriptionId}
-            className="text-body-sm text-center whitespace-pre-line text-[var(--color-text)]"
+            className="text-caption text-center whitespace-pre-line text-[var(--color-text)]"
           >
             {description}
           </p>

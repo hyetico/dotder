@@ -86,7 +86,7 @@ export default function DrawerRecentCard({
                   close();
                   onToggleFavorite();
                 }}
-                className="text-body-sm flex w-full items-center rounded-[var(--radius-sm)] px-3 py-2 text-left font-medium text-[var(--color-text)] transition-colors hover:bg-[var(--color-hover-soft)]"
+                className="text-caption flex w-full items-center rounded-[var(--radius-sm)] px-3 py-2 text-left font-medium text-[var(--color-text)] transition-colors hover:bg-[var(--color-hover-soft)]"
               >
                 {isFavorite ? "즐겨찾기 해제" : "즐겨찾기 추가"}
               </button>

@@ -41,9 +41,9 @@ const GOAL_CREATE_ICON: GoalIcon = "layout";
 const SLIDE_MS = 400;
 
 const goalIconPreviewClassName =
-  "flex size-12 shrink-0 items-center justify-center rounded-[12px] bg-[var(--color-hover-soft)] text-[22px] leading-none";
+  "flex size-12 shrink-0 items-center justify-center rounded-[12px] bg-[var(--color-hover-soft)] text-2xl leading-none";
 const goalTitleAreaClassName =
-  "text-[24px]! leading-[32px]! font-[700]! text-[#292D32]! placeholder:text-[24px] placeholder:leading-[32px] placeholder:font-[700] placeholder:text-[#e1e0de]! focus:placeholder:text-[#e1e0de]!";
+  "text-2xl! leading-[32px]! font-[700]! text-[#292D32]! placeholder:text-2xl placeholder:leading-[32px] placeholder:font-[700] placeholder:text-[#e1e0de]! focus:placeholder:text-[#e1e0de]!";
 const goalDescriptionAreaClassName =
   "placeholder:text-[#e1e0de]! focus:placeholder:text-[#e1e0de]!";
 const goalTitleBlockClassName = "flex w-full min-w-0 flex-col items-stretch gap-[16px]";
@@ -51,30 +51,30 @@ const drawerBodyClassName = "!px-[62px]";
 const drawerRowClassName = "flex min-w-0 items-center gap-[12px] py-4";
 const drawerRowTopClassName = "mt-[32px] flex min-w-0 items-start gap-[12px] pb-4";
 const drawerRowLabelClassName =
-  "w-[80px] shrink-0 text-[14px] leading-[20px] font-[500] text-[#78746E]";
+  "w-[80px] shrink-0 text-sm leading-[20px] font-[500] text-[#78746E]";
 const drawerAsideClassName =
-  "ml-auto inline-flex shrink-0 items-center gap-1 text-[12px] leading-[18px] font-[400] whitespace-nowrap text-[#64748B]";
+  "ml-auto inline-flex shrink-0 items-center gap-1 text-xs leading-[18px] font-[400] whitespace-nowrap text-[#64748B]";
 const projectNameClassName =
-  "min-w-0 flex-1 truncate text-[14px] leading-[20px] font-[400] text-[#292D32]";
+  "min-w-0 flex-1 truncate text-sm leading-[20px] font-[400] text-[#292D32]";
 const periodTextClassName =
-  "min-w-0 flex-1 truncate text-[14px] leading-[20px] font-[400] text-[#292D32]";
+  "min-w-0 flex-1 truncate text-sm leading-[20px] font-[400] text-[#292D32]";
 const periodLinkClassName =
-  "ml-auto inline-flex shrink-0 items-center gap-1 text-[12px] leading-[18px] font-[400] whitespace-nowrap text-[#64748B]";
-const tagLimitClassName = "text-[12px] leading-[20px] font-[400] text-[#64748B] tabular-nums";
+  "ml-auto inline-flex shrink-0 items-center gap-1 text-xs leading-[18px] font-[400] whitespace-nowrap text-[#64748B]";
+const tagLimitClassName = "text-xs leading-[20px] font-[400] text-[#64748B] tabular-nums";
 const tagListClassName = "mt-[8px] flex min-w-0 flex-wrap items-center gap-1.5";
-const tagEmptyClassName = "mt-[8px] text-[14px] leading-[20px] font-[400] text-[#64748B]";
+const tagEmptyClassName = "mt-[8px] text-sm leading-[20px] font-[400] text-[#64748B]";
 const goalTagSectionClassName = "py-4";
 const tagButtonClassName =
   "max-w-full min-w-0 cursor-pointer rounded-[9px] disabled:cursor-not-allowed";
 const tagSelectedClassName = "outline outline-1 outline-[var(--color-text)]";
 const assigneeSummaryClassName =
-  "h-auto! w-auto! shrink-0 border-transparent! bg-transparent! px-0! py-0! md:px-0! [&_.truncate]:text-[14px]! [&_.truncate]:leading-[20px]! [&_.truncate]:font-[400]! [&_.truncate]:text-[#292D32]!";
+  "h-auto! w-auto! shrink-0 border-transparent! bg-transparent! px-0! py-0! md:px-0! [&_.truncate]:text-sm! [&_.truncate]:leading-[20px]! [&_.truncate]:font-[400]! [&_.truncate]:text-[#292D32]!";
 const statusTextClassName =
-  "inline-flex min-w-0 items-center gap-1.5 text-[14px] leading-[20px] font-[400] text-[#292D32]";
+  "inline-flex min-w-0 items-center gap-1.5 text-sm leading-[20px] font-[400] text-[#292D32]";
 const dateButtonEmptyClassName =
-  "w-full justify-start text-[14px]! leading-[20px]! font-[400]! text-[#64748B]! [&_span]:text-[14px]! [&_span]:leading-[20px]! [&_span]:font-[400]! [&_span]:text-[#64748B]!";
+  "w-full justify-start text-sm! leading-[20px]! font-[400]! text-[#64748B]! [&_span]:text-sm! [&_span]:leading-[20px]! [&_span]:font-[400]! [&_span]:text-[#64748B]!";
 const dateButtonValueClassName =
-  "w-full justify-start text-[14px]! leading-[20px]! font-[400]! text-[#292D32]! [&_span]:text-[14px]! [&_span]:leading-[20px]! [&_span]:font-[400]! [&_span]:text-[#292D32]!";
+  "w-full justify-start text-sm! leading-[20px]! font-[400]! text-[#292D32]! [&_span]:text-sm! [&_span]:leading-[20px]! [&_span]:font-[400]! [&_span]:text-[#292D32]!";
 
 const goalStatusAutoRules: { condition: string; status: GoalStatus }[] = [
   { condition: "태스크 없음 또는 모두 미시작", status: "NOT_STARTED" },
@@ -174,7 +174,7 @@ function GoalStatusAutoInfo() {
           <ul>
             {goalStatusAutoRules.map((rule) => (
               <li key={rule.status} className={goalStatusAutoRuleClassName}>
-                <span className="text-body-sm min-w-0 text-[var(--color-text-secondary)]">
+                <span className="text-caption min-w-0 text-[var(--color-text-secondary)]">
                   {rule.condition}
                 </span>
                 <GoalStatusLabel status={rule.status} />

@@ -163,27 +163,23 @@ function HistoryChangeDetail({ change, actor }: { change: ProjectDeadlineChange;
   return (
     <div>
       <div className="flex items-baseline gap-2 border-b border-[var(--color-border)] pb-3 md:gap-6 md:border-b-0 md:pb-0">
-        <p className="shrink-0 text-[13px] leading-5 font-medium text-[var(--color-text-secondary)]">
+        <p className="shrink-0 text-xs leading-5 font-medium text-[var(--color-text-secondary)]">
           변경 사유
         </p>
-        <p className="text-[13px] leading-[21px] text-[var(--color-text)]">
-          {changeReason(change)}
-        </p>
+        <p className="text-sm leading-5 text-[var(--color-text)]">{changeReason(change)}</p>
       </div>
       <div className="mt-3 space-y-2 md:hidden">
         <p className="flex items-baseline gap-2">
-          <span className="shrink-0 text-[13px] leading-5 font-medium text-[var(--color-text-secondary)]">
+          <span className="shrink-0 text-xs leading-5 font-medium text-[var(--color-text-secondary)]">
             변경자
           </span>
-          <span className="text-[14px] leading-5 font-medium text-[var(--color-text)]">
-            {actor}
-          </span>
+          <span className="text-sm leading-5 font-medium text-[var(--color-text)]">{actor}</span>
         </p>
         <p className="flex items-baseline gap-2">
-          <span className="shrink-0 text-[13px] leading-5 font-medium text-[var(--color-text-secondary)]">
+          <span className="shrink-0 text-xs leading-5 font-medium text-[var(--color-text-secondary)]">
             변경 시각
           </span>
-          <span className="text-[14px] leading-5 font-medium text-[var(--color-text)] tabular-nums">
+          <span className="text-sm leading-5 font-medium text-[var(--color-text)] tabular-nums">
             {formatChangedAt(change.changedAt)}
           </span>
         </p>
@@ -279,14 +275,14 @@ function DeadlineTimeline({ changes }: { changes: ProjectDeadlineChange[] }) {
           key={change.id}
           className="grid grid-cols-[7.5rem_minmax(0,1fr)] gap-3 border-b border-[var(--color-border)] py-3 last:border-b-0"
         >
-          <p className="text-[13px] leading-5 font-medium text-[var(--color-text-secondary)] tabular-nums">
+          <p className="text-xs leading-5 font-medium text-[var(--color-text-secondary)] tabular-nums">
             {formatChangedAt(change.changedAt)}
           </p>
           <div className="min-w-0">
-            <p className="text-[14px] leading-5 font-medium text-[var(--color-text)] tabular-nums">
+            <p className="text-sm leading-5 font-medium text-[var(--color-text)] tabular-nums">
               {formatProjectDate(change.previousEndDate)} → {formatProjectDate(change.nextEndDate)}
             </p>
-            <p className="mt-0.5 text-[13px] leading-[21px] text-[var(--color-text-secondary)]">
+            <p className="mt-0.5 text-sm leading-5 text-[var(--color-text-secondary)]">
               {changeReason(change)}
             </p>
           </div>
@@ -372,7 +368,7 @@ export default function ProjectDetailStatus({
           <SectionHeader
             icon={<AppIcon icon={History} size="md" />}
             title="마감일 변경 이력"
-            titleClassName="text-[15px] leading-5 font-semibold"
+            titleClassName="text-base leading-5 font-semibold"
             plain
             actions={
               <div className="hidden items-center gap-2 md:flex">
@@ -440,12 +436,12 @@ export default function ProjectDetailStatus({
                   <IconTile>
                     <AppIcon icon={item.icon} size="sm" />
                   </IconTile>
-                  <p className="text-[13px] leading-5 font-medium text-[var(--color-text)]">
+                  <p className="text-xs leading-5 font-medium text-[var(--color-text)]">
                     {item.label}
                   </p>
                 </div>
                 <p
-                  className={`mt-2 text-[20px] leading-7 font-bold tabular-nums ${item.valueClassName}`}
+                  className={`mt-2 text-xl leading-7 font-bold tabular-nums ${item.valueClassName}`}
                 >
                   {item.value}
                 </p>

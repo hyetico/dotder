@@ -54,7 +54,7 @@ const memoCountBadgeClassName =
 const includeOnClassName =
   "w-full justify-center border-[var(--color-primary)]! bg-[var(--color-primary-soft)]! text-[var(--color-primary)]! @[900px]:w-auto";
 const memoDescription = "생각을 기록하고, 필요할 때 목표나 태스크로 등록하세요.";
-const memoHintClassName = "mt-3 text-[13px] leading-5 text-[var(--color-text-secondary)]";
+const memoHintClassName = "mt-3 text-xs leading-5 text-[var(--color-text-secondary)]";
 
 type MemosPageContentProps = {
   projectId?: number;
@@ -339,7 +339,7 @@ export default function MemosPageContent({ projectId }: MemosPageContentProps) {
           <div className={memoPageFrameClassName}>
             <PageHeading title={scopeTitle} description={memoDescription} />
             {projectMissing ? (
-              <p className="text-body-sm text-[var(--color-text-secondary)]">
+              <p className="text-caption text-[var(--color-text-secondary)]">
                 프로젝트를 찾을 수 없습니다.
               </p>
             ) : (

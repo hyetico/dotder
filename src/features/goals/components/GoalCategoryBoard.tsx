@@ -42,16 +42,16 @@ const goalListSectionClassName =
   "@container min-w-0 space-y-4 border-t border-[var(--color-border)] pt-5 @[900px]:col-span-2";
 const popularTagLimit = 5;
 const popularTagTitleClassName =
-  "inline-flex h-8 shrink-0 items-center gap-1.5 text-[13px] leading-none font-semibold text-[#34393f]";
+  "inline-flex h-8 shrink-0 items-center gap-1.5 text-xs leading-none font-semibold text-[#34393f]";
 const popularTagRowClassName =
   "flex min-w-0 flex-1 items-center gap-2 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden";
 const popularTagButtonClassName =
-  "inline-flex h-8 shrink-0 cursor-pointer items-center gap-2 rounded-[8px] border px-2.5 text-[12px]! leading-none! font-semibold! text-[#34393f] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary)]";
-const popularTagCountClassName = "text-[12px] leading-none font-medium text-[#6b7280] tabular-nums";
+  "inline-flex h-8 shrink-0 cursor-pointer items-center gap-2 rounded-[8px] border px-2.5 text-xs! leading-none! font-semibold! text-[#34393f] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary)]";
+const popularTagCountClassName = "text-xs leading-none font-medium text-[#6b7280] tabular-nums";
 const popularTagMoreClassName =
-  "inline-flex h-8 shrink-0 cursor-pointer items-center gap-1 rounded-[8px] border border-[#e5e7eb] bg-white px-2.5 text-[12px]! leading-none! font-semibold! text-[#34393f] transition-colors hover:bg-[#f7f8f9] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary)]";
+  "inline-flex h-8 shrink-0 cursor-pointer items-center gap-1 rounded-[8px] border border-[#e5e7eb] bg-white px-2.5 text-xs! leading-none! font-semibold! text-[#34393f] transition-colors hover:bg-[#f7f8f9] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary)]";
 const popularTagResetClassName =
-  "ml-auto shrink-0 cursor-pointer text-[13px]! leading-none! font-medium! text-[#7c7c7e] transition-colors hover:text-[#34393f] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary)]";
+  "ml-auto shrink-0 cursor-pointer text-xs! leading-none! font-medium! text-[#7c7c7e] transition-colors hover:text-[#34393f] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary)]";
 
 /**
  * matchesStatusFilter

@@ -1,7 +1,7 @@
 import { AppIcon, X } from "@/components/ui/icon";
 
 const goalTagClassName =
-  "inline-flex max-w-full min-w-0 items-center rounded-[9px] border border-[#e9ebee] bg-[#f7f8f9] px-2.5 py-1 text-[12px] leading-[18px] font-semibold text-[#34393f]";
+  "inline-flex max-w-full min-w-0 items-center rounded-[9px] border border-[#e9ebee] bg-[#f7f8f9] px-2.5 py-1 text-xs leading-[18px] font-semibold text-[#34393f]";
 const goalTagRemoveClassName =
   "inline-flex size-4 shrink-0 cursor-pointer items-center justify-center rounded-full text-[#6b7280] hover:bg-white hover:text-[#34393f]";
 

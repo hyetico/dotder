@@ -19,7 +19,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
     <PageInset
       top="header"
       bottom={false}
-      className="text-body-sm py-12 text-center text-[var(--color-text-secondary)]"
+      className="text-caption py-12 text-center text-[var(--color-text-secondary)]"
     >
       프로젝트를 찾을 수 없습니다.
     </PageInset>

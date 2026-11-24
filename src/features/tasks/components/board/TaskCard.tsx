@@ -200,7 +200,7 @@ export default function TaskCard({ task, projectName, onDelete, onUpdate }: Task
 
                         handleDelete();
                       }}
-                      className="text-body-sm flex w-full items-center gap-2 rounded-[var(--radius-sm)] px-3 py-2 text-left font-medium text-red-500 transition-colors hover:bg-red-50"
+                      className="text-caption flex w-full items-center gap-2 rounded-[var(--radius-sm)] px-3 py-2 text-left font-medium text-red-500 transition-colors hover:bg-red-50"
                     >
                       <AppIcon icon={Trash2} size="sm" />
 
@@ -219,7 +219,7 @@ export default function TaskCard({ task, projectName, onDelete, onUpdate }: Task
          * ===================================================
          */}
         {task.description && (
-          <p className="text-body-sm mt-2 line-clamp-2 whitespace-pre-line text-[var(--color-text-secondary)]">
+          <p className="text-caption mt-2 line-clamp-2 whitespace-pre-line text-[var(--color-text-secondary)]">
             {task.description}
           </p>
         )}

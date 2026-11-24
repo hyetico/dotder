@@ -31,7 +31,7 @@ const detailFolderShadowClassName =
   "drop-shadow-[0_2px_5px_rgb(0_0_0/12%)] drop-shadow-[0_8px_18px_rgb(0_0_0/8%)]";
 const detailTabHeight = 44;
 const detailTabLabelClassName =
-  "absolute inset-y-0 left-0 flex items-center px-6 text-[18px] leading-none font-bold tracking-[-0.03em] text-[var(--color-text)]";
+  "absolute inset-y-0 left-0 flex items-center px-6 text-lg leading-none font-bold tracking-[-0.03em] text-[var(--color-text)]";
 const detailOuterRadius = 28;
 const cardOuterRadius = 16;
 const detailLayoutQuery = "(min-width: 1024px)";
@@ -48,7 +48,7 @@ const detailLayoutQuery = "(min-width: 1024px)";
  */
 const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
 const tabLabelClassName =
-  "absolute inset-y-0 left-0 flex shrink-0 items-center px-3 text-[12px] leading-4 font-medium whitespace-nowrap text-[var(--color-text-secondary)]";
+  "absolute inset-y-0 left-0 flex shrink-0 items-center px-3 text-xs leading-4 font-medium whitespace-nowrap text-[var(--color-text-secondary)]";
 const tabTopRatio = 0.62;
 
 /**

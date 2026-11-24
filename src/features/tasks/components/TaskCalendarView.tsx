@@ -137,7 +137,7 @@ function CalendarTaskCard({
           aria-hidden="true"
         />
 
-        <span className="min-w-0 flex-1 basis-0 overflow-hidden text-[10px] leading-[14px] text-ellipsis whitespace-nowrap text-[var(--color-text-secondary)] group-hover:text-[var(--color-text)]">
+        <span className="min-w-0 flex-1 basis-0 overflow-hidden text-2xs leading-[14px] text-ellipsis whitespace-nowrap text-[var(--color-text-secondary)] group-hover:text-[var(--color-text)]">
           {task.title}
         </span>
       </button>
@@ -159,14 +159,14 @@ function CalendarTaskCard({
         </p>
 
         <span
-          className={`shrink-0 rounded-full px-1.5 py-0.5 text-[10px] font-medium ${priorityStyle[task.priority]} `}
+          className={`shrink-0 rounded-full px-1.5 py-0.5 text-2xs font-medium ${priorityStyle[task.priority]} `}
         >
           {priorityLabel[task.priority]}
         </span>
       </div>
 
       {showProjectName && (
-        <p className="mt-1 truncate text-[10px] text-[var(--color-text-muted)]">
+        <p className="mt-1 truncate text-2xs text-[var(--color-text-muted)]">
           {projectName ?? "알 수 없는 프로젝트"}
         </p>
       )}
@@ -424,7 +424,7 @@ export default function TaskCalendarView({
           <button
             type="button"
             onClick={handleToday}
-            className="text-body-sm h-9 rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-white px-3 font-medium text-[var(--color-text)] transition-colors hover:bg-[var(--color-hover-soft)]"
+            className="text-caption h-9 rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-white px-3 font-medium text-[var(--color-text)] transition-colors hover:bg-[var(--color-hover-soft)]"
           >
             오늘
           </button>
@@ -468,7 +468,7 @@ export default function TaskCalendarView({
             {weekDays.map((weekDay) => (
               <div
                 key={weekDay}
-                className="border-r border-[var(--color-border)] px-2 py-0.5 text-center text-[10px] leading-[14px] font-medium text-[var(--color-text-secondary)] last:border-r-0"
+                className="border-r border-[var(--color-border)] px-2 py-0.5 text-center text-2xs leading-[14px] font-medium text-[var(--color-text-secondary)] last:border-r-0"
               >
                 {weekDay}
               </div>
@@ -512,7 +512,7 @@ export default function TaskCalendarView({
                   <div className="flex shrink-0 items-center justify-between gap-1">
                     <div className="flex min-w-0 items-center gap-1">
                       <span
-                        className={`flex h-5 min-w-5 items-center justify-center rounded-full px-0.5 text-[12px] leading-none font-medium ${
+                        className={`flex h-5 min-w-5 items-center justify-center rounded-full px-0.5 text-xs leading-none font-medium ${
                           isToday
                             ? "bg-primary-gradient text-white"
                             : calendarDay.isCurrentMonth
@@ -535,7 +535,7 @@ export default function TaskCalendarView({
 
                               px-1
 
-                              text-[9px]
+                              text-2xs
                               leading-[14px]
                               font-medium
                               text-white
@@ -602,7 +602,7 @@ export default function TaskCalendarView({
                                */}
                               <span className="w-0.5 shrink-0" aria-hidden="true" />
 
-                              <span className="min-w-0 flex-1 truncate text-[10px] leading-[14px] font-normal text-[var(--color-text-muted)] group-hover:text-[var(--color-text-secondary)]">
+                              <span className="min-w-0 flex-1 truncate text-2xs leading-[14px] font-normal text-[var(--color-text-muted)] group-hover:text-[var(--color-text-secondary)]">
                                 {hiddenTaskCount}개 더 보기
                               </span>
                             </button>
