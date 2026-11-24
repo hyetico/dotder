@@ -970,6 +970,15 @@ textarea:-webkit-autofill:focus {
   background-image: var(--accent-gradient, var(--gradient-primary));
 }
 
+/*
+ * 다크 모드의 메인 왕관: 프로젝트 색에 흰색 30%를 섞어 바탕 대비 3:1 이상 (handoff A4).
+ * 예: 플럼 #6b2d5b → #976c8c
+ */
+:root[data-theme="dark"] .bg-accent-gradient {
+  background-color: color-mix(in srgb, var(--accent-primary, var(--color-primary)) 70%, white);
+  background-image: none;
+}
+
 .bg-primary-gradient {
   background-color: var(--color-primary);
   background-image: var(--gradient-primary);
