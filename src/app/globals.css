@@ -335,11 +335,11 @@
   --color-field-disabled: #f8f8f7;
   --color-field-text: #292d32;
   --color-field-placeholder: #68717a;
-  --color-field-border: #e2e5e7;
-  --color-field-hover: #68717a;
+  /* 입력칸 선은 바탕 대비 3:1 이상 (handoff A1). 장식 테두리 --color-border와 섞지 않는다. */
+  --color-field-border: #868c94;
   --color-field-focus: #343840;
   --color-field-error: #ef4444;
-  /* 입력칸 선 호버. handoff A1에서 --color-field-hover를 이것으로 옮긴다. */
+  /* 입력칸 선 호버 */
   --color-field-border-hover: #5f6670;
 
   /*
@@ -475,7 +475,6 @@
   --color-field-text: #e7e9ec;
   --color-field-placeholder: #a8b0b8;
   --color-field-border: #6b737c;
-  --color-field-hover: #9aa2ab;
   --color-field-focus: #d1d5db;
   --color-field-error: #f87171;
   --color-success: #4ade80;
