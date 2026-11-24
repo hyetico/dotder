@@ -56,6 +56,19 @@
 4. `git switch develop && git pull` 뒤 roadmap의 다음 단계 브랜치를 만들어 바로 시작한다.
 
 - PR은 `develop`으로만 보낸다. `develop` → `main`은 배포할 때만, 사용자가 따로 요청할 때 한다.
+- **합치는 방법은 브랜치마다 다르다** (GitHub ruleset `protect-develop` · `protect-main`이 강제한다).
+  - 작업 브랜치 → `develop`: **squash** (`gh pr merge --squash --delete-branch`). `develop`은 선형 기록만 허용한다.
+  - `develop` → `main`: **merge commit** (`gh pr merge --merge`). `develop` 브랜치는 지우지 않는다. squash로 합치면 두 브랜치 기록이 갈라져 다음 배포 PR이 충돌한다 (2026-11-24 #13).
+  - `main`에 바로 보내는 급한 수정도 merge commit으로 합치고, 같은 내용을 `develop`에도 PR로 보낸다.
+
+```bash
+# 배포 (사용자가 요청했을 때만)
+git switch develop && git pull
+gh pr create --base main --head develop --title "release: <내용>" --body-file <본문 파일>
+gh pr merge <번호> --merge
+git switch main && git pull && npm run build
+git switch develop
+```
 
 ```bash
 git switch develop && git pull
