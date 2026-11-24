@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* 문서 속 클래스 예시(`var(…)` 등)를 Tailwind가 읽어 CSS를 깨뜨리지 않게 docs/는 검사에서 뺀다. */
+@source not "../../docs";
+
 /*
  * 반응형 기준점. 2xl만 Tailwind 기본(96rem = 1536px) 대신 1440px로 둔다.
  * layout-guide 2장: 1440 이상에서 본문을 가운데에 멈춘다.
