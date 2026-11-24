@@ -181,7 +181,7 @@ export default function ProjectBoardCard({
       tabLabel={
         project.isMain ? (
           <>
-            <Crown size={12} aria-hidden className="mr-1 shrink-0" />
+            <Crown size={12} aria-hidden className="mr-1 shrink-0 fill-current" />
             메인 프로젝트
           </>
         ) : undefined
@@ -192,6 +192,7 @@ export default function ProjectBoardCard({
       <div className={projectFolderShellClosedClassName}>
         <ProjectCardFace
           project={project}
+          className="px-4.5"
           leading={
             onToggleSelected ? (
               <FavoriteSelectBox

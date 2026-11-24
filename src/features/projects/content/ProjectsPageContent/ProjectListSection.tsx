@@ -27,8 +27,9 @@ import { computeProjectStats } from "@/features/projects/utils/projectUtils";
 import type { ProjectListItem } from "@/features/projects/types/project";
 
 const projectBoardGridClassName = "grid min-w-0 grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3";
-const projectToolbarClassName = "flex min-w-0 flex-col gap-4";
-const projectListSectionClassName = "min-w-0 space-y-4 border-t border-[var(--color-border)] pt-5";
+const projectToolbarClassName =
+  "flex min-w-0 flex-col gap-4 lg:flex-row lg:items-center lg:justify-between";
+const projectListSectionClassName = "min-w-0 space-y-4";
 
 type ProjectListSectionProps = {
   projects: ProjectListItem[];
@@ -87,7 +88,7 @@ function ProjectFavoriteRemoveAction({
  * @param props.searchQuery - 이름과 설명에 찾을 검색어
  * @param props.search - 목록 위에 둘 검색 입력
  * @param props.emptyLabel - 목록이 비었을 때 보여줄 문구
- * @param props.sectionTitle - 목록 제목. 없으면 프로젝트 목록
+ * @param props.sectionTitle - 목록 제목. 없으면 제목 줄을 그리지 않는다
  * @param props.countLabel - 제목 옆 뱃지 문구. 없으면 보이는 개수
  * @param props.countTitle - 목록 뱃지의 툴팁 문구
  */
@@ -96,7 +97,7 @@ export default function ProjectListSection({
   searchQuery,
   search,
   emptyLabel = "조건에 맞는 프로젝트가 없습니다.",
-  sectionTitle = "프로젝트 목록",
+  sectionTitle,
   countLabel,
   countTitle,
   headerAction,
@@ -188,8 +189,7 @@ export default function ProjectListSection({
   return (
     <>
       <div className={projectToolbarClassName}>
-        {search}
-        <div className="flex items-center justify-between gap-3">
+        <div className="flex min-w-0 items-center justify-between gap-3">
           <StatusFilterBar
             items={filterItems}
             value={activeFilter}
@@ -199,23 +199,33 @@ export default function ProjectListSection({
             sectionLabel="프로젝트 상태"
             resetValue="all"
           />
-          <ProjectViewToggle viewMode={viewMode} onViewModeChange={setViewMode} />
+          <div className="lg:hidden">
+            <ProjectViewToggle viewMode={viewMode} onViewModeChange={setViewMode} />
+          </div>
+        </div>
+        <div className="flex min-w-0 items-center gap-3 max-lg:order-first">
+          <div className="min-w-0 flex-1 lg:w-60 lg:flex-none">{search}</div>
+          <div className="hidden lg:block">
+            <ProjectViewToggle viewMode={viewMode} onViewModeChange={setViewMode} />
+          </div>
         </div>
       </div>
 
       <div className={projectListSectionClassName}>
-        <div className="flex items-center justify-between gap-3">
-          <div className="flex min-w-0 items-center gap-2">
-            <h2 className="text-section-title text-[var(--color-text)]">{sectionTitle}</h2>
-            <Badge
-              className="h-6! bg-[var(--color-hover)] px-2.5! text-sm! text-[var(--color-text-secondary)]"
-              title={countTitle ?? `${sectionTitle} ${visibleProjects.length}개`}
-            >
-              {countLabel ?? visibleProjects.length}
-            </Badge>
+        {sectionTitle ? (
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex min-w-0 items-center gap-2">
+              <h2 className="text-section-title text-[var(--color-text)]">{sectionTitle}</h2>
+              <Badge
+                className="h-6! bg-[var(--color-hover)] px-2.5! text-sm! text-[var(--color-text-secondary)]"
+                title={countTitle ?? `${sectionTitle} ${visibleProjects.length}개`}
+              >
+                {countLabel ?? visibleProjects.length}
+              </Badge>
+            </div>
+            {headerAction}
           </div>
-          {headerAction}
-        </div>
+        ) : null}
         {editing && projects.length > 0 ? (
           <FavoriteEditToolbar
             selectedCount={visibleSelected.length}
