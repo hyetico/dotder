@@ -107,3 +107,24 @@ export function createProjectSchema(
       path: ["endDate"],
     });
 }
+
+/**
+ * 프로젝트 만들기 드로어 검증 (6단계 · 원본 01a).
+ *
+ * 이름만 필수다. 마감일은 비워도 되고(P-3), 상태는 시작일로 자동(P-2), 메인은 ⋯ 메뉴에서 정한다.
+ */
+export const projectCreateDrawerSchema = z
+  .object({
+    name: z.string().trim().min(1, "이름을 적어 주세요").max(50, "이름은 50자까지 적을 수 있어요"),
+    color: z.enum(PROJECT_COLOR_KEYS),
+    startDate: z.string(),
+    endDate: z.string(),
+    description: projectSchema.shape.description,
+    tags: projectSchema.shape.tags,
+  })
+  .refine((data) => !data.startDate || !data.endDate || data.endDate >= data.startDate, {
+    message: "마감일은 시작일 이후여야 합니다.",
+    path: ["endDate"],
+  });
+
+export type ProjectCreateDrawerData = z.infer<typeof projectCreateDrawerSchema>;

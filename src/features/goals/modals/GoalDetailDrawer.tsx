@@ -575,6 +575,7 @@ function GoalDetailDrawerPanel({
   return (
     <>
       <Drawer
+        expandable
         isEntered={isEntered}
         title={goal?.title ?? "목표"}
         titleId={titleId}

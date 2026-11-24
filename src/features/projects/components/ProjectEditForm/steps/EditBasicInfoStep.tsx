@@ -15,11 +15,11 @@ import ProjectDescriptionDrawer from "@/features/projects/modals/ProjectDescript
 import { type ProjectFormData } from "@/features/projects/schemas/projectSchema";
 
 /**
- * WizardBasicInfoStep
+ * EditBasicInfoStep
  *
  * 1단계 입력입니다. 프로젝트 색상, 이름, 설명, 목표 태그를 입력합니다.
  *
- * @param props - WizardBasicInfoStep 컴포넌트 Props
+ * @param props - EditBasicInfoStep 컴포넌트 Props
  * @param props.control - 폼 컨트롤
  * @param props.register - 입력 칸을 폼에 등록하는 함수
  * @param props.errors - 폼 검증 에러
@@ -28,7 +28,7 @@ import { type ProjectFormData } from "@/features/projects/schemas/projectSchema"
  * @param props.accentColor - 프로젝트 강조 색
  * @param props.onDescriptionChange - 드로어에서 쓴 설명을 폼에 반영하는 함수
  */
-export function WizardBasicInfoStep({
+export function EditBasicInfoStep({
   control,
   register,
   errors,

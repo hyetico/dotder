@@ -33,6 +33,34 @@ src/features/<기능>/
 
 괄호 안 숫자는 2026-11-21 기준 사용하는 파일 수입니다.
 
+## 2-1. 다시 만들기 공통 컴포넌트 (`src/components/kit`) — REBUILD 3-0
+
+> 2026-11-24부터 새 화면은 이 폴더만 쓴다. 옛 `src/components/ui`는 화면을 다 옮긴 뒤 한 번에 지운다(REBUILD 2장). kit는 옛 UI 컴포넌트를 import하지 않는다.
+> 값은 `design/_handoff/2026-11-24/`의 보드 CSS(1순위) → 프로토타입 → `design/snippets/tokens.css` · REBUILD.md 5-3(저장 방식 · 문구). 토큰은 `globals.css` 「REBUILD 토큰」 블록. 견본 페이지: `/kit`.
+
+| 컴포넌트 | 파일 | 기준 | 규격 · 쓰는 법 |
+|---|---|---|---|
+| `Button` · `buttonClassName` | `Button.tsx` | 보드 .btn · 5-1 | 모양 primary · secondary · ghost · danger (+ 토스트 안 `onToast`), 크기 md 40/16 · sm 36/12 · xs 28/8(토큰 `--btn-h-*` · `--btn-px-*`), `iconOnly` 정사각형, `tip` 툴팁(「닫기 · Esc」), `href`면 링크. 못 누를 때 primary는 --s3 바탕 · --t4 글자(5-3), 나머지는 40%. 화면에서 높이 · 패딩을 덧대지 않는다 |
+| `Field` | `Field.tsx` | 보드 .field | 라벨 14/20 500 · 라벨–칸 6 · 필수 `*` --bad · `hint`(라벨 아래) · `help` · `error` 12/18 |
+| `TextInput` · `TextArea` | `TextInput.tsx` | 보드 .input · .input.ta | 40(sm 36) · 좌우 12 · 테두리 --input-line(호버 --input-line-h) · 초점 --primary + 3px 링 · 오류 --bad · 못 씀 --s2/--t4 · 여러 줄 최소 96 · 위아래 10. 안내 글은 입력할 때만 사라짐(`.kit-input`) |
+| `SearchField` | `SearchField.tsx` | 보드 01 · 5-2 | 테두리 --border(입력칸 선 아님) · 바탕 --surface · 아이콘 · 안내 글 --t3 · 도구 줄 36(sm) / 팝오버 40(md). 앱의 검색칸은 이것 하나 |
+| `Chip` · `Tag` | `Chip.tsx` | 프로토타입 .chip · 보드 .tag | 칩 36 · 좌우 12 · 테두리 --border · 켜짐 --primary(「지연만 N」 숫자 --bad). 태그 24 · 둥근 끝 · ×로 지우기(`onRemove`) |
+| `Segmented` | `Segmented.tsx` | 보드 .seg | 36 · 바탕 --s3 · 칸 32 · 고른 칸 --surface 600 · 숫자 12 --t3 · 아이콘 칸 32×32 · ← → |
+| `Tabs` | `Tabs.tsx` | 보드 .tabs | 사이 24 · 40 · 고른 탭 600 + 밑줄 2 · 숫자 없음(6-3) · 링크 탭 가능 |
+| `ColorSwatches` | `ColorSwatches.tsx` | 보드 01-a · REBUILD 3-0 | 28 · 모서리 8 · 사이 6 · tint 바탕 · 테두리 --border · 점 10 · 고른 칸 2px 띄운 --primary 링 · 모든 기기 한 줄 10개 · ← → |
+| `MenuItem` · `MenuHeader` · `MenuSeparator` · `PickRow` · `MoreMenu` | `Menu.tsx` | 보드 .mi · .mh · .sep · 03-e | 줄 최소 36(모바일 44) · 좌우 8 · 호버 --s3. `PickRow`는 고르는 목록 줄(이름 줄바꿈 · 체크 · 앞 표시). `MoreMenu`는 ⋯ ghost 아이콘 버튼(카드 xs 28) + 메뉴 220, ↑ ↓ · Esc, 카드 링크로 클릭이 새지 않음 |
+| `Popover` | `Popover.tsx` | 보드 .pop · 프로토타입 sheetOrPop | 기준 아래 6 · 모자라면 위로 · 폭 200/220/280/320/기준 폭 · 모서리 12 · 안쪽 4 · Esc · 바깥으로 닫기 · 모바일은 아래 시트 |
+| `Drawer` | `Drawer.tsx` | 보드 01-a · M 01-a | 웹 400 · 헤더 56 · 본문 24 · 칸 사이 24 · 푸터 72 / 모바일 시트(모서리 20 · 손잡이 · 헤더 52 · 푸터 버튼 48 · 주 버튼 채움). `wrap`으로 form을 감싼다(form은 `flex min-h-0 flex-1 flex-col`) |
+| `Modal` | `Modal.tsx` | 보드 .modal | 폼 480 · 검색 600 · 헤더 56 · 본문 0/24/24 · 푸터 16/24 + 위 선 --divider · 모바일 시트 |
+| `ConfirmDialog` | `ConfirmDialog.tsx` | 프로토타입 confirmBox · 5-3 | 320 · 안쪽 24 · 아이콘 상자 40 · 버튼 반반 · 열리면 취소 쪽 초점 · `withinRef`로 드로어 가운데. 바꾼 채로 닫기: 「저장하지 않고 닫을까요?」 / 「입력한 내용은 저장되지 않아요.」 [계속 편집] [닫기] (danger) |
+| `ToastProvider` · `useToast` | `Toast.tsx` | 프로토타입 toast | 아래 가운데 24 · 48 · 280–420 · 모서리 12 · 4초(되돌리기 6초) · 올리면 멈춤 · role=status |
+| `EmptyState` | `EmptyState.tsx` | 프로토타입 empty | 점선 1.5 --border · 모서리 16 · 56/16 · 아이콘 상자 56 |
+| `FolderCard` | `FolderCard.tsx` | 보드 01 · REBUILD 5 | 탭 SVG 180×31을 몸통 위 −30에 1px 겹침 · 몸통 0/16/16/16 · 20/22 · 사이 12 · tint · 테두리 없음 · drop-shadow 0 2px 6px 6% · 이름 링크가 카드를 덮고 ⋯는 따로 눌림 |
+| `Mosaic` | `Mosaic.tsx` | 보드 01 · 프로토타입 mosaic · REBUILD 5 | 7×20 · 칸 11 · 사이 3 · 왼쪽 정렬, 상자가 좁을 때만 가로 사이를 줄임 · 조각 3/5/7/9/11 · 프로젝트 색 하나에 진하기 45 · 45 · 65 · 85 · 100% · 상자 --mosaic-box · 아래 줄(--folder-ink) 안 자름 · 범례는 좁으면 다음 줄 |
+| `Kbd` | `Kbd.tsx` | 보드 .kbd · REBUILD 5-3 | 테두리 --border(아래 2) · 모서리 4 · 12/16 --t3 · 평소 숨기고 부모 호버 · 키보드 초점 때만 보임 · `keep`이면 늘 보임(단축키 안내 창) |
+| `useLayer` · `usePresence` · `useIsMobile` | `useLayer.ts` | Components 13 | 레이어 공통: 첫 입력칸(없으면 첫 메뉴 줄) 초점 · Tab 가두기 · Esc는 맨 위만 · 초점 복귀 · 스크롤 잠금 · 들어오기 180ms |
+| `KitGallery` | `KitGallery.tsx` | — | `/kit` 견본 페이지. 개발 서버에서만 열리고 배포 사이트는 404 |
+
 ## 3. 공통 컴포넌트 (`src/components/ui`)
 
 ### 버튼
@@ -64,12 +92,12 @@ src/features/<기능>/
 
 | 컴포넌트 | 언제 | 상태 |
 |---|---|---|
-| `Drawer` (+`Body`, `Footer`) | 드로어 바탕. 웹 · 태블릿 오른쪽 400, 모바일은 바텀시트(손잡이 · 위 모서리 16 · 최대 90% · 주 버튼 남은 폭) | ✅ |
+| `Drawer` (+`Body`, `Footer`) | 드로어 바탕 (Layout Spec 05). 헤더 56(왼쪽 24 · 오른쪽 12 · 제목 18/28 · 닫기 X 36, 상세만 `expandable` 넓게 보기) · 본문 패딩 24 · 칸 간격 24 · 푸터 72(좌우 24 · [취소] → [주 버튼] · 간격 8). 웹 · 태블릿 오른쪽 400, 모바일은 바텀시트. 안에서 연 `AlertModal`은 드로어 가운데(`useDrawerPanel`). 열림 · 닫힘 움직임은 `useDrawerPresence` | ✅ |
 | `DrawerFrame` | (역할 확인 후 `Drawer`와 합칠지 결정) | 🔧 |
-| `CreateDrawer` ★ | 생성 드로어 공통 틀 ([design-guide](design-guide.md) 4장) | ★ |
-| `DrawerRow` ★ | 라벨 80 + 값 + 오른쪽 보조 | ★ |
+| `CreateDrawer` | (따로 만들지 않음) 만들기 드로어는 `Drawer` + `FormField` + 「더 설정하기」 접기 + 닫을 때 확인창으로 짠다. 예: `ProjectCreateDrawer` | — |
+| `FormField` | 칸 하나: 라벨(14/600) 위 · 필수 빨간 `*` · 칸 · 아래 안내/오류 12 (Components 08 · Layout Spec 05). 예전 계획 `DrawerRow`(라벨 80 왼쪽)는 원본과 달라 쓰지 않는다 | ✅ `components/ui/form/FormField.tsx` |
 | `Modal` | 선택·설정 모달 바탕. 기본 너비 `--modal-width` 480 (handoff B2), 검색은 `--search-width` 600. 모바일(767 이하)은 바텀시트(손잡이 36 × 4 · 위 모서리 16 · 최대 90% · 주 버튼 남은 폭, Layout Spec 08) — `mobileSheet={false}`면 가운데 (확인창 · 통합 검색) | ✅ |
-| `AlertModal` | 삭제·상태 변경 확인. 너비 `--confirm-width` 320, 모바일도 가운데 | ✅ |
+| `AlertModal` | 삭제·상태 변경 확인 · 「수정을 취소할까요?」. 너비 `--confirm-width` 320, 모바일도 가운데. 드로어 안에서 열면 드로어 가운데 | ✅ |
 | `Toast` | 결과 알림 + 되돌리기 하나. 4초(되돌리기 있으면 6초), 마우스·초점 동안 멈춤, `role="status"` | ✅ (handoff B5, `DeadlineToast`·`FavoriteRemovedToast` 삭제) |
 | `Notice` | 화면 안에 계속 보이는 한 줄 안내. i 16 + 글자 14/20 보조색, 바탕 · 테두리 · 닫기 없음, `role="status"`, 툴바 바로 아래 8 (Components 12). 행동이 필요하면 글 끝에 링크 1개 | ✅ `components/ui/Notice.tsx` (`HoldAddNotice`가 사용) |
 
@@ -131,20 +159,24 @@ src/features/<기능>/
 | | `ActivityMosaic` | ✅ 폴더 카드 활동 모자이크 (7줄 × 20주 · 칸 11 · 간격 3 · 빈 날 점 3 · 1–4단계 5 · 7 · 9 · 11, Design Guide 11). 색은 프로젝트 색 하나(`--mosaic-color` = 팔레트 변수, 다크는 다크 값). 계산은 `utils/activityMosaic.ts`, 기록은 `getProjectActivity` |
 | | `ProjectMark` | ✅ 고르는 목록 · 프로젝트 전환의 프로젝트 표시. 색 점 10, 메인은 프로젝트 색 왕관 14 (읽는 이름 「메인」, 팔레트 변수라 다크는 다크 값, handoff B8) |
 | | `ProjectListItem` (`ProjectPicker`) | ✅ 고르는 목록 한 줄: 라디오 · 체크 18 + `ProjectMark` + 이름(자르지 않음) + 상태. 줄 높이 웹 40 · 터치 44 (C-16 · B7 · B11) |
+| `projects/modals` | `ProjectCreateDrawer` · `ProjectCreateDrawerRoute` | ✅ 프로젝트 만들기 드로어 (`/projects?new=1`). 모양은 보드 01-a, 펼친 안쪽 · 동작은 프로토타입 `projectForm`. 이름 *(「예: 포트폴리오 리뉴얼」 · 50자 · 비우면 「이름을 적어 주세요」, 비어 있으면 「추가」 막힘 · ⌘/Ctrl+Enter로 추가) · 색상 · 「더 설정하기 · 기간, 설명, 태그」(누르면 버튼은 사라지고 시작일/마감일 → 설명 → 태그). 상태는 자동(P-2) · 메인은 ⋯ 메뉴에서 — 만들기 드로어에는 없음. `MainProjectModal`은 지움 |
+| `projects/components` | `ProjectColorPicker` | ✅ 색 고르기 칸 (원본 01a). 웹 · 태블릿 칸 28 · 한 줄 10개(폭 334), 모바일 칸 44 · 5개씩 2줄, 간격 6. 바탕 tint + 가운데 점 10, 선택은 그 색 테두리 2. 라디오 묶음 · ← → 로 이동 |
+| | `ProjectPickField` | ✅ 드로어 안 「프로젝트」 칸 (목표 · 메모 드로어 공통). 점 · 왕관 + 이름(1줄 …) + [변경], 비면 「프로젝트 선택」 + [고르기]. [변경]은 드로어 위 모달 대신 드로어 안 팝오버(칸 폭) · 모바일은 시트 안 화면으로 검색 + 고르는 목록 줄(이름 자르지 않음) + 「프로젝트 없음」(`allowNone`). Esc · 바깥 누르기로 닫히고 [변경]으로 초점이 돌아온다 |
+| | `ProjectTagEditor` | ✅ 프로젝트 태그 편집 (프로토타입 tagEditor). 칩(24 · 모서리 6 · ×로 지움) + 줄 끝 입력칸 「+ 태그 (Enter)」 150 + 「n / 10」. Enter로 추가(같은 이름 · 빈 값 무시, 한글 조합 중 Enter 무시), 최대 10. 새 프로젝트는 기본 태그 3개 |
 | | `ProjectFolder` | 🔧 목록 카드 전용으로 단순화 (디테일 모드 제거) |
 | | `ProjectStatusBadge` | ✅ `StatusBadge` 위. 진행 중 + 지연이면 「지연」 뱃지를 옆에 붙임 |
-| | `ProjectCreateWizard` | ⛔ 드로어로 대체 |
+| | `ProjectCreateWizard` | 지움 (6단계) — 만들기는 `ProjectCreateDrawer`. 수정 화면이 쓰던 단계 3개는 `ProjectEditForm/steps/Edit…Step`으로 옮김 |
 | `projects/content` | `ProjectDetailPageContent` | 🔧 일반 페이지로 재구성 |
 | | `ProjectListRow` | 🔧 16KB. 즐겨찾기 편집에서는 `<label>`로 감싸 줄을 누르면 체크가 눌림 |
 | `projects/modals` | `ChangeProjectDeadlineModal` (22KB) | 🔧 나누기 |
 | | `TeamScopeModal` (22KB), `ProjectDetailTeam` | 💤 v1에서 숨김. 지우지도 고치지도 않는다 (PRD 5-4) |
 | `goals/components` | `GoalForm` (44KB) | 🔧 가장 먼저 나눌 파일 |
 | | `GoalStatusBadge` | ✅ `StatusBadge` 위. 완료가 아니고 지연이면 「지연」 뱃지를 옆에 붙임 |
-| `goals/modals` | `GoalCreateDrawer` (25KB), `GoalDetailDrawer` (28KB) | 🔧 `CreateDrawer` 틀로, 이모지 아이콘 제거 |
+| `goals/modals` | `GoalCreateDrawer`, `GoalDetailDrawer` (28KB) | 만들기 ✅ 원본 순서(이름 * → 프로젝트(`ProjectPickField`) → 태그 0/2 → 「더 설정하기 · 기간, 설명」), 「추가」로 저장 · 닫을 때 확인창. 상세 🔧 안쪽은 아직 라벨 왼쪽 |
 | `tasks/components` | `TaskBoard`, `TaskCard`, `BoardColumn` | ✅ |
 | | `TaskCalendarView` (21KB) | 🔧 나누기 |
 | | `TaskStatusBadge` | ✅ `StatusBadge` 위 |
-| `memos/components` | `MemoCards`, `MemoRegisterDrawer` | 🔧 `CreateDrawer` 틀로 |
+| `memos/components` | `MemoCards`, `MemoRegisterDrawer` | 등록 드로어 ✅ `FormField`(등록 대상 · 프로젝트 `ProjectPickField` · 이름 * · 설명), 닫을 때 확인창 |
 | `search/modals` | `IntegratedSearchModal` (26KB) | 🔧 나누기 |
 
 ## 6. 생성 드로어 사용법 (예정)

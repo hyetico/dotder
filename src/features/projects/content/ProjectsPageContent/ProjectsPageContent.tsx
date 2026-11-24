@@ -20,12 +20,14 @@ import ProjectsScopeTabs, {
 } from "@/features/projects/components/ProjectsScopeTabs";
 import ProjectListSection from "@/features/projects/content/ProjectsPageContent/ProjectListSection";
 import FavoriteProjectsModal from "@/features/projects/modals/FavoriteProjectsModal";
+import ProjectCreateDrawerRoute from "@/features/projects/modals/ProjectCreateDrawerRoute";
 import { computeProjectStats } from "@/features/projects/utils/projectUtils";
 
 import {
   getFavoriteProjectsPath,
   getMainProjectsPath,
   isFavoriteProjectsPath,
+  getNewProjectPath,
 } from "@/lib/projectRoutes";
 import {
   MAX_FAVORITES,
@@ -169,7 +171,7 @@ export default function ProjectsPageContent() {
 
   const headerActions = (
     <HeaderActions>
-      <HeaderActionLink href="/projects/new" label="추가" icon={Plus} tone="primary" />
+      <HeaderActionLink href={getNewProjectPath()} label="추가" icon={Plus} tone="primary" />
     </HeaderActions>
   );
   const scopeTabs = (
@@ -250,6 +252,7 @@ export default function ProjectsPageContent() {
 
   return (
     <>
+      <ProjectCreateDrawerRoute />
       {headerActions}
       <div className={projectsPageShellClassName}>
         <PageInset>

@@ -40,12 +40,12 @@ export function StatusRadioMark({ selected }: { selected: boolean }) {
 }
 
 /**
- * WizardScheduleStep
+ * EditScheduleStep
  *
  * 2단계 입력입니다. 프로젝트 상태와 시작일, 마감일을 입력합니다.
  * 새 프로젝트는 보류와 완료를 고를 수 없습니다.
  *
- * @param props - WizardScheduleStep 컴포넌트 Props
+ * @param props - EditScheduleStep 컴포넌트 Props
  * @param props.control - 폼 컨트롤
  * @param props.errors - 폼 검증 에러
  * @param props.statusValue - 선택한 프로젝트 상태
@@ -54,7 +54,7 @@ export function StatusRadioMark({ selected }: { selected: boolean }) {
  * @param props.endDateMin - 마감일로 선택할 수 있는 가장 이른 날짜
  * @param props.periodTotalLabel - 기간 합계 표시. 없으면 보이지 않음
  */
-export function WizardScheduleStep({
+export function EditScheduleStep({
   control,
   errors,
   statusValue,

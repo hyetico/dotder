@@ -8,7 +8,7 @@ import SearchInput from "@/components/ui/input/SearchInput";
 
 import ProjectMark from "@/features/projects/components/ProjectMark";
 
-import { getProjectDetailPath } from "@/lib/projectRoutes";
+import { getProjectDetailPath, getNewProjectPath } from "@/lib/projectRoutes";
 import {
   MAX_FAVORITES,
   getFavoriteProjectIds,
@@ -130,7 +130,7 @@ export default function ProjectSwitcherPanel({ projects, onNavigate }: ProjectSw
       <div className="mx-1 my-1 h-px bg-[var(--color-border)]" />
 
       <div className="p-1">
-        <Link href="/projects/new" onClick={onNavigate} className={itemClassName}>
+        <Link href={getNewProjectPath()} onClick={onNavigate} className={itemClassName}>
           <AppIcon icon={Plus} size="sm" className="text-[var(--color-text-muted)]" />
           <span className="min-w-0 flex-1 truncate">프로젝트 추가</span>
         </Link>

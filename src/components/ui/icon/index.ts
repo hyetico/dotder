@@ -67,6 +67,7 @@ export {
   MessageSquare,
   Minus,
   Moon,
+  MoreHorizontal,
   MoreVertical,
   Palette,
   PanelLeftClose,

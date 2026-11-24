@@ -15,9 +15,10 @@ import ProjectsScopeTabs, {
   type ProjectsScopeTab,
 } from "@/features/projects/components/ProjectsScopeTabs";
 import MainProjectStatBoxes from "@/features/projects/content/MainProjectStatBoxes";
+import ProjectCreateDrawerRoute from "@/features/projects/modals/ProjectCreateDrawerRoute";
 import { computeProjectStats } from "@/features/projects/utils/projectUtils";
 
-import { getFavoriteProjectsPath } from "@/lib/projectRoutes";
+import { getFavoriteProjectsPath, getNewProjectPath } from "@/lib/projectRoutes";
 import { projectQueryKeys } from "@/lib/queryKeys";
 
 const mainProjectsPageShellClassName = "min-w-0";
@@ -55,8 +56,9 @@ export default function MainProjectsPageContent() {
 
   return (
     <>
+      <ProjectCreateDrawerRoute />
       <HeaderActions>
-        <HeaderActionLink href="/projects/new" label="추가" icon={Plus} tone="primary" />
+        <HeaderActionLink href={getNewProjectPath()} label="추가" icon={Plus} tone="primary" />
       </HeaderActions>
       <div className={mainProjectsPageShellClassName}>
         <PageInset>

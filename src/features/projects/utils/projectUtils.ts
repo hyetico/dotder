@@ -1,7 +1,7 @@
 import { computeProjectGoalStats } from "@/features/goals/utils/goalUtils";
 import { getProjectTeamLabel } from "@/features/projects/utils/projectTeam";
 
-import { getDayDelta, parseDateKey } from "@/lib/date";
+import { getDayDelta, parseDateKey, toDateKey } from "@/lib/date";
 import { getUserName } from "@/lib/mock/users";
 
 import type { Goal } from "@/features/goals/types/goal";
@@ -453,6 +453,32 @@ export function computeProjectStats(
     done,
     delayed,
   };
+}
+
+/**
+ * 상태를 직접 고르지 않은 프로젝트의 상태를 시작일로 정한다 (PRD 7-2).
+ *
+ * @param startDate - 시작일 `YYYY-MM-DD`. 비어 있으면 계획
+ * @param today - 기준 날짜 `YYYY-MM-DD`
+ * @returns 시작일이 오늘이거나 지났으면 진행 중, 아니면 계획
+ *
+ * @example
+ * getAutoProjectStatus("2026-11-01", "2026-11-24") // "IN_PROGRESS"
+ */
+export function getAutoProjectStatus(startDate: string, today: string): ProjectStatus {
+  return startDate && startDate <= today ? "IN_PROGRESS" : "PLANNED";
+}
+
+/**
+ * 화면에 보일 상태. 직접 고른 상태는 그대로, 아니면 시작일로 계산한다 (P-2).
+ *
+ * @param today - 기준 날짜 `YYYY-MM-DD`. 테스트할 때만 넘긴다
+ */
+export function resolveProjectStatus(
+  project: Pick<Project, "status" | "isStatusManual" | "startDate">,
+  today = toDateKey(new Date()),
+): ProjectStatus {
+  return project.isStatusManual ? project.status : getAutoProjectStatus(project.startDate, today);
 }
 
 export function enrichProject(

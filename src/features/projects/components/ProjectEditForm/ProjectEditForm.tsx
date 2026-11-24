@@ -17,12 +17,12 @@ import StatusChoiceButton from "@/components/ui/StatusChoiceButton";
 import Toast from "@/components/ui/Toast";
 
 import { useSyncProjectAccent } from "@/features/projects/components/ProjectAccent";
-import { WizardBasicInfoStep } from "@/features/projects/components/ProjectCreateWizard/steps/WizardBasicInfoStep";
+import { EditBasicInfoStep } from "@/features/projects/components/ProjectEditForm/steps/EditBasicInfoStep";
 import {
   StatusRadioMark,
   wizardStatusButtonClassName,
-} from "@/features/projects/components/ProjectCreateWizard/steps/WizardScheduleStep";
-import { WizardSettingsStep } from "@/features/projects/components/ProjectCreateWizard/steps/WizardSettingsStep";
+} from "@/features/projects/components/ProjectEditForm/steps/EditScheduleStep";
+import { EditSettingsStep } from "@/features/projects/components/ProjectEditForm/steps/EditSettingsStep";
 import AdminSelect from "@/features/projects/components/ProjectForm/AdminSelect";
 import { FieldError, FormLabel } from "@/features/projects/components/ProjectForm/FormParts";
 import {
@@ -625,7 +625,7 @@ export default function ProjectEditForm({
             </div>
 
             <div className={tab === "basic" ? undefined : "hidden"}>
-              <WizardBasicInfoStep
+              <EditBasicInfoStep
                 control={control}
                 register={register}
                 errors={errors}
@@ -652,7 +652,7 @@ export default function ProjectEditForm({
             </div>
 
             <div className={tab === "team" ? undefined : "hidden"}>
-              <WizardSettingsStep
+              <EditSettingsStep
                 hideIntro
                 control={control}
                 accentColor={accentColor}
