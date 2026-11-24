@@ -98,13 +98,6 @@ export default function MemosPageContent({ projectId }: MemosPageContentProps) {
   const isFavorites = !isFixedProject && isFavoriteMemosPath(pathname);
   const isMain = !isFixedProject && isMainMemosPath(pathname);
   const scopeTab: MemosScopeTab = isFavorites ? "favorites" : isMain ? "main" : "all";
-  const scopeTitle = isFixedProject
-    ? "메모"
-    : isFavorites
-      ? "즐겨찾기 프로젝트 메모"
-      : isMain
-        ? "메인 프로젝트 메모"
-        : "전체 메모";
   const storedFavoriteIds = useSyncExternalStore(
     subscribeFavoriteProjectIds,
     getFavoriteProjectIdsSnapshot,
@@ -334,10 +327,12 @@ export default function MemosPageContent({ projectId }: MemosPageContentProps) {
   return (
     <>
       <div className={memoPageShellClassName}>
-        {isFixedProject ? null : <MemosScopeTabs value={scopeTab} onChange={changeScope} />}
         <PageInset>
           <div className={memoPageFrameClassName}>
-            <PageHeading title={scopeTitle} description={memoDescription} />
+            <PageHeading title="메모" description={memoDescription} />
+            {isFixedProject ? null : (
+              <MemosScopeTabs placement="page" value={scopeTab} onChange={changeScope} />
+            )}
             {projectMissing ? (
               <p className="text-caption text-[var(--color-text-secondary)]">
                 프로젝트를 찾을 수 없습니다.
