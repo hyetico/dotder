@@ -62,7 +62,8 @@ export default function Mosaic({ days, color, today }: MosaicProps) {
           {mosaic.weeks.flatMap((week) =>
             week.map((cell) => (
               <span key={cell.date} className="flex justify-center">
-                {cell.isFuture ? <span className="size-2.75" /> : <Tile level={cell.level} />}
+                {/* 오늘 이후 칸도 빈 날 점으로 그린다 (7×20 모두). 개수에는 안 셈 (buildActivityMosaic) */}
+                <Tile level={cell.isFuture ? 0 : cell.level} />
               </span>
             )),
           )}
