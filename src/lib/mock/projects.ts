@@ -3,7 +3,7 @@ import { toProjectColorKey } from "@/lib/projectPalette";
 import type { Project } from "@/features/projects/types/project";
 
 /** 옛 저장 형식: 색이 hex 문자열이거나 비어 있다 (2026-11-24 이전). */
-type StoredProject = Omit<Project, "color"> & { color: string | null };
+type StoredProject = Omit<Project, "color" | "isStatusManual"> & { color: string | null };
 
 const storedProjects: StoredProject[] = [
   {
@@ -256,4 +256,6 @@ const storedProjects: StoredProject[] = [
 export const mockProjects: Project[] = storedProjects.map((project) => ({
   ...project,
   color: toProjectColorKey(project.color),
+  // 옛 데이터의 상태는 사용자가 고른 값으로 보고 그대로 둔다
+  isStatusManual: true,
 }));

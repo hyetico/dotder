@@ -64,12 +64,12 @@ src/features/<기능>/
 
 | 컴포넌트 | 언제 | 상태 |
 |---|---|---|
-| `Drawer` (+`Body`, `Footer`) | 드로어 바탕. 웹 · 태블릿 오른쪽 400, 모바일은 바텀시트(손잡이 · 위 모서리 16 · 최대 90% · 주 버튼 남은 폭) | ✅ |
+| `Drawer` (+`Body`, `Footer`) | 드로어 바탕 (Layout Spec 05). 헤더 56(왼쪽 24 · 오른쪽 12 · 제목 18/28 · 닫기 X 36, 상세만 `expandable` 넓게 보기) · 본문 패딩 24 · 칸 간격 24 · 푸터 72(좌우 24 · [취소] → [주 버튼] · 간격 8). 웹 · 태블릿 오른쪽 400, 모바일은 바텀시트. 안에서 연 `AlertModal`은 드로어 가운데(`useDrawerPanel`). 열림 · 닫힘 움직임은 `useDrawerPresence` | ✅ |
 | `DrawerFrame` | (역할 확인 후 `Drawer`와 합칠지 결정) | 🔧 |
-| `CreateDrawer` ★ | 생성 드로어 공통 틀 ([design-guide](design-guide.md) 4장) | ★ |
-| `DrawerRow` ★ | 라벨 80 + 값 + 오른쪽 보조 | ★ |
+| `CreateDrawer` | (따로 만들지 않음) 만들기 드로어는 `Drawer` + `FormField` + 「더 설정하기」 접기 + 닫을 때 확인창으로 짠다. 예: `ProjectCreateDrawer` | — |
+| `FormField` | 칸 하나: 라벨(14/600) 위 · 필수 빨간 `*` · 칸 · 아래 안내/오류 12 (Components 08 · Layout Spec 05). 예전 계획 `DrawerRow`(라벨 80 왼쪽)는 원본과 달라 쓰지 않는다 | ✅ `components/ui/form/FormField.tsx` |
 | `Modal` | 선택·설정 모달 바탕. 기본 너비 `--modal-width` 480 (handoff B2), 검색은 `--search-width` 600. 모바일(767 이하)은 바텀시트(손잡이 36 × 4 · 위 모서리 16 · 최대 90% · 주 버튼 남은 폭, Layout Spec 08) — `mobileSheet={false}`면 가운데 (확인창 · 통합 검색) | ✅ |
-| `AlertModal` | 삭제·상태 변경 확인. 너비 `--confirm-width` 320, 모바일도 가운데 | ✅ |
+| `AlertModal` | 삭제·상태 변경 확인 · 「수정을 취소할까요?」. 너비 `--confirm-width` 320, 모바일도 가운데. 드로어 안에서 열면 드로어 가운데 | ✅ |
 | `Toast` | 결과 알림 + 되돌리기 하나. 4초(되돌리기 있으면 6초), 마우스·초점 동안 멈춤, `role="status"` | ✅ (handoff B5, `DeadlineToast`·`FavoriteRemovedToast` 삭제) |
 | `Notice` | 화면 안에 계속 보이는 한 줄 안내. i 16 + 글자 14/20 보조색, 바탕 · 테두리 · 닫기 없음, `role="status"`, 툴바 바로 아래 8 (Components 12). 행동이 필요하면 글 끝에 링크 1개 | ✅ `components/ui/Notice.tsx` (`HoldAddNotice`가 사용) |
 
@@ -131,6 +131,8 @@ src/features/<기능>/
 | | `ActivityMosaic` | ✅ 폴더 카드 활동 모자이크 (7줄 × 20주 · 칸 11 · 간격 3 · 빈 날 점 3 · 1–4단계 5 · 7 · 9 · 11, Design Guide 11). 색은 프로젝트 색 하나(`--mosaic-color` = 팔레트 변수, 다크는 다크 값). 계산은 `utils/activityMosaic.ts`, 기록은 `getProjectActivity` |
 | | `ProjectMark` | ✅ 고르는 목록 · 프로젝트 전환의 프로젝트 표시. 색 점 10, 메인은 프로젝트 색 왕관 14 (읽는 이름 「메인」, 팔레트 변수라 다크는 다크 값, handoff B8) |
 | | `ProjectListItem` (`ProjectPicker`) | ✅ 고르는 목록 한 줄: 라디오 · 체크 18 + `ProjectMark` + 이름(자르지 않음) + 상태. 줄 높이 웹 40 · 터치 44 (C-16 · B7 · B11) |
+| `projects/modals` | `ProjectCreateDrawer` · `ProjectCreateDrawerRoute` | ✅ 프로젝트 만들기 드로어 (`/projects?new=1`, 원본 01a). 이름 * · 색상 · 「더 설정하기 · 상태, 기간, 설명, 태그, 메인」(접어 둠, 요약 글은 이대로). 상태 칸은 드로어 폭 때문에 2열. 이름만 필수 · 마감 없어도 됨 · 상태는 고르지 않으면 자동. `MainProjectModal`은 지움 — 메인은 이 드로어 · 수정 화면의 「메인 프로젝트」에서 |
+| `projects/components` | `ProjectColorPicker` | ✅ 색 고르기 칸 (원본 01a). 웹 · 태블릿 칸 28 · 한 줄 10개(폭 334), 모바일 칸 44 · 5개씩 2줄, 간격 6. 바탕 tint + 가운데 점 10, 선택은 그 색 테두리 2. 라디오 묶음 · ← → 로 이동 |
 | | `ProjectFolder` | 🔧 목록 카드 전용으로 단순화 (디테일 모드 제거) |
 | | `ProjectStatusBadge` | ✅ `StatusBadge` 위. 진행 중 + 지연이면 「지연」 뱃지를 옆에 붙임 |
 | | `ProjectCreateWizard` | ⛔ 드로어로 대체 |

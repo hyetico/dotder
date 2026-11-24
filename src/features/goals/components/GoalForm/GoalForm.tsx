@@ -59,6 +59,7 @@ import {
 import { isProjectDelayed } from "@/features/projects/utils/projectUtils";
 
 import { currentUser } from "@/lib/mock/users";
+import { getNewProjectPath } from "@/lib/projectRoutes";
 
 import type { ProjectStatus } from "@/features/projects/types/project";
 import type { ProjectColorKey } from "@/lib/projectPalette";
@@ -971,7 +972,7 @@ export default function GoalForm({
               <span>프로젝트가 없습니다.</span>
 
               <Link
-                href="/projects/new"
+                href={getNewProjectPath()}
                 className="font-medium text-[var(--color-primary)] underline-offset-2 hover:underline"
               >
                 프로젝트 추가하러가기

@@ -22,6 +22,8 @@ export type Project = {
   completedAt: string | null;
 
   status: ProjectStatus;
+  /** 상태를 사용자가 직접 골랐는지. false면 읽을 때 시작일로 계산한다 (PRD 7-2 · P-2). */
+  isStatusManual: boolean;
 
   isMain: boolean;
 

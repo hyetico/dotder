@@ -55,6 +55,7 @@ export default function ProjectNewPageContent() {
       endDate: data.endDate,
       completedAt: null,
       status: data.status,
+      isStatusManual: true,
       isMain: data.isMain,
       tags: data.tags,
       creatorId,
