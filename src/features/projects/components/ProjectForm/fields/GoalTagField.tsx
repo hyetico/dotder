@@ -107,7 +107,7 @@ export function GoalTagField({
             type="button"
             onClick={addTag}
             disabled={isAtLimit || trimmedTag === "" || isDuplicate}
-            className="!h-10 shrink-0 min-[1025px]:!h-11"
+            className="!h-10 shrink-0 lg:!h-11"
           >
             추가
           </PrimaryButton>
@@ -116,7 +116,7 @@ export function GoalTagField({
             type="button"
             onClick={addTag}
             disabled={isAtLimit || trimmedTag === "" || isDuplicate}
-            className="!h-10 shrink-0 min-[1025px]:!h-11"
+            className="!h-10 shrink-0 lg:!h-11"
             hideIconOnMobile
             icon={<AppIcon icon={TagPlus} size="sm" />}
           >

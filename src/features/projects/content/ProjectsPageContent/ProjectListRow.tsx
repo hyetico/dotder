@@ -32,9 +32,9 @@ type ProjectListRowProps = {
   onToggleSelected?: () => void;
 };
 
-const listCardDetailClassName = "flex min-w-0 items-start justify-between gap-3 min-[768px]:hidden";
+const listCardDetailClassName = "flex min-w-0 items-start justify-between gap-3 md:hidden";
 const listCardDetailNarrowClassName = "flex min-w-0 items-start justify-between gap-3";
-const listCardWideClassName = "hidden min-w-0 grid-cols-4 items-center min-[768px]:grid";
+const listCardWideClassName = "hidden min-w-0 grid-cols-4 items-center md:grid";
 
 /**
  * formatListCardDate
@@ -373,10 +373,10 @@ const listBadgeClassName = `
   !text-[10px]
   !leading-3
 
-  min-[1024px]:!h-5
-  min-[1024px]:!gap-0.5
-  min-[1024px]:!rounded
-  min-[1024px]:!px-1.5
+  lg:!h-5
+  lg:!gap-0.5
+  lg:!rounded
+  lg:!px-1.5
 
   [&_svg]:!size-2.5
 `;

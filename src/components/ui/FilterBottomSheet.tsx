@@ -80,7 +80,7 @@ function FilterSheetButton({
       onClick={onClick}
       className={`text-body relative inline-flex shrink-0 items-center justify-center transition-colors before:absolute before:top-1/2 before:left-1/2 before:h-11 before:w-full before:min-w-11 before:-translate-x-1/2 before:-translate-y-1/2 before:content-[''] focus-visible:ring-2 focus-visible:ring-[var(--color-primary-ring)] focus-visible:outline-none ${
         isSoft
-          ? `size-9 rounded-[6px] min-[1025px]:size-8 ${
+          ? `size-9 rounded-[6px] lg:size-8 ${
               active
                 ? `bg-white text-[var(--color-text)] shadow-sm`
                 : `text-[var(--color-text-muted)] hover:text-[var(--color-text-secondary)]`
@@ -107,7 +107,7 @@ function FilterSheetButton({
 
   return (
     <span
-      className={`inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-[var(--radius-sm)] bg-[#F1F3F5] p-0.5 min-[1025px]:h-9 min-[1025px]:w-9 ${className} `}
+      className={`inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-[var(--radius-sm)] bg-[#F1F3F5] p-0.5 lg:h-9 lg:w-9 ${className} `}
     >
       {button}
     </span>

@@ -57,7 +57,7 @@ export function ProjectStatusField({
         name="status"
         control={control}
         render={({ field }) => (
-          <div className="grid grid-cols-4 gap-1.5 min-[1025px]:gap-2">
+          <div className="grid grid-cols-4 gap-1.5 lg:gap-2">
             {PROJECT_STATUSES.map((status) => {
               const isDisabled =
                 isDelayed ||
@@ -75,7 +75,7 @@ export function ProjectStatusField({
                   key={status}
                   statusId={appearance}
                   palette="status"
-                  className="!h-10 !w-full !justify-center !gap-1.5 !px-2 !text-center min-[1025px]:!h-11"
+                  className="!h-10 !w-full !justify-center !gap-1.5 !px-2 !text-center lg:!h-11"
                   showIconAlways
                   selected={isSelected || showAsDelayed}
                   disabled={isDisabled}

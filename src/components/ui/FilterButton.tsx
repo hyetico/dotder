@@ -253,7 +253,7 @@ export function FilterButtonGroup({
         className.includes("gap-") ? "" : "gap-1"
       } rounded-full border border-[var(--color-border)] bg-[#f7f8fa] bg-[linear-gradient(135deg,#ffffff_0%,#f4f5f7_52%,#e5e7eb_100%)] p-1 shadow-[var(--shadow-card)] ${
         scrollable
-          ? `!m-0 w-max flex-nowrap min-[1025px]:w-auto min-[1025px]:max-w-full min-[1025px]:flex-wrap`
+          ? `!m-0 w-max flex-nowrap lg:w-auto lg:max-w-full lg:flex-wrap`
           : "max-w-full flex-wrap"
       } ${className} `}
     >
@@ -274,13 +274,13 @@ export function FilterButtonGroup({
             } as CSSProperties)
           : undefined
       }
-      className={`relative z-10 min-w-0 max-[1024px]:h-[var(--filter-row-h)] max-[1024px]:w-full ${className} `}
+      className={`relative z-10 min-w-0 max-lg:h-[var(--filter-row-h)] max-lg:w-full ${className} `}
     >
       <div
         ref={scrollerRef}
-        className="[scrollbar-width:none] overflow-x-auto overflow-y-hidden overscroll-x-contain [-ms-overflow-style:none] max-[1024px]:absolute max-[1024px]:inset-y-0 max-[1024px]:right-[calc(var(--page-padding-x)*-1)] max-[1024px]:left-0 max-[1024px]:z-10 min-[1025px]:max-w-full min-[1025px]:min-w-0 min-[1025px]:overflow-visible [&::-webkit-scrollbar]:hidden"
+        className="[scrollbar-width:none] overflow-x-auto overflow-y-hidden overscroll-x-contain [-ms-overflow-style:none] max-lg:absolute max-lg:inset-y-0 max-lg:right-[calc(var(--page-padding-x)*-1)] max-lg:left-0 max-lg:z-10 lg:max-w-full lg:min-w-0 lg:overflow-visible [&::-webkit-scrollbar]:hidden"
       >
-        <div className="flex w-max items-center max-[1024px]:pr-[var(--page-padding-x)] min-[1025px]:w-auto min-[1025px]:max-w-full">
+        <div className="flex w-max items-center max-lg:pr-[var(--page-padding-x)] lg:w-auto lg:max-w-full">
           {tray}
         </div>
       </div>

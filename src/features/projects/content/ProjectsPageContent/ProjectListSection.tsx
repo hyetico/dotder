@@ -27,7 +27,7 @@ import { computeProjectStats } from "@/features/projects/utils/projectUtils";
 import type { ProjectListItem } from "@/features/projects/types/project";
 
 const projectBoardGridClassName =
-  "grid min-w-0 grid-cols-1 gap-6 lg:grid-cols-2 xl:grid-cols-3 min-[1440px]:grid-cols-4 md:[html[data-sidebar=closed]_&]:grid-cols-2 lg:[html[data-sidebar=closed]_&]:grid-cols-3 xl:[html[data-sidebar=closed]_&]:grid-cols-4 min-[1440px]:[html[data-sidebar=open]_&]:grid-cols-4 min-[1440px]:[html[data-sidebar=closed]_&]:grid-cols-4";
+  "grid min-w-0 grid-cols-1 gap-6 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 md:[html[data-sidebar=closed]_&]:grid-cols-2 lg:[html[data-sidebar=closed]_&]:grid-cols-3 xl:[html[data-sidebar=closed]_&]:grid-cols-4 2xl:[html[data-sidebar=open]_&]:grid-cols-4 2xl:[html[data-sidebar=closed]_&]:grid-cols-4";
 const projectToolbarClassName = "flex min-w-0 flex-col gap-4";
 const projectListSectionClassName = "min-w-0 space-y-4 border-t border-[var(--color-border)] pt-5";
 
@@ -245,7 +245,7 @@ export default function ProjectListSection({
           </section>
         ) : visibleProjects.length > 0 ? (
           <>
-            <section className="flex min-w-0 flex-col gap-4 min-[1025px]:hidden">
+            <section className="flex min-w-0 flex-col gap-4 lg:hidden">
               {visibleProjects.map((project) => (
                 <ProjectListRow
                   key={project.id}
@@ -264,7 +264,7 @@ export default function ProjectListSection({
                 />
               ))}
             </section>
-            <div className="hidden min-[1025px]:block">
+            <div className="hidden lg:block">
               <ProjectListTable
                 projects={visibleProjects}
                 selectedIds={editing ? selectedIds : undefined}

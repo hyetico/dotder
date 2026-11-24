@@ -135,9 +135,9 @@ function TasksPageLayout() {
               title={taskAddDisabled ? holdAddNoticeMessage : "새 태스크"}
               disabled={taskAddDisabled}
               onClick={() => setCreateOpen(true)}
-              className="!h-[var(--button-icon)] !w-[var(--button-icon)] justify-center !px-0 min-[1025px]:!h-[var(--button-height)] min-[1025px]:!w-auto min-[1025px]:!px-[var(--button-px)]"
+              className="!h-[var(--button-icon)] !w-[var(--button-icon)] justify-center !px-0 lg:!h-[var(--button-height)] lg:!w-auto lg:!px-[var(--button-px)]"
             >
-              <span className="hidden min-[1025px]:inline">새 태스크</span>
+              <span className="hidden lg:inline">새 태스크</span>
             </PrimaryButton>
           )
         }
