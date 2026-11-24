@@ -80,10 +80,10 @@
   --goal-drawer-offset: 0px;
 
   /*
-   * 접힌 Sidebar.
-   * 좌우 패딩 10 + 아이콘 박스 36. 오른쪽 보더 1px가 너비에 포함된다.
+   * 접힌 Sidebar. 1280px 미만(태블릿 768–1023, 1024–1279)에서 쓴다.
+   * Layout Spec 01: 64. 아이콘 박스 36은 가운데에 둔다.
    */
-  --sidebar-collapsed-width: 57px;
+  --sidebar-collapsed-width: 64px;
 
   /* 페이지 내부 아래 padding. 모바일 12px */
   --page-padding: 12px;
