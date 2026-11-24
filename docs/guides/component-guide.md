@@ -104,7 +104,7 @@ src/features/<기능>/
 |---|---|---|
 | `TabMenu` | 탭 바탕 | ✅ |
 | `LineTabMenu` (11) | **모든 탭은 이것으로** (`FolderTabMenu`, `TileTabMenu`는 5단계에서 삭제) | ✅ |
-| `ScopeTabs` ★ | 기본 탭 + 맞춤 탭 + `+` | ★ `ProjectsScopeTabs`, `GoalsScopeTabs`, `MemosScopeTabs`를 합침 |
+| `ScopeTabs` ★ | 기본 탭 + 맞춤 탭 + `+` | ★ `ProjectsScopeTabs`, `GoalsScopeTabs`, `MemosScopeTabs`를 합침. `ProjectsScopeTabs`는 `placement="page"`면 제목 아래 본문 폭 줄(프로젝트 목록), 기본 `top`은 화면 맨 위 줄. 이름은 「전체 · 메인 · 즐겨찾기」 |
 | `StatusFilterChips` (8) | 목록 위 상태 필터 | ✅ 기준 |
 | `StatusFilterBar` (3), `StatusFilterPills` (1) | | ⛔ StatusFilterChips로 합침 (`StatFilterButtons`는 쓰는 곳이 없어 5단계에서 삭제) |
 | `FilterBottomSheet` (1) | 모바일 필터 시트 (`StatusFilterBar` 안) | 🔧 (`FilterButton`, `MobileFilterDrawer`는 쓰는 곳이 없어 5단계에서 삭제) |

@@ -267,10 +267,10 @@ export default function Sidebar({ variant = "desktop", onNavigate }: SidebarProp
               onClick={handleSidebarNavigate}
               aria-label="프로젝트로 이동"
               className={`flex min-w-0 items-center ${
-                isDesktopCollapsed ? "justify-center" : "gap-1.5"
+                isDesktopCollapsed ? "justify-center" : "gap-2.5"
               } `}
             >
-              <span className={`flex shrink-0 items-center ${isDesktopCollapsed ? "" : "ml-3"}`}>
+              <span className={`flex shrink-0 items-center ${isDesktopCollapsed ? "" : "ml-1"}`}>
                 <Image
                   src="/brand/dotder-logo.svg"
                   alt=""

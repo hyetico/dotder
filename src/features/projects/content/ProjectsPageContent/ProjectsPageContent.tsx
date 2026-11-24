@@ -8,10 +8,8 @@ import { useQuery } from "@tanstack/react-query";
 import { HeaderActionLink, HeaderActions } from "@/components/layout/Header/HeaderActions";
 import PageHeading from "@/components/layout/pages/Page/PageHeading";
 import PageInset from "@/components/layout/pages/Page/PageInset";
-import { CheckCircle2, Circle, Folder, PauseCircle, Plus, Star } from "@/components/ui/icon";
+import { Plus } from "@/components/ui/icon";
 import SearchInput from "@/components/ui/input/SearchInput";
-import StatCountCard from "@/components/ui/stats/StatCountCard";
-import StatCountGrid, { statCountWideCardClassName } from "@/components/ui/stats/StatCountGrid";
 import Toast from "@/components/ui/Toast";
 
 import { getProjectListItems } from "@/features/projects/api/projects";
@@ -19,7 +17,6 @@ import FavoriteAddCard from "@/features/projects/components/FavoriteAddCard";
 import ProjectsScopeTabs, {
   type ProjectsScopeTab,
 } from "@/features/projects/components/ProjectsScopeTabs";
-import { ProjectInProgressIcon } from "@/features/projects/components/ProjectStatusIcon";
 import ProjectListSection from "@/features/projects/content/ProjectsPageContent/ProjectListSection";
 import FavoriteProjectsModal from "@/features/projects/modals/FavoriteProjectsModal";
 import { computeProjectStats } from "@/features/projects/utils/projectUtils";
@@ -150,10 +147,6 @@ export default function ProjectsPageContent() {
     : projects;
   const waitingForFavorites = isFavorites && storedFavoriteIds == null;
   const scopeTab: ProjectsScopeTab = isFavorites ? "favorites" : "all";
-  const scopeTitle = isFavorites ? "즐겨찾기 프로젝트" : "전체 프로젝트";
-  const scopeDescription = isFavorites
-    ? "즐겨찾기한 프로젝트를 확인하고 관리하세요."
-    : "프로젝트를 한곳에서 확인하고 관리하세요.";
   const changeScope = (next: ProjectsScopeTab) => {
     if (next === "favorites") {
       router.push(getFavoriteProjectsPath());
@@ -173,26 +166,39 @@ export default function ProjectsPageContent() {
 
   const headerActions = (
     <HeaderActions>
-      <HeaderActionLink href="/projects/new" label="새 프로젝트" icon={Plus} tone="primary" />
+      <HeaderActionLink href="/projects/new" label="추가" icon={Plus} tone="primary" />
     </HeaderActions>
   );
   const scopeTabs = (
     <ProjectsScopeTabs
+      placement="page"
       value={scopeTab}
       mainDisabled={!isLoading && mainProject == null}
       onChange={changeScope}
     />
   );
-  const stats = computeProjectStats(visibleProjects);
-  const showCounts = !isLoading && !waitingForFavorites;
+  // 요약은 탭과 상관없이 전체 프로젝트 기준이다 (원본 프로토타입과 같음).
+  const stats = computeProjectStats(projects);
+
   const pageHeading = (
     <PageHeading
-      title={scopeTitle}
-      description={scopeDescription}
-      count={showCounts ? stats.total : null}
-      countTitle={`${scopeTitle} ${stats.total}개`}
+      title="프로젝트"
+      description={
+        isLoading ? null : (
+          <>
+            {stats.total}개 중 {stats.inProgress}개 진행 중
+            {stats.delayed > 0 ? (
+              <>
+                {" · "}
+                <span className="text-[var(--color-danger-text)]">{stats.delayed}개 마감 지남</span>
+              </>
+            ) : null}
+          </>
+        )
+      }
     />
   );
+
   const showFavoriteEdit = isFavorites && (favoriteProjectIds.length > 0 || isEditingFavorites);
   const atFavoriteLimit = favoriteProjectIds.length >= MAX_FAVORITES;
   const showFavoriteAddCard = isFavorites && !atFavoriteLimit;
@@ -214,56 +220,15 @@ export default function ProjectsPageContent() {
       {isEditingFavorites ? "완료" : "편집"}
     </button>
   ) : null;
-  const totalCardLabel = isFavorites ? "즐겨찾기 프로젝트" : "전체 프로젝트";
-  const totalCardIcon = isFavorites ? Star : Folder;
-
-  const projectCountCards = (
-    <StatCountGrid>
-      <div className={statCountWideCardClassName}>
-        <StatCountCard
-          label={totalCardLabel}
-          count={stats.total}
-          icon={totalCardIcon}
-          iconClassName="text-[var(--color-text)]"
-        />
-      </div>
-      <StatCountCard
-        label="계획"
-        count={stats.planned}
-        icon={Circle}
-        iconClassName="text-[var(--color-text-muted)]"
-      />
-      <StatCountCard
-        label="진행 중"
-        count={stats.inProgress}
-        icon={ProjectInProgressIcon}
-        iconClassName="text-[var(--color-info-text)]"
-        pair={{ label: "지연", count: stats.delayed, className: "text-[var(--color-danger-text)]" }}
-      />
-      <StatCountCard
-        label="보류"
-        count={stats.onHold}
-        icon={PauseCircle}
-        iconClassName="text-[var(--color-warning-text)]"
-      />
-      <StatCountCard
-        label="완료"
-        count={stats.done}
-        icon={CheckCircle2}
-        iconClassName="text-[var(--color-success-text)]"
-      />
-    </StatCountGrid>
-  );
-
   if (isLoading || waitingForFavorites) {
     return (
       <>
         {headerActions}
         <div className={projectsPageShellClassName}>
-          {scopeTabs}
           <PageInset>
             <div className={projectsPageFrameClassName}>
               {pageHeading}
+              {scopeTabs}
               <p className="text-caption py-12 text-center text-[var(--color-text-secondary)]">
                 프로젝트를 불러오는 중...
               </p>
@@ -278,12 +243,11 @@ export default function ProjectsPageContent() {
     <>
       {headerActions}
       <div className={projectsPageShellClassName}>
-        {scopeTabs}
         <PageInset>
           <div className={projectsPageFrameClassName}>
             {pageHeading}
+            {scopeTabs}
             <div className={projectsPageBodyClassName}>
-              {projectCountCards}
               <ProjectListSection
                 projects={visibleProjects}
                 searchQuery={searchQuery}
