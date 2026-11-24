@@ -29,7 +29,7 @@ const archiveMoreClassName =
 const archiveMenuItemClassName =
   "text-caption flex w-full items-center gap-2 rounded-[var(--radius-sm)] px-3 py-2 text-left font-medium text-[var(--color-text)] transition-colors hover:bg-[var(--color-hover-soft)]";
 const archiveDeleteItemClassName =
-  "text-caption flex w-full items-center gap-2 rounded-[var(--radius-sm)] px-3 py-2 text-left font-medium text-red-500 transition-colors hover:bg-red-50";
+  "text-caption flex w-full items-center gap-2 rounded-[var(--radius-sm)] px-3 py-2 text-left font-medium text-[var(--color-danger-text)] transition-colors hover:bg-[var(--color-danger-soft)]";
 const archiveProjectBadgeClassName = "bg-[var(--color-field)] text-[var(--color-text-secondary)]";
 const archiveRegisteredBadgeClassName =
   "bg-[var(--color-primary-soft)] text-[var(--color-primary)]";

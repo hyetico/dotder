@@ -271,7 +271,7 @@ export default function ProjectOverviewSummary({
             {[
               { label: "완료", count: doneCount, className: "text-[var(--color-text)]" },
               { label: "진행 중", count: activeCount, className: "text-[var(--color-text)]" },
-              { label: "지연", count: delayedCount, className: "text-red-500" },
+              { label: "지연", count: delayedCount, className: "text-[var(--color-danger-text)]" },
               { label: "미시작", count: waitingCount, className: "text-[var(--color-text)]" },
             ].map((item) => (
               <div key={item.label} className="min-w-0 text-center">
@@ -330,7 +330,7 @@ export default function ProjectOverviewSummary({
 
         <section className={noticeCardClassName}>
           <div className="flex items-center gap-2">
-            <AppIcon icon={CircleAlert} size="sm" className="text-red-500" />
+            <AppIcon icon={CircleAlert} size="sm" className="text-[var(--color-danger-text)]" />
             <h2 className={sectionTitleClassName}>확인 필요</h2>
           </div>
           {attention.length === 0 ? (

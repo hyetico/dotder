@@ -11,10 +11,10 @@ import type { ReactNode } from "react";
 const badgeFill = "bg-[var(--color-surface)]";
 
 const statusOutlineClass: Record<ReturnType<typeof getGoalVisualStatus>, string> = {
-  NOT_STARTED: "border-slate-400 text-[var(--color-text-secondary)]",
-  IN_PROGRESS: "border-blue-500 text-blue-600",
-  COMPLETED: "border-green-500 text-green-600",
-  DELAYED: "border-red-500 text-red-600",
+  NOT_STARTED: "border-[var(--color-border-strong)] text-[var(--color-text-secondary)]",
+  IN_PROGRESS: "border-[var(--color-info)] text-[var(--color-info-text)]",
+  COMPLETED: "border-[var(--color-success)] text-[var(--color-success-text)]",
+  DELAYED: "border-[var(--color-danger)] text-[var(--color-danger-text)]",
 };
 
 type GoalStatusBadgeProps = {

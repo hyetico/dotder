@@ -58,7 +58,7 @@ export default function StatusChoiceButton({
           ? ` ${className || "h-9"} justify-center gap-2.5 rounded-[var(--radius-sm)] border-2 bg-transparent px-3 text-center text-[var(--color-text)] md:justify-start md:text-left ${
               selected
                 ? "border-[var(--color-field-focus)]"
-                : "border-gray-200 hover:border-gray-300"
+                : "border-[var(--color-border)] hover:border-[var(--color-border-strong)]"
             } `
           : `h-9 justify-center gap-1 overflow-hidden rounded-[var(--radius-sm)] border px-4 text-center ${
               selected

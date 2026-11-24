@@ -24,12 +24,12 @@ const taskStatusAppearance: Record<
   IN_PROGRESS: {
     label: "진행 중",
     icon: LoaderCircle,
-    className: "text-blue-600",
+    className: "text-[var(--color-info-text)]",
   },
   DONE: {
     label: "완료",
     icon: CheckCircle2,
-    className: "text-green-600",
+    className: "text-[var(--color-success-text)]",
   },
 };
 

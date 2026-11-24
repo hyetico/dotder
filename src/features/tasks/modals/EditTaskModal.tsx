@@ -153,7 +153,9 @@ export default function EditTaskModal({
             <Input {...register("title")} placeholder="예: 로그인 API 연결" />
 
             {errors.title && (
-              <p className="text-caption mt-1.5 text-red-500">{errors.title.message}</p>
+              <p className="text-caption mt-1.5 text-[var(--color-danger-text)]">
+                {errors.title.message}
+              </p>
             )}
           </div>
 
@@ -169,7 +171,9 @@ export default function EditTaskModal({
             />
 
             {errors.description && (
-              <p className="text-caption mt-1.5 text-red-500">{errors.description.message}</p>
+              <p className="text-caption mt-1.5 text-[var(--color-danger-text)]">
+                {errors.description.message}
+              </p>
             )}
           </div>
 
@@ -228,7 +232,9 @@ export default function EditTaskModal({
               />
 
               {errors.dueDate && (
-                <p className="text-caption mt-1.5 text-red-500">{errors.dueDate.message}</p>
+                <p className="text-caption mt-1.5 text-[var(--color-danger-text)]">
+                  {errors.dueDate.message}
+                </p>
               )}
             </div>
           </div>
@@ -240,7 +246,7 @@ export default function EditTaskModal({
           <button
             type="button"
             onClick={handleDelete}
-            className="mr-auto inline-flex h-[var(--button-height-modal)] min-w-[96px] items-center justify-center rounded-[var(--radius-sm)] border border-red-200 bg-[var(--color-surface)] px-[var(--button-px-modal)] text-[length:var(--button-font)] leading-[var(--button-line)] font-medium text-red-600 transition-colors hover:border-red-300 hover:bg-red-50"
+            className="mr-auto inline-flex h-[var(--button-height-modal)] min-w-[96px] items-center justify-center rounded-[var(--radius-sm)] border border-[var(--color-danger)]/40 bg-[var(--color-surface)] px-[var(--button-px-modal)] text-[length:var(--button-font)] leading-[var(--button-line)] font-medium text-[var(--color-danger-text)] transition-colors hover:border-[var(--color-danger)]/40 hover:bg-[var(--color-danger-soft)]"
           >
             삭제
           </button>

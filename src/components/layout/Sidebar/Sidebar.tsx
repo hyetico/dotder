@@ -263,7 +263,7 @@ export default function Sidebar({ variant = "desktop", onNavigate }: SidebarProp
             <IconButton
               label="사이드바 펼치기"
               onClick={toggleSidebar}
-              className="size-9! shrink-0 rounded-xl! text-[var(--color-text)] hover:bg-gray-100 hover:text-[var(--color-text)]"
+              className="size-9! shrink-0 rounded-xl! text-[var(--color-text)] hover:bg-[var(--color-hover)] hover:text-[var(--color-text)]"
             >
               <AppIcon icon={PanelLeftOpen} size="lg" />
             </IconButton>
@@ -298,7 +298,7 @@ export default function Sidebar({ variant = "desktop", onNavigate }: SidebarProp
             <IconButton
               label={isMobile || isOverlayOpen ? "사이드바 닫기" : "사이드바 접기"}
               onClick={isMobile ? onNavigate : toggleSidebar}
-              className="size-9! shrink-0 rounded-xl! text-[var(--color-text)] hover:bg-gray-100 hover:text-[var(--color-text)]"
+              className="size-9! shrink-0 rounded-xl! text-[var(--color-text)] hover:bg-[var(--color-hover)] hover:text-[var(--color-text)]"
             >
               {isMobile ? (
                 <AppIcon icon={X} size="md" />

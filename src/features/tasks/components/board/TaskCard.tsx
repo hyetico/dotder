@@ -72,18 +72,18 @@ export default function TaskCard({ task, projectName, onDelete, onUpdate }: Task
    */
   const priorityStyle = {
     HIGH: `
-      bg-red-50
-      text-red-500
+      bg-[var(--color-danger-soft)]
+      text-[var(--color-danger-text)]
     `,
 
     MEDIUM: `
-      bg-orange-50
-      text-orange-500
+      bg-[var(--color-warning-soft)]
+      text-[var(--color-warning-text)]
     `,
 
     LOW: `
-      bg-emerald-50
-      text-emerald-600
+      bg-[var(--color-success-soft)]
+      text-[var(--color-success-text)]
     `,
   };
 
@@ -129,8 +129,8 @@ export default function TaskCard({ task, projectName, onDelete, onUpdate }: Task
       <article
         ref={setNodeRef}
         style={style}
-        className={`group relative rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] p-3 transition-[transform,box-shadow,border-color] duration-200 ease-out hover:border-gray-300 hover:shadow-md md:p-4 ${
-          isDragging ? `z-50 scale-[1.02] border-gray-300 shadow-xl` : ""
+        className={`group relative rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] p-3 transition-[transform,box-shadow,border-color] duration-200 ease-out hover:border-[var(--color-border-strong)] hover:shadow-md md:p-4 ${
+          isDragging ? `z-50 scale-[1.02] border-[var(--color-border-strong)] shadow-xl` : ""
         } `}
       >
         {/*
@@ -164,7 +164,7 @@ export default function TaskCard({ task, projectName, onDelete, onUpdate }: Task
               {...listeners}
               {...attributes}
               aria-label={`${task.title} 이동`}
-              className="flex h-8 w-8 cursor-grab touch-none items-center justify-center rounded-[var(--radius-sm)] border border-transparent text-[var(--color-text-muted)] transition-colors select-none hover:border-gray-200 hover:bg-[var(--color-hover-soft)] hover:text-[var(--color-text)] active:cursor-grabbing"
+              className="flex h-8 w-8 cursor-grab touch-none items-center justify-center rounded-[var(--radius-sm)] border border-transparent text-[var(--color-text-muted)] transition-colors select-none hover:border-[var(--color-border)] hover:bg-[var(--color-hover-soft)] hover:text-[var(--color-text)] active:cursor-grabbing"
             >
               <AppIcon icon={GripVertical} size="md" />
             </button>
@@ -200,7 +200,7 @@ export default function TaskCard({ task, projectName, onDelete, onUpdate }: Task
 
                         handleDelete();
                       }}
-                      className="text-caption flex w-full items-center gap-2 rounded-[var(--radius-sm)] px-3 py-2 text-left font-medium text-red-500 transition-colors hover:bg-red-50"
+                      className="text-caption flex w-full items-center gap-2 rounded-[var(--radius-sm)] px-3 py-2 text-left font-medium text-[var(--color-danger-text)] transition-colors hover:bg-[var(--color-danger-soft)]"
                     >
                       <AppIcon icon={Trash2} size="sm" />
 
@@ -249,7 +249,7 @@ export default function TaskCard({ task, projectName, onDelete, onUpdate }: Task
            * 임시 담당자
            */}
           <div
-            className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-gray-100 text-xs font-semibold text-[var(--color-text-secondary)]"
+            className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[var(--color-hover)] text-xs font-semibold text-[var(--color-text-secondary)]"
             title="담당자"
           >
             김

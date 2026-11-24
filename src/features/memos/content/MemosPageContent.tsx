@@ -50,7 +50,7 @@ const memoFilterClassName = "w-full @[900px]:w-[180px]";
 const memoActionsClassName = "w-full min-w-0 @[900px]:w-auto";
 const includeOffClassName = "w-full justify-center @[900px]:w-auto";
 const memoCountBadgeClassName =
-  "h-6! bg-gray-100 px-2.5! text-sm! text-[var(--color-text-secondary)]";
+  "h-6! bg-[var(--color-hover)] px-2.5! text-sm! text-[var(--color-text-secondary)]";
 const includeOnClassName =
   "w-full justify-center border-[var(--color-primary)]! bg-[var(--color-primary-soft)]! text-[var(--color-primary)]! @[900px]:w-auto";
 const memoDescription = "생각을 기록하고, 필요할 때 목표나 태스크로 등록하세요.";

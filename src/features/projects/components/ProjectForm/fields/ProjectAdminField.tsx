@@ -33,7 +33,7 @@ function AdminPerson({ name, image, caption }: { name: string; image?: string; c
   return (
     <div className="flex min-w-0 flex-1 items-center gap-2">
       {image ? (
-        <span className="h-9 w-9 shrink-0 overflow-hidden rounded-full bg-gray-200">
+        <span className="h-9 w-9 shrink-0 overflow-hidden rounded-full bg-[var(--color-hover-strong)]">
           <img src={image} alt={`${name} 프로필`} className="h-full w-full object-cover" />
         </span>
       ) : (

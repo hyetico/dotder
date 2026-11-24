@@ -264,7 +264,7 @@ export default function CreateTaskButton({
               addDisabled ? "보류 중인 프로젝트에는 태스크를 추가할 수 없습니다." : "Task 추가"
             }
             onClick={() => setIsModalOpen(true)}
-            className="!h-8 !w-8 shrink-0 rounded-[var(--radius-sm)] border border-transparent text-[var(--color-text-muted)] hover:border-gray-200 hover:bg-[var(--color-hover-soft)] hover:text-[var(--color-text)]"
+            className="!h-8 !w-8 shrink-0 rounded-[var(--radius-sm)] border border-transparent text-[var(--color-text-muted)] hover:border-[var(--color-border)] hover:bg-[var(--color-hover-soft)] hover:text-[var(--color-text)]"
           >
             <AppIcon icon={Plus} size="md" />
           </IconButton>
@@ -285,7 +285,7 @@ export default function CreateTaskButton({
               addDisabled ? "보류 중인 프로젝트에는 태스크를 추가할 수 없습니다." : "Task 추가"
             }
             onClick={() => setIsModalOpen(true)}
-            className={`text-caption ${hasTasks ? "mt-3" : ""} w-full rounded-[var(--radius-sm)] border border-dashed border-gray-300 bg-[var(--color-surface)] px-3 py-2.5 font-medium text-[var(--color-text-secondary)] transition-colors hover:border-gray-400 hover:bg-[var(--color-hover-soft)] hover:text-[var(--color-text)] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:border-gray-300 disabled:hover:bg-[var(--color-surface)] disabled:hover:text-[var(--color-text-secondary)]`}
+            className={`text-caption ${hasTasks ? "mt-3" : ""} w-full rounded-[var(--radius-sm)] border border-dashed border-[var(--color-border-strong)] bg-[var(--color-surface)] px-3 py-2.5 font-medium text-[var(--color-text-secondary)] transition-colors hover:border-[var(--color-border-strong)] hover:bg-[var(--color-hover-soft)] hover:text-[var(--color-text)] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:border-[var(--color-border-strong)] disabled:hover:bg-[var(--color-surface)] disabled:hover:text-[var(--color-text-secondary)]`}
           >
             + Task 추가
           </button>
@@ -326,7 +326,9 @@ export default function CreateTaskButton({
                 />
 
                 {"projectId" in errors && errors.projectId && (
-                  <p className="text-caption mt-1.5 text-red-500">{errors.projectId.message}</p>
+                  <p className="text-caption mt-1.5 text-[var(--color-danger-text)]">
+                    {errors.projectId.message}
+                  </p>
                 )}
               </div>
             )}
@@ -344,7 +346,9 @@ export default function CreateTaskButton({
               <Input {...register("title")} placeholder="예: 로그인 API 연결" />
 
               {errors.title && (
-                <p className="text-caption mt-1.5 text-red-500">{errors.title.message}</p>
+                <p className="text-caption mt-1.5 text-[var(--color-danger-text)]">
+                  {errors.title.message}
+                </p>
               )}
             </div>
 
@@ -365,7 +369,9 @@ export default function CreateTaskButton({
               />
 
               {errors.description && (
-                <p className="text-caption mt-1.5 text-red-500">{errors.description.message}</p>
+                <p className="text-caption mt-1.5 text-[var(--color-danger-text)]">
+                  {errors.description.message}
+                </p>
               )}
             </div>
 
@@ -444,7 +450,9 @@ export default function CreateTaskButton({
                 />
 
                 {errors.dueDate && (
-                  <p className="text-caption mt-1.5 text-red-500">{errors.dueDate.message}</p>
+                  <p className="text-caption mt-1.5 text-[var(--color-danger-text)]">
+                    {errors.dueDate.message}
+                  </p>
                 )}
               </div>
             </div>

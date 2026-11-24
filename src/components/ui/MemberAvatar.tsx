@@ -6,7 +6,7 @@ type MemberAvatarProps = {
 };
 
 const toneClassName = {
-  neutral: "bg-gray-100 text-[var(--color-text-secondary)]",
+  neutral: "bg-[var(--color-hover)] text-[var(--color-text-secondary)]",
   primary: "bg-[var(--color-primary-soft)] text-[var(--color-primary)]",
 } as const;
 

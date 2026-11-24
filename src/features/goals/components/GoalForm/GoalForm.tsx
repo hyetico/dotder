@@ -330,7 +330,7 @@ function GoalStatusAutoCard() {
 
         <GoalStatusBadge status="NOT_STARTED" compact plain />
 
-        <Badge className="!h-6 bg-gray-100 text-[var(--color-text-secondary)]">
+        <Badge className="!h-6 bg-[var(--color-hover)] text-[var(--color-text-secondary)]">
           <AppIcon icon={ListTodo} size="xs" className="max-md:hidden" />
           <span className="md:hidden">태스크 없음</span>
           <span className="max-md:hidden">없음</span>
@@ -342,7 +342,7 @@ function GoalStatusAutoCard() {
           <li key={rule.condition} className="flex min-w-0 items-center gap-2">
             <span
               aria-hidden
-              className="text-caption flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-gray-100 font-medium text-[var(--color-text-secondary)]"
+              className="text-caption flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[var(--color-hover)] font-medium text-[var(--color-text-secondary)]"
             >
               {index + 1}
             </span>
@@ -512,7 +512,7 @@ function GoalColorSwatch({
     >
       <span
         className={`relative inline-flex rounded-[var(--radius-sm)] ${
-          selected ? "ring-2 ring-gray-950" : ""
+          selected ? "ring-2 ring-[var(--color-primary)]" : ""
         } `}
       >
         {children}
@@ -520,7 +520,7 @@ function GoalColorSwatch({
         {selected ? (
           <span
             aria-hidden
-            className="pointer-events-none absolute -top-1 -right-1 z-10 flex h-4 w-4 items-center justify-center rounded-full bg-gray-950 text-[var(--color-text-inverse)] ring-2 ring-white"
+            className="pointer-events-none absolute -top-1 -right-1 z-10 flex h-4 w-4 items-center justify-center rounded-full bg-[var(--color-primary)] text-[var(--color-text-inverse)] ring-2 ring-white"
           >
             <Check size={10} strokeWidth={3} />
           </span>

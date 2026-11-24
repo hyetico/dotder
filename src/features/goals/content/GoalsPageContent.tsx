@@ -355,27 +355,27 @@ function GoalsPageLayout() {
             count: visibleGoals.filter(
               (goal) => goal.status === "NOT_STARTED" && isGoalShownDelayed(goal, projects),
             ).length,
-            className: "text-red-600",
+            className: "text-[var(--color-danger-text)]",
           }}
         />
         <StatCountCard
           label="진행 중"
           count={visibleGoals.filter((goal) => goal.status === "IN_PROGRESS").length}
           icon={Clock}
-          iconClassName="text-blue-600"
+          iconClassName="text-[var(--color-info-text)]"
           pair={{
             label: "마감 초과",
             count: visibleGoals.filter(
               (goal) => goal.status === "IN_PROGRESS" && isGoalShownDelayed(goal, projects),
             ).length,
-            className: "text-red-600",
+            className: "text-[var(--color-danger-text)]",
           }}
         />
         <StatCountCard
           label="완료"
           count={visibleGoals.filter((goal) => goal.status === "COMPLETED").length}
           icon={CheckCircle2}
-          iconClassName="text-green-600"
+          iconClassName="text-[var(--color-success-text)]"
         />
       </StatCountGrid>
     ) : null;

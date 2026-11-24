@@ -77,7 +77,7 @@ function CollapsedSettingsButton({ label, boxed = false, onClick }: CollapsedSet
       <IconButton
         label={label}
         onClick={onClick}
-        className={`size-9! shrink-0 rounded-xl! text-[var(--color-text)] hover:bg-gray-100 hover:text-[var(--color-text)] ${
+        className={`size-9! shrink-0 rounded-xl! text-[var(--color-text)] hover:bg-[var(--color-hover)] hover:text-[var(--color-text)] ${
           boxed ? `border border-[var(--color-border)] bg-[var(--color-surface)]` : ""
         } `}
       >
@@ -213,7 +213,7 @@ export default function SidebarMainProject({
           type="button"
           aria-label="내 프로젝트"
           onClick={openSettings}
-          className="flex size-[34px] shrink-0 cursor-pointer items-center justify-center rounded-xl text-[var(--color-text)] transition-colors hover:bg-gray-100 hover:text-[var(--color-text)]"
+          className="flex size-[34px] shrink-0 cursor-pointer items-center justify-center rounded-xl text-[var(--color-text)] transition-colors hover:bg-[var(--color-hover)] hover:text-[var(--color-text)]"
         >
           <ProjectSettingsIcon />
         </button>

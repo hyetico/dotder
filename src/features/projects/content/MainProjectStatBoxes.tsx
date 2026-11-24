@@ -128,8 +128,8 @@ export default function MainProjectStatBoxes({ project }: MainProjectStatBoxesPr
       label: "지연",
       value: `${overdue ? schedule.overdueDays : 0}일`,
       icon: Calendar,
-      iconClassName: overdue ? "text-red-600" : "text-[var(--color-text)]",
-      valueClassName: overdue ? "text-red-600" : "text-[var(--color-text)]",
+      iconClassName: overdue ? "text-[var(--color-danger-text)]" : "text-[var(--color-text)]",
+      valueClassName: overdue ? "text-[var(--color-danger-text)]" : "text-[var(--color-text)]",
     },
   ];
 

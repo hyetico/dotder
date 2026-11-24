@@ -78,7 +78,7 @@ export default function DropdownMenu({
         }}
         className={
           triggerClassName ||
-          `flex h-8 w-8 items-center justify-center rounded-[var(--radius-sm)] border border-transparent text-[var(--color-text-muted)] transition-colors hover:border-gray-200 hover:bg-[var(--color-hover-soft)] hover:text-[var(--color-text)]`
+          `flex h-8 w-8 items-center justify-center rounded-[var(--radius-sm)] border border-transparent text-[var(--color-text-muted)] transition-colors hover:border-[var(--color-border)] hover:bg-[var(--color-hover-soft)] hover:text-[var(--color-text)]`
         }
       >
         <AppIcon icon={MoreVertical} size="md" />

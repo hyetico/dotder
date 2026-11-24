@@ -67,48 +67,48 @@ export function getProjectStatusStyles(status: ProjectStatusColorKey) {
       return {
         badge: "bg-[var(--color-neutral-soft)] text-[var(--color-neutral-text)]",
         text: "text-[var(--color-text-muted)]",
-        dot: "bg-slate-400",
-        bar: "bg-slate-400",
+        dot: "bg-[var(--color-neutral)]",
+        bar: "bg-[var(--color-neutral)]",
       };
 
     case "IN_PROGRESS":
       return {
         badge: "bg-[var(--color-info-soft)] text-[var(--color-info-text)]",
-        text: "text-blue-600",
-        dot: "bg-blue-600",
-        bar: "bg-blue-600",
+        text: "text-[var(--color-info-text)]",
+        dot: "bg-[var(--color-info)]",
+        bar: "bg-[var(--color-info)]",
       };
 
     case "ON_HOLD":
       return {
         badge: "bg-[var(--color-warning-soft)] text-[var(--color-warning-text)]",
-        text: "text-amber-600",
-        dot: "bg-amber-600",
-        bar: "bg-amber-600",
+        text: "text-[var(--color-warning-text)]",
+        dot: "bg-[var(--color-warning)]",
+        bar: "bg-[var(--color-warning)]",
       };
 
     case "DONE":
       return {
         badge: "bg-[var(--color-success-soft)] text-[var(--color-success-text)]",
-        text: "text-green-600",
-        dot: "bg-green-600",
-        bar: "bg-green-600",
+        text: "text-[var(--color-success-text)]",
+        dot: "bg-[var(--color-success)]",
+        bar: "bg-[var(--color-success)]",
       };
 
     case "DELAYED":
       return {
         badge: "bg-[var(--color-danger-soft)] text-[var(--color-danger-text)]",
-        text: "text-red-600",
-        dot: "bg-red-500",
-        bar: "bg-red-500",
+        text: "text-[var(--color-danger-text)]",
+        dot: "bg-[var(--color-danger)]",
+        bar: "bg-[var(--color-danger)]",
       };
 
     default:
       return {
         badge: "bg-[var(--color-hover)] text-[var(--color-text)]",
         text: "text-[var(--color-text-secondary)]",
-        dot: "bg-gray-400",
-        bar: "bg-gray-400",
+        dot: "bg-[var(--color-neutral)]",
+        bar: "bg-[var(--color-neutral)]",
       };
   }
 }

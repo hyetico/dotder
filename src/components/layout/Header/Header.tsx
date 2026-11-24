@@ -172,7 +172,7 @@ export default function Header({ isMobileSidebarOpen, onToggleMobileSidebar }: H
             <Link
               href={backHref}
               aria-label="뒤로 가기"
-              className="flex size-9 shrink-0 items-center justify-center rounded-xl text-[var(--color-text)] transition-colors hover:bg-gray-100"
+              className="flex size-9 shrink-0 items-center justify-center rounded-xl text-[var(--color-text)] transition-colors hover:bg-[var(--color-hover)]"
             >
               <AppIcon icon={ChevronLeft} size="lg" />
             </Link>

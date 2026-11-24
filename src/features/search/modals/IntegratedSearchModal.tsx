@@ -243,9 +243,9 @@ const goalSearchStatusClassName =
 
 const goalSearchStatusColor: Record<GoalVisualStatus, string> = {
   NOT_STARTED: "text-[var(--color-text-secondary)]",
-  IN_PROGRESS: "text-blue-600",
-  COMPLETED: "text-green-600",
-  DELAYED: "text-red-600",
+  IN_PROGRESS: "text-[var(--color-info-text)]",
+  COMPLETED: "text-[var(--color-success-text)]",
+  DELAYED: "text-[var(--color-danger-text)]",
 };
 
 type GoalSearchStatusProps = {
@@ -762,7 +762,7 @@ export default function IntegratedSearchModal({
                         <GoalSearchStatus status={goal.status} />
                         {goal.status !== "COMPLETED" &&
                         getGoalScheduleMark(goal).tone === "delayed" ? (
-                          <span className="text-badge-sm inline-flex h-4 shrink-0 items-center leading-none text-red-600">
+                          <span className="text-badge-sm inline-flex h-4 shrink-0 items-center leading-none text-[var(--color-danger-text)]">
                             마감 초과
                           </span>
                         ) : null}
@@ -843,7 +843,7 @@ export default function IntegratedSearchModal({
                       <span className="inline-flex items-center gap-1">
                         <TaskStatusBadge status={task.status} size="sm" />
                         {isTaskPastDue(task) ? (
-                          <span className="text-badge-sm inline-flex h-4 shrink-0 items-center leading-none text-red-600">
+                          <span className="text-badge-sm inline-flex h-4 shrink-0 items-center leading-none text-[var(--color-danger-text)]">
                             마감 초과
                           </span>
                         ) : null}

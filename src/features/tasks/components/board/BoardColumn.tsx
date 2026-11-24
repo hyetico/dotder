@@ -17,9 +17,9 @@ import type { Task, TaskStatus } from "@/features/tasks/types/task";
 import type { ProjectScope } from "@/lib/projectRoutes";
 
 const statusDotColors: Record<TaskStatus, string> = {
-  TODO: "bg-slate-400",
-  IN_PROGRESS: "bg-blue-600",
-  DONE: "bg-green-600",
+  TODO: "bg-[var(--color-neutral)]",
+  IN_PROGRESS: "bg-[var(--color-info)]",
+  DONE: "bg-[var(--color-success)]",
 };
 
 type BoardColumnProps = {
@@ -133,7 +133,7 @@ export default function BoardColumn({
                   handleDeleteAll();
                 }}
                 disabled={tasks.length === 0}
-                className="text-caption flex w-full items-center gap-2 rounded-[var(--radius-sm)] px-3 py-2 text-left font-medium text-red-500 transition-colors hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-transparent"
+                className="text-caption flex w-full items-center gap-2 rounded-[var(--radius-sm)] px-3 py-2 text-left font-medium text-[var(--color-danger-text)] transition-colors hover:bg-[var(--color-danger-soft)] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-transparent"
               >
                 전체 삭제
               </button>

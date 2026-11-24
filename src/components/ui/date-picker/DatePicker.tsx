@@ -65,9 +65,9 @@ const WEEKDAY_NAMES = ["일요일", "월요일", "화요일", "수요일", "목�
 
 const markerToneClassName: Record<DatePickerMarkerTone, string> = {
   primary: "bg-[var(--color-primary)]",
-  blue: "bg-blue-500",
-  teal: "bg-teal-400",
-  pink: "bg-rose-400",
+  blue: "bg-[var(--color-info)]",
+  teal: "bg-[var(--color-success)]",
+  pink: "bg-[var(--color-danger)]",
 };
 
 function parseDate(value: string): Date | null {
@@ -241,7 +241,7 @@ function DatePickerCalendar({
             type="button"
             onClick={onPrevMonth}
             aria-label="이전 달"
-            className="flex size-6 items-center justify-center rounded-full text-[var(--color-text-secondary)] transition-colors hover:bg-gray-100 hover:text-[var(--color-text)]"
+            className="flex size-6 items-center justify-center rounded-full text-[var(--color-text-secondary)] transition-colors hover:bg-[var(--color-hover)] hover:text-[var(--color-text)]"
           >
             <AppIcon icon={ChevronLeft} size="xs" />
           </button>
@@ -250,7 +250,7 @@ function DatePickerCalendar({
             type="button"
             onClick={onNextMonth}
             aria-label="다음 달"
-            className="flex size-6 items-center justify-center rounded-full text-[var(--color-text-secondary)] transition-colors hover:bg-gray-100 hover:text-[var(--color-text)]"
+            className="flex size-6 items-center justify-center rounded-full text-[var(--color-text-secondary)] transition-colors hover:bg-[var(--color-hover)] hover:text-[var(--color-text)]"
           >
             <AppIcon icon={ChevronRight} size="xs" />
           </button>
@@ -307,7 +307,7 @@ function DatePickerCalendar({
                       : isToday
                         ? "font-medium text-[var(--color-primary)] ring-1 ring-[var(--color-primary)] ring-inset hover:bg-[var(--color-primary-soft)]"
                         : isCurrentMonth
-                          ? "text-[var(--color-text)] hover:bg-gray-100"
+                          ? "text-[var(--color-text)] hover:bg-[var(--color-hover)]"
                           : "text-[var(--color-text-disabled)] hover:bg-[var(--color-hover-soft)]"
                 } `}
               >

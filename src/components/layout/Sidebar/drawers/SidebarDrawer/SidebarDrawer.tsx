@@ -460,7 +460,10 @@ export default function SidebarDrawer({ isOpen, onClose, projects }: SidebarDraw
           icon={Star}
           title="즐겨찾기 프로젝트"
           info={
-            <Badge size="sm" className="bg-gray-100 font-medium text-[var(--color-text-secondary)]">
+            <Badge
+              size="sm"
+              className="bg-[var(--color-hover)] font-medium text-[var(--color-text-secondary)]"
+            >
               {favoriteProjects.length}/{MAX_FAVORITES}
             </Badge>
           }

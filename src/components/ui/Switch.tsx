@@ -15,7 +15,7 @@ export default function Switch({ checked, label, onChange, disabled = false }: S
       disabled={disabled}
       onClick={() => onChange(!checked)}
       className={`flex h-6 w-11 shrink-0 items-center overflow-hidden rounded-full p-0.5 transition-[background-image,background-color] duration-200 disabled:cursor-not-allowed disabled:opacity-50 ${
-        checked ? "bg-primary-gradient" : "bg-gray-200"
+        checked ? "bg-primary-gradient" : "bg-[var(--color-hover-strong)]"
       } `}
     >
       <span

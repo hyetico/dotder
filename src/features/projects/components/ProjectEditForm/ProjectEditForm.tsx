@@ -256,25 +256,33 @@ function EditSchedulePanel({
         />
 
         {isDelayed ? (
-          <div className="mt-3 flex items-start gap-2 rounded-[var(--radius-sm)] border border-red-200 bg-red-50 px-3 py-3">
-            <AppIcon icon={CircleAlert} size="sm" className="mt-0.5 shrink-0 text-red-500" />
+          <div className="mt-3 flex items-start gap-2 rounded-[var(--radius-sm)] border border-[var(--color-danger)]/40 bg-[var(--color-danger-soft)] px-3 py-3">
+            <AppIcon
+              icon={CircleAlert}
+              size="sm"
+              className="mt-0.5 shrink-0 text-[var(--color-danger-text)]"
+            />
 
             <div className="min-w-0">
-              <p className="text-caption font-medium text-red-600">
+              <p className="text-caption font-medium text-[var(--color-danger-text)]">
                 <span className="md:hidden">{delayDays}일 지연되었습니다.</span>
                 <span className="hidden md:inline">프로젝트가 {delayDays}일 지연되었습니다.</span>
               </p>
 
-              <p className="text-caption mt-1 text-red-600">
+              <p className="text-caption mt-1 text-[var(--color-danger-text)]">
                 지연 중에는 상태를 변경할 수 없습니다. 마감일을 변경해야 저장할 수 있습니다.
               </p>
             </div>
           </div>
         ) : recoveredFromDelay ? (
-          <div className="mt-3 flex items-start gap-2 rounded-[var(--radius-sm)] border border-blue-200 bg-blue-50 px-3 py-3">
-            <AppIcon icon={CircleCheck} size="sm" className="mt-0.5 shrink-0 text-blue-600" />
+          <div className="mt-3 flex items-start gap-2 rounded-[var(--radius-sm)] border border-[var(--color-info)]/40 bg-[var(--color-info-soft)] px-3 py-3">
+            <AppIcon
+              icon={CircleCheck}
+              size="sm"
+              className="mt-0.5 shrink-0 text-[var(--color-info-text)]"
+            />
 
-            <p className="text-caption text-blue-700">
+            <p className="text-caption text-[var(--color-info-text)]">
               마감일이 변경되어 프로젝트가 진행 중으로 전환되었습니다. 필요에 따라 다른 정보를
               수정할 수 있습니다.
             </p>

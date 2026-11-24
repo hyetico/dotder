@@ -49,26 +49,26 @@ const statusStyle: Record<
 > = {
   TODO: {
     label: "TODO",
-    bar: "bg-slate-400",
+    bar: "bg-[var(--color-neutral)]",
   },
 
   IN_PROGRESS: {
     label: "IN PROGRESS",
-    bar: "bg-blue-600",
+    bar: "bg-[var(--color-info)]",
   },
 
   DONE: {
     label: "DONE",
-    bar: "bg-green-600",
+    bar: "bg-[var(--color-success)]",
   },
 };
 
 const priorityStyle: Record<TaskPriority, string> = {
-  HIGH: "bg-red-50 text-red-500",
+  HIGH: "bg-[var(--color-danger-soft)] text-[var(--color-danger-text)]",
 
-  MEDIUM: "bg-orange-50 text-orange-500",
+  MEDIUM: "bg-[var(--color-warning-soft)] text-[var(--color-warning-text)]",
 
-  LOW: "bg-emerald-50 text-emerald-600",
+  LOW: "bg-[var(--color-success-soft)] text-[var(--color-success-text)]",
 };
 
 const priorityLabel: Record<TaskPriority, string> = {
@@ -149,7 +149,7 @@ function CalendarTaskCard({
       type="button"
       aria-label={`${task.title} 상세 보기`}
       onClick={onClick}
-      className="w-full rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-[var(--color-surface)] px-2 py-1.5 text-left transition-colors hover:border-gray-300 hover:bg-[var(--color-hover-soft)]"
+      className="w-full rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-[var(--color-surface)] px-2 py-1.5 text-left transition-colors hover:border-[var(--color-border-strong)] hover:bg-[var(--color-hover-soft)]"
     >
       <div className="flex min-w-0 items-center gap-1.5">
         <span className={`h-3.5 w-0.5 shrink-0 rounded-full ${status.bar} `} aria-hidden="true" />
@@ -390,7 +390,7 @@ export default function TaskCalendarView({
   if (isError) {
     return (
       <div className="flex h-[var(--tasks-calendar-height)] shrink-0 items-center justify-center rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)]">
-        <p className="text-body text-red-500">Task를 불러오지 못했습니다.</p>
+        <p className="text-body text-[var(--color-danger-text)]">Task를 불러오지 못했습니다.</p>
       </div>
     );
   }
@@ -408,11 +408,11 @@ export default function TaskCalendarView({
             {currentMonth.getFullYear()}년 {currentMonth.getMonth() + 1}월
           </h2>
 
-          <span className="shrink-0 rounded-full bg-gray-100 px-2 py-1 text-xs text-[var(--color-text-secondary)]">
+          <span className="shrink-0 rounded-full bg-[var(--color-hover)] px-2 py-1 text-xs text-[var(--color-text-secondary)]">
             {currentMonthTaskCount}
           </span>
 
-          <span className="shrink-0 rounded-full bg-gray-100 px-2 py-1 text-xs text-[var(--color-text-secondary)]">
+          <span className="shrink-0 rounded-full bg-[var(--color-hover)] px-2 py-1 text-xs text-[var(--color-text-secondary)]">
             마감일 기준
           </span>
         </div>
@@ -533,7 +533,7 @@ export default function TaskCalendarView({
 
                               rounded-[var(--radius-xs)]
 
-                              bg-red-500
+                              bg-[var(--color-danger)]
 
                               px-1
 
@@ -560,7 +560,7 @@ export default function TaskCalendarView({
                           : `${calendarDay.day}일 Task 추가`
                       }
                       onClick={() => setCreateTaskDateKey(calendarDay.dateKey)}
-                      className="flex h-4 w-4 shrink-0 items-center justify-center rounded-[var(--radius-xs)] text-[var(--color-text-muted)] transition-colors hover:bg-gray-100 hover:text-[var(--color-text)] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-transparent disabled:hover:text-[var(--color-text-muted)]"
+                      className="flex h-4 w-4 shrink-0 items-center justify-center rounded-[var(--radius-xs)] text-[var(--color-text-muted)] transition-colors hover:bg-[var(--color-hover)] hover:text-[var(--color-text)] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-transparent disabled:hover:text-[var(--color-text-muted)]"
                     >
                       <AppIcon icon={Plus} size="xs" />
                     </button>

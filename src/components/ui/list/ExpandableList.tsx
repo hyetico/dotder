@@ -260,7 +260,7 @@ export function ExpandableListDetail({
       <div className="flex min-w-0 flex-1 gap-3">
         <span
           aria-hidden
-          className="flex size-8 shrink-0 items-center justify-center rounded-[var(--radius-sm)] bg-indigo-50 text-indigo-500"
+          className="flex size-8 shrink-0 items-center justify-center rounded-[var(--radius-sm)] bg-[var(--color-info-soft)] text-[var(--color-info-text)]"
         >
           {icon}
         </span>

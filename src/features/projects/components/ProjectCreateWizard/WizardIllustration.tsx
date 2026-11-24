@@ -87,7 +87,9 @@ export function CalendarIllustration() {
               <span
                 key={key}
                 className={`h-1.5 w-1.5 rounded-full ${
-                  key === calendarTodayIndex ? "bg-[var(--color-primary)]" : "bg-gray-300"
+                  key === calendarTodayIndex
+                    ? "bg-[var(--color-primary)]"
+                    : "bg-[var(--color-border-strong)]"
                 }`}
               />
             ))}

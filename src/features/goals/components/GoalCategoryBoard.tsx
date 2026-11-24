@@ -438,7 +438,7 @@ export default function GoalCategoryBoard({
         <div className="flex items-center gap-2">
           <h2 className="text-section-title text-[var(--color-text)]">목표 목록</h2>
           <Badge
-            className="h-6! bg-gray-100 px-2.5! text-sm! text-[var(--color-text-secondary)]"
+            className="h-6! bg-[var(--color-hover)] px-2.5! text-sm! text-[var(--color-text-secondary)]"
             title={`목표 목록 ${visibleGoals.length}개`}
           >
             {visibleGoals.length}개

@@ -150,37 +150,37 @@ export function getGoalStatusStyles(status: GoalVisualStatus) {
   switch (status) {
     case "NOT_STARTED":
       return {
-        badge: "bg-slate-100 text-[var(--color-text-muted)]",
-        dot: "bg-slate-400",
-        bar: "bg-slate-400",
+        badge: "bg-[var(--color-hover)] text-[var(--color-text-muted)]",
+        dot: "bg-[var(--color-neutral)]",
+        bar: "bg-[var(--color-neutral)]",
       };
 
     case "IN_PROGRESS":
       return {
-        badge: "bg-blue-50 text-blue-600",
-        dot: "bg-blue-600",
-        bar: "bg-blue-600",
+        badge: "bg-[var(--color-info-soft)] text-[var(--color-info-text)]",
+        dot: "bg-[var(--color-info)]",
+        bar: "bg-[var(--color-info)]",
       };
 
     case "COMPLETED":
       return {
-        badge: "bg-green-50 text-green-600",
-        dot: "bg-green-600",
-        bar: "bg-green-600",
+        badge: "bg-[var(--color-success-soft)] text-[var(--color-success-text)]",
+        dot: "bg-[var(--color-success)]",
+        bar: "bg-[var(--color-success)]",
       };
 
     case "DELAYED":
       return {
-        badge: "bg-red-50 text-red-600",
-        dot: "bg-red-500",
-        bar: "bg-red-500",
+        badge: "bg-[var(--color-danger-soft)] text-[var(--color-danger-text)]",
+        dot: "bg-[var(--color-danger)]",
+        bar: "bg-[var(--color-danger)]",
       };
 
     default:
       return {
-        badge: "bg-gray-100 text-[var(--color-text-secondary)]",
-        dot: "bg-gray-400",
-        bar: "bg-gray-300",
+        badge: "bg-[var(--color-hover)] text-[var(--color-text-secondary)]",
+        dot: "bg-[var(--color-neutral)]",
+        bar: "bg-[var(--color-border-strong)]",
       };
   }
 }

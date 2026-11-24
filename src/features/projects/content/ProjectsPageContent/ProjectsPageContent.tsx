@@ -237,20 +237,20 @@ export default function ProjectsPageContent() {
         label="진행 중"
         count={stats.inProgress}
         icon={ProjectInProgressIcon}
-        iconClassName="text-blue-600"
-        pair={{ label: "지연", count: stats.delayed, className: "text-red-600" }}
+        iconClassName="text-[var(--color-info-text)]"
+        pair={{ label: "지연", count: stats.delayed, className: "text-[var(--color-danger-text)]" }}
       />
       <StatCountCard
         label="보류"
         count={stats.onHold}
         icon={PauseCircle}
-        iconClassName="text-amber-600"
+        iconClassName="text-[var(--color-warning-text)]"
       />
       <StatCountCard
         label="완료"
         count={stats.done}
         icon={CheckCircle2}
-        iconClassName="text-green-600"
+        iconClassName="text-[var(--color-success-text)]"
       />
     </StatCountGrid>
   );

@@ -31,7 +31,7 @@ export function StatusRadioMark({ selected }: { selected: boolean }) {
     <span
       aria-hidden
       className={`flex h-[18px] w-[18px] items-center justify-center rounded-full border-2 ${
-        selected ? "border-[var(--color-field-focus)]" : "border-gray-300"
+        selected ? "border-[var(--color-field-focus)]" : "border-[var(--color-border-strong)]"
       }`}
     >
       {selected ? <span className="h-2 w-2 rounded-full bg-[var(--color-field-focus)]" /> : null}

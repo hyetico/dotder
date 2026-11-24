@@ -185,7 +185,7 @@ function HistoryChangeDetail({ change, actor }: { change: ProjectDeadlineChange;
         </p>
       </div>
       {change.overdueDaysAtChange > 0 ? (
-        <p className="mt-3 flex items-center gap-1 text-xs leading-4 text-red-500">
+        <p className="mt-3 flex items-center gap-1 text-xs leading-4 text-[var(--color-danger-text)]">
           <AppIcon icon={Clock} size="xs" className="shrink-0" />
           변경 당시 이전 마감일 {change.overdueDaysAtChange}일 경과
         </p>
@@ -337,7 +337,7 @@ export default function ProjectDetailStatus({
         delta: (
           <Badge
             shape="rounded"
-            className="bg-gray-100 font-semibold text-[var(--color-text-secondary)] tabular-nums"
+            className="bg-[var(--color-hover)] font-semibold text-[var(--color-text-secondary)] tabular-nums"
           >
             {formatExtensionLabel(delta)}
           </Badge>
@@ -424,7 +424,9 @@ export default function ProjectDetailStatus({
                   label: "최초 대비 마감",
                   value: formatSignedProjectDays(summary.slipFromOriginalDays),
                   valueClassName:
-                    summary.slipFromOriginalDays > 0 ? "text-red-500" : "text-[var(--color-text)]",
+                    summary.slipFromOriginalDays > 0
+                      ? "text-[var(--color-danger-text)]"
+                      : "text-[var(--color-text)]",
                 },
               ] as const
             ).map((item, index) => (
@@ -458,7 +460,7 @@ export default function ProjectDetailStatus({
             <p className="border-l border-[var(--color-border)] text-[var(--color-text-secondary)]">
               최초 대비{" "}
               <span
-                className={`font-semibold tabular-nums ${summary.slipFromOriginalDays > 0 ? "text-red-500" : "text-[var(--color-text)]"}`}
+                className={`font-semibold tabular-nums ${summary.slipFromOriginalDays > 0 ? "text-[var(--color-danger-text)]" : "text-[var(--color-text)]"}`}
               >
                 {formatSignedProjectDays(summary.slipFromOriginalDays)}
               </span>

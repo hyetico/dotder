@@ -32,7 +32,7 @@ type ProjectEditPageContentProps = {
 
 const deleteRowClassName = "flex items-center justify-between gap-4 pt-4";
 const deleteActionClassName =
-  "inline-flex shrink-0 items-center gap-1.5 text-body font-medium text-[var(--color-danger)] transition-colors hover:text-red-600 disabled:cursor-not-allowed disabled:opacity-50";
+  "inline-flex shrink-0 items-center gap-1.5 text-body font-medium text-[var(--color-danger)] transition-colors hover:text-[var(--color-danger-text)] disabled:cursor-not-allowed disabled:opacity-50";
 const deleteHintClassName = "min-w-0 text-right text-body text-[var(--color-text-muted)]";
 
 export default function ProjectEditPageContent({
@@ -173,7 +173,9 @@ export default function ProjectEditPageContent({
               <p className={deleteHintClassName}>삭제한 프로젝트는 복구할 수 없습니다.</p>
             </div>
 
-            {deleteError ? <p className="text-caption mt-2 text-red-500">{deleteError}</p> : null}
+            {deleteError ? (
+              <p className="text-caption mt-2 text-[var(--color-danger-text)]">{deleteError}</p>
+            ) : null}
           </div>
         }
         defaultValues={{

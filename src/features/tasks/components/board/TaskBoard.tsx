@@ -120,7 +120,9 @@ export default function TaskBoard({
   if (isError) {
     return (
       <div className="overflow-hidden rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] px-6 py-12">
-        <p className="text-caption text-center text-red-500">Task를 불러오지 못했습니다.</p>
+        <p className="text-caption text-center text-[var(--color-danger-text)]">
+          Task를 불러오지 못했습니다.
+        </p>
       </div>
     );
   }
@@ -239,7 +241,7 @@ export default function TaskBoard({
             Task 보드
           </h2>
 
-          <span className="shrink-0 rounded-full bg-gray-100 px-2 py-1 text-xs text-[var(--color-text-secondary)]">
+          <span className="shrink-0 rounded-full bg-[var(--color-hover)] px-2 py-1 text-xs text-[var(--color-text-secondary)]">
             {filteredTasks.length}
           </span>
         </div>

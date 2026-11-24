@@ -28,7 +28,7 @@ export default function CloseButton({
       {...props}
       type={type}
       aria-label={label}
-      className={` ${buttonIconHitClassName} flex size-[var(--button-icon)] shrink-0 cursor-pointer items-center justify-center rounded-[var(--radius-sm)] text-[var(--color-primary)] transition-colors hover:bg-gray-100 hover:text-[var(--color-primary)] ${className} `}
+      className={` ${buttonIconHitClassName} flex size-[var(--button-icon)] shrink-0 cursor-pointer items-center justify-center rounded-[var(--radius-sm)] text-[var(--color-primary)] transition-colors hover:bg-[var(--color-hover)] hover:text-[var(--color-primary)] ${className} `}
     >
       <AppIcon icon={X} size="md" />
     </button>

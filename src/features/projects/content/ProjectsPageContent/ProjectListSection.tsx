@@ -209,7 +209,7 @@ export default function ProjectListSection({
           <div className="flex min-w-0 items-center gap-2">
             <h2 className="text-section-title text-[var(--color-text)]">{sectionTitle}</h2>
             <Badge
-              className="h-6! bg-gray-100 px-2.5! text-sm! text-[var(--color-text-secondary)]"
+              className="h-6! bg-[var(--color-hover)] px-2.5! text-sm! text-[var(--color-text-secondary)]"
               title={countTitle ?? `${sectionTitle} ${visibleProjects.length}개`}
             >
               {countLabel ?? visibleProjects.length}
