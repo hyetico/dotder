@@ -1,4 +1,4 @@
-# PRD — 프로젝트 기록 앱 Tessera
+# PRD — 프로젝트 기록 앱 Dotder
 
 > 상태: v0.2 · 2026-11-21
 > "무엇을, 왜 만드는가"만 다룹니다. 화면 규칙은 [design-guide](guides/design-guide.md), 작업 순서는 [roadmap](roadmap.md)을 봅니다.
@@ -173,6 +173,6 @@
 
 ## 9. 정해야 할 것
 
-- [x] 앱 이름 확정: **Tessera** (2026-11-23). 화면·package.json(`tessera`)에 반영. 저장소 이름은 tech-debt D-4
+- [x] 앱 이름 확정: **Dotder** (2026-11-24, 이전 Tessera). 로고 글자는 소문자 `dotder`, 문장 안에서는 `Dotder`. 화면·package.json(`dotder`)에 반영. 저장소 이름은 tech-debt D-4
 - [ ] 데이터 저장 방식 (localStorage / Supabase 등)
 - [ ] 태스크 생성 드로어 전환 시점

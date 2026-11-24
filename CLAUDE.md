@@ -4,6 +4,8 @@
 
 AI 도구(Claude Code)가 이 저장소에서 일할 때 따르는 규칙의 **목차**입니다. 자세한 내용은 `docs/`에 있고, 여기에는 연결과 꼭 지킬 규칙만 둡니다.
 
+- 앱 이름: **Dotder** (2026-11-24 변경, 이전 Tessera). 로고 글자는 소문자 `dotder` · 700 · 자간 −0.02em, 문장 안에서는 `Dotder`, package.json `name`은 `dotder`. 저장된 데이터의 키 이름(`projectflow:` 등)은 바꾸지 않는다 (tech-debt D-5).
+
 ## 작업 전에 읽을 문서
 
 | 하려는 일 | 문서 |

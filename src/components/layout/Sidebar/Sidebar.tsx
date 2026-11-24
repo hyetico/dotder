@@ -272,7 +272,7 @@ export default function Sidebar({ variant = "desktop", onNavigate }: SidebarProp
             >
               <span className={`flex shrink-0 items-center ${isDesktopCollapsed ? "" : "ml-3"}`}>
                 <Image
-                  src="/brand/tessera-logo.svg"
+                  src="/brand/dotder-logo.svg"
                   alt=""
                   width={26}
                   height={22}
@@ -280,7 +280,7 @@ export default function Sidebar({ variant = "desktop", onNavigate }: SidebarProp
                   className="logo-light"
                 />
                 <Image
-                  src="/brand/tessera-logo-dark.svg"
+                  src="/brand/dotder-logo-dark.svg"
                   alt=""
                   width={26}
                   height={22}
@@ -290,8 +290,8 @@ export default function Sidebar({ variant = "desktop", onNavigate }: SidebarProp
               </span>
 
               {!isDesktopCollapsed && (
-                <span className="truncate text-base leading-5 font-bold tracking-tight text-[var(--color-text)]">
-                  Tessera
+                <span className="truncate text-base leading-5 font-bold tracking-logo text-[var(--color-text)]">
+                  dotder
                 </span>
               )}
             </Link>
