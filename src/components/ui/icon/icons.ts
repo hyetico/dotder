@@ -6,6 +6,7 @@ export {
   Info,
   Menu,
   Minus,
+  MoreHorizontal,
   MoreVertical,
   Pencil,
   Plus,
