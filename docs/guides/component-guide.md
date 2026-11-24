@@ -71,7 +71,7 @@ src/features/<기능>/
 | `Modal` | 선택·설정 모달 바탕 | ✅ |
 | `AlertModal` | 삭제·상태 변경 확인 | ✅ |
 | `Toast` | 결과 알림 + 되돌리기 하나. 4초(되돌리기 있으면 6초), 마우스·초점 동안 멈춤, `role="status"` | ✅ (handoff B5, `DeadlineToast`·`FavoriteRemovedToast` 삭제) |
-| `Notice` ★ | 화면 안 안내 띠 | ★ `HoldAddNotice` 대체. 원본(Components · 프로토타입)에 규격이 없어 보류 (tech-debt C-14) |
+| `Notice` | 화면 안에 계속 보이는 한 줄 안내. i 16 + 글자 14/20 보조색, 바탕 · 테두리 · 닫기 없음, `role="status"`, 툴바 바로 아래 8 (Components 12). 행동이 필요하면 글 끝에 링크 1개 | ✅ `components/ui/Notice.tsx` (`HoldAddNotice`가 사용) |
 
 ### 화면 상태
 
