@@ -29,20 +29,20 @@
 | **S-12** | 이미 저장된 Ivory `#e7ddd0` · Ink `#2a2430` 프로젝트 색을 가까운 색으로 옮기기 (안: Ivory → 골드 `#c4a574`, Ink → 플럼 `#6b2d5b`. 확정 전). 고르는 9색과 화면 이름은 4단계에서 바꿈. 지금 목업 데이터에 Ivory 6곳 | 저장값 | 8 (D-5와 같이) |
 | **S-13** | `text-badge-sm-mobile` 5곳. 의미 클래스(`text-*`)가 `@layer` 밖 일반 CSS라 `lg:` 같은 변형을 못 붙이고, `font-medium` 같은 유틸리티보다 항상 이긴다(굵기를 덮어씀). Tailwind `@utility`로 옮기면 변형이 되지만 굵기가 함께 쓰인 101곳의 모양이 바뀐다 | 5 / 101곳 | 5 |
 | **S-14** | 컨트롤 높이 토큰이 style-guide와 다름: `--control-sm` 32 (가이드 36), `--control-xs`(28) 없음 | 2 | 5 |
-| **S-15** | handoff A4 다크 메인 왕관 색(프로젝트 색 + 흰색 30%)과 A5 다크 로고. 앱 사이드바 로고가 아직 `design/svg/` 로고가 아닌 폴더 아이콘이라 로고 교체와 같이 한다 | 2 | 5 (B8 · A-2와 같이) |
 | **S-16** | 숨김 화면(`TeamScopeModal`, `ProjectDetailTeam`)도 4단계 일괄 치환(글자 크기 · 색 토큰)으로 바뀜. 동작은 그대로 | 기록 | - |
 | **C-3** | 상태 필터 3종(`StatusFilterBar` · `StatusFilterChips` · `StatusFilterPills`)과 모바일 시트(`FilterBottomSheet`). 원본(Components 17)은 "Segmented(트랙 36 · 버튼 32) + 필터 팝오버 280"과 바텀시트 1개. **마감(2026-11-24) 뒤로 미룸** | 3 + 1 | 마감 뒤 |
 | **C-4** | 모바일 필터: `FilterButton` · `MobileFilterDrawer`는 5단계에서 삭제(쓰는 곳 0). 남은 `FilterBottomSheet`는 C-3과 같이 | 1 | 마감 뒤 |
-| **C-5** | 상태 뱃지 3종 바탕 없음, 토스트 2종 따로 | 5 | 5 |
+| **C-5** | 상태 뱃지 3종(`ProjectStatusBadge` · `GoalStatusBadge` · `TaskStatusBadge`) 공통 바탕 `StatusBadge` 없음 (토스트 2종은 공통 `Toast`로 합침, handoff B5) | 5 | 5 |
 | **C-7** | 15KB 넘는 파일 12개 (`GoalForm` 44KB 최대) | 12 | 5~7 |
 | **C-8** | 쿼리 스코프 탭 3종 (`ProjectsScopeTabs` 등) | 3 | 9 |
 | **C-9** | `DatePicker` 모바일이 아직 가운데 모달 · 칸 36 (handoff B6: 바텀시트 · 칸 44). 공통 바텀시트가 없음(`FilterBottomSheet`는 필터 전용). 부르는 곳의 빈 칸 글자가 「시작일 선택」 「마감일 선택」 등 「~ 선택」으로 남음 | 1 + 부르는 곳 | 5 |
+| **C-10** | 태블릿 · 모바일 헤더에 페이지 제목 + 한 줄 요약(원본 01 · 768 · 390). 페이지가 헤더에 제목 · 요약을 넘기는 자리(`HeaderActions` 같은 슬롯)가 없어 새로 만들어야 함. 지금은 본문 `PageHeading`과 헤더 브레드크럼을 그대로 둠 | 슬롯 1 + 목록 4 | 5 |
+| **C-11** | 폴더 카드 활동 모자이크(최근 20주 · 활동한 날 · 적음–많음)와 태블릿 · 모바일 작은 카드(제목 1줄 · 모자이크 2줄 · 진행 막대). 새 컴포넌트와 날짜별 활동 데이터가 필요 | 컴포넌트 2 + 데이터 | 10 |
+| **C-12** | 데스크톱 헤더: 원본은 검색칸(⌘K) + 「추가」, 헤더 아래 선. 지금은 검색 아이콘 버튼 | 1 | 5 |
 | **A-1** | `div onClick` (`ProjectBoardCard`, `ProjectListRow`) | 2곳 | 5 |
 | **A-3** | `PageHeading` 대신 `<h1>` 직접 사용: 프로젝트 상세 `DetailTitle` 1곳 (폼 4곳은 5단계에서 바꿈) | 1곳 | 7 |
 | **A-4** | 이모지 아이콘: 숨긴 팀 목업 데이터(`lib/mock/teams.ts`) 6개만 남음 | 6곳 | v2 |
-| **D-2** | ✅ 완료 — README가 create-next-app 기본 → 프로젝트 소개로 교체 | 1 | 1 |
 | **D-3** | 프로젝트 디테일의 메모 하위 주소가 아직 `/projects/[id]/backlog` (메모 목록 `/memos`와 코드 이름은 2단계에서 바꿈) | 라우트 1 | 7 |
-| **D-4** | 앱 이름은 Dotder로 통일했지만 GitHub 저장소 이름이 아직 `flow-choice`. 바꾸면 원격 주소(`git remote`)도 갱신 | 1 | 공개 전 |
 | **D-5** | localStorage 키 앞머리가 옛 이름 `projectflow:` (`projectSwitcherPreferences.ts` 3개). 바꾸면 저장된 즐겨찾기·최근 목록이 사라지므로 옮기는 코드와 함께 | 3 | 8 |
 | **X-4** | 학습용 긴 주석 (`useTaskMutations.ts` 등) | - | 2 |
 | **X-5** | 문서 주석이 없는 **export 함수** (`export function`, `export const 이름 = (`) | 412개 중 190개 | 수시 |
