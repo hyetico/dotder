@@ -133,6 +133,7 @@ src/features/<기능>/
 | | `ProjectListItem` (`ProjectPicker`) | ✅ 고르는 목록 한 줄: 라디오 · 체크 18 + `ProjectMark` + 이름(자르지 않음) + 상태. 줄 높이 웹 40 · 터치 44 (C-16 · B7 · B11) |
 | `projects/modals` | `ProjectCreateDrawer` · `ProjectCreateDrawerRoute` | ✅ 프로젝트 만들기 드로어 (`/projects?new=1`, 원본 01a). 이름 * · 색상 · 「더 설정하기 · 상태, 기간, 설명, 태그, 메인」(접어 둠, 요약 글은 이대로). 상태 칸은 드로어 폭 때문에 2열. 이름만 필수 · 마감 없어도 됨 · 상태는 고르지 않으면 자동. `MainProjectModal`은 지움 — 메인은 이 드로어 · 수정 화면의 「메인 프로젝트」에서 |
 | `projects/components` | `ProjectColorPicker` | ✅ 색 고르기 칸 (원본 01a). 웹 · 태블릿 칸 28 · 한 줄 10개(폭 334), 모바일 칸 44 · 5개씩 2줄, 간격 6. 바탕 tint + 가운데 점 10, 선택은 그 색 테두리 2. 라디오 묶음 · ← → 로 이동 |
+| | `ProjectPickField` | ✅ 드로어 안 「프로젝트」 칸 (목표 · 메모 드로어 공통). 점 · 왕관 + 이름(1줄 …) + [변경], 비면 「프로젝트 선택」 + [고르기]. [변경]은 드로어 위 모달 대신 드로어 안 팝오버(칸 폭) · 모바일은 시트 안 화면으로 검색 + 고르는 목록 줄(이름 자르지 않음) + 「프로젝트 없음」(`allowNone`). Esc · 바깥 누르기로 닫히고 [변경]으로 초점이 돌아온다 |
 | | `ProjectFolder` | 🔧 목록 카드 전용으로 단순화 (디테일 모드 제거) |
 | | `ProjectStatusBadge` | ✅ `StatusBadge` 위. 진행 중 + 지연이면 「지연」 뱃지를 옆에 붙임 |
 | | `ProjectCreateWizard` | 지움 (6단계) — 만들기는 `ProjectCreateDrawer`. 수정 화면이 쓰던 단계 3개는 `ProjectEditForm/steps/Edit…Step`으로 옮김 |
@@ -142,11 +143,11 @@ src/features/<기능>/
 | | `TeamScopeModal` (22KB), `ProjectDetailTeam` | 💤 v1에서 숨김. 지우지도 고치지도 않는다 (PRD 5-4) |
 | `goals/components` | `GoalForm` (44KB) | 🔧 가장 먼저 나눌 파일 |
 | | `GoalStatusBadge` | ✅ `StatusBadge` 위. 완료가 아니고 지연이면 「지연」 뱃지를 옆에 붙임 |
-| `goals/modals` | `GoalCreateDrawer`, `GoalDetailDrawer` (28KB) | 만들기 ✅ 원본 순서(이름 * → 프로젝트 → 태그 0/2 → 「더 설정하기 · 기간, 설명」), 「추가」로 저장 · 닫을 때 확인창. 상세 🔧 안쪽은 아직 라벨 왼쪽 |
+| `goals/modals` | `GoalCreateDrawer`, `GoalDetailDrawer` (28KB) | 만들기 ✅ 원본 순서(이름 * → 프로젝트(`ProjectPickField`) → 태그 0/2 → 「더 설정하기 · 기간, 설명」), 「추가」로 저장 · 닫을 때 확인창. 상세 🔧 안쪽은 아직 라벨 왼쪽 |
 | `tasks/components` | `TaskBoard`, `TaskCard`, `BoardColumn` | ✅ |
 | | `TaskCalendarView` (21KB) | 🔧 나누기 |
 | | `TaskStatusBadge` | ✅ `StatusBadge` 위 |
-| `memos/components` | `MemoCards`, `MemoRegisterDrawer` | 등록 드로어 ✅ `FormField`(등록 대상 · 프로젝트 · 이름 * · 설명), 닫을 때 확인창 |
+| `memos/components` | `MemoCards`, `MemoRegisterDrawer` | 등록 드로어 ✅ `FormField`(등록 대상 · 프로젝트 `ProjectPickField` · 이름 * · 설명), 닫을 때 확인창 |
 | `search/modals` | `IntegratedSearchModal` (26KB) | 🔧 나누기 |
 
 ## 6. 생성 드로어 사용법 (예정)

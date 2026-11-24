@@ -12,11 +12,11 @@ import FormField from "@/components/ui/form/FormField";
 import Input from "@/components/ui/input/Input";
 import Textarea from "@/components/ui/input/Textarea";
 import AlertModal from "@/components/ui/modal/AlertModal";
-import Select from "@/components/ui/select/Select";
 
 import { createGoal } from "@/features/goals/api/goals";
 import { getTodayDateValue } from "@/features/goals/utils/goalDates";
 import { registerMemo } from "@/features/memos/api/memos";
+import ProjectPickField from "@/features/projects/components/ProjectPickField";
 import { createTask, getTasks } from "@/features/tasks/api/tasks";
 
 import { useDrawerPresence } from "@/hooks/useDrawerPresence";
@@ -112,13 +112,6 @@ function MemoRegisterForm({
   useEffect(() => {
     closeRequestRef.current = requestClose;
   });
-  const projectOptions = [
-    { value: "none", label: kind === "task" ? "프로젝트 선택" : "프로젝트 없음" },
-    ...selectableProjects.map((project) => ({
-      value: String(project.id),
-      label: project.name,
-    })),
-  ];
 
   const register = useMutation({
     mutationFn: async () => {
@@ -221,11 +214,12 @@ function MemoRegisterForm({
           </div>
         </FormField>
         <FormField label="프로젝트">
-          <Select
-            value={projectId == null ? "none" : String(projectId)}
-            options={projectOptions}
-            onChange={(value) => {
-              setProjectId(value === "none" ? null : Number(value));
+          <ProjectPickField
+            projects={selectableProjects}
+            value={projectId}
+            allowNone
+            onChange={(nextProjectId) => {
+              setProjectId(nextProjectId);
               setError("");
             }}
           />

@@ -6,9 +6,11 @@ import {
 } from "@/components/ui/button/buttonSize";
 import IconTitle from "@/components/ui/IconTitle";
 
-import type { ButtonHTMLAttributes, ReactNode } from "react";
+import type { ButtonHTMLAttributes, ReactNode, Ref } from "react";
 
 type SecondaryButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
+  /** 초점을 돌려줄 때 쓴다 (팝오버를 닫은 뒤 등) */
+  ref?: Ref<HTMLButtonElement>;
   icon?: ReactNode;
   size?: ButtonSize;
   tone?: "default" | "danger";

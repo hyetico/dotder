@@ -20,9 +20,8 @@ import {
   useGoalDrawerOffset,
   useGoalDrawerPushesPage,
 } from "@/features/goals/modals/goalDrawerOffset";
-import GoalProjectSelectModal from "@/features/goals/modals/GoalProjectSelectModal";
 import { getTodayDateValue } from "@/features/goals/utils/goalDates";
-import ProjectMark from "@/features/projects/components/ProjectMark";
+import ProjectPickField from "@/features/projects/components/ProjectPickField";
 
 import { formatDate } from "@/lib/date";
 import { goalQueryKeys } from "@/lib/queryKeys";
@@ -38,8 +37,6 @@ const SLIDE_MS = 400;
 
 const moreToggleClassName =
   "text-body -mx-2 flex h-9 w-fit cursor-pointer items-center gap-1.5 rounded-[var(--radius-sm)] px-2 font-semibold text-[var(--color-text)] transition-colors hover:bg-[var(--color-hover)]";
-const projectNameClassName =
-  "min-w-0 flex-1 truncate text-sm leading-[20px] font-[400] text-[var(--color-text)]";
 const periodTextClassName =
   "min-w-0 flex-1 truncate text-sm leading-[20px] font-[400] text-[var(--color-text)]";
 const periodLinkClassName =
@@ -127,7 +124,6 @@ function GoalCreateDrawerPanel({
   const [startDate, setStartDate] = useState(initialProject?.startDate ?? "");
   const [endDate, setEndDate] = useState(initialProject?.endDate ?? "");
   const [errors, setErrors] = useState<GoalCreateErrors>(emptyErrors);
-  const [isProjectSelectOpen, setIsProjectSelectOpen] = useState(false);
   const [isMoreOpen, setIsMoreOpen] = useState(false);
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const pushesPage = useGoalDrawerPushesPage();
@@ -376,22 +372,19 @@ function GoalCreateDrawerPanel({
             </FormField>
 
             <FormField label="프로젝트">
-              <div className="flex min-w-0 items-center gap-2">
-                {project ? (
-                  <>
-                    <ProjectMark color={project.color} isMain={project.isMain} />
-                    <span className={projectNameClassName}>{project.name}</span>
-                  </>
-                ) : null}
-                <SecondaryButton
-                  type="button"
-                  icon={project ? undefined : <AppIcon icon={Link2} size="sm" />}
-                  onClick={() => setIsProjectSelectOpen(true)}
-                  className={project ? "ml-auto" : undefined}
-                >
-                  {project ? "변경" : "연결"}
-                </SecondaryButton>
-              </div>
+              <ProjectPickField
+                projects={projects}
+                value={projectId}
+                allowNone
+                onChange={(nextProjectId) => {
+                  if (nextProjectId == null) {
+                    clearProject();
+                    return;
+                  }
+
+                  changeProject(nextProjectId);
+                }}
+              />
             </FormField>
 
             <FormField
@@ -548,21 +541,6 @@ function GoalCreateDrawerPanel({
           onClose={() => setIsConfirmOpen(false)}
         />
       </Drawer>
-
-      <GoalProjectSelectModal
-        isOpen={isProjectSelectOpen}
-        projects={projects}
-        selectedId={projectId}
-        onApply={(nextProjectId) => {
-          if (nextProjectId == null) {
-            clearProject();
-            return;
-          }
-
-          changeProject(nextProjectId);
-        }}
-        onClose={() => setIsProjectSelectOpen(false)}
-      />
     </>
   );
 }
