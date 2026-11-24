@@ -444,7 +444,7 @@ export default function CreateTaskButton({
                     <DatePicker
                       value={field.value}
                       onChange={field.onChange}
-                      placeholder="마감일 선택"
+                      title="마감일"
                     />
                   )}
                 />

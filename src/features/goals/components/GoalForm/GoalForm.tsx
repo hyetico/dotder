@@ -762,7 +762,7 @@ export default function GoalForm({
                 max={startDateMax}
                 readOnly={periodLocked}
                 invalid={Boolean(errors.startDate)}
-                placeholder="시작일 선택"
+                title="시작일"
               />
             )}
           />
@@ -794,7 +794,7 @@ export default function GoalForm({
                 max={endDateMax}
                 readOnly={periodLocked}
                 invalid={Boolean(errors.endDate)}
-                placeholder="마감일 선택"
+                title="마감일"
               />
             )}
           />
