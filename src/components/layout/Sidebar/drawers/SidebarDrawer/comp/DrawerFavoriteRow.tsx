@@ -6,10 +6,10 @@ import ProjectProgressMeter from "@/components/layout/Sidebar/drawers/SidebarDra
 import DropdownMenu, { DropdownMenuLink } from "@/components/ui/DropdownMenu";
 
 import ProjectBadge from "@/features/projects/components/ProjectBadge";
-import { progressGradients } from "@/features/projects/constants/projectStatusColors";
 import { getProjectVisualStatus, isProjectDelayed } from "@/features/projects/utils/projectUtils";
 
 import { getProjectDetailPath } from "@/lib/projectRoutes";
+import { progressGradients } from "@/lib/statusColors";
 
 import type { Project } from "@/features/projects/types/project";
 

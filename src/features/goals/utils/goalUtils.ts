@@ -1,4 +1,4 @@
-import { getProjectStatusColorScale } from "@/features/projects/constants/projectStatusColors";
+import { getProjectStatusColorScale } from "@/lib/statusColors";
 
 import type { Goal, GoalStatus } from "@/features/goals/types/goal";
 import type { Project } from "@/features/projects/types/project";

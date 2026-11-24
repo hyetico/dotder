@@ -5,7 +5,6 @@ import { getDayDelta, parseDateKey } from "@/lib/date";
 import { getUserName } from "@/lib/mock/users";
 
 import type { Goal } from "@/features/goals/types/goal";
-import type { ProjectStatusColorKey } from "@/features/projects/constants/projectStatusColors";
 import type {
   Project,
   ProjectDeadlineChange,
@@ -13,6 +12,7 @@ import type {
   ProjectStatus,
 } from "@/features/projects/types/project";
 import type { Task } from "@/features/tasks/types/task";
+import type { ProjectStatusColorKey } from "@/lib/statusColors";
 
 export function getProjectVisualStatus(
   status: ProjectStatus,

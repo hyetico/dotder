@@ -68,7 +68,7 @@ export default function FilterButton({
   size = "sm",
   variant = "solid",
 }: FilterButtonProps) {
-  const color = tone ? getStatusColor("all") : null;
+  const color = tone ? getStatusColor() : null;
 
   const isSmall = size === "sm";
   const isOutline = variant === "outline";

@@ -7,12 +7,10 @@ import { AppIcon, ClipboardList, LayoutDashboard, Plus } from "@/components/ui/i
 
 import HoldAddNotice from "@/features/projects/components/HoldAddNotice";
 import SectionHeader from "@/features/projects/components/SectionHeader";
-import {
-  PROJECT_STATUS_COLOR_SCALES,
-  progressGradients,
-} from "@/features/projects/constants/projectStatusColors";
 import CreateTaskButton from "@/features/tasks/components/board/CreateTaskButton";
 import { useTaskMutations } from "@/features/tasks/hooks/useTaskMutations";
+
+import { PROJECT_STATUS_COLOR_SCALES, progressGradients } from "@/lib/statusColors";
 
 import type { Goal } from "@/features/goals/types/goal";
 import type { ProjectListItem } from "@/features/projects/types/project";
@@ -66,22 +64,21 @@ function countTasks(tasks: Task[]): TaskCounts {
  *
  * @param props - ProgressDonut 컴포넌트 Props
  * @param props.value - 0부터 100 사이의 완료 비율
- * @param props.gradient - 프로젝트 카드와 같은 진행 구간 그라데이션
+ * @param props.color - 진행 구간 시작 색. 끝으로 갈수록 바탕 쪽으로 옅어진다
  * @param props.trackColor - 진행률 고리의 남은 구간 색
  */
 function ProgressDonut({
   value,
-  gradient,
+  color,
   trackColor = "var(--color-hover)",
 }: {
   value: number;
-  gradient: string;
+  color: string;
   trackColor?: string;
 }) {
   const gradientId = useId().replace(/:/g, "");
-  const stops = gradient.match(/#[0-9A-Fa-f]{6}/g) ?? [];
-  const from = stops[0] ?? "#6B7280";
-  const to = stops[1] ?? from;
+  const from = color;
+  const to = `color-mix(in srgb, ${color} 50%, var(--color-surface))`;
   const shown = Math.min(100, Math.max(0, value));
   const radius = 42;
   const trackStroke = 12;
@@ -99,8 +96,8 @@ function ProgressDonut({
       >
         <defs>
           <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor={from} />
-            <stop offset="100%" stopColor={to} />
+            <stop offset="0%" style={{ stopColor: from }} />
+            <stop offset="100%" style={{ stopColor: to }} />
           </linearGradient>
         </defs>
         <circle
@@ -108,7 +105,7 @@ function ProgressDonut({
           cy="60"
           r={radius}
           fill="none"
-          stroke={trackColor}
+          style={{ stroke: trackColor }}
           strokeWidth={trackStroke}
         />
         {shown > 0 ? (
@@ -177,6 +174,9 @@ export default function ProjectDetailProgress({
   const progressGradient = project.isDelayed
     ? progressGradients.IN_PROGRESS
     : progressGradients[project.status];
+  const progressColor = project.isDelayed
+    ? PROJECT_STATUS_COLOR_SCALES.IN_PROGRESS.progress
+    : PROJECT_STATUS_COLOR_SCALES[project.status].progress;
   const progressTrackColor = project.isDelayed
     ? PROJECT_STATUS_COLOR_SCALES.DELAYED.progress
     : "var(--color-hover)";
@@ -278,7 +278,7 @@ export default function ProjectDetailProgress({
               <>
                 <ProgressDonut
                   value={counts.percent}
-                  gradient={progressGradient}
+                  color={progressColor}
                   trackColor={progressTrackColor}
                 />
                 <p className="mt-3 flex w-full justify-center">

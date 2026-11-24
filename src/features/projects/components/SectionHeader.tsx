@@ -1,6 +1,6 @@
 import InfoTooltip, { type InfoTooltipItem } from "@/components/ui/InfoTooltip";
 
-import { getProjectStatusIconSurface } from "@/features/projects/constants/projectStatusColors";
+import { getProjectStatusIconSurface } from "@/lib/statusColors";
 
 import type { ReactNode } from "react";
 
