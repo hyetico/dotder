@@ -8,6 +8,7 @@ import { Controller, useForm } from "react-hook-form";
 
 import BottomAppBar from "@/components/layout/pages/CreatePage/BottomAppBar";
 import { formPaneClassName } from "@/components/layout/pages/CreatePage/formSpacing";
+import PageHeading from "@/components/layout/pages/Page/PageHeading";
 import Badge from "@/components/ui/badge/Badge";
 import PrimaryButton from "@/components/ui/button/PrimaryButton";
 import SecondaryButton from "@/components/ui/button/SecondaryButton";
@@ -433,13 +434,12 @@ const actionBarButtonClassName = `
  */
 function FormPageTitle({ title, description }: { title: string; description?: string }) {
   return (
-    <div className="hidden shrink-0 pt-6 pb-4 md:block">
-      <h1 className="text-page-title text-[var(--color-text)]">{title}</h1>
-
-      {description ? (
-        <p className="text-body mt-1 text-[var(--color-text-secondary)]">{description}</p>
-      ) : null}
-    </div>
+    <PageHeading
+      variant="form"
+      title={title}
+      description={description}
+      className="hidden shrink-0 pt-6 pb-4 md:block"
+    />
   );
 }
 

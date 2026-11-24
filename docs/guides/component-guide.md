@@ -43,7 +43,7 @@ src/features/<기능>/
 | `SecondaryButton` | 취소, 변경, 연결 같은 보조 행동 | ✅ |
 | `IconButton` | 아이콘만 있는 버튼. `aria-label` 필수 | ✅ |
 | `CloseButton` | 모달·드로어 닫기 | ✅ |
-| `Button` | 위 버튼들의 바탕. 화면에서 직접 쓰지 않는다 | 🔧 직접 사용 2곳 교체 |
+| `Button` | 위 버튼들의 바탕. 화면에서 직접 쓰지 않는다 (`TabMenu` 같은 `ui` 바탕에서만) | ✅ |
 
 - 크기는 `buttonSize.ts`의 `size`로만 바꾼다.
 - 한 영역에 `PrimaryButton`은 하나만.
@@ -117,9 +117,9 @@ src/features/<기능>/
 |---|---|---|
 | `AppLayout` | 앱 전체 골격 | ✅ |
 | `Header`, `HeaderActions`, `HeaderSearchButton` | 헤더, 페이지별 액션 | ✅ |
-| `Sidebar`, `SidebarDrawer` | 사이드바 (19KB) | 🔧 로고의 `<h1>` 제거 |
+| `Sidebar`, `SidebarDrawer` | 사이드바 (19KB) | ✅ 로고는 `<h1>` 아님 |
 | `PageInset` | 페이지 바깥 여백 | ✅ |
-| `PageHeading` | 페이지 제목. `<h1>`은 여기서만 | 🔧 `variant="form"`, 아이콘 슬롯 추가 |
+| `PageHeading` | 페이지 제목. `<h1>`은 여기서만. `variant`(`page` 목록 · `form` 수정·생성), `align`, `icon` | ✅ (프로젝트 상세 `DetailTitle`의 `<h1>`은 7단계) |
 | `CreatePageFrame`, `BottomAppBar` | 수정 페이지 틀, 하단 바 | ✅ |
 
 ## 5. 기능별 주요 컴포넌트

@@ -287,9 +287,9 @@ export default function Sidebar({ variant = "desktop", onNavigate }: SidebarProp
               </div>
 
               {!isDesktopCollapsed && (
-                <h1 className="truncate text-base leading-5 font-bold tracking-tight text-[var(--color-text)]">
+                <span className="truncate text-base leading-5 font-bold tracking-tight text-[var(--color-text)]">
                   Tessera
-                </h1>
+                </span>
               )}
             </Link>
           )}
