@@ -26,8 +26,7 @@ import { computeProjectStats } from "@/features/projects/utils/projectUtils";
 
 import type { ProjectListItem } from "@/features/projects/types/project";
 
-const projectBoardGridClassName =
-  "grid min-w-0 grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3";
+const projectBoardGridClassName = "grid min-w-0 grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3";
 const projectToolbarClassName = "flex min-w-0 flex-col gap-4";
 const projectListSectionClassName = "min-w-0 space-y-4 border-t border-[var(--color-border)] pt-5";
 
