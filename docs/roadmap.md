@@ -11,7 +11,7 @@
 | 0. 준비 | - | ✅ |
 | 1. 문서 확정 | `docs/guides` | ✅ |
 | 2. 청소 | `chore/cleanup` | ✅ |
-| 3. 반응형 버그 | `fix/breakpoints` | ⬜ |
+| 3. 반응형 버그 | `fix/breakpoints` | ✅ |
 | 4. 디자인 토큰 | `refactor/design-tokens` | ⬜ |
 | 5. 공통 컴포넌트 정리 | `refactor/ui-components` | ⬜ |
 | 6. 생성 드로어 통일 | `refactor/create-drawer` | ⬜ |
@@ -55,13 +55,13 @@
 
 **완료 기준:** `npm run lint`, `npm run build` 통과. 화면 변화 없음.
 
-## 3. 반응형 버그 — `fix/breakpoints`
+## 3. 반응형 버그 — `fix/breakpoints` ✅
 
-- [ ] `min-[1025px]:` 35곳, `min-[1024px]:` 17곳, `max-[1024px]:` 10곳 → `lg:` / `max-lg:`
-- [ ] `min-[768px]:` 2곳, `min-[1280px]:` 1곳, `min-[1440px]:` 3곳 → `md:`, `xl:`, `2xl:`
-- [ ] 1023 · 1024 · 1025px에서 화면 확인
+- [x] `min-[1025px]:` 34곳, `min-[1024px]:` 17곳, `max-[1024px]:` 10곳 → `lg:` / `max-lg:`
+- [x] `min-[768px]:` 2곳, `min-[1280px]:` 1곳, `min-[1440px]:` 3곳 → `md:`, `xl:`, `2xl:` (`2xl`은 globals.css에서 1440으로 지정)
+- [x] 1023 · 1024 · 1025px에서 화면 확인 (20개 화면 × 6개 너비 전후 비교, 1024에서만 바뀜)
 
-- [ ] 1024~1279에서 사이드바 64로 접기, 펼치기 가능 (layout-guide 2장, 원본 Layout Spec 01)
+- [x] 1024~1279에서 사이드바 64로 접기, 펼치기 가능 (layout-guide 2장, 원본 Layout Spec 01) — 동작은 이미 있었고 너비만 57 → 64
 
 **완료 기준:** 임의 기준점 0곳.
 
