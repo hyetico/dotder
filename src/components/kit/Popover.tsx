@@ -25,8 +25,8 @@ type PopoverProps = {
   anchorRef: RefObject<HTMLElement | null>;
   /** 읽는 이름. 모바일 시트에서는 제목으로 보인다 */
   title: string;
-  /** 폭: 메뉴 220(기본) · 정렬 · 묶기 200 · 필터 280 · 프로젝트 전환 320 · "anchor"는 기준 요소 폭 */
-  width?: 200 | 220 | 280 | 320 | "anchor";
+  /** 폭: 메뉴 220(기본) · 정렬 · 묶기 200 · 필터 280 · 달력 282 · 프로젝트 전환 320 · "anchor"는 기준 요소 폭 */
+  width?: 200 | 220 | 280 | 282 | 320 | 340 | "anchor";
   /** 기준 요소의 왼쪽(기본) · 오른쪽 끝에 맞춘다 */
   align?: "start" | "end";
   /** 역할. 메뉴면 "menu" */
@@ -34,7 +34,14 @@ type PopoverProps = {
   children: ReactNode;
 };
 
-const widthClassName = { 200: "w-50", 220: "w-55", 280: "w-70", 320: "w-80" } as const;
+const widthClassName = {
+  200: "w-50",
+  220: "w-55",
+  280: "w-70",
+  282: "w-70.5",
+  320: "w-80",
+  340: "w-85",
+} as const;
 
 /**
  * 팝오버 (보드 .pop · 프로토타입 sheetOrPop). 기준 요소 아래 6에 붙고, 화면 아래가 모자라면 위로 뒤집힌다.

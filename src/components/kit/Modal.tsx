@@ -16,6 +16,12 @@ type ModalProps = {
   /** 폭. 폼 480(기본) · 검색 600 (Components ② 관례) */
   width?: "form" | "search";
   footer?: ReactNode;
+  /** 헤더 아래 선 --border (보드 01-h 보관함) */
+  headerDivider?: boolean;
+  /** 푸터가 안내 글 한 줄이면 왼쪽 정렬 · 위아래 12 (보드 01-h) */
+  footerNote?: boolean;
+  /** 제목 옆 작은 숫자 (보드 01-h 「보관된 프로젝트 2」) */
+  titleCount?: number;
   initialFocusRef?: RefObject<HTMLElement | null>;
   children: ReactNode;
 };
@@ -34,6 +40,9 @@ export default function Modal({
   title,
   width = "form",
   footer,
+  headerDivider = false,
+  footerNote = false,
+  titleCount,
   initialFocusRef,
   children,
 }: ModalProps) {
@@ -73,8 +82,20 @@ export default function Modal({
           aria-hidden
           className="mx-auto mt-2 h-1 w-9 shrink-0 rounded-[var(--radius-full)] bg-[var(--border-2)] md:hidden"
         />
-        <header className="flex h-14 shrink-0 items-center gap-2 pr-3 pl-6">
-          <h2 className="min-w-0 flex-1 truncate text-lg font-semibold">{title}</h2>
+        <header
+          className={cn(
+            "flex h-14 shrink-0 items-center gap-2 pr-3 pl-6",
+            headerDivider && "border-b border-[var(--border)]",
+          )}
+        >
+          <h2 className="min-w-0 flex-1 truncate text-lg font-semibold">
+            {title}
+            {titleCount != null ? (
+              <span className="ml-1.5 text-xs font-normal text-[var(--t3)] tabular-nums">
+                {titleCount}
+              </span>
+            ) : null}
+          </h2>
           <Button
             variant="ghost"
             size="sm"
@@ -86,9 +107,23 @@ export default function Modal({
             <X size={18} aria-hidden />
           </Button>
         </header>
-        <div className="flex min-h-0 flex-col gap-4 overflow-y-auto px-6 pb-6">{children}</div>
+        <div
+          className={cn(
+            "flex min-h-0 flex-col overflow-y-auto px-6",
+            headerDivider ? "pt-2 pb-4" : "gap-4 pb-6",
+          )}
+        >
+          {children}
+        </div>
         {footer ? (
-          <div className="flex shrink-0 items-center justify-end gap-2 border-t border-[var(--divider)] px-6 py-4 max-md:[&>*:last-child]:flex-1">
+          <div
+            className={cn(
+              "flex shrink-0 items-center gap-2 border-t border-[var(--divider)] px-6",
+              footerNote
+                ? "py-3 text-xs text-[var(--t3)]"
+                : "justify-end py-4 max-md:[&>*:last-child]:flex-1",
+            )}
+          >
             {footer}
           </div>
         ) : null}

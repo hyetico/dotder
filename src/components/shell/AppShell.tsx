@@ -1,0 +1,137 @@
+"use client";
+
+import { usePathname } from "next/navigation";
+import { Suspense, useEffect, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
+import { createPortal } from "react-dom";
+
+import { ToastProvider } from "@/components/kit/Toast";
+import { useLayer, usePresence } from "@/components/kit/useLayer";
+import { HeaderActionsProvider } from "@/components/layout/Header/HeaderActions";
+import { PageMetaProvider } from "@/components/shell/PageMeta";
+import ShellHeader from "@/components/shell/ShellHeader";
+import ShellSidebar from "@/components/shell/ShellSidebar";
+import { AlertProvider } from "@/components/ui/modal/AlertModal";
+
+import { cn } from "@/lib/cn";
+
+const COLLAPSED_KEY = "dotder:sidebar-collapsed";
+const listeners = new Set<() => void>();
+
+function readCollapsed() {
+  try {
+    return localStorage.getItem(COLLAPSED_KEY) === "1";
+  } catch {
+    return false;
+  }
+}
+
+function writeCollapsed(value: boolean) {
+  try {
+    localStorage.setItem(COLLAPSED_KEY, value ? "1" : "0");
+  } catch {
+    // 저장이 막혀도 이번 화면에서는 접힘 상태를 바꾼다
+  }
+
+  listeners.forEach((listener) => listener());
+}
+
+/**
+ * 앱 틀 (REBUILD 3-1 · 보드 01 · T 01 · M 01).
+ * 웹(1024 이상): 사이드바 245, 접으면 64 막대(브라우저에 기억). 태블릿(768–1023): 64 막대.
+ * 모바일: 사이드바 없이 헤더 ☰로 왼쪽 300 시트(보드 M 01-g).
+ * 옛 화면이 쓰는 헤더 버튼 자리 · 알림 창 · 상세 드로어 밀림(`--drawer-offset`)을 그대로 받는다.
+ */
+export default function AppShell({ children }: { children: ReactNode }) {
+  const isCollapsed = useSyncExternalStore(
+    (onChange) => {
+      listeners.add(onChange);
+      return () => listeners.delete(onChange);
+    },
+    readCollapsed,
+    () => false,
+  );
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
+
+  return (
+    <AlertProvider>
+      <ToastProvider>
+        <PageMetaProvider>
+          <HeaderActionsProvider>
+            <div className="flex min-h-dvh bg-[var(--bg)] text-[var(--text)]">
+              <aside className="sticky top-0 hidden h-dvh shrink-0 md:block">
+                <Suspense fallback={null}>
+                  {/* 태블릿은 늘 막대, 웹은 접힘 상태를 따른다 */}
+                  <div className="h-full lg:hidden">
+                    <ShellSidebar isRail />
+                  </div>
+                  <div className="hidden h-full lg:block">
+                    <ShellSidebar
+                      isRail={isCollapsed}
+                      onToggle={() => writeCollapsed(!isCollapsed)}
+                      toggleLabel={isCollapsed ? "사이드바 펼치기" : "사이드바 접기"}
+                    />
+                  </div>
+                </Suspense>
+              </aside>
+              <div className="relative flex min-w-0 flex-1 flex-col transition-[margin-right] duration-[400ms] ease-in-out motion-reduce:duration-0 lg:mr-[var(--drawer-offset)]">
+                <Suspense fallback={<div aria-hidden className="h-14 shrink-0" />}>
+                  <ShellHeader onOpenMenu={() => setIsSheetOpen(true)} />
+                </Suspense>
+                <main className="page-content min-w-0 flex-1">{children}</main>
+              </div>
+            </div>
+            <NavSheet isOpen={isSheetOpen} onClose={() => setIsSheetOpen(false)} />
+          </HeaderActionsProvider>
+        </PageMetaProvider>
+      </ToastProvider>
+    </AlertProvider>
+  );
+}
+
+/** 모바일 ☰ 시트 (보드 M 01-g): 왼쪽 300 · 그림자 · 덮개, 메뉴를 누르거나 Esc · 바깥으로 닫는다. */
+function NavSheet({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+  const panelRef = useRef<HTMLDivElement>(null);
+  const pathname = usePathname();
+  const { isPresent, isShown } = usePresence(isOpen);
+
+  useLayer({ isOpen, onClose, panelRef });
+
+  // 주소가 바뀌면 닫는다 (메뉴 · 전환 팝오버에서 이동)
+  const lastPath = useRef(pathname);
+  useEffect(() => {
+    if (lastPath.current !== pathname) {
+      lastPath.current = pathname;
+      onClose();
+    }
+  }, [onClose, pathname]);
+
+  if (!isPresent || typeof document === "undefined") {
+    return null;
+  }
+
+  return createPortal(
+    <div className="fixed inset-0 z-[var(--z-drawer)] md:hidden">
+      <div
+        aria-hidden
+        onClick={onClose}
+        className={cn(
+          "absolute inset-0 bg-[var(--overlay-board)] transition-opacity duration-150",
+          isShown ? "opacity-100" : "opacity-0",
+        )}
+      />
+      <div
+        ref={panelRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label="메뉴"
+        className={cn(
+          "absolute inset-y-0 left-0 w-[min(var(--sheet-nav-w),calc(100vw-var(--spacing)*12))] shadow-[8px_0_24px_rgb(0_0_0/15%)] transition-transform duration-[180ms] ease-out motion-reduce:duration-0",
+          isShown ? "translate-x-0" : "-translate-x-full",
+        )}
+      >
+        <ShellSidebar fill onToggle={onClose} toggleLabel="메뉴 닫기" onNavigate={onClose} />
+      </div>
+    </div>,
+    document.body,
+  );
+}

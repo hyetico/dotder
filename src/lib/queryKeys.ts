@@ -18,6 +18,9 @@ export const projectQueryKeys = {
   detail: (projectId: number) => ["projects", "detail", projectId] as const,
 
   activity: ["projects", "activity"] as const,
+
+  /** 보관함 (01-h) */
+  archived: ["projects", "archived"] as const,
 };
 
 export const goalQueryKeys = {
