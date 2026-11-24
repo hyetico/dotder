@@ -36,6 +36,8 @@ type DatePickerProps = {
   value: string;
   onChange: (value: string) => void;
   placeholder?: string;
+  /** 팝오버 · 시트 제목(읽는 이름). 예: "시작일". 없으면 빈 칸 글자에서 「선택」 「고르기」를 뗀 것. */
+  title?: string;
   disabled?: boolean;
   readOnly?: boolean;
   invalid?: boolean;
@@ -309,6 +311,7 @@ export default function DatePicker({
   value,
   onChange,
   placeholder = "날짜 고르기",
+  title: titleProp,
   disabled = false,
   readOnly = false,
   invalid = false,
@@ -353,7 +356,7 @@ export default function DatePicker({
 
   const keepsSelection = applyOnConfirm || belowCalendar !== undefined;
 
-  const title = placeholder.replace(/ (선택|고르기)$/, "");
+  const title = titleProp ?? placeholder.replace(/ (선택|고르기)$/, "");
 
   const selectedDate = parseDateKey(keepsSelection ? draftValue : value);
 

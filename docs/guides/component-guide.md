@@ -54,7 +54,7 @@ src/features/<기능>/
 |---|---|---|
 | `Input`, `Textarea`, `SearchInput` | 한 줄, 여러 줄, 검색 | ✅ |
 | `Select` | 정해진 선택지 | ✅ |
-| `DatePicker` | 날짜 (`variant="button"`은 드로어 행용). `md` 이상은 입력칸 아래 팝오버 282(오늘 · 지우기), 모바일은 바텀시트(날짜 칸 44). 칸 기본은 아이콘 앞(`iconPosition="start"`), 빈 칸 글자 「날짜 고르기」 | ✅ (부르는 곳의 「~ 선택」 빈 칸 글자는 tech-debt C-9) |
+| `DatePicker` | 날짜 (`variant="button"`은 드로어 행용). `md` 이상은 입력칸 아래 팝오버 282(오늘 · 지우기), 모바일은 바텀시트(날짜 칸 44). 칸 기본은 아이콘 앞(`iconPosition="start"`), 빈 칸 글자 「날짜 고르기」. 팝오버 · 시트 제목은 `title`(예: 「시작일」) | ✅ |
 | `Switch` | 켜기·끄기 | ✅ |
 | `SegmentedControl` ★ | 2~4개 중 하나 (아이콘·글자) | `SegmentedIconToggle`을 넓혀서 대체 |
 | `FieldNotice` | 입력칸 아래 안내 | ✅ |

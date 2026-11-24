@@ -324,7 +324,7 @@ function EditSchedulePanel({
               value={startDateValue}
               onChange={() => undefined}
               disabled
-              placeholder="시작일 선택"
+              title="시작일"
               iconPosition="start"
             />
 
@@ -339,7 +339,7 @@ function EditSchedulePanel({
               onChange={() => undefined}
               disabled={!canChangeDeadline}
               invalid={endDateInvalid}
-              placeholder="마감일 선택"
+              title="마감일"
               iconPosition="start"
               onRequestOpen={() => setIsDeadlineModalOpen(true)}
             />
