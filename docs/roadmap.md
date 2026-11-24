@@ -89,8 +89,8 @@
 - [x] handoff A1 입력칸 선 대비 3:1 (`--color-field-border`, `-hover`) (handoff A1 등은 `design/_handoff/CHANGES-2026-11-23.md`의 번호)
 - [x] handoff A2 지연 글자·뱃지 `#b91c1c` / `#ff8a8a`
 - [x] handoff A3 다크 폴더 카드 바탕 20% · 카드 위 보조 글자 `#aab2bb`
-- [ ] handoff A4 다크 메인 왕관 색 (프로젝트 색 + 흰색 30%) → 5단계 B8과 같이 (S-15)
-- [ ] handoff A5 다크 로고: `design/svg/` 로고로 교체 → 5단계 사이드바 로고(A-2)와 같이 (S-15)
+- [x] handoff A4 다크 메인 왕관 색 (프로젝트 색 + 흰색 30%) — 5단계에서 반영
+- [x] handoff A5 다크 로고: `design/svg/` 로고로 교체 — 5단계에서 반영
 - [x] handoff A6 글자 11 · 13 → 12 (위 "홀수 크기"와 같이)
 - [x] 프로젝트 9색으로 바꾸기 (이미 저장된 Ivory · Ink 옮기기는 8단계, S-12)
 
@@ -118,7 +118,7 @@
 - [ ] handoff B6 `DatePicker`: 브라우저 기본 날짜 입력 없애기, 달력 팝오버 282, 모바일 바텀시트 — 기본 날짜 입력 0곳 · 웹·태블릿 팝오버 완료, 모바일 바텀시트 남음 (C-9)
 - [ ] handoff B7 고르는 목록에서 이름 자르지 않기
 - [ ] handoff B8 고르는 목록의 메인 표시 = 프로젝트 색 왕관
-- [ ] handoff A4 다크 메인 왕관 색 · A5 다크 로고 (4단계에서 옮김, tech-debt S-15)
+- [x] handoff A4 다크 메인 왕관 색 · A5 다크 로고
 - [ ] 폴더 카드 그림자 정리 (handoff C1과 같이, tech-debt S-6)
 - [ ] handoff B9 `StatusText` ★ (폴더 카드 전용 글자형 상태)
 - [ ] handoff B10 체크 목록 (상자 18 + 색 점 + 이름)
