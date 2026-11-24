@@ -31,10 +31,10 @@
   --text-xl--line-height: var(--type-xl-line);
   --text-2xl: var(--type-2xl);
   --text-2xl--line-height: var(--type-2xl-line);
-  --text-3xl: 28px;
-  --text-3xl--line-height: 36px;
-  --text-4xl: 32px;
-  --text-4xl--line-height: 40px;
+  --text-3xl: var(--type-3xl);
+  --text-3xl--line-height: var(--type-3xl-line);
+  --text-4xl: var(--type-4xl);
+  --text-4xl--line-height: var(--type-4xl-line);
 }
 
 /*
@@ -75,9 +75,27 @@
   /* 펼쳐진 Sidebar */
   --sidebar-width: 245px;
 
-  /* 새 목표 드로어. 넓은 화면에서는 이 너비만큼 본문을 줄인다. */
-  --goal-drawer-width: 560px;
-  --goal-drawer-offset: 0px;
+  /*
+   * 드로어. 넓은 화면에서는 이 너비만큼 본문을 줄인다(--drawer-offset).
+   * style-guide 4장 목표값은 400. 지금 너비 560은 5단계(handoff B1)에서 바꾼다.
+   */
+  --drawer-width: 560px;
+  --drawer-offset: 0px;
+
+  /* 모달·팝오버 너비 (style-guide 4장) */
+  --modal-width: 480px;
+  --confirm-width: 320px;
+  --search-width: 600px;
+  --popover-menu: 220px;
+  --popover-sort: 200px;
+  --popover-filter: 280px;
+  --popover-switcher: 320px;
+  --popover-calendar: 282px;
+
+  /* 드로어 안 행 (style-guide 3장). 모바일 좌우는 20 */
+  --drawer-padding-x: 20px;
+  --drawer-label-width: 80px;
+  --drawer-row-py: 16px;
 
   /*
    * 접힌 Sidebar. 1280px 미만(태블릿 768–1023, 1024–1279)에서 쓴다.
@@ -134,6 +152,8 @@
   --space-6: 24px;
   --space-8: 32px;
   --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
 
   /*
    * 목록 페이지 제목.
@@ -217,6 +237,35 @@
   /* Modal / Drawer */
   --radius-lg: 16px;
 
+  /* xs 버튼 */
+  --radius-xs: 6px;
+
+  /* 알약 모양 칩·태그, 스위치 */
+  --radius-full: 9999px;
+
+  /*
+   * ---------------------------------------------------------
+   * 겹침 순서 (style-guide 7장)
+   * ---------------------------------------------------------
+   */
+  --z-header: 10;
+  --z-overlay: 50;
+  --z-drawer: 60;
+  --z-modal: 70;
+  --z-popover: 80;
+  --z-toast: 90;
+
+  /*
+   * ---------------------------------------------------------
+   * 움직임 (style-guide 8장)
+   * ---------------------------------------------------------
+   */
+  --duration-popover: 120ms;
+  --duration-overlay: 150ms;
+  --duration-drawer: 180ms;
+  --duration-toast: 200ms;
+  --ease-out: ease-out;
+
   /*
    * ---------------------------------------------------------
    * Colors
@@ -256,6 +305,10 @@
   /* 리스트 호버(--color-hover)보다 한 단계 연한 호버·보조 배경. */
   --color-hover-soft: #f7f7f5;
   --color-hover-strong: #e9ebef;
+  /* 메뉴, 팝오버처럼 위에 뜨는 면 */
+  --color-surface-raised: #ffffff;
+  /* 모달·드로어·바텀시트 뒤를 어둡게. 이것 하나만 쓴다. */
+  --color-overlay: rgb(15 18 22 / 35%);
 
   /* Text */
   /*
@@ -267,6 +320,10 @@
   --color-text-secondary: #475569;
   --color-text-muted: #6b7280;
   --color-text-disabled: #9ca3af;
+  /* 큰 제목 입력칸 placeholder */
+  --color-text-placeholder: #c9c7c3;
+  /* 주 버튼 위 글자 (text-white 대신) */
+  --color-text-inverse: #ffffff;
 
   /*
    * 입력폼 컬러
@@ -280,6 +337,8 @@
   --color-field-hover: #68717a;
   --color-field-focus: #343840;
   --color-field-error: #ef4444;
+  /* 입력칸 선 호버. handoff A1에서 --color-field-hover를 이것으로 옮긴다. */
+  --color-field-border-hover: #5f6670;
 
   /*
    * 선택 테두리.
@@ -290,11 +349,39 @@
 
   /* Border */
   --color-border: #e2e5e7;
+  /* 체크박스, 장식 테두리 */
+  --color-border-strong: #d1d5db;
+  /* 드로어 안 구분선 */
+  --color-border-subtle: #f0f0ee;
 
-  /* Semantic */
+  /*
+   * Semantic (style-guide 1-5)
+   * 기본 색은 막대·점·넓은 면에만. 글자와 작은 아이콘은 -text 토큰.
+   */
   --color-success: #22c55e;
   --color-warning: #f97316;
   --color-danger: #ef4444;
+  --color-info: #3b82f6;
+  --color-neutral: #9ca3af;
+  --color-neutral-soft: #f1f1ef;
+  --color-info-soft: #eff6ff;
+  --color-warning-soft: #fff7ed;
+  --color-success-soft: #ecfdf3;
+  --color-danger-soft: #fef2f2;
+  --color-neutral-text: #475569;
+  --color-info-text: #1d4ed8;
+  --color-success-text: #15803d;
+  --color-warning-text: #c2410c;
+  --color-danger-text: #b91c1c;
+
+  /*
+   * 종류 색 (style-guide 1-6).
+   * 사이드바·검색 아이콘, 기록 점, 빈 상태 그림, 로고에만. 버튼·탭·뱃지에는 쓰지 않는다.
+   */
+  --color-kind-project: #6b2d5b;
+  --color-kind-goal: #2f6b5a;
+  --color-kind-task: #6d28d9;
+  --color-kind-memo: #c4a574;
 
   /*
    * 사이드 메뉴.
@@ -308,6 +395,9 @@
   --color-nav-selected-bg: #343840;
   --color-nav-selected: #ffffff;
   --color-nav-disabled: #cbd5e1;
+  /* 선택된 메뉴 (style-guide 1-7). --color-nav-selected-bg · --color-nav-selected를 이것으로 옮긴다. */
+  --color-nav-active: #343840;
+  --color-nav-active-text: #ffffff;
 
   /*
    * ---------------------------------------------------------
@@ -327,6 +417,9 @@
 
   --shadow-dropdown: 0 10px 30px rgba(15, 23, 42, 0.1);
 
+  /* 팝오버, 메뉴, 드로어, 모달. 그림자는 이것 하나로 맞춘다 (style-guide 6장). */
+  --shadow-overlay: 0 12px 32px rgb(0 0 0 / 16%);
+
   /*
    * ---------------------------------------------------------
    * Typography
@@ -336,6 +429,8 @@
    * 사이드 메뉴(14/20)와 같은 스케일.
    */
 
+  --type-2xs: 10px;
+  --type-2xs-line: 12px;
   --type-xs: 12px;
   --type-xs-line: 16px;
   --type-sm: 14px;
@@ -348,6 +443,10 @@
   --type-xl-line: 28px;
   --type-2xl: 24px;
   --type-2xl-line: 32px;
+  --type-3xl: 28px;
+  --type-3xl-line: 36px;
+  --type-4xl: 32px;
+  --type-4xl-line: 40px;
 }
 
 /*
@@ -370,6 +469,34 @@
   --color-field-hover: #a8b0b8;
   --color-field-focus: #f2f3f4;
   --color-field-error: #ef4444;
+
+  /* 새 토큰의 다크 값 (style-guide 1장) */
+  --color-surface-raised: #2c3138;
+  --color-overlay: rgb(0 0 0 / 55%);
+  --color-border-strong: #3a4047;
+  --color-border-subtle: #30353c;
+  --color-text-placeholder: #5b636c;
+  --color-text-inverse: #16181c;
+  --color-field-border-hover: #9aa2ab;
+  --color-info: #60a5fa;
+  --color-neutral: #6b737c;
+  --color-neutral-soft: #262a30;
+  --color-info-soft: #1c2a40;
+  --color-warning-soft: #3a2716;
+  --color-success-soft: #16301f;
+  --color-danger-soft: #3d1c1e;
+  --color-neutral-text: #aab2bb;
+  --color-info-text: #8ab4ff;
+  --color-success-text: #6fd69a;
+  --color-warning-text: #f5a66b;
+  --color-danger-text: #ff8a8a;
+  --color-kind-project: #c98bb6;
+  --color-kind-goal: #6fc2a5;
+  --color-kind-task: #a78bfa;
+  --color-kind-memo: #d9bd8f;
+  --color-nav-active: #2a2e35;
+  --color-nav-active-text: #f3f4f6;
+  --shadow-overlay: 0 12px 32px rgb(0 0 0 / 50%);
 }
 
 /*
@@ -421,6 +548,12 @@
   font-size: var(--type-xs);
   line-height: var(--type-xs-line);
   font-weight: 400;
+}
+
+.text-label {
+  font-size: var(--type-sm);
+  line-height: var(--type-sm-line);
+  font-weight: 600;
 }
 
 .text-caption {

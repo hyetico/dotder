@@ -40,8 +40,8 @@ function getGoalDrawerPushSnapshot() {
  */
 function applyGoalDrawerOffset() {
   document.documentElement.style.setProperty(
-    "--goal-drawer-offset",
-    pushCount > 0 ? "var(--goal-drawer-width)" : "0px",
+    "--drawer-offset",
+    pushCount > 0 ? "var(--drawer-width)" : "0px",
   );
 }
 

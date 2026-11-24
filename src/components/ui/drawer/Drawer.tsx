@@ -144,7 +144,7 @@ function DrawerRoot({
   const setScrollRoot = useModalScrollLock(lockScroll);
   const panelWidthClassName = isExpanded
     ? "max-w-[100vw]"
-    : "max-w-[var(--goal-drawer-width)] border-l border-[var(--color-border)]";
+    : "max-w-[var(--drawer-width)] border-l border-[var(--color-border)]";
   const panelMotionClassName = isEntered ? "translate-x-0" : "translate-x-full";
   const panelStateClassName = [panelClassName, panelWidthClassName, panelMotionClassName].join(" ");
   const overlayStateClassName = [overlayClassName, isEntered ? "opacity-100" : "opacity-0"].join(
