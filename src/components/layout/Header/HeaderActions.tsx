@@ -48,7 +48,7 @@ export function HeaderActionsSlot() {
 
   const { setSlot } = context;
 
-  return <div ref={setSlot} className="flex shrink-0 items-center gap-2 empty:hidden" />;
+  return <div ref={setSlot} className="flex shrink-0 items-center empty:hidden lg:gap-2" />;
 }
 
 /**
@@ -73,7 +73,7 @@ export function HeaderActions({ children }: { children: ReactNode }) {
 /**
  * headerIconButtonClassName
  *
- * 모바일 헤더의 아이콘 버튼을 흰 배경과 테두리로 맞춥니다.
+ * 헤더의 아이콘 버튼. 데스크톱은 흰 배경과 테두리, 태블릿·모바일(lg 미만)은 테두리 없는 아이콘입니다.
  * 메뉴가 열린 햄버거 버튼은 기본 색으로 바꿉니다.
  *
  * @param pressed - 버튼이 열린 상태인지 여부
@@ -116,6 +116,10 @@ export function headerIconButtonClassName(pressed = false) {
           text-[var(--color-text)]
 
           hover:bg-[var(--color-hover-soft)]
+
+          max-lg:border-transparent
+          max-lg:bg-transparent
+          max-lg:hover:bg-[var(--color-hover)]
         `
     }
   `;
@@ -143,8 +147,8 @@ const headerActionClassName = `
 
   transition-colors
 
-  md:w-auto
-  md:px-3.5
+  lg:w-auto
+  lg:px-3.5
 `;
 
 const headerActionToneClassName = {
@@ -154,13 +158,17 @@ const headerActionToneClassName = {
     text-[var(--color-text)]
 
     hover:bg-[var(--color-hover-soft)]
+
+    max-lg:border-transparent
+    max-lg:bg-transparent
+    max-lg:hover:bg-[var(--color-hover)]
   `,
   primary: `
-    !h-[34px]
-    max-md:!w-[34px]
+    lg:!h-[34px]
 
     border-transparent
     bg-primary-gradient
+    header-action-primary
     text-[var(--color-text-inverse)]
   `,
 };
@@ -202,7 +210,7 @@ export function HeaderActionLink({
   const content = (
     <>
       {icon ? <AppIcon icon={icon} size="md" /> : null}
-      <span className={icon ? "hidden md:inline" : undefined}>{label}</span>
+      <span className={icon ? "hidden lg:inline" : undefined}>{label}</span>
     </>
   );
   const actionClassName = `
@@ -265,7 +273,7 @@ export function HeaderActionButton({
   const content = (
     <>
       {icon ? <AppIcon icon={icon} size="md" /> : null}
-      <span className={icon ? "hidden md:inline" : undefined}>{label}</span>
+      <span className={icon ? "hidden lg:inline" : undefined}>{label}</span>
     </>
   );
   const actionClassName = `
