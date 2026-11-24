@@ -1,5 +1,4 @@
 import {
-  ChartNoAxesColumnIncreasing,
   FlaskConical,
   Folder,
   Inbox,
@@ -22,6 +21,7 @@ import {
   isProjectNewPath,
   isStaticNavActive,
 } from "@/lib/projectRoutes";
+import { PLAYGROUND_VISIBLE, TEAM_FEATURES_VISIBLE } from "@/lib/v1Scope";
 
 export type NavItem = {
   label: string;
@@ -50,17 +50,18 @@ export const primaryNavItems: NavItem[] = [
     href: "/memos",
     icon: Inbox,
   },
-  {
-    label: "팀",
-    href: "/teams",
-    icon: Users,
-  },
-  {
-    label: "리포트",
-    href: "/reports",
-    icon: ChartNoAxesColumnIncreasing,
-  },
 ];
+
+/** v1에서 메뉴에 보이지 않는 화면. 주소로 들어왔을 때 헤더 제목만 찾는다 (PRD 5-4). */
+const teamNavItem: NavItem = {
+  label: "팀",
+  href: "/teams",
+  icon: Users,
+};
+
+if (TEAM_FEATURES_VISIBLE) {
+  primaryNavItems.push(teamNavItem);
+}
 
 export const secondaryNavItems: NavItem[] = [
   {
@@ -68,12 +69,17 @@ export const secondaryNavItems: NavItem[] = [
     href: "/settings",
     icon: Settings,
   },
-  {
-    label: "플레이그라운드",
-    href: "/playground",
-    icon: FlaskConical,
-  },
 ];
+
+const playgroundNavItem: NavItem = {
+  label: "플레이그라운드",
+  href: "/playground",
+  icon: FlaskConical,
+};
+
+if (PLAYGROUND_VISIBLE) {
+  secondaryNavItems.push(playgroundNavItem);
+}
 
 export type PageNavMeta = {
   title: string;
@@ -82,7 +88,7 @@ export type PageNavMeta = {
 };
 
 export function getPageNavFromPath(pathname: string): PageNavMeta {
-  for (const item of [...primaryNavItems, ...secondaryNavItems]) {
+  for (const item of [...primaryNavItems, ...secondaryNavItems, teamNavItem, playgroundNavItem]) {
     if (isStaticNavActive(item.href, pathname)) {
       return {
         title: item.label,

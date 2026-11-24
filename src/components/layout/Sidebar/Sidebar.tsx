@@ -9,14 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 import SidebarMainProject from "@/components/layout/Sidebar/comp/SidebarMainProject";
 import SidebarProfile from "@/components/layout/Sidebar/comp/SidebarProfile";
 import IconButton from "@/components/ui/button/IconButton";
-import {
-  AppIcon,
-  ArrowRight,
-  Folder,
-  PanelLeftClose,
-  PanelLeftOpen,
-  X,
-} from "@/components/ui/icon";
+import { AppIcon, Folder, PanelLeftClose, PanelLeftOpen, X } from "@/components/ui/icon";
 import MenuLink from "@/components/ui/MenuLink";
 
 import { getProjects, readMainProjectId } from "@/features/projects/api/projects";
@@ -363,26 +356,16 @@ export default function Sidebar({ variant = "desktop", onNavigate }: SidebarProp
               <p className="mt-3 text-center text-xs text-[var(--color-text-secondary)]">
                 {mockWeeklyProgress.completed} / {mockWeeklyProgress.total} 완료
               </p>
-
-              <MenuLink
-                href="/reports"
-                onClick={handleSidebarNavigate}
-                className="mt-2 h-8 justify-center bg-transparent px-2 text-xs font-medium text-[var(--color-primary)] hover:bg-transparent hover:text-[var(--color-primary-hover)]"
-              >
-                <span>전체 리포트 보기</span>
-
-                <AppIcon icon={ArrowRight} size="sm" />
-              </MenuLink>
             </div>
           ) : (
-            <MenuLink
-              href="/reports"
-              className="flex h-10 justify-center rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] px-0 hover:bg-[var(--color-hover-soft)] lg:h-12"
+            <div
+              title={`이번 주 진행률 ${mockWeeklyProgress.percent}%`}
+              className="flex h-10 items-center justify-center rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] lg:h-12"
             >
               <span className="text-xs font-bold text-[var(--color-primary)]">
                 {mockWeeklyProgress.percent}%
               </span>
-            </MenuLink>
+            </div>
           )}
         </div>
 

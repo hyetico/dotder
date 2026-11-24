@@ -87,10 +87,10 @@ const projectEditTabs: {
   },
   {
     id: "team",
-    label: "팀 및 설정",
-    title: "팀 및 설정",
-    description: "팀, 관리자, 메인 프로젝트 설정을 변경해요.",
-    statusLabel: "팀 및 설정 수정 중",
+    label: "설정",
+    title: "설정",
+    description: "목표 태그와 메인 프로젝트 설정을 변경해요.",
+    statusLabel: "설정 수정 중",
   },
 ];
 
