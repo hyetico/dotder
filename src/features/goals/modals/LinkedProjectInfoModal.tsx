@@ -17,11 +17,12 @@ import { formatDateRange } from "@/lib/date";
 import { getUserName } from "@/lib/mock/users";
 
 import type { ProjectStatus } from "@/features/projects/types/project";
+import type { ProjectColorKey } from "@/lib/projectPalette";
 
 type LinkedProject = {
   name: string;
   description: string;
-  color: string | null;
+  color: ProjectColorKey | null;
   isMain: boolean;
   status: ProjectStatus;
   startDate: string;

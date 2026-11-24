@@ -26,7 +26,6 @@
 | **S-6** | 폴더 카드 그림자: `--shadow-project-card`(`-hover`), `ProjectBoardCard`·`ProjectFolder`의 `shadow-[0_…]` 7곳. 폴더 카드 모양(handoff C1)과 같이 정리. (입력칸 포커스 링 `shadow-[0_0_0_1px_var(…)]`은 토큰을 쓰는 테두리라 제외) | 9곳 | 5 |
 | **S-8** | 강제 덮어쓰기 `!` | 55곳 | 4, 5 |
 | **S-9** | 임의 px 값 전체 | 490곳 | 4 (점진) |
-| **S-12** | 이미 저장된 Ivory `#e7ddd0` · Ink `#2a2430` 프로젝트 색을 가까운 색으로 옮기기 (안: Ivory → 골드 `#c4a574`, Ink → 플럼 `#6b2d5b`. 확정 전). 고르는 9색과 화면 이름은 4단계에서 바꿈. 지금 목업 데이터에 Ivory 6곳 | 저장값 | 8 (D-5와 같이) |
 | **S-13** | `text-badge-sm-mobile` 5곳. 의미 클래스(`text-*`)가 `@layer` 밖 일반 CSS라 `lg:` 같은 변형을 못 붙이고, `font-medium` 같은 유틸리티보다 항상 이긴다(굵기를 덮어씀). Tailwind `@utility`로 옮기면 변형이 되지만 굵기가 함께 쓰인 101곳의 모양이 바뀐다 | 5 / 101곳 | 5 |
 | **S-14** | 컨트롤 높이 토큰이 style-guide와 다름: `--control-sm` 32 (가이드 36), `--control-xs`(28) 없음 | 2 | 5 |
 | **S-16** | 숨김 화면(`TeamScopeModal`, `ProjectDetailTeam`)도 4단계 일괄 치환(글자 크기 · 색 토큰)으로 바뀜. 동작은 그대로 | 기록 | - |

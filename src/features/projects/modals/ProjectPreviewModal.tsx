@@ -13,13 +13,14 @@ import { formatDateRange } from "@/lib/date";
 import { TEAM_FEATURES_VISIBLE } from "@/lib/v1Scope";
 
 import type { ProjectStatus } from "@/features/projects/types/project";
+import type { ProjectColorKey } from "@/lib/projectPalette";
 
 type ProjectPreviewModalProps = {
   isOpen: boolean;
   onClose: () => void;
   name: string;
   description: string;
-  color: string | null;
+  color: ProjectColorKey | null;
   isMain: boolean;
   status: ProjectStatus;
   delayed?: boolean;

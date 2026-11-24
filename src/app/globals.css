@@ -399,16 +399,10 @@
   --color-danger-text: #b91c1c;
 
   /*
-   * 종류 색 (style-guide 1-6).
-   * 사이드바·검색 아이콘, 기록 점, 빈 상태 그림, 로고에만. 버튼·탭·뱃지에는 쓰지 않는다.
+   * 프로젝트 색 바탕을 섞는 밑색 (style-guide 1-8). 색 값 자체는 lib/projectPalette.ts 한 곳에 있고,
+   * --project-<키> · -tint · -line · -ink 변수는 루트 레이아웃이 팔레트에서 만든다.
    */
-  --color-kind-project: #6b2d5b;
-  --color-kind-goal: #2f6b5a;
-  --color-kind-task: #6d28d9;
-  --color-kind-memo: #c4a574;
-
-  /* 폴더 카드·뱃지 바탕에 섞는 프로젝트 색 비율 (style-guide 1-8) */
-  --project-tint: 18%;
+  --color-project-base: var(--color-surface);
 
   /*
    * 사이드 메뉴.
@@ -545,11 +539,7 @@
   --color-success-text: #6fd69a;
   --color-warning-text: #f5a66b;
   --color-danger-text: #ff8a8a;
-  --color-kind-project: #c98bb6;
-  --color-kind-goal: #6fc2a5;
-  --color-kind-task: #a78bfa;
-  --color-kind-memo: #d9bd8f;
-  --project-tint: 20%;
+  --color-project-base: #16181c;
   --color-nav-active: #2a2e35;
   --color-nav-active-text: #f3f4f6;
   --shadow-overlay: 0 12px 32px rgb(0 0 0 / 50%);
@@ -980,18 +970,10 @@ textarea:-webkit-autofill:focus {
     linear-gradient(135deg, #ef4444 0%, #f87171 42%, #fdb8b8 100%);
 }
 
+/* 메인 왕관 뱃지. 프로젝트 색(--accent-primary)이 있으면 그 색 한 가지, 다크는 팔레트 다크 값 */
 .bg-accent-gradient {
   background-color: var(--accent-primary, var(--color-primary));
   background-image: var(--accent-gradient, var(--gradient-primary));
-}
-
-/*
- * 다크 모드의 메인 왕관: 프로젝트 색에 흰색 30%를 섞어 바탕 대비 3:1 이상 (handoff A4).
- * 예: 플럼 #6b2d5b → #976c8c
- */
-:root[data-theme="dark"] .bg-accent-gradient {
-  background-color: color-mix(in srgb, var(--accent-primary, var(--color-primary)) 70%, white);
-  background-image: none;
 }
 
 .bg-primary-gradient {
@@ -1114,26 +1096,17 @@ textarea:-webkit-autofill:focus {
   animation: drawer-fade-out 400ms ease-in-out both;
 }
 
-/* 고르는 목록의 프로젝트 점 · 왕관 (ProjectMark). 다크는 흰색 30% (handoff A4) */
+/* 고르는 목록의 프로젝트 점 · 왕관 (ProjectMark). 다크 값은 팔레트 변수가 준다 */
 .project-mark {
   color: var(--project-mark-color, var(--color-neutral));
 }
 
-:root[data-theme="dark"] .project-mark {
-  color: color-mix(in srgb, var(--project-mark-color, var(--color-neutral)) 70%, white);
-}
-
 /*
- * 활동 모자이크 (Design Guide 11). 색은 프로젝트 색 한 가지(--mosaic-color, 카드에서 넣음).
- * 다크는 메인 왕관과 같이 흰색 30%를 섞어 바탕 대비를 올린다 (handoff A4).
- * 조각은 클수록 진하다.
+ * 활동 모자이크 (Design Guide 11). 색은 프로젝트 색 한 가지(--mosaic-color = var(--project-<키>)).
+ * 다크 값은 팔레트 변수가 준다. 조각은 클수록 진하다.
  */
 .activity-mosaic {
   --mosaic-ink: var(--mosaic-color, var(--color-neutral));
-}
-
-:root[data-theme="dark"] .activity-mosaic {
-  --mosaic-ink: color-mix(in srgb, var(--mosaic-color, var(--color-neutral)) 70%, white);
 }
 
 .activity-mosaic-box {

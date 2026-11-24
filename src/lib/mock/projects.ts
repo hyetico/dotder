@@ -1,6 +1,11 @@
+import { toProjectColorKey } from "@/lib/projectPalette";
+
 import type { Project } from "@/features/projects/types/project";
 
-export const mockProjects: Project[] = [
+/** 옛 저장 형식: 색이 hex 문자열이거나 비어 있다 (2026-11-24 이전). */
+type StoredProject = Omit<Project, "color"> & { color: string | null };
+
+const storedProjects: StoredProject[] = [
   {
     id: 1,
     name: "팀 업무와 목표와 일정과 담당자를 한곳에서 관리하는 전사 협업 워크스페이스 구축 프로젝트.",
@@ -243,3 +248,12 @@ export const mockProjects: Project[] = [
     tags: [],
   },
 ];
+
+/**
+ * 앱이 쓰는 프로젝트 목록. 옛 색 값(hex)을 읽어 들일 때 한 번 색 키로 바꿔 저장한다
+ * (lib/projectPalette.ts `toProjectColorKey`). 새로 만들거나 고치는 프로젝트는 처음부터 키로 저장된다.
+ */
+export const mockProjects: Project[] = storedProjects.map((project) => ({
+  ...project,
+  color: toProjectColorKey(project.color),
+}));

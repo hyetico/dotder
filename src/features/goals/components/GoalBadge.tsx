@@ -14,6 +14,7 @@ import {
 } from "@/features/projects/utils/projectColors";
 
 import type { GoalStatus } from "@/features/goals/types/goal";
+import type { ProjectColorKey } from "@/lib/projectPalette";
 
 const badgeSizes = {
   xs: {
@@ -44,7 +45,7 @@ const badgeSizes = {
 } as const;
 
 type GoalBadgeProps = {
-  color: string | null;
+  color: ProjectColorKey | null;
   size?: keyof typeof badgeSizes;
   className?: string;
   emoji?: string;

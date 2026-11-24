@@ -5,14 +5,16 @@ import {
   type ActivityDay,
   type ActivityLevel,
 } from "@/features/projects/utils/activityMosaic";
+import { getProjectAccentColor } from "@/features/projects/utils/projectColors";
 
+import type { ProjectColorKey } from "@/lib/projectPalette";
 import type { CSSProperties } from "react";
 
 type ActivityMosaicProps = {
   /** 날짜별 기록. 없으면 빈 날 점만 그린다. */
   days: readonly ActivityDay[];
-  /** 프로젝트 색. 없으면 회색. */
-  color: string | null;
+  /** 프로젝트 색 키. 없으면 회색. */
+  color: ProjectColorKey | null;
   /** 기준 날짜. 테스트할 때만 넘긴다. */
   today?: Date;
 };
@@ -54,7 +56,9 @@ function Tile({ level }: { level: ActivityLevel }) {
  */
 export default function ActivityMosaic({ days, color, today }: ActivityMosaicProps) {
   const mosaic = useMemo(() => buildActivityMosaic(days, today ?? new Date()), [days, today]);
-  const style = color?.trim() ? ({ "--mosaic-color": color } as CSSProperties) : undefined;
+  const style = color
+    ? ({ "--mosaic-color": getProjectAccentColor(color) } as CSSProperties)
+    : undefined;
 
   return (
     <div className="activity-mosaic flex flex-col gap-2.5" style={style}>

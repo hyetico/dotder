@@ -1,5 +1,7 @@
 import ProjectFolder from "@/features/projects/components/ProjectFolder";
 
+import type { ProjectColorKey } from "@/lib/projectPalette";
+
 const calendarDayKeys = Array.from({ length: 12 }, (_, index) => index);
 
 const calendarTodayIndex = 5;
@@ -49,7 +51,7 @@ function IllustrationGround() {
  * @param props - FolderIllustration 컴포넌트 Props
  * @param props.color - 고른 프로젝트 색. 없으면 회색 폴더
  */
-export function FolderIllustration({ color }: { color: string | null }) {
+export function FolderIllustration({ color }: { color: ProjectColorKey | null }) {
   return (
     <div aria-hidden>
       <div className="relative">

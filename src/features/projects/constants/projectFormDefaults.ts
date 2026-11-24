@@ -3,6 +3,7 @@ import { type ProjectFormData } from "@/features/projects/schemas/projectSchema"
 import { getProjectTeamOptions, PROJECT_TEAM_NONE } from "@/features/projects/utils/projectTeam";
 
 import { mockTeams } from "@/lib/mock/teams";
+import { DEFAULT_PROJECT_COLOR } from "@/lib/projectPalette";
 
 export const projectFormDomId = "project-form";
 
@@ -15,7 +16,7 @@ export const PROJECT_DESCRIPTION_LIMIT = 500;
 export const defaultFormValues: ProjectFormData = {
   name: "",
   description: "",
-  color: null,
+  color: DEFAULT_PROJECT_COLOR,
   teamId: PROJECT_TEAM_NONE,
   startDate: "",
   endDate: "",
