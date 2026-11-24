@@ -654,11 +654,7 @@
     --bottom-bar-button-line: 20px;
     --bottom-bar-button-px: 16px;
 
-    /* 데스크톱은 기존 36px. 하단 주요 액션만 40px, 모달은 36px */
-    --button-height: 36px;
-    --tab-height: 36px;
-    --button-height-action: 40px;
-    --button-height-modal: 36px;
+    /* 버튼(md)·탭 높이 40은 화면 너비로 바뀌지 않는다 (style-guide 4장) */
   }
 }
 
