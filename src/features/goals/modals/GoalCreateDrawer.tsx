@@ -8,16 +8,13 @@ import PrimaryButton from "@/components/ui/button/PrimaryButton";
 import SecondaryButton from "@/components/ui/button/SecondaryButton";
 import DatePicker from "@/components/ui/date-picker/DatePicker";
 import Drawer from "@/components/ui/drawer/Drawer";
-import FieldNotice from "@/components/ui/FieldNotice";
-import { AppIcon, Calendar, Info, Link2, Target } from "@/components/ui/icon";
-import { useAlert } from "@/components/ui/modal/AlertModal";
-import Modal from "@/components/ui/modal/Modal";
-import ProfileSummary from "@/components/ui/ProfileSummary";
+import FormField from "@/components/ui/form/FormField";
+import { AppIcon, ChevronDown, Link2 } from "@/components/ui/icon";
+import Input from "@/components/ui/input/Input";
+import Textarea from "@/components/ui/input/Textarea";
+import AlertModal, { useAlert } from "@/components/ui/modal/AlertModal";
 
 import { createGoal } from "@/features/goals/api/goals";
-import GoalDrawerDescriptionField from "@/features/goals/components/GoalDrawerDescriptionField";
-import GoalStatusIcon from "@/features/goals/components/GoalStatusIcon";
-import GoalStatusLabel from "@/features/goals/components/GoalStatusLabel";
 import GoalTag from "@/features/goals/components/GoalTag";
 import {
   useGoalDrawerOffset,
@@ -25,14 +22,12 @@ import {
 } from "@/features/goals/modals/goalDrawerOffset";
 import GoalProjectSelectModal from "@/features/goals/modals/GoalProjectSelectModal";
 import { getTodayDateValue } from "@/features/goals/utils/goalDates";
-import { getGoalStatusLabel } from "@/features/goals/utils/goalUtils";
-import { FieldError } from "@/features/projects/components/ProjectForm/FormParts";
+import ProjectMark from "@/features/projects/components/ProjectMark";
 
 import { formatDate } from "@/lib/date";
-import { currentUser } from "@/lib/mock/users";
 import { goalQueryKeys } from "@/lib/queryKeys";
 
-import type { GoalIcon, GoalStatus } from "@/features/goals/types/goal";
+import type { GoalIcon } from "@/features/goals/types/goal";
 import type { Project } from "@/features/projects/types/project";
 
 const GOAL_TITLE_LIMIT = 50;
@@ -41,20 +36,8 @@ const GOAL_TAG_LIMIT = 2;
 const GOAL_CREATE_ICON: GoalIcon = "layout";
 const SLIDE_MS = 400;
 
-const goalIconPreviewClassName =
-  "flex size-12 shrink-0 items-center justify-center rounded-[var(--radius-md)] bg-[var(--color-hover-soft)] text-[var(--color-text-secondary)]";
-const goalTitleAreaClassName =
-  "text-2xl! leading-[32px]! font-[700]! text-[var(--color-text)]! placeholder:text-2xl placeholder:leading-[32px] placeholder:font-[700] placeholder:text-[var(--color-text-placeholder)]! focus:placeholder:text-[var(--color-text-placeholder)]!";
-const goalDescriptionAreaClassName =
-  "placeholder:text-[var(--color-text-placeholder)]! focus:placeholder:text-[var(--color-text-placeholder)]!";
-const goalTitleBlockClassName = "flex w-full min-w-0 flex-col items-stretch gap-[16px]";
-const drawerBodyClassName = "!px-[62px]";
-const drawerRowClassName = "flex min-w-0 items-center gap-[12px] py-4";
-const drawerRowTopClassName = "mt-[32px] flex min-w-0 items-start gap-[12px] pb-4";
-const drawerRowLabelClassName =
-  "w-[80px] shrink-0 text-sm leading-[20px] font-[500] text-[var(--color-text-muted)]";
-const drawerAsideClassName =
-  "ml-auto inline-flex shrink-0 items-center gap-1 text-xs leading-[18px] font-[400] whitespace-nowrap text-[var(--color-text-muted)]";
+const moreToggleClassName =
+  "text-body -mx-2 flex h-9 w-fit cursor-pointer items-center gap-1.5 rounded-[var(--radius-sm)] px-2 font-semibold text-[var(--color-text)] transition-colors hover:bg-[var(--color-hover)]";
 const projectNameClassName =
   "min-w-0 flex-1 truncate text-sm leading-[20px] font-[400] text-[var(--color-text)]";
 const periodTextClassName =
@@ -66,28 +49,9 @@ const tagLimitClassName =
 const tagListClassName = "mt-[8px] flex min-w-0 flex-wrap items-center gap-1.5";
 const tagEmptyClassName =
   "mt-[8px] text-sm leading-[20px] font-[400] text-[var(--color-text-muted)]";
-const goalTagSectionClassName = "py-4";
 const tagButtonClassName =
   "max-w-full min-w-0 cursor-pointer rounded-[var(--radius-sm)] disabled:cursor-not-allowed";
 const tagSelectedClassName = "outline outline-1 outline-[var(--color-text)]";
-const assigneeSummaryClassName =
-  "h-auto! w-auto! shrink-0 border-transparent! bg-transparent! px-0! py-0! md:px-0! [&_.truncate]:text-sm! [&_.truncate]:leading-[20px]! [&_.truncate]:font-[400]! [&_.truncate]:text-[var(--color-text)]!";
-const statusTextClassName =
-  "inline-flex min-w-0 items-center gap-1.5 text-sm leading-[20px] font-[400] text-[var(--color-text)]";
-const dateButtonEmptyClassName =
-  "w-full justify-start text-sm! leading-[20px]! font-[400]! text-[var(--color-text-muted)]! [&_span]:text-sm! [&_span]:leading-[20px]! [&_span]:font-[400]! [&_span]:text-[var(--color-text-muted)]!";
-const dateButtonValueClassName =
-  "w-full justify-start text-sm! leading-[20px]! font-[400]! text-[var(--color-text)]! [&_span]:text-sm! [&_span]:leading-[20px]! [&_span]:font-[400]! [&_span]:text-[var(--color-text)]!";
-
-const goalStatusAutoRules: { condition: string; status: GoalStatus }[] = [
-  { condition: "태스크 없음 또는 모두 미시작", status: "NOT_STARTED" },
-  { condition: "진행 중이 있거나 일부 완료", status: "IN_PROGRESS" },
-  { condition: "1개 이상 연결되며 모두 완료", status: "COMPLETED" },
-];
-const goalStatusAutoInfoButtonClassName =
-  "inline-flex size-[22px] shrink-0 cursor-pointer items-center justify-center rounded-full p-0 leading-none text-[var(--color-text-muted)] transition-colors hover:bg-[var(--color-primary-soft)] hover:text-[var(--color-primary)]";
-const goalStatusAutoRuleClassName =
-  "flex min-w-0 items-center justify-between gap-3 border-b border-[var(--color-border)] py-3 last:border-b-0";
 
 type GoalCreateErrors = {
   title: string;
@@ -119,69 +83,6 @@ const emptyErrors: GoalCreateErrors = {
 };
 
 /**
- * GoalStatusAutoInfo
- *
- * 목표 상태가 연결된 태스크에 따라 계산되는 규칙을 모달로 보여 줍니다.
- */
-function GoalStatusAutoInfo() {
-  const titleId = useId();
-  const [isOpen, setIsOpen] = useState(false);
-  const close = () => setIsOpen(false);
-
-  return (
-    <>
-      <button
-        type="button"
-        aria-label="목표 상태 자동 계산"
-        aria-haspopup="dialog"
-        aria-expanded={isOpen}
-        onClick={() => setIsOpen(true)}
-        className={goalStatusAutoInfoButtonClassName}
-      >
-        <AppIcon icon={Info} size="sm" />
-      </button>
-
-      <Modal
-        isOpen={isOpen}
-        onClose={close}
-        labelledBy={titleId}
-        zIndexClassName="z-[var(--z-modal)]"
-      >
-        <Modal.Header
-          id={titleId}
-          title="목표 상태 자동 계산"
-          onClose={close}
-          closeLabel="목표 상태 자동 계산 닫기"
-        />
-
-        <Modal.Body>
-          <ul>
-            {goalStatusAutoRules.map((rule) => (
-              <li key={rule.status} className={goalStatusAutoRuleClassName}>
-                <span className="text-caption min-w-0 text-[var(--color-text-secondary)]">
-                  {rule.condition}
-                </span>
-                <GoalStatusLabel status={rule.status} />
-              </li>
-            ))}
-          </ul>
-
-          <FieldNotice className="mt-3!">
-            마감 초과 여부는 적용된 마감일을 기준으로 별도 표시됩니다.
-          </FieldNotice>
-        </Modal.Body>
-
-        <Modal.Footer>
-          <PrimaryButton size="modal" onClick={close}>
-            확인
-          </PrimaryButton>
-        </Modal.Footer>
-      </Modal>
-    </>
-  );
-}
-
-/**
  * GoalCreateDrawerPanel
  *
  * 새 목표를 작성하는 오른쪽 드로어 본문입니다.
@@ -207,7 +108,7 @@ function GoalCreateDrawerPanel({
   const titleFieldId = useId();
   const descriptionFieldId = useId();
   const panelRef = useRef<HTMLElement>(null);
-  const titleRef = useRef<HTMLTextAreaElement>(null);
+  const titleRef = useRef<HTMLInputElement>(null);
   const { alert } = useAlert();
   const queryClient = useQueryClient();
   const createGoalMutation = useMutation({
@@ -227,6 +128,8 @@ function GoalCreateDrawerPanel({
   const [endDate, setEndDate] = useState(initialProject?.endDate ?? "");
   const [errors, setErrors] = useState<GoalCreateErrors>(emptyErrors);
   const [isProjectSelectOpen, setIsProjectSelectOpen] = useState(false);
+  const [isMoreOpen, setIsMoreOpen] = useState(false);
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const pushesPage = useGoalDrawerPushesPage();
   const project = projects.find((item) => item.id === projectId) ?? null;
   const isActive = isEntered;
@@ -279,6 +182,10 @@ function GoalCreateDrawerPanel({
   const validate = () => {
     const next = { ...emptyErrors };
     const trimmedTitle = title.trim();
+
+    if (!trimmedTitle) {
+      next.title = "목표 이름을 입력해주세요.";
+    }
 
     if (trimmedTitle.length > GOAL_TITLE_LIMIT) {
       next.title = `목표 이름은 ${GOAL_TITLE_LIMIT}자 이하로 입력해 주세요.`;
@@ -408,7 +315,7 @@ function GoalCreateDrawerPanel({
    *
    * 작성 중인 목표를 저장한 뒤 드로어를 닫습니다.
    */
-  const closeDrawer = () => {
+  const submitDrawer = () => {
     void persistGoal().then((saved) => {
       if (saved) {
         onClose();
@@ -416,251 +323,230 @@ function GoalCreateDrawerPanel({
     });
   };
 
+  // 바꾼 내용이 있으면 드로어 가운데 확인창을 띄운다 (Layout Spec 05)
+  const isDirty =
+    title.trim() !== "" ||
+    description.trim() !== "" ||
+    tags.length > 0 ||
+    projectId !== (initialProject?.id ?? null) ||
+    (!periodLocked && (startDate !== "" || endDate !== ""));
+
+  const requestClose = () => {
+    if (isDirty) {
+      setIsConfirmOpen(true);
+      return;
+    }
+
+    onClose();
+  };
+
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    closeDrawer();
+    submitDrawer();
   };
 
   return (
     <>
       <Drawer
         isEntered={isActive}
-        title=""
+        title="목표 추가"
         titleId={titleId}
-        onClose={closeDrawer}
-        closeLabel="새 목표 닫기"
+        onClose={requestClose}
+        closeLabel="목표 추가 닫기"
         overlay={!pushesPage}
         lockScroll={!pushesPage}
         panelRef={panelRef}
       >
         <form className="flex min-h-0 flex-1 flex-col" onSubmit={handleSubmit}>
-          <Drawer.Body className={drawerBodyClassName}>
-            <div>
-              <div>
-                <div className={goalTitleBlockClassName}>
-                  <span aria-hidden className={goalIconPreviewClassName}>
-                    <AppIcon icon={Target} size="lg" />
-                  </span>
+          <Drawer.Body>
+            <FormField label="이름" htmlFor={titleFieldId} required error={errors.title}>
+              <Input
+                id={titleFieldId}
+                ref={titleRef}
+                value={title}
+                maxLength={GOAL_TITLE_LIMIT}
+                placeholder="목표 이름을 입력하세요"
+                aria-required="true"
+                aria-invalid={errors.title ? true : undefined}
+                onChange={(event) => {
+                  setTitle(event.target.value);
+                  setErrors((current) => ({ ...current, title: "" }));
+                }}
+              />
+            </FormField>
 
-                  <GoalDrawerDescriptionField
-                    id={titleFieldId}
-                    inputRef={titleRef}
-                    value={title}
-                    maxLength={GOAL_TITLE_LIMIT}
-                    placeholder="새 목표"
-                    ariaLabel="목표 이름"
-                    plain
-                    invalid={Boolean(errors.title)}
-                    areaClassName={goalTitleAreaClassName}
-                    onChange={(event) => {
-                      setTitle(event.target.value);
-                      setErrors((current) => ({ ...current, title: "" }));
-                    }}
-                  />
-                </div>
-
-                <FieldError message={errors.title} />
+            <FormField label="프로젝트">
+              <div className="flex min-w-0 items-center gap-2">
+                {project ? (
+                  <>
+                    <ProjectMark color={project.color} isMain={project.isMain} />
+                    <span className={projectNameClassName}>{project.name}</span>
+                  </>
+                ) : null}
+                <SecondaryButton
+                  type="button"
+                  icon={project ? undefined : <AppIcon icon={Link2} size="sm" />}
+                  onClick={() => setIsProjectSelectOpen(true)}
+                  className={project ? "ml-auto" : undefined}
+                >
+                  {project ? "변경" : "연결"}
+                </SecondaryButton>
               </div>
+            </FormField>
 
-              <div className={drawerRowTopClassName}>
-                <label htmlFor={descriptionFieldId} className={drawerRowLabelClassName}>
-                  설명
-                </label>
+            <FormField
+              label="태그"
+              aside={
+                project ? (
+                  <span className={tagLimitClassName}>
+                    {tags.length}/{GOAL_TAG_LIMIT}
+                  </span>
+                ) : null
+              }
+              hint={
+                project
+                  ? isTagLimitReached
+                    ? "태그는 2개까지만 선택할 수 있습니다."
+                    : undefined
+                  : "프로젝트를 고르면 그 프로젝트의 태그를 쓸 수 있어요"
+              }
+            >
+              {project ? (
+                tagOptions.length > 0 ? (
+                  <div className={tagListClassName}>
+                    {tagOptions.map((tag) => {
+                      const isSelected = tags.includes(tag);
+                      const isDisabled = !isSelected && isTagLimitReached;
+                      const tagClassName = [
+                        tagButtonClassName,
+                        isSelected ? tagSelectedClassName : "",
+                        isDisabled ? "opacity-40" : "",
+                      ]
+                        .filter(Boolean)
+                        .join(" ");
 
-                <div className="min-w-0 flex-1">
-                  <GoalDrawerDescriptionField
+                      return (
+                        <button
+                          key={tag}
+                          type="button"
+                          aria-pressed={isSelected}
+                          disabled={isDisabled}
+                          onClick={() => toggleTag(tag)}
+                          className={tagClassName}
+                        >
+                          <GoalTag tag={tag} />
+                        </button>
+                      );
+                    })}
+                  </div>
+                ) : (
+                  <p className={tagEmptyClassName}>이 프로젝트에 설정된 태그가 없습니다.</p>
+                )
+              ) : null}
+            </FormField>
+
+            <button
+              type="button"
+              aria-expanded={isMoreOpen}
+              onClick={() => setIsMoreOpen((open) => !open)}
+              className={moreToggleClassName}
+            >
+              <AppIcon
+                icon={ChevronDown}
+                size="sm"
+                className={`transition-transform ${isMoreOpen ? "" : "-rotate-90"}`}
+              />
+              더 설정하기
+              <span className="font-normal text-[var(--color-text-secondary)]">· 기간, 설명</span>
+            </button>
+
+            {isMoreOpen ? (
+              <>
+                {periodLocked ? (
+                  <FormField label="기간">
+                    <div className="flex min-w-0 items-center justify-between gap-2">
+                      <span className={periodTextClassName}>{linkedPeriodText || "기간 없음"}</span>
+                      <span className={periodLinkClassName}>
+                        <AppIcon icon={Link2} size="sm" />
+                        프로젝트 기간 연동
+                      </span>
+                    </div>
+                  </FormField>
+                ) : (
+                  <div className="grid grid-cols-2 gap-3">
+                    <FormField label="시작일" error={errors.startDate}>
+                      <DatePicker
+                        title="시작일"
+                        value={startDate}
+                        onChange={(value) => {
+                          setStartDate(value);
+
+                          if (endDate && value && endDate < value) {
+                            setEndDate("");
+                          }
+
+                          setErrors((current) => ({ ...current, startDate: "", endDate: "" }));
+                        }}
+                        min={startDateMin}
+                        max={startDateMax}
+                        invalid={Boolean(errors.startDate)}
+                      />
+                    </FormField>
+                    <FormField label="마감일" error={errors.endDate}>
+                      <DatePicker
+                        title="마감일"
+                        value={endDate}
+                        onChange={(value) => {
+                          setEndDate(value);
+                          setErrors((current) => ({ ...current, endDate: "" }));
+                        }}
+                        min={endDateMin}
+                        max={endDateMax}
+                        invalid={Boolean(errors.endDate)}
+                      />
+                    </FormField>
+                  </div>
+                )}
+
+                <FormField label="설명" htmlFor={descriptionFieldId} error={errors.description}>
+                  <Textarea
                     id={descriptionFieldId}
                     value={description}
                     maxLength={GOAL_DESCRIPTION_LIMIT}
                     placeholder="목표에 대한 설명을 입력하세요"
-                    areaClassName={goalDescriptionAreaClassName}
-                    invalid={Boolean(errors.description)}
                     onChange={(event) => {
                       setDescription(event.target.value);
                       setErrors((current) => ({ ...current, description: "" }));
                     }}
                   />
-
-                  <FieldError message={errors.description} />
-                </div>
-              </div>
-
-              <div className={drawerRowClassName}>
-                <span className={drawerRowLabelClassName}>프로젝트</span>
-                <span className={projectNameClassName}>{project ? project.name : ""}</span>
-                <SecondaryButton
-                  type="button"
-                  icon={project ? undefined : <AppIcon icon={Link2} size="sm" />}
-                  onClick={() => setIsProjectSelectOpen(true)}
-                  className="ml-auto"
-                >
-                  {project ? "변경" : "연결"}
-                </SecondaryButton>
-              </div>
-
-              {project ? (
-                <div className={goalTagSectionClassName}>
-                  <div className="flex min-w-0 items-start gap-[12px]">
-                    <span className={drawerRowLabelClassName}>태그 선택</span>
-
-                    <div className="min-w-0 flex-1">
-                      <span className={tagLimitClassName}>
-                        {tags.length}/{GOAL_TAG_LIMIT}
-                      </span>
-
-                      {tagOptions.length > 0 ? (
-                        <div className={tagListClassName}>
-                          {tagOptions.map((tag) => {
-                            const isSelected = tags.includes(tag);
-                            const isDisabled = !isSelected && isTagLimitReached;
-                            const tagClassName = [
-                              tagButtonClassName,
-                              isSelected ? tagSelectedClassName : "",
-                              isDisabled ? "opacity-40" : "",
-                            ]
-                              .filter(Boolean)
-                              .join(" ");
-
-                            return (
-                              <button
-                                key={tag}
-                                type="button"
-                                aria-pressed={isSelected}
-                                disabled={isDisabled}
-                                onClick={() => toggleTag(tag)}
-                                className={tagClassName}
-                              >
-                                <GoalTag tag={tag} />
-                              </button>
-                            );
-                          })}
-                        </div>
-                      ) : (
-                        <p className={tagEmptyClassName}>이 프로젝트에 설정된 태그가 없습니다.</p>
-                      )}
-
-                      {isTagLimitReached ? (
-                        <p className="text-caption mt-1.5 text-[var(--color-text-muted)]">
-                          태그는 2개까지만 선택할 수 있습니다.
-                        </p>
-                      ) : null}
-                    </div>
-                  </div>
-                </div>
-              ) : null}
-
-              <div className={drawerRowClassName}>
-                <span className={drawerRowLabelClassName}>기간</span>
-
-                {periodLocked ? (
-                  <span className={periodTextClassName}>{linkedPeriodText || "기간 없음"}</span>
-                ) : (
-                  <div className="flex min-w-0 flex-1 items-center gap-2">
-                    <DatePicker
-                      variant="button"
-                      buttonIcon={Calendar}
-                      buttonLabel="시작일 선택"
-                      buttonClassName={
-                        startDate ? dateButtonValueClassName : dateButtonEmptyClassName
-                      }
-                      className="min-w-0 flex-1"
-                      value={startDate}
-                      onChange={(value) => {
-                        setStartDate(value);
-
-                        if (endDate && value && endDate < value) {
-                          setEndDate("");
-                        }
-
-                        setErrors((current) => ({ ...current, startDate: "", endDate: "" }));
-                      }}
-                      formatValue={formatDate}
-                      min={startDateMin}
-                      max={startDateMax}
-                      invalid={Boolean(errors.startDate)}
-                      zIndexClassName="z-[var(--z-popover)]"
-                    />
-
-                    <DatePicker
-                      variant="button"
-                      buttonIcon={Calendar}
-                      buttonLabel="마감일 선택"
-                      buttonClassName={
-                        endDate ? dateButtonValueClassName : dateButtonEmptyClassName
-                      }
-                      className="min-w-0 flex-1"
-                      value={endDate}
-                      onChange={(value) => {
-                        setEndDate(value);
-                        setErrors((current) => ({ ...current, endDate: "" }));
-                      }}
-                      formatValue={formatDate}
-                      min={endDateMin}
-                      max={endDateMax}
-                      invalid={Boolean(errors.endDate)}
-                      zIndexClassName="z-[var(--z-popover)]"
-                    />
-                  </div>
-                )}
-
-                {periodLocked ? (
-                  <span className={periodLinkClassName}>
-                    <AppIcon icon={Link2} size="sm" />
-                    프로젝트 기간 연동
-                  </span>
-                ) : null}
-              </div>
-
-              <FieldError message={errors.startDate} />
-              <FieldError message={errors.endDate} />
-
-              <div className={drawerRowClassName}>
-                <span className={drawerRowLabelClassName}>담당자</span>
-                <ProfileSummary
-                  name={currentUser.name}
-                  image={currentUser.image}
-                  className={assigneeSummaryClassName}
-                />
-              </div>
-
-              <div className={drawerRowClassName}>
-                <span className={drawerRowLabelClassName}>목표 상태</span>
-                <span className={statusTextClassName}>
-                  <GoalStatusIcon
-                    status="NOT_STARTED"
-                    size={16}
-                    className="text-[var(--color-text-muted)]"
-                  />
-                  {getGoalStatusLabel("NOT_STARTED")}
-                </span>
-                <span className={drawerAsideClassName}>
-                  자동 계산
-                  <GoalStatusAutoInfo />
-                </span>
-              </div>
-            </div>
+                </FormField>
+              </>
+            ) : null}
           </Drawer.Body>
 
           <Drawer.Footer>
-            <SecondaryButton
-              size="modal"
-              onClick={closeDrawer}
-              disabled={isCreating}
-              className="min-w-[80px] justify-center"
-            >
+            <SecondaryButton onClick={requestClose} disabled={isCreating}>
               취소
             </SecondaryButton>
 
-            <PrimaryButton
-              type="submit"
-              size="modal"
-              disabled={isCreating}
-              className="min-w-[96px] justify-center"
-            >
-              {isCreating ? "추가 중..." : "목표 추가"}
+            <PrimaryButton type="submit" disabled={isCreating}>
+              추가
             </PrimaryButton>
           </Drawer.Footer>
         </form>
+
+        <AlertModal
+          isOpen={isConfirmOpen}
+          title="수정을 취소할까요?"
+          confirmLabel="취소하기"
+          cancelLabel="계속 수정"
+          tone="danger"
+          onConfirm={() => {
+            setIsConfirmOpen(false);
+            onClose();
+          }}
+          onClose={() => setIsConfirmOpen(false)}
+        />
       </Drawer>
 
       <GoalProjectSelectModal

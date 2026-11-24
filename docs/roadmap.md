@@ -133,16 +133,16 @@
 ## 6. 생성 드로어 통일 — `refactor/create-drawer`
 
 - [x] 드로어 공통 틀(`Drawer` 원본 규격) · `FormField`(라벨 위) · `useDrawerPresence` — 예전 계획 `CreateDrawer` · `DrawerRow`(라벨 80 왼쪽) 대신
-- [ ] 목표 생성 드로어를 새 틀로 옮기기 (`GoalCreateDrawer` 25KB 줄이기)
+- [x] 목표 생성 드로어를 새 틀로 옮기기 (`GoalCreateDrawer` 758 → 646줄)
 - [x] 프로젝트 생성 드로어 만들기 (시안 기준, 이름만 필수, 마감 없음 허용, 상태 자동)
-- [ ] 메모 등록 드로어 옮기기
+- [x] 메모 등록 드로어 옮기기
 - [ ] 드로어 밀어내기(`--drawer-offset`)를 공통으로
 - [x] `/projects/new` 위저드 연결 끊기 (파일은 남김, `/projects?new=1`로 넘김)
 - [ ] `GoalForm` 44KB 나누기
 
 - [x] 드로어 안 모양: 헤더 56 · 제목 18/28 · 본문 패딩 24 · 필드 간격 24 · 푸터 72 (layout-guide 6장, 원본 Layout Spec 05)
-- [ ] handoff C4 입력칸 이름: 첫 칸은 모두 "이름 *", 프로젝트는 "색상"
-- [ ] 필수 칸 표시: 빨간 `*` + `aria-required="true"` + 비운 채 제출하면 칸 아래 오류 글, "(선택)" 없앰 (design-guide 7-3)
+- [ ] handoff C4 입력칸 이름: 첫 칸은 모두 "이름 *", 프로젝트는 "색상" — 만들기 드로어 3종 · 「태그」 완료, 수정 화면 · 태스크 모달 · 목표 상세 남음
+- [ ] 필수 칸 표시: 빨간 `*` + `aria-required="true"` + 비운 채 제출하면 칸 아래 오류 글, "(선택)" 없앰 (design-guide 7-3) — 만들기 드로어 3종 완료
 
 **완료 기준:** 생성 드로어 3종이 같은 틀을 쓴다. 프로젝트를 이름만으로 만들 수 있다.
 

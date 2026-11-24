@@ -135,18 +135,18 @@ src/features/<기능>/
 | `projects/components` | `ProjectColorPicker` | ✅ 색 고르기 칸 (원본 01a). 웹 · 태블릿 칸 28 · 한 줄 10개(폭 334), 모바일 칸 44 · 5개씩 2줄, 간격 6. 바탕 tint + 가운데 점 10, 선택은 그 색 테두리 2. 라디오 묶음 · ← → 로 이동 |
 | | `ProjectFolder` | 🔧 목록 카드 전용으로 단순화 (디테일 모드 제거) |
 | | `ProjectStatusBadge` | ✅ `StatusBadge` 위. 진행 중 + 지연이면 「지연」 뱃지를 옆에 붙임 |
-| | `ProjectCreateWizard` | ⛔ 드로어로 대체 |
+| | `ProjectCreateWizard` | 지움 (6단계) — 만들기는 `ProjectCreateDrawer`. 수정 화면이 쓰던 단계 3개는 `ProjectEditForm/steps/Edit…Step`으로 옮김 |
 | `projects/content` | `ProjectDetailPageContent` | 🔧 일반 페이지로 재구성 |
 | | `ProjectListRow` | 🔧 16KB. 즐겨찾기 편집에서는 `<label>`로 감싸 줄을 누르면 체크가 눌림 |
 | `projects/modals` | `ChangeProjectDeadlineModal` (22KB) | 🔧 나누기 |
 | | `TeamScopeModal` (22KB), `ProjectDetailTeam` | 💤 v1에서 숨김. 지우지도 고치지도 않는다 (PRD 5-4) |
 | `goals/components` | `GoalForm` (44KB) | 🔧 가장 먼저 나눌 파일 |
 | | `GoalStatusBadge` | ✅ `StatusBadge` 위. 완료가 아니고 지연이면 「지연」 뱃지를 옆에 붙임 |
-| `goals/modals` | `GoalCreateDrawer` (25KB), `GoalDetailDrawer` (28KB) | 🔧 `CreateDrawer` 틀로, 이모지 아이콘 제거 |
+| `goals/modals` | `GoalCreateDrawer`, `GoalDetailDrawer` (28KB) | 만들기 ✅ 원본 순서(이름 * → 프로젝트 → 태그 0/2 → 「더 설정하기 · 기간, 설명」), 「추가」로 저장 · 닫을 때 확인창. 상세 🔧 안쪽은 아직 라벨 왼쪽 |
 | `tasks/components` | `TaskBoard`, `TaskCard`, `BoardColumn` | ✅ |
 | | `TaskCalendarView` (21KB) | 🔧 나누기 |
 | | `TaskStatusBadge` | ✅ `StatusBadge` 위 |
-| `memos/components` | `MemoCards`, `MemoRegisterDrawer` | 🔧 `CreateDrawer` 틀로 |
+| `memos/components` | `MemoCards`, `MemoRegisterDrawer` | 등록 드로어 ✅ `FormField`(등록 대상 · 프로젝트 · 이름 * · 설명), 닫을 때 확인창 |
 | `search/modals` | `IntegratedSearchModal` (26KB) | 🔧 나누기 |
 
 ## 6. 생성 드로어 사용법 (예정)
