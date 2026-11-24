@@ -9,7 +9,7 @@ import SecondaryButton from "@/components/ui/button/SecondaryButton";
 import DatePicker from "@/components/ui/date-picker/DatePicker";
 import Drawer from "@/components/ui/drawer/Drawer";
 import FieldNotice from "@/components/ui/FieldNotice";
-import { AppIcon, Calendar, Info, Link2 } from "@/components/ui/icon";
+import { AppIcon, Calendar, Info, Link2, Target } from "@/components/ui/icon";
 import { useAlert } from "@/components/ui/modal/AlertModal";
 import Modal from "@/components/ui/modal/Modal";
 import ProfileSummary from "@/components/ui/ProfileSummary";
@@ -42,7 +42,7 @@ const GOAL_CREATE_ICON: GoalIcon = "layout";
 const SLIDE_MS = 400;
 
 const goalIconPreviewClassName =
-  "flex size-12 shrink-0 items-center justify-center rounded-[var(--radius-md)] bg-[var(--color-hover-soft)] text-2xl leading-none";
+  "flex size-12 shrink-0 items-center justify-center rounded-[var(--radius-md)] bg-[var(--color-hover-soft)] text-[var(--color-kind-goal)]";
 const goalTitleAreaClassName =
   "text-2xl! leading-[32px]! font-[700]! text-[var(--color-text)]! placeholder:text-2xl placeholder:leading-[32px] placeholder:font-[700] placeholder:text-[var(--color-text-placeholder)]! focus:placeholder:text-[var(--color-text-placeholder)]!";
 const goalDescriptionAreaClassName =
@@ -440,7 +440,7 @@ function GoalCreateDrawerPanel({
               <div>
                 <div className={goalTitleBlockClassName}>
                   <span aria-hidden className={goalIconPreviewClassName}>
-                    🎨
+                    <AppIcon icon={Target} size="lg" />
                   </span>
 
                   <GoalDrawerDescriptionField
