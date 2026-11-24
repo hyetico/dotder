@@ -174,30 +174,35 @@ function TasksPageLayout({ showHeading = false }: TasksPageContentProps) {
           />
         </>
       ) : null}
-      {taskAddDisabled && tasks.length > 0 ? <HoldAddNotice /> : null}
-      <TasksToolbar
-        searchQuery={searchQuery}
-        onSearchChange={setSearchQuery}
-        activeFilter={activeFilter}
-        onFilterChange={setActiveFilter}
-        sortValue={sortValue}
-        onSortChange={setSortValue}
-        filterItems={filterItems}
-        action={
-          showHeading || hideTaskAdd ? null : (
-            <PrimaryButton
-              icon={<AppIcon icon={Plus} size="md" className="text-[var(--color-text-inverse)]" />}
-              aria-label="새 태스크"
-              title={taskAddDisabled ? holdAddNoticeMessage : "새 태스크"}
-              disabled={taskAddDisabled}
-              onClick={() => setCreateOpen(true)}
-              className="!h-[var(--button-icon)] !w-[var(--button-icon)] justify-center !px-0 lg:!h-[var(--button-height)] lg:!w-auto lg:!px-[var(--button-px)]"
-            >
-              <span className="hidden lg:inline">새 태스크</span>
-            </PrimaryButton>
-          )
-        }
-      />
+      <div className="space-y-2">
+        <TasksToolbar
+          searchQuery={searchQuery}
+          onSearchChange={setSearchQuery}
+          activeFilter={activeFilter}
+          onFilterChange={setActiveFilter}
+          sortValue={sortValue}
+          onSortChange={setSortValue}
+          filterItems={filterItems}
+          action={
+            showHeading || hideTaskAdd ? null : (
+              <PrimaryButton
+                icon={
+                  <AppIcon icon={Plus} size="md" className="text-[var(--color-text-inverse)]" />
+                }
+                aria-label="새 태스크"
+                title={taskAddDisabled ? holdAddNoticeMessage : "새 태스크"}
+                disabled={taskAddDisabled}
+                onClick={() => setCreateOpen(true)}
+                className="!h-[var(--button-icon)] !w-[var(--button-icon)] justify-center !px-0 lg:!h-[var(--button-height)] lg:!w-auto lg:!px-[var(--button-px)]"
+              >
+                <span className="hidden lg:inline">새 태스크</span>
+              </PrimaryButton>
+            )
+          }
+        />
+        {/* Notice는 툴바 바로 아래 8 (Components 12) */}
+        {taskAddDisabled && tasks.length > 0 ? <HoldAddNotice /> : null}
+      </div>
 
       <div className="pt-2 md:pt-4">
         {viewMode === "board" ? (
