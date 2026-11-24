@@ -100,7 +100,7 @@
 
 - [x] 탭: `FolderTabMenu`, `TileTabMenu` → `LineTabMenu` (쓰는 곳이 없어 삭제)
 - [ ] 필터: `StatusFilterBar`, `StatusFilterPills`, `StatFilterButtons` → `StatusFilterChips` — 마감 뒤로 미룸 (tech-debt C-3). `StatFilterButtons`는 삭제
-- [ ] `StatusBadge` 만들고 상태 뱃지 3종을 그 위로
+- [x] `StatusBadge` 만들고 상태 뱃지 3종을 그 위로
 - [ ] `Toast`, `Notice`, `EmptyState`, `Skeleton`, `ErrorState` 만들기 — `Toast` 완료 (B5)
 - [x] `PageHeading` `variant="form"` 추가, 직접 쓴 `<h1>` 4곳 교체, 사이드바 로고 `<h1>` 제거 (상세 1곳은 7단계)
 - [ ] `div onClick` 2곳 → 링크

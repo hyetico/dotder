@@ -1,80 +1,42 @@
-import GoalStatusIcon from "@/features/goals/components/GoalStatusIcon";
+import StatusBadge from "@/components/ui/badge/StatusBadge";
+
 import {
+  getGoalStatusColorKey,
   getGoalStatusLabel,
-  getGoalStatusMetricColors,
   getGoalVisualStatus,
 } from "@/features/goals/utils/goalUtils";
 
+import { getStatusTone } from "@/lib/statusColors";
+
 import type { GoalStatus } from "@/features/goals/types/goal";
-import type { ReactNode } from "react";
-
-const badgeFill = "bg-[var(--color-surface)]";
-
-const statusOutlineClass: Record<ReturnType<typeof getGoalVisualStatus>, string> = {
-  NOT_STARTED: "border-[var(--color-border-strong)] text-[var(--color-text-secondary)]",
-  IN_PROGRESS: "border-[var(--color-info)] text-[var(--color-info-text)]",
-  COMPLETED: "border-[var(--color-success)] text-[var(--color-success-text)]",
-  DELAYED: "border-[var(--color-danger)] text-[var(--color-danger-text)]",
-};
 
 type GoalStatusBadgeProps = {
   status: GoalStatus;
+  /** 마감이 지났는지. 완료가 아니면 상태 옆에 「지연」 뱃지를 붙인다. */
   delayed?: boolean;
-  compact?: boolean;
-  label?: ReactNode;
-  showIcon?: boolean;
-  plain?: boolean;
-  shape?: "pill" | "rounded";
-  size?: "sm" | "md";
+  className?: string;
 };
 
+/**
+ * 목표 상태 뱃지. `StatusBadge` 위에 상태 이름과 색만 정한다.
+ *
+ * @example
+ * <GoalStatusBadge status="IN_PROGRESS" delayed />
+ */
 export default function GoalStatusBadge({
   status,
   delayed = false,
-  compact = false,
-  label,
-  showIcon = true,
-  plain = false,
-  shape = "pill",
-  size = "md",
+  className = "",
 }: GoalStatusBadgeProps) {
-  const appearance = getGoalVisualStatus(status, delayed);
-  const statusLabel = getGoalStatusLabel(appearance);
-  const text = label ?? statusLabel;
-  const showStatusIcon = showIcon && text !== "지연";
-  const spokenLabel = typeof label === "string" ? label : undefined;
-  const color = getGoalStatusMetricColors(status, { delayed }).progress;
+  const isDelayed = getGoalVisualStatus(status, delayed) === "DELAYED";
 
   return (
-    <span
-      title={spokenLabel ? `${statusLabel} ${spokenLabel}` : undefined}
-      aria-label={spokenLabel ? `${statusLabel} ${spokenLabel}` : undefined}
-      className={`inline-flex shrink-0 items-center justify-center ${
-        shape === "rounded" ? "rounded-[var(--radius-xs)]" : "rounded-full"
-      } border-0 ${plain ? "" : `${badgeFill} ${statusOutlineClass[appearance]}`} ${
-        size === "sm"
-          ? "text-badge-sm h-4 gap-0.5 px-1.5 leading-none"
-          : compact
-            ? "text-badge h-6 gap-1 px-2 py-0 leading-none"
-            : "text-badge h-6 gap-1 px-2.5 py-0 leading-none"
-      } `}
-      style={
-        plain
-          ? {
-              color,
-              backgroundColor: `color-mix(in srgb, ${color} 12%, white)`,
-            }
-          : undefined
-      }
-    >
-      {showStatusIcon ? (
-        <GoalStatusIcon
-          status={appearance}
-          size={size === "sm" ? 10 : 12}
-          className="max-md:hidden"
-        />
-      ) : null}
-      {text}
+    <span className={`inline-flex shrink-0 items-center gap-1 ${className}`}>
+      <StatusBadge
+        label={getGoalStatusLabel(status)}
+        tone={getStatusTone(getGoalStatusColorKey(status))}
+      />
+      {isDelayed ? <StatusBadge label="지연" tone="danger" showDot={false} /> : null}
     </span>
   );
 }

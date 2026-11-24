@@ -14,7 +14,6 @@ type ProjectListItemProps = {
   disabled?: boolean;
   onSelect?: () => void;
   extra?: ReactNode;
-  pairDelay?: boolean;
 };
 
 /**
@@ -29,7 +28,6 @@ type ProjectListItemProps = {
  * @param props.disabled - 이 줄을 고를 수 없는지 여부
  * @param props.onSelect - 줄을 눌러 선택하거나 열 때 실행되는 함수
  * @param props.extra - 설명 아래에 둘 추가 내용
- * @param props.pairDelay - 지연이면 진행 상태 옆에 지연 뱃지를 둘지 여부
  */
 export default function ProjectListItem({
   project,
@@ -38,7 +36,6 @@ export default function ProjectListItem({
   disabled = false,
   onSelect,
   extra,
-  pairDelay = false,
 }: ProjectListItemProps) {
   const selectionRole = mark === "radio" ? "radio" : mark === "check" ? "checkbox" : undefined;
 
@@ -89,16 +86,7 @@ export default function ProjectListItem({
           <div className="flex min-w-0 flex-1 items-center gap-2.5">{summary}</div>
         )}
 
-        <div className="flex shrink-0 items-center gap-1">
-          <ProjectStatusBadge
-            status={project.status}
-            delayed={pairDelay ? false : delayed}
-            size="sm"
-          />
-          {pairDelay && delayed ? (
-            <ProjectStatusBadge status={project.status} delayed size="sm" />
-          ) : null}
-        </div>
+        <ProjectStatusBadge status={project.status} delayed={delayed} />
       </div>
 
       {extra ? (

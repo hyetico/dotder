@@ -329,7 +329,7 @@ function GoalStatusAutoCard() {
       <div className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 rounded-[var(--radius-sm)] bg-[var(--color-hover-soft)] px-3 py-2.5">
         <span className="text-caption text-[var(--color-text-secondary)]">생성 시</span>
 
-        <GoalStatusBadge status="NOT_STARTED" compact plain />
+        <GoalStatusBadge status="NOT_STARTED" />
 
         <Badge className="!h-6 bg-[var(--color-hover)] text-[var(--color-text-secondary)]">
           <AppIcon icon={ListTodo} size="xs" className="max-md:hidden" />
@@ -352,7 +352,7 @@ function GoalStatusAutoCard() {
               {rule.condition}
             </span>
 
-            <GoalStatusBadge status={rule.status} compact plain />
+            <GoalStatusBadge status={rule.status} />
           </li>
         ))}
       </ol>

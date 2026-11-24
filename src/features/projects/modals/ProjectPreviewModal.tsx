@@ -139,7 +139,7 @@ export default function ProjectPreviewModal({
           </PreviewRow>
 
           <PreviewRow label="프로젝트 상태">
-            <ProjectStatusBadge status={status} delayed={delayed} className="!h-5" />
+            <ProjectStatusBadge status={status} delayed={delayed} />
           </PreviewRow>
 
           <PreviewRow label="프로젝트 설명" align="start">
