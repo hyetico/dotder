@@ -26,7 +26,7 @@ export default function CrownBadge({
     font-medium
     text-[var(--color-text-inverse)]
 
-    ${muted ? "bg-[var(--color-gray-500)]" : "bg-accent-gradient"}
+    ${muted ? "bg-[var(--color-neutral)]" : "bg-accent-gradient"}
 
     ${className}
   `;

@@ -581,7 +581,7 @@ export default function SidebarDrawer({ isOpen, onClose, projects }: SidebarDraw
         role="dialog"
         aria-modal="true"
         aria-label="내 프로젝트"
-        className="absolute top-0 right-0 flex h-full w-[min(100vw,480px)] flex-col border-l border-[var(--color-border)] bg-[var(--color-surface)] shadow-[var(--shadow-overlay)] transition-transform duration-300 ease-out"
+        className="absolute top-0 right-0 flex h-full w-[min(100vw,var(--drawer-width))] flex-col border-l border-[var(--color-border)] bg-[var(--color-surface)] shadow-[var(--shadow-overlay)] transition-transform duration-300 ease-out"
       >
         <Modal.Header
           title="내 프로젝트"

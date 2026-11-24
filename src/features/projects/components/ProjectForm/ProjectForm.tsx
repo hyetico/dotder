@@ -7,9 +7,9 @@ import { useForm } from "react-hook-form";
 
 import { CalendarSync } from "@/components/ui/icon";
 import LineTabMenu from "@/components/ui/tab/LineTabMenu";
+import Toast from "@/components/ui/Toast";
 
 import { useSyncProjectAccent } from "@/features/projects/components/ProjectAccent";
-import { DeadlineToast } from "@/features/projects/components/ProjectForm/DeadlineToast";
 import { FormActions, FormActionBar } from "@/features/projects/components/ProjectForm/FormActions";
 import { FormPageTitle } from "@/features/projects/components/ProjectForm/FormParts";
 import { BasicInfoSection } from "@/features/projects/components/ProjectForm/sections/BasicInfoSection";
@@ -391,7 +391,14 @@ export default function ProjectForm({
         onSubmit={applyPendingDeadline}
       />
 
-      <DeadlineToast deadlineToast={deadlineToast} setDeadlineToast={setDeadlineToast} />
+      {deadlineToast ? (
+        <Toast
+          tone="success"
+          message="마감일이 변경되었습니다."
+          description={deadlineToast.description}
+          onClose={() => setDeadlineToast(null)}
+        />
+      ) : null}
     </div>
   );
 }

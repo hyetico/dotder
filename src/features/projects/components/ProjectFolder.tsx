@@ -13,7 +13,7 @@ type ProjectFolderProps = {
   className?: string;
   fill?: boolean;
   white?: boolean;
-  tabLabel?: string;
+  tabLabel?: ReactNode;
   wideTab?: boolean;
   tabs?: ReactNode;
   detail?: boolean;

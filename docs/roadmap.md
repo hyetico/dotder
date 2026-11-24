@@ -115,7 +115,7 @@
 - [ ] handoff B3 모든 오버레이의 닫기는 X 버튼 하나 + 툴팁 "닫기 · Esc"
 - [ ] handoff B4 팝오버 너비 (메뉴 220 · 필터 280)
 - [ ] handoff B5 토스트 4초 / 6초 · 멈춤 · `role="status"` · reduced-motion
-- [ ] handoff B6 `DatePicker`: 브라우저 기본 날짜 입력 없애기, 달력 팝오버 282, 모바일 바텀시트
+- [ ] handoff B6 `DatePicker`: 브라우저 기본 날짜 입력 없애기, 달력 팝오버 282, 모바일 바텀시트 — 기본 날짜 입력 0곳 · 웹·태블릿 팝오버 완료, 모바일 바텀시트 남음 (C-9)
 - [ ] handoff B7 고르는 목록에서 이름 자르지 않기
 - [ ] handoff B8 고르는 목록의 메인 표시 = 프로젝트 색 왕관
 - [ ] handoff A4 다크 메인 왕관 색 · A5 다크 로고 (4단계에서 옮김, tech-debt S-15)

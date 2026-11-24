@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect, useLayoutEffect, useState } from "react";
@@ -9,7 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 import SidebarMainProject from "@/components/layout/Sidebar/comp/SidebarMainProject";
 import SidebarProfile from "@/components/layout/Sidebar/comp/SidebarProfile";
 import IconButton from "@/components/ui/button/IconButton";
-import { AppIcon, Folder, PanelLeftClose, PanelLeftOpen, X } from "@/components/ui/icon";
+import { AppIcon, PanelLeftClose, PanelLeftOpen, X } from "@/components/ui/icon";
 import MenuLink from "@/components/ui/MenuLink";
 
 import { getProjects, readMainProjectId } from "@/features/projects/api/projects";
@@ -269,15 +270,24 @@ export default function Sidebar({ variant = "desktop", onNavigate }: SidebarProp
                 isDesktopCollapsed ? "justify-center" : "gap-1.5"
               } `}
             >
-              <div
-                className={`flex size-6 shrink-0 items-center justify-center rounded-md bg-[var(--color-surface)] ${
-                  isDesktopCollapsed ? "" : "ml-3"
-                } `}
-              >
-                <span className="bg-primary-gradient flex size-6 items-center justify-center rounded-sm text-[var(--color-text-inverse)]">
-                  <AppIcon icon={Folder} size="sm" />
-                </span>
-              </div>
+              <span className={`flex shrink-0 items-center ${isDesktopCollapsed ? "" : "ml-3"}`}>
+                <Image
+                  src="/brand/tessera-logo.svg"
+                  alt=""
+                  width={26}
+                  height={22}
+                  unoptimized
+                  className="logo-light"
+                />
+                <Image
+                  src="/brand/tessera-logo-dark.svg"
+                  alt=""
+                  width={26}
+                  height={22}
+                  unoptimized
+                  className="logo-dark"
+                />
+              </span>
 
               {!isDesktopCollapsed && (
                 <span className="truncate text-base leading-5 font-bold tracking-tight text-[var(--color-text)]">

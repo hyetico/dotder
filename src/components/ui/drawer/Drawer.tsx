@@ -6,7 +6,7 @@ import { createPortal } from "react-dom";
 import CloseButton from "@/components/ui/button/CloseButton";
 import IconButton from "@/components/ui/button/IconButton";
 import DrawerFrame from "@/components/ui/drawer/DrawerFrame";
-import { AppIcon, ChevronsRight, Maximize2, Minimize2 } from "@/components/ui/icon";
+import { AppIcon, Maximize2, Minimize2 } from "@/components/ui/icon";
 
 import { useModalScrollLock } from "@/hooks/useModalScrollLock";
 
@@ -235,18 +235,6 @@ function DrawerRoot({
         <div className={`${barShellClassName} border-b`}>
           <DrawerFrame className={headerFrameClassName}>
             <div className={headerControlsClassName}>
-              {isExpanded ? null : (
-                <IconButton
-                  label="닫기"
-                  title="닫기"
-                  hoverSize="icon"
-                  onClick={onClose}
-                  className={headerButtonClassName}
-                >
-                  <AppIcon icon={ChevronsRight} size="md" />
-                </IconButton>
-              )}
-
               <IconButton
                 label={isExpanded ? "접기" : "전체 화면"}
                 title={isExpanded ? "접기" : "전체 화면"}
@@ -276,9 +264,7 @@ function DrawerRoot({
 
             {headerAction ? <div className="shrink-0">{headerAction}</div> : null}
 
-            <div className="md:hidden">
-              <CloseButton label={closeLabel} onClick={onClose} />
-            </div>
+            <CloseButton label={closeLabel} onClick={onClose} />
           </DrawerFrame>
         </div>
 

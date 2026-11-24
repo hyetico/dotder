@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* 문서 속 클래스 예시(`var(…)` 등)를 Tailwind가 읽어 CSS를 깨뜨리지 않게 docs/는 검사에서 뺀다. */
+@source not "../../docs";
+
 /*
  * 반응형 기준점. 2xl만 Tailwind 기본(96rem = 1536px) 대신 1440px로 둔다.
  * layout-guide 2장: 1440 이상에서 본문을 가운데에 멈춘다.
@@ -78,10 +81,10 @@
   --sidebar-width: 245px;
 
   /*
-   * 드로어. 넓은 화면에서는 이 너비만큼 본문을 줄인다(--drawer-offset).
-   * style-guide 4장 목표값은 400. 지금 너비 560은 5단계(handoff B1)에서 바꾼다.
+   * 드로어. 웹 · 태블릿 모두 400 (handoff B1).
+   * 넓은 화면에서는 이 너비만큼 본문을 줄인다(--drawer-offset).
    */
-  --drawer-width: 560px;
+  --drawer-width: 400px;
   --drawer-offset: 0px;
 
   /* 모달·팝오버 너비 (style-guide 4장) */
@@ -456,6 +459,19 @@
   --type-4xl-line: 40px;
 }
 
+/* 로고는 테마마다 다른 파일 (handoff A5, design/svg/) */
+.logo-dark {
+  display: none;
+}
+
+:root[data-theme="dark"] .logo-light {
+  display: none;
+}
+
+:root[data-theme="dark"] .logo-dark {
+  display: block;
+}
+
 /*
  * 다크 모드. <html data-theme="dark">일 때만 적용된다.
  * 아직 전환 버튼은 없다(8단계). 모든 색 토큰의 다크 값은 여기 있다.
@@ -654,11 +670,7 @@
     --bottom-bar-button-line: 20px;
     --bottom-bar-button-px: 16px;
 
-    /* 데스크톱은 기존 36px. 하단 주요 액션만 40px, 모달은 36px */
-    --button-height: 36px;
-    --tab-height: 36px;
-    --button-height-action: 40px;
-    --button-height-modal: 36px;
+    /* 버튼(md)·탭 높이 40은 화면 너비로 바뀌지 않는다 (style-guide 4장) */
   }
 }
 
@@ -961,6 +973,15 @@ textarea:-webkit-autofill:focus {
   background-image: var(--accent-gradient, var(--gradient-primary));
 }
 
+/*
+ * 다크 모드의 메인 왕관: 프로젝트 색에 흰색 30%를 섞어 바탕 대비 3:1 이상 (handoff A4).
+ * 예: 플럼 #6b2d5b → #976c8c
+ */
+:root[data-theme="dark"] .bg-accent-gradient {
+  background-color: color-mix(in srgb, var(--accent-primary, var(--color-primary)) 70%, white);
+  background-image: none;
+}
+
 .bg-primary-gradient {
   background-color: var(--color-primary);
   background-image: var(--gradient-primary);
@@ -990,6 +1011,23 @@ textarea:-webkit-autofill:focus {
 [data-scroll-lock],
 [data-scroll-lock] * {
   overscroll-behavior: none;
+}
+
+/* 토스트: 아래에서 위로 200ms. 움직임 줄이기면 제자리에서 보이기만 (handoff B5) */
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+.toast-enter {
+  animation: toast-in var(--duration-toast) var(--ease-out) both;
 }
 
 @keyframes drawer-slide-in {
@@ -1060,5 +1098,8 @@ textarea:-webkit-autofill:focus {
   .drawer-fade-in,
   .drawer-fade-out {
     animation-duration: 1ms;
+  }
+  .toast-enter {
+    animation: none;
   }
 }

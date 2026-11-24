@@ -2,7 +2,6 @@
 
 import { useMemo, useState, type ReactNode } from "react";
 
-import SecondaryButton from "@/components/ui/button/SecondaryButton";
 import {
   AppIcon,
   Folder,
@@ -887,11 +886,6 @@ export default function IntegratedSearchModal({
         className={`w-full shrink-0 ${modalSidePaddingClassName} `}
       />
       {body}
-      <Modal.Footer>
-        <SecondaryButton size="modal" onClick={onClose}>
-          닫기
-        </SecondaryButton>
-      </Modal.Footer>
     </Modal>
   );
 }

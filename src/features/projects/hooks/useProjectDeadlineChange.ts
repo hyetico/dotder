@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { type UseFormSetValue } from "react-hook-form";
 
@@ -98,20 +98,6 @@ export function useProjectDeadlineChange({
   if (!isDelayed && deadlineSaveError !== null) {
     setDeadlineSaveError(null);
   }
-
-  useEffect(() => {
-    if (!deadlineToast) {
-      return;
-    }
-
-    const timer = window.setTimeout(() => {
-      setDeadlineToast(null);
-    }, 4000);
-
-    return () => {
-      window.clearTimeout(timer);
-    };
-  }, [deadlineToast]);
 
   const applyPendingDeadline = (endDate: string, reason: string) => {
     const wasDelayed = isDelayed;
