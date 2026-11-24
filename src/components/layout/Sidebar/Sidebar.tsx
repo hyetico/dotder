@@ -219,7 +219,7 @@ export default function Sidebar({ variant = "desktop", onNavigate }: SidebarProp
     .filter(Boolean)
     .join(" ");
   const sidebarClassName = isMobile
-    ? `${sidebarFrameClassName} relative z-20 h-full w-[min(var(--sidebar-width),calc(100vw-48px))] shadow-[var(--shadow-overlay)]`
+    ? `${sidebarFrameClassName} relative z-20 h-full w-[min(var(--sidebar-sheet-width),calc(100vw-48px))] shadow-[var(--shadow-overlay)]`
     : isOverlayOpen
       ? `${sidebarFrameClassName} ${overlaySidebarClassName}`
       : `${sidebarFrameClassName} relative z-20 ${desktopSidebarClassName}`;

@@ -201,6 +201,7 @@
 |---|---|---|
 | `--header-height` | 56 | 헤더 |
 | `--sidebar-width` | 245 | 사이드바 |
+| `--sidebar-sheet-width` | 300 | 모바일 ☰ 왼쪽 시트 (화면이 좁으면 화면 폭 − 48) |
 | `--sidebar-collapsed-width` | 64 | 접힌 사이드바 |
 | `--page-frame-max` | 1200 | 본문 최대 너비 |
 | `--drawer-width` | 400 | 드로어, 웹·태블릿 같음 (`--goal-drawer-width`를 이름 변경) |
