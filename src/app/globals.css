@@ -1112,6 +1112,15 @@ textarea:-webkit-autofill:focus {
   animation: drawer-fade-out 400ms ease-in-out both;
 }
 
+/* 고르는 목록의 프로젝트 점 · 왕관 (ProjectMark). 다크는 흰색 30% (handoff A4) */
+.project-mark {
+  color: var(--project-mark-color, var(--color-neutral));
+}
+
+:root[data-theme="dark"] .project-mark {
+  color: color-mix(in srgb, var(--project-mark-color, var(--color-neutral)) 70%, white);
+}
+
 /*
  * 활동 모자이크 (Design Guide 11). 색은 프로젝트 색 한 가지(--mosaic-color, 카드에서 넣음).
  * 다크는 메인 왕관과 같이 흰색 30%를 섞어 바탕 대비를 올린다 (handoff A4).
