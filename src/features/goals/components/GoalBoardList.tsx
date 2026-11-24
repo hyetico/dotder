@@ -55,10 +55,10 @@ const goalGridClassName =
   "grid min-w-0 grid-cols-1 items-stretch gap-4 @[680px]:grid-cols-2 @[1080px]:grid-cols-4";
 
 const goalCardButtonClassName =
-  "block h-full w-full min-w-0 cursor-pointer rounded-[16px] bg-transparent p-0 text-left outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary)]";
+  "block h-full w-full min-w-0 cursor-pointer rounded-[var(--radius-lg)] bg-transparent p-0 text-left outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary)]";
 
 const goalCardClassName =
-  "flex h-full min-w-0 flex-col gap-3 rounded-[16px] bg-[var(--color-surface)] p-4 shadow-[0_1px_2px_rgb(20_25_35/4%)] transition-shadow hover:shadow-[0_6px_14px_rgb(20_25_35/8%)]";
+  "flex h-full min-w-0 flex-col gap-3 rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] p-4 transition-colors hover:border-[var(--color-border-strong)]";
 const goalCardBorderClassName = "border border-[var(--color-border)]";
 const goalSelectedCardClassName = "selected-border";
 
@@ -66,7 +66,7 @@ const goalTitleClassName =
   "min-w-0 flex-1 basis-0 break-words break-keep text-base leading-6 font-semibold tracking-[-0.01em] text-[var(--color-text)]";
 
 const goalTaskCountClassName =
-  "inline-flex shrink-0 items-center gap-1 rounded-[8px] px-2 py-1 text-xs leading-none font-semibold tabular-nums";
+  "inline-flex shrink-0 items-center gap-1 rounded-[var(--radius-sm)] px-2 py-1 text-xs leading-none font-semibold tabular-nums";
 
 const goalProgressTrackClassName =
   "h-2 min-w-0 flex-1 overflow-hidden rounded-full bg-[var(--color-hover)]";
@@ -317,7 +317,7 @@ export default function GoalBoardList({
 
   if (goals.length === 0 && !draft) {
     return (
-      <div className="w-full rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] shadow-[var(--shadow-card)]">
+      <div className="w-full rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)]">
         <p className="text-caption px-5 py-8 text-center text-[var(--color-text-secondary)]">
           {empty}
         </p>

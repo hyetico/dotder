@@ -163,7 +163,7 @@ export default function FavoriteProjectsModal({
       onClose={onClose}
       padded={false}
       labelledBy="favorite-projects-modal-title"
-      zIndexClassName="z-[170]"
+      zIndexClassName="z-[var(--z-modal)]"
       maxWidthClassName="max-w-[520px]"
       panelClassName={stableListModalPanelClassName}
     >

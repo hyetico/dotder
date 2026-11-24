@@ -43,7 +43,7 @@ const projectsPageShellClassName = "min-w-0";
 const projectsPageFrameClassName = "project-board-width @container";
 const projectsPageBodyClassName = "space-y-5";
 const favoriteEditButtonClassName =
-  "inline-flex h-[32px] shrink-0 cursor-pointer items-center rounded-[8px] px-[12px] text-xs! leading-none! font-medium! text-[var(--color-text-secondary)] transition-colors hover:bg-[var(--color-hover-soft)] hover:text-[var(--color-text)]";
+  "inline-flex h-[32px] shrink-0 cursor-pointer items-center rounded-[var(--radius-sm)] px-[12px] text-xs! leading-none! font-medium! text-[var(--color-text-secondary)] transition-colors hover:bg-[var(--color-hover-soft)] hover:text-[var(--color-text)]";
 
 /**
  * ProjectsPageContent

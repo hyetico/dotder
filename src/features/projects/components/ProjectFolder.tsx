@@ -239,9 +239,9 @@ export default function ProjectFolder({
     size.height,
   );
   const sheetClassName =
-    "flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden rounded-[18px] bg-[var(--color-surface)] [clip-path:inset(0_round_18px)]";
+    "flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden rounded-[var(--radius-lg)] bg-[var(--color-surface)] [clip-path:inset(0_round_var(--radius-lg))]";
   const cardBodyClassName = [
-    "relative flex min-h-0 min-w-0 flex-1 flex-col rounded-[16px] rounded-tl-none",
+    "relative flex min-h-0 min-w-0 flex-1 flex-col rounded-[var(--radius-lg)] rounded-tl-none",
     fill ? "overflow-hidden" : "",
   ]
     .filter(Boolean)

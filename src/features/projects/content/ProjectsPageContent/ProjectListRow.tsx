@@ -166,7 +166,7 @@ function ProjectListCardFace({
   onToggleSelected?: () => void;
 }) {
   return (
-    <div className="flex min-w-0 flex-1 flex-col gap-2 rounded-[22px] bg-[var(--color-surface)] px-3 py-3.5 md:px-4">
+    <div className="flex min-w-0 flex-1 flex-col gap-2 rounded-[var(--radius-lg)] bg-[var(--color-surface)] px-3 py-3.5 md:px-4">
       <div className="flex min-w-0 items-center gap-2">
         {onToggleSelected ? (
           <FavoriteSelectBox
@@ -587,7 +587,7 @@ export function ProjectListTable({
         after:h-px
         after:bg-[var(--color-border)]
       "
-      className="shadow-[var(--shadow-card)]"
+      className="border border-[var(--color-border)]"
     />
   );
 }

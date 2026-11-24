@@ -42,7 +42,7 @@ const mobileBadgeClass: Record<BadgeShape, string> = {
 
     lg:h-6
     lg:gap-1
-    lg:rounded-[6px]
+    lg:rounded-[var(--radius-xs)]
     lg:px-2
     lg:[&_svg]:size-3
   `,
@@ -60,7 +60,7 @@ const mobileBadgeClass: Record<BadgeShape, string> = {
 
     lg:size-6
     lg:gap-1
-    lg:rounded-[6px]
+    lg:rounded-[var(--radius-xs)]
     lg:[&_svg]:size-3
   `,
 };
@@ -73,8 +73,8 @@ const badgeShapeClass: Record<Exclude<BadgeSize, "mobile">, Record<BadgeShape, s
   },
   md: {
     pill: "h-5 rounded-full px-2",
-    rounded: "h-6 rounded-[6px] border-0 px-2",
-    square: "size-6 justify-center rounded-[6px] border-0 p-0",
+    rounded: "h-6 rounded-[var(--radius-xs)] border-0 px-2",
+    square: "size-6 justify-center rounded-[var(--radius-xs)] border-0 p-0",
   },
 };
 

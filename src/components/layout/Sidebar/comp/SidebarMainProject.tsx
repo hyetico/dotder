@@ -46,7 +46,7 @@ type SidebarHoverLabelProps = {
 function SidebarHoverLabel({ children, group = "group" }: SidebarHoverLabelProps) {
   return (
     <span
-      className={`pointer-events-none absolute top-1/2 left-[calc(100%+20px)] z-50 hidden h-9 -translate-y-1/2 items-center rounded-xl bg-[var(--color-nav-hover)]/50 px-3 text-sm font-medium whitespace-nowrap text-[var(--color-text)] shadow-[var(--shadow-dropdown)] backdrop-blur-sm ${
+      className={`pointer-events-none absolute top-1/2 left-[calc(100%+20px)] z-50 hidden h-9 -translate-y-1/2 items-center rounded-xl bg-[var(--color-nav-hover)]/50 px-3 text-sm font-medium whitespace-nowrap text-[var(--color-text)] shadow-[var(--shadow-overlay)] backdrop-blur-sm ${
         group === "settings" ? "group-hover/settings:flex" : "group-hover:flex"
       } `}
     >
@@ -78,7 +78,7 @@ function CollapsedSettingsButton({ label, boxed = false, onClick }: CollapsedSet
         label={label}
         onClick={onClick}
         className={`size-9! shrink-0 rounded-xl! text-[var(--color-text)] hover:bg-gray-100 hover:text-[var(--color-text)] ${
-          boxed ? `bg-[var(--color-surface)] shadow-[var(--shadow-card)]` : ""
+          boxed ? `border border-[var(--color-border)] bg-[var(--color-surface)]` : ""
         } `}
       >
         <ProjectSettingsIcon />
@@ -159,7 +159,7 @@ export default function SidebarMainProject({
       <button
         type="button"
         onClick={openSettings}
-        className="flex h-10 w-full min-w-0 cursor-pointer items-center justify-center gap-0 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] px-2 font-medium tracking-tight text-[var(--color-text)] shadow-[var(--shadow-card)] transition-colors hover:bg-[var(--color-nav-hover)]"
+        className="flex h-10 w-full min-w-0 cursor-pointer items-center justify-center gap-0 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] px-2 font-medium tracking-tight text-[var(--color-text)] transition-colors hover:bg-[var(--color-nav-hover)]"
       >
         <span className="flex max-w-full min-w-0 items-center">
           <span className="flex size-[34px] shrink-0 items-center justify-center">
@@ -174,7 +174,7 @@ export default function SidebarMainProject({
     );
   } else if (isCollapsed) {
     content = (
-      <div className="mx-auto flex w-9 flex-col items-center gap-1 rounded-xl bg-[var(--color-surface)] shadow-[var(--shadow-card)]">
+      <div className="mx-auto flex w-9 flex-col items-center gap-1 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)]">
         <Link
           href={href}
           onClick={onNavigate}
@@ -193,7 +193,7 @@ export default function SidebarMainProject({
     );
   } else {
     content = (
-      <div className="relative flex h-10 min-w-0 items-center rounded-xl bg-[var(--color-surface)] pr-0.5 pl-[11px] shadow-[var(--shadow-card)]">
+      <div className="relative flex h-10 min-w-0 items-center rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] pr-0.5 pl-[11px]">
         <Link
           href={href}
           onClick={onNavigate}

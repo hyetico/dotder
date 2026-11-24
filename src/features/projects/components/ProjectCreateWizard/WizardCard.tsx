@@ -12,7 +12,7 @@ import {
 } from "@/features/projects/constants/projectWizardSteps";
 
 const cardClassName =
-  "min-h-[calc(100dvh-var(--header-height)-var(--bottom-app-bar-height)-6.5rem)] flex-1 overflow-hidden rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] shadow-[var(--shadow-card)] md:max-h-[560px] md:min-h-[460px]";
+  "min-h-[calc(100dvh-var(--header-height)-var(--bottom-app-bar-height)-6.5rem)] flex-1 overflow-hidden rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] md:max-h-[560px] md:min-h-[460px]";
 const cardSingleClassName = "md:flex md:flex-col";
 const cardSplitClassName =
   "md:grid md:grid-cols-[minmax(0,260px)_minmax(0,1fr)] md:grid-rows-[minmax(0,1fr)]";

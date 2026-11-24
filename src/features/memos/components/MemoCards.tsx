@@ -18,7 +18,7 @@ import { buildTasksPath, getGoalDetailPath } from "@/lib/projectRoutes";
 import type { Memo } from "@/features/memos/types/memo";
 
 const memoCardClassName =
-  "flex h-full min-h-[172px] flex-col rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] p-4 shadow-[var(--shadow-card)]";
+  "flex h-full min-h-[172px] flex-col rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] p-4";
 const memoTitleClassName =
   "line-clamp-2 min-w-0 flex-1 text-left text-base leading-6 font-semibold text-[var(--color-text)]";
 const memoMetaClassName =
@@ -181,7 +181,7 @@ export function MemoCard({ memo, project, registeredProject, onOpen, onDelete }:
   const projectLabel = getMemoProjectLabel(registrationLabel ? registeredProject : project);
   const cardClassName = memo.registration
     ? memoCardClassName
-    : `${memoCardClassName} cursor-pointer transition-shadow hover:shadow-[var(--shadow-project-card-hover)]`;
+    : `${memoCardClassName} cursor-pointer transition-colors hover:border-[var(--color-border-strong)]`;
   const openMemo = () => {
     if (memo.registration) {
       return;

@@ -104,7 +104,7 @@ export default function TeamsPageContent() {
           {teams.map((team) => (
             <article
               key={team.id}
-              className="flex min-w-0 flex-col gap-4 rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] p-3 shadow-[var(--shadow-card)] md:p-4"
+              className="flex min-w-0 flex-col gap-4 rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] p-3 md:p-4"
             >
               <div className="min-w-0">
                 <h2 className="text-card-title truncate text-[var(--color-text)]">{team.name}</h2>

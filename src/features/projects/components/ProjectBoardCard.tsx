@@ -116,7 +116,7 @@ export function ProjectCardShell({
 
   return (
     <article
-      className={`flex min-w-0 overflow-hidden rounded-[28px] shadow-[var(--shadow-project-card)] transition-shadow hover:shadow-[var(--shadow-project-card-hover)] ${labelOnTop ? "flex-col" : ""} `}
+      className={`flex min-w-0 overflow-hidden rounded-[var(--radius-lg)] shadow-[var(--shadow-project-card)] transition-shadow hover:shadow-[var(--shadow-project-card-hover)] ${labelOnTop ? "flex-col" : ""} `}
       style={{
         backgroundColor: hasColor
           ? getProjectAccentColor(project.color)
@@ -300,7 +300,7 @@ function ProjectFolderCounts({ project }: { project: ProjectListItem }) {
 const projectFolderPocketClassName = "relative flex min-h-0 flex-1 flex-col";
 const projectFolderSheetWrapClassName = "relative mt-4 shrink-0";
 const projectFolderSheetClassName =
-  "relative z-0 mx-2 flex h-10 min-w-0 shrink-0 flex-col rounded-[12px] bg-[var(--color-surface)] px-2";
+  "relative z-0 mx-2 flex h-10 min-w-0 shrink-0 flex-col rounded-[var(--radius-md)] bg-[var(--color-surface)] px-2";
 const projectFolderShellClassName =
   "relative z-10 -mt-2 flex min-h-0 flex-1 flex-col rounded-t-[14px] rounded-b-[16px] bg-[var(--folder-shell)] shadow-[0_-1px_0_rgb(0_0_0/6%)]";
 const projectFolderShellClosedClassName =

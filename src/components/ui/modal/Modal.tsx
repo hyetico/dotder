@@ -48,7 +48,7 @@ function ModalRoot({
   children,
   panelClassName = "",
   maxWidthClassName = "max-w-[640px]",
-  zIndexClassName = "z-[160]",
+  zIndexClassName = "z-[var(--z-modal)]",
   padded = true,
   labelledBy,
   describedBy,
@@ -113,7 +113,7 @@ function ModalRoot({
           aria-modal="true"
           aria-labelledby={labelledBy}
           aria-describedby={describedBy}
-          className={`flex w-full ${maxHeightClassName} flex-col overflow-hidden rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] shadow-[var(--shadow-dropdown)] ${maxWidthClassName} ${panelClassName} `}
+          className={`flex w-full ${maxHeightClassName} flex-col overflow-hidden rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] shadow-[var(--shadow-overlay)] ${maxWidthClassName} ${panelClassName} `}
           onMouseDown={(event) => {
             event.stopPropagation();
           }}

@@ -50,7 +50,7 @@ export default function GoalStatusBadge({
       title={spokenLabel ? `${statusLabel} ${spokenLabel}` : undefined}
       aria-label={spokenLabel ? `${statusLabel} ${spokenLabel}` : undefined}
       className={`inline-flex shrink-0 items-center justify-center ${
-        shape === "rounded" ? "rounded-[6px]" : "rounded-full"
+        shape === "rounded" ? "rounded-[var(--radius-xs)]" : "rounded-full"
       } border-0 ${plain ? "" : `${badgeFill} ${statusOutlineClass[appearance]}`} ${
         size === "sm"
           ? "text-badge-sm h-4 gap-0.5 px-1.5 leading-none"

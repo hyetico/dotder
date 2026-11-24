@@ -129,7 +129,7 @@ export default function TaskCard({ task, projectName, onDelete, onUpdate }: Task
       <article
         ref={setNodeRef}
         style={style}
-        className={`group relative rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] p-3 shadow-[var(--shadow-card)] transition-[transform,box-shadow,border-color] duration-200 ease-out hover:border-gray-300 hover:shadow-md md:p-4 ${
+        className={`group relative rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] p-3 transition-[transform,box-shadow,border-color] duration-200 ease-out hover:border-gray-300 hover:shadow-md md:p-4 ${
           isDragging ? `z-50 scale-[1.02] border-gray-300 shadow-xl` : ""
         } `}
       >

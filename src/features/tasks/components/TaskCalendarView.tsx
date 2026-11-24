@@ -129,7 +129,7 @@ function CalendarTaskCard({
         type="button"
         aria-label={`${task.title} 상세 보기`}
         onClick={onClick}
-        className="group flex w-full max-w-full min-w-0 items-stretch gap-1 overflow-hidden rounded-[2px] py-px text-left transition-colors hover:bg-[var(--color-hover-soft)]"
+        className="group flex w-full max-w-full min-w-0 items-stretch gap-1 overflow-hidden rounded-[var(--radius-xs)] py-px text-left transition-colors hover:bg-[var(--color-hover-soft)]"
         title={task.title}
       >
         <span
@@ -396,7 +396,7 @@ export default function TaskCalendarView({
   }
 
   return (
-    <div className="flex h-[var(--tasks-calendar-height)] shrink-0 flex-col overflow-hidden rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] shadow-[var(--shadow-card)]">
+    <div className="flex h-[var(--tasks-calendar-height)] shrink-0 flex-col overflow-hidden rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)]">
       {/*
        * =====================================================
        * Calendar Header
@@ -531,7 +531,7 @@ export default function TaskCalendarView({
                             className="
                               shrink-0
 
-                              rounded-[3px]
+                              rounded-[var(--radius-xs)]
 
                               bg-red-500
 
@@ -560,7 +560,7 @@ export default function TaskCalendarView({
                           : `${calendarDay.day}일 Task 추가`
                       }
                       onClick={() => setCreateTaskDateKey(calendarDay.dateKey)}
-                      className="flex h-4 w-4 shrink-0 items-center justify-center rounded-[3px] text-[var(--color-text-muted)] transition-colors hover:bg-gray-100 hover:text-[var(--color-text)] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-transparent disabled:hover:text-[var(--color-text-muted)]"
+                      className="flex h-4 w-4 shrink-0 items-center justify-center rounded-[var(--radius-xs)] text-[var(--color-text-muted)] transition-colors hover:bg-gray-100 hover:text-[var(--color-text)] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-transparent disabled:hover:text-[var(--color-text-muted)]"
                     >
                       <AppIcon icon={Plus} size="xs" />
                     </button>

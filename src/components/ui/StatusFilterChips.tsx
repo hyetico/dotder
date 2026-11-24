@@ -80,7 +80,7 @@ export function StatusFilterChipButton<T extends string>({
           ? `${pillButtonClassName} ${selected ? "bg-[var(--color-surface)] text-[var(--color-text)] shadow-sm" : "bg-transparent text-[var(--color-text-secondary)] hover:bg-[var(--color-hover-soft)]"} ${className}`
           : `text-body inline-flex shrink-0 items-center gap-1.5 ${
               framed || grouped
-                ? "rounded-[6px] border-0 px-2.5"
+                ? "rounded-[var(--radius-xs)] border-0 px-2.5"
                 : "rounded-[var(--radius-sm)] border px-3"
             } font-medium whitespace-nowrap text-[var(--color-text)] transition-[background-color,box-shadow] focus-visible:ring-2 focus-visible:ring-[var(--color-primary-ring)] focus-visible:outline-none ${
               framed
@@ -92,9 +92,7 @@ export function StatusFilterChipButton<T extends string>({
                         : `bg-transparent hover:bg-[var(--color-surface)]/80`
                     } `
                   : `h-9 border-[var(--color-border)] bg-[var(--color-surface)] ${
-                      selected
-                        ? `shadow-[0_1px_2px_rgba(15,23,42,0.08),0_1px_3px_rgba(15,23,42,0.06)]`
-                        : "hover:bg-[var(--color-hover-soft)]"
+                      selected ? `` : "hover:bg-[var(--color-hover-soft)]"
                     } `
             } ${className} `
       }

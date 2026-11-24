@@ -18,7 +18,7 @@ type SegmentedIconToggleProps<T extends string> = {
 };
 
 const viewTrackClassName =
-  "flex h-11 shrink-0 items-center rounded-[22px] border border-[var(--color-border)] bg-[var(--color-surface)] p-1";
+  "flex h-11 shrink-0 items-center rounded-[var(--radius-full)] border border-[var(--color-border)] bg-[var(--color-surface)] p-1";
 
 const viewDividerClassName = "h-5 w-px shrink-0 bg-[var(--color-border-strong)]";
 

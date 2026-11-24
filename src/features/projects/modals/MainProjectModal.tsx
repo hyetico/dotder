@@ -138,7 +138,7 @@ export default function MainProjectModal({
       onClose={onClose}
       padded={false}
       labelledBy="main-project-modal-title"
-      zIndexClassName="z-[170]"
+      zIndexClassName="z-[var(--z-modal)]"
       maxWidthClassName="max-w-[520px]"
       panelClassName={stableListModalPanelClassName}
     >

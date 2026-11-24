@@ -432,7 +432,7 @@ function GoalDetailEditForm({
                   max={endDate || undefined}
                   disabled={periodLocked}
                   invalid={Boolean(errors.startDate)}
-                  zIndexClassName="z-[180]"
+                  zIndexClassName="z-[var(--z-popover)]"
                 />
                 <span className="shrink-0 text-[var(--color-text-muted)]">~</span>
                 <DatePicker
@@ -447,7 +447,7 @@ function GoalDetailEditForm({
                   min={startDate || undefined}
                   disabled={periodLocked}
                   invalid={Boolean(errors.endDate)}
-                  zIndexClassName="z-[180]"
+                  zIndexClassName="z-[var(--z-popover)]"
                 />
               </div>
               {periodLocked && startDate === project?.startDate && endDate === project?.endDate ? (

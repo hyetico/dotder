@@ -79,7 +79,7 @@ export function CalendarIllustration() {
       <div className="relative">
         <IllustrationBurst />
 
-        <div className="relative w-[132px] overflow-hidden rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] shadow-[var(--shadow-card)]">
+        <div className="relative w-[132px] overflow-hidden rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)]">
           <div className="h-6 border-b border-[var(--color-border)] bg-[var(--color-muted)]" />
 
           <div className="grid grid-cols-4 gap-x-3 gap-y-2.5 px-4 py-4">

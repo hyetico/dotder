@@ -41,7 +41,7 @@ const GOAL_CREATE_ICON: GoalIcon = "layout";
 const SLIDE_MS = 400;
 
 const goalIconPreviewClassName =
-  "flex size-12 shrink-0 items-center justify-center rounded-[12px] bg-[var(--color-hover-soft)] text-2xl leading-none";
+  "flex size-12 shrink-0 items-center justify-center rounded-[var(--radius-md)] bg-[var(--color-hover-soft)] text-2xl leading-none";
 const goalTitleAreaClassName =
   "text-2xl! leading-[32px]! font-[700]! text-[var(--color-text)]! placeholder:text-2xl placeholder:leading-[32px] placeholder:font-[700] placeholder:text-[var(--color-text-placeholder)]! focus:placeholder:text-[var(--color-text-placeholder)]!";
 const goalDescriptionAreaClassName =
@@ -67,7 +67,7 @@ const tagEmptyClassName =
   "mt-[8px] text-sm leading-[20px] font-[400] text-[var(--color-text-muted)]";
 const goalTagSectionClassName = "py-4";
 const tagButtonClassName =
-  "max-w-full min-w-0 cursor-pointer rounded-[9px] disabled:cursor-not-allowed";
+  "max-w-full min-w-0 cursor-pointer rounded-[var(--radius-sm)] disabled:cursor-not-allowed";
 const tagSelectedClassName = "outline outline-1 outline-[var(--color-text)]";
 const assigneeSummaryClassName =
   "h-auto! w-auto! shrink-0 border-transparent! bg-transparent! px-0! py-0! md:px-0! [&_.truncate]:text-sm! [&_.truncate]:leading-[20px]! [&_.truncate]:font-[400]! [&_.truncate]:text-[var(--color-text)]!";
@@ -162,7 +162,7 @@ function GoalStatusAutoInfo() {
         isOpen={isOpen}
         onClose={close}
         labelledBy={titleId}
-        zIndexClassName="z-[180]"
+        zIndexClassName="z-[var(--z-modal)]"
         maxWidthClassName="max-w-[440px]"
       >
         <Modal.Header
@@ -596,7 +596,7 @@ function GoalCreateDrawerPanel({
                       min={startDateMin}
                       max={startDateMax}
                       invalid={Boolean(errors.startDate)}
-                      zIndexClassName="z-[180]"
+                      zIndexClassName="z-[var(--z-popover)]"
                     />
 
                     <DatePicker
@@ -616,7 +616,7 @@ function GoalCreateDrawerPanel({
                       min={endDateMin}
                       max={endDateMax}
                       invalid={Boolean(errors.endDate)}
-                      zIndexClassName="z-[180]"
+                      zIndexClassName="z-[var(--z-popover)]"
                     />
                   </div>
                 )}

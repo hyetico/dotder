@@ -102,7 +102,7 @@ export default function GoalProjectSelectModal({
       onClose={onClose}
       padded={false}
       labelledBy="goal-project-select-title"
-      zIndexClassName="z-[170]"
+      zIndexClassName="z-[var(--z-modal)]"
       maxWidthClassName="max-w-[520px]"
       panelClassName={stableListModalPanelClassName}
     >

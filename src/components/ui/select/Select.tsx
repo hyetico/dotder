@@ -110,7 +110,7 @@ export default function Select({
       {isOpen && (
         <ul
           role="listbox"
-          className="absolute top-[calc(100%+4px)] left-0 z-20 w-max min-w-full overflow-hidden rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-[var(--color-surface)] py-1 shadow-[var(--shadow-dropdown)]"
+          className="absolute top-[calc(100%+4px)] left-0 z-20 w-max min-w-full overflow-hidden rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-[var(--color-surface)] py-1 shadow-[var(--shadow-overlay)]"
         >
           {options.map((option) => {
             const isSelected = option.value === value;

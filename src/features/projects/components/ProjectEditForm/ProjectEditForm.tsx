@@ -96,7 +96,7 @@ const projectEditTabs: {
 const editShellClassName =
   "mx-auto flex w-full max-w-[880px] flex-col gap-5 px-[var(--page-padding-x)] pt-3 pb-6 md:pt-5";
 const editCardClassName =
-  "rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] p-4 shadow-[var(--shadow-card)] md:px-6 md:py-5";
+  "rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] p-4 md:px-6 md:py-5";
 const editPanelClassName = "flex flex-col gap-4";
 const editDividerClassName = "border-t border-[var(--color-border)] pt-4";
 const editFooterClassName = "mt-5 border-t border-[var(--color-border)] pt-4";

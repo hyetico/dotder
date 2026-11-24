@@ -47,7 +47,7 @@ function readSidebarCollapsed() {
 }
 
 const overlaySidebarClassName =
-  "fixed inset-y-0 left-0 z-50 hidden h-dvh w-[var(--sidebar-width)] border-r border-[var(--color-border)] shadow-[0_0_32px_rgba(17,24,39,0.18)] md:flex";
+  "fixed inset-y-0 left-0 z-50 hidden h-dvh w-[var(--sidebar-width)] border-r border-[var(--color-border)] shadow-[var(--shadow-overlay)] md:flex";
 
 const overlayBackdropClassName = "fixed inset-0 z-40 hidden bg-[var(--color-overlay)] md:block";
 
@@ -112,7 +112,7 @@ function SidebarNavList({
               <AppIcon icon={Icon} size="lg" className="shrink-0" />
 
               {isDesktopCollapsed ? (
-                <span className="sidebar-nav-tooltip pointer-events-none absolute top-1/2 left-[calc(100%+20px)] z-50 h-9 -translate-y-1/2 items-center rounded-xl bg-[var(--color-nav-hover)]/50 px-3 text-sm font-normal whitespace-nowrap text-[var(--color-text)] uppercase shadow-[var(--shadow-dropdown)] backdrop-blur-sm">
+                <span className="sidebar-nav-tooltip pointer-events-none absolute top-1/2 left-[calc(100%+20px)] z-50 h-9 -translate-y-1/2 items-center rounded-xl bg-[var(--color-nav-hover)]/50 px-3 text-sm font-normal whitespace-nowrap text-[var(--color-text)] uppercase shadow-[var(--shadow-overlay)] backdrop-blur-sm">
                   {item.label}
                 </span>
               ) : (
@@ -226,7 +226,7 @@ export default function Sidebar({ variant = "desktop", onNavigate }: SidebarProp
     .filter(Boolean)
     .join(" ");
   const sidebarClassName = isMobile
-    ? `${sidebarFrameClassName} relative z-20 h-full w-[min(var(--sidebar-width),calc(100vw-48px))] shadow-[0_0_32px_rgba(17,24,39,0.18)]`
+    ? `${sidebarFrameClassName} relative z-20 h-full w-[min(var(--sidebar-width),calc(100vw-48px))] shadow-[var(--shadow-overlay)]`
     : isSettingsOpen
       ? `${sidebarFrameClassName} hidden`
       : isOverlayOpen

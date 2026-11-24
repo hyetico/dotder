@@ -407,8 +407,6 @@
    * ---------------------------------------------------------
    */
 
-  --shadow-card: 0 1px 2px rgba(15, 23, 42, 0.04), 0 1px 3px rgba(15, 23, 42, 0.04);
-
   /*
    * 프로젝트 보드 카드.
    * 짧은 드롭과 1px 링으로 색면 경계를 잡는다.
@@ -416,8 +414,6 @@
   --shadow-project-card: 0 2px 5px rgb(0 0 0 / 12%), 0 0 0 1px rgb(0 0 0 / 6%);
 
   --shadow-project-card-hover: 0 6px 14px rgb(0 0 0 / 16%), 0 0 0 1px rgb(0 0 0 / 8%);
-
-  --shadow-dropdown: 0 10px 30px rgba(15, 23, 42, 0.1);
 
   /* 팝오버, 메뉴, 드로어, 모달. 그림자는 이것 하나로 맞춘다 (style-guide 6장). */
   --shadow-overlay: 0 12px 32px rgb(0 0 0 / 16%);

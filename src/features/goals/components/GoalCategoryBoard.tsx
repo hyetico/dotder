@@ -46,11 +46,11 @@ const popularTagTitleClassName =
 const popularTagRowClassName =
   "flex min-w-0 flex-1 items-center gap-2 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden";
 const popularTagButtonClassName =
-  "inline-flex h-8 shrink-0 cursor-pointer items-center gap-2 rounded-[8px] border px-2.5 text-xs! leading-none! font-semibold! text-[var(--color-text)] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary)]";
+  "inline-flex h-8 shrink-0 cursor-pointer items-center gap-2 rounded-[var(--radius-sm)] border px-2.5 text-xs! leading-none! font-semibold! text-[var(--color-text)] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary)]";
 const popularTagCountClassName =
   "text-xs leading-none font-medium text-[var(--color-text-muted)] tabular-nums";
 const popularTagMoreClassName =
-  "inline-flex h-8 shrink-0 cursor-pointer items-center gap-1 rounded-[8px] border border-[var(--color-border)] bg-[var(--color-surface)] px-2.5 text-xs! leading-none! font-semibold! text-[var(--color-text)] transition-colors hover:bg-[var(--color-hover-soft)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary)]";
+  "inline-flex h-8 shrink-0 cursor-pointer items-center gap-1 rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-[var(--color-surface)] px-2.5 text-xs! leading-none! font-semibold! text-[var(--color-text)] transition-colors hover:bg-[var(--color-hover-soft)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary)]";
 const popularTagResetClassName =
   "ml-auto shrink-0 cursor-pointer text-xs! leading-none! font-medium! text-[var(--color-text-muted)] transition-colors hover:text-[var(--color-text)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary)]";
 

@@ -20,7 +20,7 @@ import {
 import type { ProjectListItem, ProjectStatus } from "@/features/projects/types/project";
 
 const statBoxClassName =
-  "flex h-full min-w-0 items-center rounded-[4px] border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-3 md:px-4";
+  "flex h-full min-w-0 items-center rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-3 md:px-4";
 const statLabelClassName = "text-xs text-[var(--color-text)]";
 const statValueClassName = "mt-0.5 text-sm font-semibold tabular-nums";
 

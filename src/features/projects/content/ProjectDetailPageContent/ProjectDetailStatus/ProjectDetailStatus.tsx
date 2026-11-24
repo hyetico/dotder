@@ -39,7 +39,7 @@ import type { ProjectListItem } from "@/features/projects/types/project";
 import type { Task } from "@/features/tasks/types/task";
 
 const panelClassName =
-  "relative rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] shadow-[var(--shadow-card)]";
+  "relative rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)]";
 
 const historyColumns: ExpandableListColumn[] = [
   {

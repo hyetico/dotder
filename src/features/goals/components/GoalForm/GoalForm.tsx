@@ -1003,8 +1003,6 @@ export default function GoalForm({
     px-3
     py-3
 
-    shadow-[var(--shadow-card)]
-
     md:h-full
     md:min-h-0
     md:overflow-y-auto

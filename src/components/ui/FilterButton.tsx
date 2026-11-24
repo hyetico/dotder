@@ -253,7 +253,7 @@ export function FilterButtonGroup({
       ref={trayRef}
       className={`inline-flex items-center ${
         className.includes("gap-") ? "" : "gap-1"
-      } rounded-full border border-[var(--color-border)] bg-[var(--color-hover-soft)] p-1 shadow-[var(--shadow-card)] ${
+      } rounded-full border border-[var(--color-border)] bg-[var(--color-hover-soft)] p-1 ${
         scrollable
           ? `!m-0 w-max flex-nowrap lg:w-auto lg:max-w-full lg:flex-wrap`
           : "max-w-full flex-wrap"

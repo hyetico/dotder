@@ -197,7 +197,7 @@ type ScopeChipProps = {
  */
 function ScopeChip({ icon, label, clearLabel, onClear }: ScopeChipProps) {
   return (
-    <div className="text-caption flex h-6 w-fit max-w-[14rem] min-w-0 items-center gap-1 rounded-[6px] border border-[var(--color-border)] bg-[var(--color-hover)] px-2 text-[var(--color-text-secondary)]">
+    <div className="text-caption flex h-6 w-fit max-w-[14rem] min-w-0 items-center gap-1 rounded-[var(--radius-xs)] border border-[var(--color-border)] bg-[var(--color-hover)] px-2 text-[var(--color-text-secondary)]">
       <AppIcon icon={icon} size="xs" className="shrink-0" />
       <span className="min-w-0 truncate">{label}</span>
       <button
@@ -231,7 +231,7 @@ function ViewLink({ label, onClick }: ViewLinkProps) {
     <button
       type="button"
       onClick={onClick}
-      className="text-badge-sm inline-flex h-5 shrink-0 items-center rounded-[4px] border border-[var(--color-border)] bg-[var(--color-surface)] px-1 leading-3 font-medium whitespace-nowrap text-[var(--color-text)] transition-colors hover:border-[var(--color-border-strong)] hover:bg-[var(--color-text-muted)] hover:text-[var(--color-text-inverse)]"
+      className="text-badge-sm inline-flex h-5 shrink-0 items-center rounded-[var(--radius-xs)] border border-[var(--color-border)] bg-[var(--color-surface)] px-1 leading-3 font-medium whitespace-nowrap text-[var(--color-text)] transition-colors hover:border-[var(--color-border-strong)] hover:bg-[var(--color-text-muted)] hover:text-[var(--color-text-inverse)]"
     >
       {label}
     </button>
@@ -869,7 +869,7 @@ export default function IntegratedSearchModal({
       onClose={onClose}
       padded={false}
       labelledBy="integrated-search-modal-title"
-      zIndexClassName="z-[180]"
+      zIndexClassName="z-[var(--z-modal)]"
       maxWidthClassName="max-w-[520px]"
       panelClassName={stableListModalPanelClassName}
     >

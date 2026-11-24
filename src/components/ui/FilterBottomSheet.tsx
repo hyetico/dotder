@@ -80,7 +80,7 @@ function FilterSheetButton({
       onClick={onClick}
       className={`text-body relative inline-flex shrink-0 items-center justify-center transition-colors before:absolute before:top-1/2 before:left-1/2 before:h-11 before:w-full before:min-w-11 before:-translate-x-1/2 before:-translate-y-1/2 before:content-[''] focus-visible:ring-2 focus-visible:ring-[var(--color-primary-ring)] focus-visible:outline-none ${
         isSoft
-          ? `size-9 rounded-[6px] lg:size-8 ${
+          ? `size-9 rounded-[var(--radius-xs)] lg:size-8 ${
               active
                 ? `bg-[var(--color-surface)] text-[var(--color-text)] shadow-sm`
                 : `text-[var(--color-text-muted)] hover:text-[var(--color-text-secondary)]`
@@ -230,7 +230,11 @@ export default function FilterBottomSheet<T extends string>({
 
       {isMounted && isOpen
         ? createPortal(
-            <div ref={setScrollRoot} className="fixed inset-0 z-[120]" role="presentation">
+            <div
+              ref={setScrollRoot}
+              className="fixed inset-0 z-[var(--z-drawer)]"
+              role="presentation"
+            >
               <button
                 type="button"
                 aria-label="필터 닫기"
@@ -242,7 +246,7 @@ export default function FilterBottomSheet<T extends string>({
                 role="dialog"
                 aria-modal="true"
                 aria-label={label}
-                className="absolute inset-x-0 bottom-0 flex max-h-[85dvh] flex-col rounded-t-[20px] bg-[var(--color-surface)] shadow-[var(--shadow-dropdown)]"
+                className="absolute inset-x-0 bottom-0 flex max-h-[85dvh] flex-col rounded-t-[20px] bg-[var(--color-surface)] shadow-[var(--shadow-overlay)]"
               >
                 <div className="flex shrink-0 items-center justify-between gap-3 px-5 pt-5 pb-2">
                   <h2 className="text-card-title text-[var(--color-text)]">{title}</h2>

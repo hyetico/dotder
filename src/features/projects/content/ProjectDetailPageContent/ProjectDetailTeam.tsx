@@ -29,7 +29,6 @@ const panelClassName = `
   border
   border-[var(--color-border)]
   bg-[var(--color-surface)]
-  shadow-[var(--shadow-card)]
 `;
 
 const columns: ListColumn[] = [

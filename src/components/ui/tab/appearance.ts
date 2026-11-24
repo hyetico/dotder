@@ -25,7 +25,7 @@ const lineTabStackLabelClassName = "inline-flex items-center gap-1 md:contents";
 
 const tileTabListClassName = "grid gap-2";
 const tileTabItemClassName =
-  "flex w-full flex-col items-center justify-center gap-1.5 rounded-[var(--radius-md)]! bg-[var(--color-surface)] px-2 py-3 text-sm leading-5 shadow-[var(--shadow-card)] disabled:opacity-100!";
+  "flex w-full flex-col items-center justify-center gap-1.5 rounded-[var(--radius-md)]! bg-[var(--color-surface)] px-2 py-3 text-sm leading-5 border border-[var(--color-border)] disabled:opacity-100!";
 const tileTabLabelClassName = "inline-flex items-center gap-1";
 
 const folderTabListClassName = "flex items-center gap-1";
@@ -33,7 +33,7 @@ const folderTabItemClassName =
   "inline-flex h-8 shrink-0 items-center gap-1.5 rounded-[10px]! px-3 text-sm leading-5 font-medium disabled:opacity-100!";
 const folderTabOpenClassName = "bg-transparent text-[var(--color-text)]";
 const folderTabClosedClassName =
-  "border border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text)] shadow-[var(--shadow-card)] hover:bg-[var(--color-hover)]";
+  "border border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text)] hover:bg-[var(--color-hover)]";
 const folderTabLabelClassName = "inline-flex items-center gap-1";
 
 /**

@@ -168,7 +168,7 @@ export default function MobileFilterDrawer<T extends string>({
   }
 
   return createPortal(
-    <div ref={setScrollRoot} className="fixed inset-0 z-[120]" role="presentation">
+    <div ref={setScrollRoot} className="fixed inset-0 z-[var(--z-drawer)]" role="presentation">
       <button
         type="button"
         aria-label="필터 닫기"
@@ -180,7 +180,7 @@ export default function MobileFilterDrawer<T extends string>({
         role="dialog"
         aria-modal="true"
         aria-label={label}
-        className="absolute top-0 right-0 flex h-full w-full max-w-[420px] flex-col border-l border-[var(--color-border)] bg-[var(--color-surface)] shadow-[var(--shadow-dropdown)] transition-transform duration-300 ease-out sm:w-[min(100vw,400px)]"
+        className="absolute top-0 right-0 flex h-full w-full max-w-[420px] flex-col border-l border-[var(--color-border)] bg-[var(--color-surface)] shadow-[var(--shadow-overlay)] transition-transform duration-300 ease-out sm:w-[min(100vw,400px)]"
       >
         <div className="flex h-[54px] shrink-0 items-center justify-between gap-3 border-b border-[var(--color-border)] px-5">
           <h2 className="text-section-title text-[var(--color-text)]">필터</h2>

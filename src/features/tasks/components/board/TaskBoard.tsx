@@ -109,7 +109,7 @@ export default function TaskBoard({
 
   if (isLoading) {
     return (
-      <div className="overflow-hidden rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] px-6 py-12 shadow-[var(--shadow-card)]">
+      <div className="overflow-hidden rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] px-6 py-12">
         <p className="text-caption text-center text-[var(--color-text-secondary)]">
           Task를 불러오는 중입니다...
         </p>
@@ -119,7 +119,7 @@ export default function TaskBoard({
 
   if (isError) {
     return (
-      <div className="overflow-hidden rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] px-6 py-12 shadow-[var(--shadow-card)]">
+      <div className="overflow-hidden rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] px-6 py-12">
         <p className="text-caption text-center text-red-500">Task를 불러오지 못했습니다.</p>
       </div>
     );
@@ -232,7 +232,7 @@ export default function TaskBoard({
   };
 
   return (
-    <div className="overflow-hidden rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] shadow-[var(--shadow-card)]">
+    <div className="overflow-hidden rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)]">
       <div className="flex items-center justify-between gap-3 border-b border-[var(--color-border)] px-3 py-2.5 md:px-4">
         <div className="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1">
           <h2 className="text-card-title shrink-0 font-semibold text-[var(--color-text)]">
