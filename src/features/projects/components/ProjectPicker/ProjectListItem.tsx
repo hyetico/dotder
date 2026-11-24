@@ -48,7 +48,8 @@ export default function ProjectListItem({
     active ? "bg-[var(--color-hover)]" : disabled ? "" : "hover:bg-[var(--color-hover)]",
   ].join(" ");
   const selectButtonClassName = [
-    "flex min-w-0 flex-1 items-center gap-2.5 text-left",
+    // 고르는 목록은 이름을 자르지 않고, 상자는 첫 줄에 맞춘다 (handoff B7 · Components 09)
+    "flex min-w-0 flex-1 items-start gap-2.5 text-left",
     disabled ? "cursor-not-allowed disabled:opacity-100" : "",
   ].join(" ");
 
@@ -56,7 +57,7 @@ export default function ProjectListItem({
     <>
       <ProjectBadge color={project.color} size="sm" mark={mark} selected={selected} />
       <span className="min-w-0 flex-1">
-        <span className="text-caption block truncate font-semibold text-[var(--color-text)]">
+        <span className="text-caption block font-semibold break-words text-[var(--color-text)]">
           {project.name}
         </span>
         {project.description ? (
@@ -83,7 +84,7 @@ export default function ProjectListItem({
             {summary}
           </button>
         ) : (
-          <div className="flex min-w-0 flex-1 items-center gap-2.5">{summary}</div>
+          <div className="flex min-w-0 flex-1 items-start gap-2.5">{summary}</div>
         )}
 
         <ProjectStatusBadge status={project.status} delayed={delayed} />

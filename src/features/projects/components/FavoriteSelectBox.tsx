@@ -3,7 +3,8 @@
 import { AppIcon, Check, Minus } from "@/components/ui/icon";
 
 const favoriteSelectBoxClassName =
-  "grid size-4 shrink-0 cursor-pointer place-items-center rounded-[var(--radius-xs)] border text-[var(--color-text-inverse)]";
+  // 상자 18 (Components 09 Checkbox · handoff B10)
+  "grid size-4.5 shrink-0 cursor-pointer place-items-center rounded-[var(--radius-xs)] border text-[var(--color-text-inverse)]";
 const favoriteSelectBoxOnClassName = "border-[var(--color-primary)] bg-[var(--color-primary)]";
 const favoriteSelectBoxOffClassName =
   "border-[var(--color-border-strong)] bg-[var(--color-surface)]";

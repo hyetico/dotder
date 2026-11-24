@@ -146,7 +146,6 @@ function GoalStatusAutoInfo() {
         onClose={close}
         labelledBy={titleId}
         zIndexClassName="z-[var(--z-modal)]"
-        maxWidthClassName="max-w-[440px]"
       >
         <Modal.Header
           id={titleId}

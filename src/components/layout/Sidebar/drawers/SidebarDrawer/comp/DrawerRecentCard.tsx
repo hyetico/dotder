@@ -66,7 +66,7 @@ export default function DrawerRecentCard({
         </span>
       </Link>
 
-      <DropdownMenu label={`${project.name} 메뉴`} stopPropagation panelClassName="w-40">
+      <DropdownMenu label={`${project.name} 메뉴`} stopPropagation>
         {(close) => (
           <>
             <DropdownMenuLink

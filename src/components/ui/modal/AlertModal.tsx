@@ -104,7 +104,7 @@ export default function AlertModal({
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      maxWidthClassName="max-w-[320px]"
+      maxWidthClassName="max-w-[var(--confirm-width)]"
       zIndexClassName="z-[var(--z-modal)]"
       labelledBy={titleId}
       describedBy={description ? descriptionId : undefined}

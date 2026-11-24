@@ -153,7 +153,7 @@ export default function MemoArchiveList({
             <time dateTime={memo.createdAt} className={`${archiveMetaClassName} tabular-nums`}>
               {formatDateTime(memo.createdAt)}
             </time>
-            <DropdownMenu label={`${memo.title} 메뉴`} stopPropagation panelClassName="w-44">
+            <DropdownMenu label={`${memo.title} 메뉴`} stopPropagation>
               {(close) => (
                 <>
                   {memo.registration ? null : (

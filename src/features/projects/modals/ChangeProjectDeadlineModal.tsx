@@ -635,7 +635,6 @@ export default function ChangeProjectDeadlineModal({
       onClose={onClose}
       labelledBy={titleId}
       padded={false}
-      maxWidthClassName="max-w-[576px]"
       maxHeightClassName="max-h-[min(920px,calc(100dvh-2rem))]"
     >
       <Modal.Header
