@@ -30,6 +30,12 @@ export type Project = {
   creatorId: number;
 
   tags: string[];
+
+  /** 보관한 날 (`YYYY-MM-DD`). 없으면 보관 안 함. 보관하면 목록 · 전환 · 고르기에서 빠지고 보관함(01-h)에만 보인다 */
+  archivedAt?: string | null;
+
+  /** 마지막으로 바꾼 시각 (ISO). 「최근 수정순」 정렬에 쓴다. 없으면 id가 큰 것이 최근 */
+  updatedAt?: string;
 };
 
 export type ProjectListItem = Project & {
