@@ -9,6 +9,7 @@ import { HeaderActionButton, HeaderActions } from "@/components/layout/Header/He
 import PageHeading from "@/components/layout/pages/Page/PageHeading";
 import PageInset from "@/components/layout/pages/Page/PageInset";
 import { Plus } from "@/components/ui/icon";
+import Skeleton from "@/components/ui/state/Skeleton";
 
 import { getGoals } from "@/features/goals/api/goals";
 import GoalCategoryBoard from "@/features/goals/components/GoalCategoryBoard";
@@ -58,7 +59,6 @@ const goalsAfterTitleClassName = "flex min-w-0 flex-col gap-4";
 const favoriteFolderIconsClassName = "flex min-w-0 flex-wrap items-start gap-3";
 const compactHeadingClassName = "flex min-w-0 flex-wrap items-start justify-between gap-3";
 const compactHeadingCopyClassName = "min-w-[12rem] flex-1";
-const goalsLoadingClassName = "text-caption py-12 text-center text-[var(--color-text-secondary)]";
 
 /**
  * GoalsPageLayout
@@ -372,7 +372,13 @@ function GoalsPageLayout() {
         ))}
       </div>
     ) : null;
-  const goalsLoading = <p className={goalsLoadingClassName}>목표를 불러오는 중...</p>;
+  const goalsLoading = (
+    <div aria-busy="true" aria-label="목표를 불러오는 중" className="space-y-2">
+      {Array.from({ length: 6 }, (_, index) => (
+        <Skeleton key={index} className="h-16" />
+      ))}
+    </div>
+  );
   const mainProjectFolder = mainProjectListItem ? (
     <div className={mainGoalCardClassName}>
       <ProjectBoardCard project={mainProjectListItem} />

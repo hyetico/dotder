@@ -71,15 +71,15 @@ src/features/<기능>/
 | `Modal` | 선택·설정 모달 바탕 | ✅ |
 | `AlertModal` | 삭제·상태 변경 확인 | ✅ |
 | `Toast` | 결과 알림 + 되돌리기 하나. 4초(되돌리기 있으면 6초), 마우스·초점 동안 멈춤, `role="status"` | ✅ (handoff B5, `DeadlineToast`·`FavoriteRemovedToast` 삭제) |
-| `Notice` ★ | 화면 안 안내 띠 | ★ `HoldAddNotice` 대체 |
+| `Notice` ★ | 화면 안 안내 띠 | ★ `HoldAddNotice` 대체. 원본(Components · 프로토타입)에 규격이 없어 보류 (tech-debt C-14) |
 
 ### 화면 상태
 
 | 컴포넌트 | 언제 | 상태 |
 |---|---|---|
-| `Skeleton` ★ | 로딩 | ★ |
-| `EmptyState` ★ | 비어 있음, 결과 없음 | ★ |
-| `ErrorState` ★ | 오류 + 다시 시도 | ★ |
+| `Skeleton` | 로딩 자리 표시 막대 (`--color-skeleton`, 1.2초 깜빡임, 움직임 줄이기면 멈춤). 크기는 `className`, 감싸는 쪽에 `aria-busy` | ✅ `components/ui/state` (프로젝트 · 목표 목록에서 사용) |
+| `EmptyState` | 비어 있음, 결과 없음. 점선 상자 + 아이콘 56 + 제목 18 + 한 줄 설명 + 버튼 최대 2개 (Components 12). 문구는 부르는 쪽이 넘김 | ✅ `components/ui/state` (프로젝트 목록에서 사용) |
+| `ErrorState` | 불러오기 실패. 그 영역 안에 빨간 기운 테두리 + 「다시 시도」 주 버튼, `role="alert"` | ✅ `components/ui/state` (목업 API가 실패하지 않아 아직 쓰는 곳 없음, 10단계) |
 
 ### 목록 · 표시
 

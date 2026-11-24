@@ -3,6 +3,8 @@
 import { useMemo, useState, type ReactNode } from "react";
 
 import Badge from "@/components/ui/badge/Badge";
+import { Folder } from "@/components/ui/icon";
+import EmptyState from "@/components/ui/state/EmptyState";
 import StatusFilterBar from "@/components/ui/StatusFilterBar";
 
 import FavoriteEditToolbar from "@/features/projects/components/FavoriteEditToolbar";
@@ -289,9 +291,7 @@ export default function ProjectListSection({
             </div>
           </>
         ) : (
-          <div className="rounded-[var(--radius-md)] border border-dashed border-[var(--color-border)] bg-[var(--color-surface)] px-6 py-16 text-center">
-            <p className="text-caption text-[var(--color-text-secondary)]">{emptyLabel}</p>
-          </div>
+          <EmptyState icon={Folder} title={emptyLabel} />
         )}
       </div>
     </>

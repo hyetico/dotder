@@ -10,6 +10,7 @@ import PageHeading from "@/components/layout/pages/Page/PageHeading";
 import PageInset from "@/components/layout/pages/Page/PageInset";
 import { Plus } from "@/components/ui/icon";
 import SearchInput from "@/components/ui/input/SearchInput";
+import Skeleton from "@/components/ui/state/Skeleton";
 import Toast from "@/components/ui/Toast";
 
 import { getProjectListItems } from "@/features/projects/api/projects";
@@ -39,6 +40,8 @@ import { projectQueryKeys } from "@/lib/queryKeys";
 const projectsPageShellClassName = "min-w-0";
 const projectsPageFrameClassName = "project-board-width @container";
 const projectsPageBodyClassName = "space-y-5";
+// 폴더 카드 그리드와 같은 칸 (ProjectListSection)
+const projectsSkeletonClassName = "grid min-w-0 grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3";
 const favoriteEditButtonClassName =
   "inline-flex h-[32px] shrink-0 cursor-pointer items-center rounded-[var(--radius-sm)] px-[12px] text-xs! leading-none! font-medium! text-[var(--color-text-secondary)] transition-colors hover:bg-[var(--color-hover-soft)] hover:text-[var(--color-text)]";
 
@@ -229,9 +232,15 @@ export default function ProjectsPageContent() {
             <div className={projectsPageFrameClassName}>
               {pageHeading}
               {scopeTabs}
-              <p className="text-caption py-12 text-center text-[var(--color-text-secondary)]">
-                프로젝트를 불러오는 중...
-              </p>
+              <div
+                aria-busy="true"
+                aria-label="프로젝트를 불러오는 중"
+                className={projectsSkeletonClassName}
+              >
+                {Array.from({ length: 6 }, (_, index) => (
+                  <Skeleton key={index} className="h-48" />
+                ))}
+              </div>
             </div>
           </PageInset>
         </div>

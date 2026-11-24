@@ -29,6 +29,8 @@
 | `--color-hover` | `#f1f1ef` | `#30353c` | 호버 |
 | `--color-hover-soft` | `#f7f7f5` | `#2a2f35` | 아주 약한 호버, 아이콘 블록 |
 | `--color-hover-strong` | `#e9ebef` | `#3a4047` | 눌림 |
+| `--color-skeleton` | `#eef0f2` | `#23272d` | 불러오는 중 자리 표시 (`Skeleton`, 원본 `--skel`) |
+| `--color-error-border` | `--color-danger` 40% + `--color-border` | 같음 | 오류 상자 테두리 (`ErrorState`) |
 | `--color-border` | `#e2e5e7` | `#30353b` | 테두리, 구분선 |
 | `--color-border-strong` | `#d1d5db` | `#3a4047` | 체크박스, 장식 테두리 (원본 `--border-2`) |
 | `--color-border-subtle` | `#f0f0ee` | `#30353c` | 드로어 안 구분선 |
