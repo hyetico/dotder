@@ -223,11 +223,7 @@ export default function EditTaskModal({
                 name="dueDate"
                 control={control}
                 render={({ field }) => (
-                  <DatePicker
-                    value={field.value}
-                    onChange={field.onChange}
-                    title="마감일"
-                  />
+                  <DatePicker value={field.value} onChange={field.onChange} title="마감일" />
                 )}
               />
 
