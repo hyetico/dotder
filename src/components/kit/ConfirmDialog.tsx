@@ -7,6 +7,13 @@ import Button from "@/components/kit/Button";
 import { useLayer, usePresence } from "@/components/kit/useLayer";
 import { TriangleAlert, Trash2 } from "@/components/ui/icon";
 
+import {
+  BUTTON_LABEL,
+  DELETE_CONFIRM_TEXT,
+  DISCARD_CONFIRM,
+  deleteConfirmTitle,
+} from "@/content/ui";
+
 import { cn } from "@/lib/cn";
 
 type ConfirmDialogProps = {
@@ -39,7 +46,7 @@ export default function ConfirmDialog({
   title,
   text,
   confirmLabel = "확인",
-  cancelLabel = "취소",
+  cancelLabel = BUTTON_LABEL.cancel,
   danger = false,
   withinRef,
 }: ConfirmDialogProps) {
@@ -116,5 +123,46 @@ export default function ConfirmDialog({
       </div>
     </div>,
     document.body,
+  );
+}
+
+type PresetConfirmProps = Pick<
+  ConfirmDialogProps,
+  "isOpen" | "onClose" | "onConfirm" | "withinRef"
+>;
+
+/**
+ * 바꾼 채로 닫을 때 확인창 (REBUILD 5-3). 「저장하지 않고 닫을까요?」 / 「수정한 내용이 사라져요.」 [취소] [닫기(빨강)].
+ *
+ * @example
+ * <DiscardConfirmDialog isOpen={open} withinRef={panelRef} onConfirm={closeDrawer} onClose={() => setOpen(false)} />
+ */
+export function DiscardConfirmDialog(props: PresetConfirmProps) {
+  return (
+    <ConfirmDialog
+      {...props}
+      title={DISCARD_CONFIRM.title}
+      text={DISCARD_CONFIRM.text}
+      confirmLabel={BUTTON_LABEL.close}
+      danger
+    />
+  );
+}
+
+/**
+ * 삭제 확인창 (REBUILD 5-3). 「{대상}을/를 삭제할까요?」 / 「삭제하면 되돌릴 수 없어요.」 [취소] [삭제(빨강)].
+ *
+ * @example
+ * <DeleteConfirmDialog target="프로젝트" isOpen={open} onConfirm={remove} onClose={() => setOpen(false)} />
+ */
+export function DeleteConfirmDialog({ target, ...props }: PresetConfirmProps & { target: string }) {
+  return (
+    <ConfirmDialog
+      {...props}
+      title={deleteConfirmTitle(target)}
+      text={DELETE_CONFIRM_TEXT}
+      confirmLabel={BUTTON_LABEL.delete}
+      danger
+    />
   );
 }

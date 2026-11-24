@@ -5,10 +5,15 @@ import { useRouter } from "next/navigation";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import {
+  type CreateProjectInput,
+  clearMainProject,
   createProject,
   deleteProject,
+  duplicateProject,
+  restoreDeletedProject,
+  setMainProject,
+  setProjectArchived,
   updateProject,
-  type CreateProjectInput,
 } from "@/features/projects/api/projects";
 
 import { getProjectDetailPath } from "@/lib/projectRoutes";
@@ -58,7 +63,53 @@ export function useProjectMutations() {
     },
   });
 
+  const archiveProjectMutation = useMutation({
+    mutationFn: ({ projectId, archivedAt }: { projectId: number; archivedAt: string | null }) =>
+      setProjectArchived(projectId, archivedAt),
+
+    onSuccess: async () => {
+      await invalidateProjects();
+    },
+  });
+
+  const duplicateProjectMutation = useMutation({
+    mutationFn: (projectId: number) => duplicateProject(projectId),
+
+    onSuccess: async () => {
+      await invalidateProjects();
+    },
+  });
+
+  const mainProjectMutation = useMutation({
+    mutationFn: async ({ projectId, isMain }: { projectId: number; isMain: boolean }) => {
+      if (isMain) {
+        await setMainProject(projectId);
+      } else {
+        await clearMainProject();
+      }
+    },
+
+    onSuccess: async () => {
+      await invalidateProjects();
+    },
+  });
+
+  const restoreDeletedMutation = useMutation({
+    mutationFn: (project: Project) => restoreDeletedProject(project),
+
+    onSuccess: async () => {
+      await invalidateProjects();
+    },
+  });
+
   return {
+    /** 메인 지정(`isMain: true`) · 해제 */
+    setMainProjectAsync: mainProjectMutation.mutateAsync,
+    /** 삭제 되돌리기 */
+    restoreDeletedProjectAsync: restoreDeletedMutation.mutateAsync,
+    /** 보관(오늘 날짜) · 복원(`null`) */
+    setProjectArchivedAsync: archiveProjectMutation.mutateAsync,
+    duplicateProjectAsync: duplicateProjectMutation.mutateAsync,
     createProject: createProjectMutation.mutate,
     createProjectAsync: createProjectMutation.mutateAsync,
     isCreating: createProjectMutation.isPending,

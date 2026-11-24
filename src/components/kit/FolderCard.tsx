@@ -18,6 +18,8 @@ type FolderCardProps = {
   title: string;
   /** 이름 줄 오른쪽 (⋯ 메뉴 · xs 28) */
   titleAction?: ReactNode;
+  /** 이름 앞 (즐겨찾기 선택 모드 체크박스, 보드 02-c) */
+  leading?: ReactNode;
   /** 상태 줄 (상태 · 지연). 12/18 */
   status?: ReactNode;
   /** 기간 · 목표 · 태스크 · 진행률 줄. 자르지 않고 두 줄까지 줄바꿈 */
@@ -41,6 +43,7 @@ export default function FolderCard({
   isMain = false,
   title,
   titleAction,
+  leading,
   status,
   meta,
   href,
@@ -55,6 +58,7 @@ export default function FolderCard({
   const body = (
     <>
       <div className="flex min-w-0 items-start gap-2">
+        {leading ? <span className="relative z-10 mt-0.75 flex shrink-0">{leading}</span> : null}
         <h3
           title={title}
           className="line-clamp-2 min-h-12 min-w-0 flex-1 text-base font-semibold tracking-[-0.02em] text-[var(--text)]"

@@ -4,7 +4,8 @@ import { cn } from "@/lib/cn";
 
 import type { ButtonHTMLAttributes, ReactNode, Ref } from "react";
 
-export type ButtonVariant = "primary" | "secondary" | "ghost" | "danger" | "onToast";
+export type ButtonVariant =
+  "primary" | "secondary" | "secondaryDanger" | "ghost" | "danger" | "onToast";
 export type ButtonSize = "md" | "sm" | "xs";
 
 type ButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "children"> & {
@@ -41,6 +42,9 @@ const variantClassName: Record<ButtonVariant, string> = {
     "border-[var(--btn-primary)] bg-[var(--btn-primary)] text-[var(--btn-primary-fg)] hover:border-[var(--btn-primary-h)] hover:bg-[var(--btn-primary-h)] disabled:border-[var(--s3)] disabled:bg-[var(--s3)] disabled:text-[var(--t4)] aria-disabled:border-[var(--s3)] aria-disabled:bg-[var(--s3)] aria-disabled:text-[var(--t4)]",
   secondary:
     "border-[var(--border)] bg-[var(--surface)] text-[var(--text)] hover:border-[var(--btn-secondary-line-h)] hover:bg-[var(--s2)] disabled:opacity-40 aria-disabled:opacity-40",
+  // 보조 버튼 모양 + 빨간 글자 (보드 02-c 「즐겨찾기에서 빼기」)
+  secondaryDanger:
+    "border-[var(--border)] bg-[var(--surface)] text-[var(--bad)] hover:border-[var(--btn-secondary-line-h)] hover:bg-[var(--s2)] disabled:opacity-40 aria-disabled:opacity-40",
   ghost:
     "border-transparent text-[var(--t2)] hover:bg-[var(--s3)] hover:text-[var(--text)] disabled:opacity-40 aria-disabled:opacity-40",
   // 토스트(어두운 바탕) 안 글자 버튼 「되돌리기」
