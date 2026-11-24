@@ -36,14 +36,14 @@ type ProjectPaletteEntry = {
 export const PROJECT_PALETTE: Record<ProjectColorKey, ProjectPaletteEntry> = {
   mustard: { label: "머스터드", light: "#c9a233", dark: "#d9be70", tint: { light: 28, dark: 20 } },
   lime: { label: "라임", light: "#abbf4e", dark: "#c4d283", tint: { light: 34, dark: 20 } },
-  olive: { label: "올리브", light: "#6b6f23", dark: "#979a65", tint: { light: 18, dark: 24 } },
-  teal: { label: "틸", light: "#007f70", dark: "#4ca59b", tint: { light: 18, dark: 23 } },
-  slate: { label: "슬레이트", light: "#12484c", dark: "#597f82", tint: { light: 18, dark: 48 } },
+  olive: { label: "올리브", light: "#6b6f23", dark: "#979a65", tint: { light: 18, dark: 20 } },
+  teal: { label: "틸", light: "#007f70", dark: "#4ca59b", tint: { light: 18, dark: 20 } },
+  slate: { label: "슬레이트", light: "#12484c", dark: "#597f82", tint: { light: 18, dark: 20 } },
   sky: { label: "스카이", light: "#44a0bd", dark: "#7cbcd1", tint: { light: 23, dark: 20 } },
-  indigo: { label: "인디고", light: "#3a418d", dark: "#757aaf", tint: { light: 18, dark: 40 } },
-  purple: { label: "퍼플", light: "#8b55b2", dark: "#ae88c9", tint: { light: 18, dark: 23 } },
-  berry: { label: "베리", light: "#b34771", dark: "#ca7e9c", tint: { light: 18, dark: 24 } },
-  brown: { label: "브라운", light: "#774c1f", dark: "#a08262", tint: { light: 18, dark: 32 } },
+  indigo: { label: "인디고", light: "#3a418d", dark: "#757aaf", tint: { light: 18, dark: 20 } },
+  purple: { label: "퍼플", light: "#8b55b2", dark: "#ae88c9", tint: { light: 18, dark: 20 } },
+  berry: { label: "베리", light: "#b34771", dark: "#ca7e9c", tint: { light: 18, dark: 20 } },
+  brown: { label: "브라운", light: "#774c1f", dark: "#a08262", tint: { light: 18, dark: 20 } },
 };
 
 /** 새 프로젝트의 기본 색, 알 수 없는 옛 값의 대체 색 */

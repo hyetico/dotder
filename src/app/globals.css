@@ -14,6 +14,146 @@
 }
 
 /*
+ * ---------------------------------------------------------
+ * REBUILD 토큰 (2026-11-24). 새 공통 컴포넌트(`src/components/kit`)는 이 토큰만 쓴다.
+ * 값의 원본: design/snippets/tokens.css + design/_handoff/2026-11-24/prototype (최신). 이름도 원본 그대로 둔다.
+ * --c-project · --c-goal · --c-task · --c-memo는 최신 프로토타입에서 모두 --t2로 바뀌었다.
+ * 「보드 값」 표시가 있는 것은 tokens.css에 없거나 다르고, 보드(1순위) CSS에서 옮긴 값이다.
+ * ---------------------------------------------------------
+ */
+:root {
+  --bad: #dc2626;
+  --bad-bg: #fef2f2;
+  --bg: #fff;
+  --c-goal: var(--t2);
+  --c-memo: var(--t2);
+  --c-project: var(--t2);
+  --c-task: var(--t2);
+  --border: #e2e5e7;
+  --border-2: #d1d5db;
+  --divider: #f0f0ee;
+  --info: #1d4ed8;
+  --info-bg: #eff6ff;
+  --input-line: #868c94;
+  --input-line-h: #5f6670;
+  --mix: 18%;
+  --n: #475569;
+  --n-bg: #f1f1ef;
+  --nav-on-bg: #343840;
+  --nav-on-fg: #fff;
+  --ok: #15803d;
+  --ok-bg: #ecfdf3;
+  --on-primary: #fff;
+  --overlay: rgb(15 18 22 / 0.35);
+  --primary: #343840;
+  --primary-h: #2c3037;
+  --s2: #f6f7f8;
+  --s3: #f1f1ef;
+  --shadow: 0 12px 32px rgb(0 0 0 / 0.16);
+  --skel: #eef0f2;
+  --surface: #fff;
+  --t2: #475569;
+  --t3: #6b7280;
+  --t4: #9ca3af;
+  --text: #292d32;
+  --warn: #c2410c;
+  --warn-bg: #fff7ed;
+
+  /* 버튼 크기 3종 (REBUILD 5-1). 화면에서 버튼 높이 · 패딩을 따로 주지 않는다 */
+  --btn-h-md: 40px;
+  --btn-px-md: 16px;
+  --btn-h-sm: 36px;
+  --btn-px-sm: 12px;
+  --btn-h-xs: 28px;
+  --btn-px-xs: 8px;
+
+  /* 보드 값: 주 버튼 · 보조 버튼 호버 · 위험 버튼 */
+  --btn-primary: #343840;
+  --btn-primary-h: #2c3037;
+  --btn-primary-fg: #fff;
+  --btn-secondary-line-h: #d1d5db;
+  --btn-danger-h: #b91c1c;
+  --btn-danger-fg: #fff;
+  /* 보드 값: 키보드 초점 링(2px 띄우고 2px) · 입력칸 초점 링 3px */
+  --ring-gap: #fff;
+  --input-ring: rgb(52 56 64 / 0.12);
+  --input-ring-bad: rgb(220 38 38 / 0.14);
+  /* 보드 값: 팝오버 · 드로어 그림자, 덮개 */
+  --shadow-pop: 0 8px 24px rgb(0 0 0 / 0.12);
+  --shadow-drawer: -8px 0 24px rgb(0 0 0 / 0.12);
+  --overlay-board: rgb(15 18 22 / 0.4);
+  /* 프로토타입 값: 토스트 · 툴팁은 두 모드 모두 어두운 바탕 */
+  --toast-bg: #22262b;
+  --toast-fg: #f3f4f6;
+  --toast-ok: #6fd69a;
+  --toast-bad: #ff8a8a;
+  --toast-hover: rgb(255 255 255 / 0.1);
+  --tip-bg: #22262b;
+  --tip-fg: #f3f4f6;
+  /* 보드 01: 모자이크 상자 · 폴더 카드 보조 글(기간 줄 · 탭 글 · 모자이크 아래 줄) */
+  --mosaic-box: rgb(255 255 255 / 0.45);
+  --folder-ink: #5e5459;
+  /* 보드 크기: 드로어 폭 · 모바일 시트 모서리 · 시트 푸터 버튼(보드 M 01-a 48) · 빈 상태 점선 */
+  --drawer-w: 400px;
+  --radius-sheet: 20px;
+  --btn-h-sheet: 48px;
+  --line-dash: 1.5px;
+  /* 보드 .kbd 모서리 */
+  --radius-kbd: 4px;
+}
+
+:root[data-theme="dark"] {
+  --bad: #ff8a8a;
+  --bad-bg: #3d1c1e;
+  --bg: #16181c;
+  --border: #30353b;
+  --border-2: #3a4047;
+  --divider: #2a2e34;
+  --info: #8ab4ff;
+  --info-bg: #1c2a40;
+  --input-line: #6b737c;
+  --input-line-h: #9aa2ab;
+  --mix: 20%;
+  --n: #aab2bb;
+  --n-bg: #262a30;
+  --nav-on-bg: #2a2e35;
+  --nav-on-fg: #f3f4f6;
+  --ok: #6fd69a;
+  --ok-bg: #16301f;
+  --on-primary: #16181c;
+  --overlay: rgb(0 0 0 / 0.55);
+  --primary: #e7e9ec;
+  --primary-h: #ffffff;
+  --s2: #22262b;
+  --s3: #262a30;
+  --shadow: 0 12px 32px rgb(0 0 0 / 0.5);
+  --skel: #23272d;
+  --surface: #1b1e22;
+  --t2: #aab2bb;
+  --t3: #8b949e;
+  --t4: #6b737c;
+  --text: #e7e9ec;
+  --warn: #f5a66b;
+  --warn-bg: #3a2716;
+
+  --btn-primary: #d1d5db;
+  --btn-primary-h: #e5e7eb;
+  --btn-primary-fg: #16181c;
+  --btn-secondary-line-h: #9aa2ab;
+  --btn-danger-h: #ff9b9b;
+  --btn-danger-fg: #1b1e22;
+  --ring-gap: #fff;
+  --shadow-pop: 0 8px 24px rgb(0 0 0 / 0.5);
+  --shadow-drawer: -8px 0 24px rgb(0 0 0 / 0.5);
+  --overlay-board: rgb(0 0 0 / 0.6);
+  --tip-bg: #e7e9ec;
+  --tip-fg: #16181c;
+  --mosaic-box: color-mix(in srgb, var(--bg) 60%, transparent);
+  /* 프로토타입 .app.dark .fold .muted */
+  --folder-ink: var(--t2);
+}
+
+/*
  * 공통 서체와 글자 크기.
  * Tailwind text-xs ~ text-4xl 도 같은 짝수 px를 쓴다.
  * rem 배율은 루트 글자 크기에 따라 13px, 15px처럼
@@ -781,10 +921,11 @@ body {
  * ---------------------------------------------------------
  */
 
-button,
-input,
+/* kit 요소(.kit-focus · .kit-input)는 빼서 Tailwind 글자 클래스가 먹게 한다 (이 규칙은 레이어 밖이라 유틸리티를 이긴다) */
+button:not(.kit-focus),
+input:not(.kit-input),
 select,
-textarea {
+textarea:not(.kit-input) {
   font: inherit;
 }
 
@@ -792,10 +933,10 @@ textarea {
  * 칸에 포커스가 들어가면 안내 문구를 숨긴다.
  * 포커스가 빠지고 값이 없으면 다시 보여 준다.
  * 개별 placeholder 색보다 우선한다.
- * 검색칸(type=search)은 빼서 브라우저 기본처럼 글자를 입력할 때만 사라지게 한다 (tech-debt C-20).
+ * 검색칸(type=search)과 kit 입력칸(.kit-input)은 빼서 브라우저 기본처럼 글자를 입력할 때만 사라지게 한다 (보드 01-a).
  */
-html body input:not([type="search"]):focus::placeholder,
-html body textarea:focus::placeholder {
+html body input:not([type="search"], .kit-input):focus::placeholder,
+html body textarea:not(.kit-input):focus::placeholder {
   color: transparent !important;
 }
 
@@ -1184,4 +1325,59 @@ textarea:-webkit-autofill:focus {
   .skeleton-pulse {
     animation: none;
   }
+}
+
+/*
+ * ---------------------------------------------------------
+ * kit 공통 (REBUILD 3-0)
+ * ---------------------------------------------------------
+ */
+
+/* 키보드 초점: 2px 띄운 2px 링 (보드 .is-focus). 마우스로 누를 때는 보이지 않는다 */
+.kit-focus:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--ring-gap),
+    0 0 0 4px var(--primary);
+}
+
+/* 툴팁 (프로토타입 [data-tip]): 호버 · 키보드 초점 때만, 터치 기기에서는 숨김 */
+[data-tip] {
+  position: relative;
+}
+[data-tip]:hover::after,
+[data-tip]:focus-visible::after {
+  content: attr(data-tip);
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  z-index: 5;
+  padding: 4px 8px;
+  border-radius: var(--radius-xs);
+  background: var(--tip-bg);
+  color: var(--tip-fg);
+  font-size: var(--type-xs);
+  line-height: var(--type-xs-line);
+  font-weight: 500;
+  white-space: nowrap;
+  pointer-events: none;
+}
+@media (hover: none) {
+  [data-tip]::after {
+    display: none !important;
+  }
+}
+
+/* 단축키 표시(kbd)는 평소 숨기고, 마우스를 올리거나 키보드 초점이 갈 때만 보인다 (REBUILD 5-3 · 보드 .kbd).
+   단축키 안내 창 목록처럼 늘 보여야 하면 .keep */
+.kit-kbd:not(.keep) {
+  opacity: 0;
+  transition: opacity 0.12s;
+}
+:hover > .kit-kbd,
+:focus-visible > .kit-kbd,
+:focus-within > .kit-kbd,
+:hover > * > .kit-kbd,
+:focus-visible > * > .kit-kbd {
+  opacity: 1;
 }

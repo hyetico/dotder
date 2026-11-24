@@ -1,0 +1,112 @@
+import Link from "next/link";
+
+import { cn } from "@/lib/cn";
+
+import type { ButtonHTMLAttributes, ReactNode, Ref } from "react";
+
+export type ButtonVariant = "primary" | "secondary" | "ghost" | "danger" | "onToast";
+export type ButtonSize = "md" | "sm" | "xs";
+
+type ButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "children"> & {
+  /** 모양. 기본 secondary (보드 5-1). onToast는 토스트 안 「되돌리기」 전용 */
+  variant?: ButtonVariant;
+  /** 크기 3종: md 40/16 · sm 36/12 · xs 28/8. 기본 md */
+  size?: ButtonSize;
+  /** 아이콘만 있는 정사각형 버튼. `aria-label`을 꼭 넘긴다 */
+  iconOnly?: boolean;
+  /** 툴팁 글. 호버 · 키보드 초점 때만 보이고 터치 기기에서는 숨긴다. 예: "닫기 · Esc" */
+  tip?: string;
+  /** 넘기면 `<a>`(next/link)로 그린다 */
+  href?: string;
+  /** 시트 푸터처럼 남은 폭을 채운다 */
+  grow?: boolean;
+  ref?: Ref<HTMLButtonElement>;
+  children?: ReactNode;
+};
+
+// 크기는 토큰만 쓴다 (globals.css `--btn-h-*` · `--btn-px-*`). 화면에서 높이 · 패딩을 덧대지 않는다.
+const sizeClassName: Record<ButtonSize, string> = {
+  md: "h-[var(--btn-h-md)] px-[var(--btn-px-md)] rounded-[var(--radius-sm)] text-sm",
+  sm: "h-[var(--btn-h-sm)] px-[var(--btn-px-sm)] rounded-[var(--radius-sm)] text-sm",
+  xs: "h-[var(--btn-h-xs)] px-[var(--btn-px-xs)] rounded-[var(--radius-xs)] text-xs",
+};
+const iconOnlyClassName: Record<ButtonSize, string> = {
+  md: "size-[var(--btn-h-md)] rounded-[var(--radius-sm)]",
+  sm: "size-[var(--btn-h-sm)] rounded-[var(--radius-sm)]",
+  xs: "size-[var(--btn-h-xs)] rounded-[var(--radius-xs)]",
+};
+const variantClassName: Record<ButtonVariant, string> = {
+  // 못 누를 때는 흐리게 하지 않고 --s3 바탕 · --t4 글자 (REBUILD 5-3 [저장] · [추가])
+  primary:
+    "border-[var(--btn-primary)] bg-[var(--btn-primary)] text-[var(--btn-primary-fg)] hover:border-[var(--btn-primary-h)] hover:bg-[var(--btn-primary-h)] disabled:border-[var(--s3)] disabled:bg-[var(--s3)] disabled:text-[var(--t4)] aria-disabled:border-[var(--s3)] aria-disabled:bg-[var(--s3)] aria-disabled:text-[var(--t4)]",
+  secondary:
+    "border-[var(--border)] bg-[var(--surface)] text-[var(--text)] hover:border-[var(--btn-secondary-line-h)] hover:bg-[var(--s2)] disabled:opacity-40 aria-disabled:opacity-40",
+  ghost:
+    "border-transparent text-[var(--t2)] hover:bg-[var(--s3)] hover:text-[var(--text)] disabled:opacity-40 aria-disabled:opacity-40",
+  // 토스트(어두운 바탕) 안 글자 버튼 「되돌리기」
+  onToast:
+    "border-transparent text-[var(--toast-fg)] hover:bg-[var(--toast-hover)] disabled:opacity-40 aria-disabled:opacity-40",
+  danger:
+    "border-[var(--bad)] bg-[var(--bad)] text-[var(--btn-danger-fg)] hover:border-[var(--btn-danger-h)] hover:bg-[var(--btn-danger-h)] disabled:opacity-40 aria-disabled:opacity-40",
+};
+
+/** 버튼 공통 모양. 링크처럼 버튼이 아닌 요소에 같은 모양을 줄 때도 쓴다. */
+export function buttonClassName({
+  variant = "secondary",
+  size = "md",
+  iconOnly = false,
+  grow = false,
+}: Pick<ButtonProps, "variant" | "size" | "iconOnly" | "grow">) {
+  return cn(
+    "kit-focus relative inline-flex shrink-0 cursor-pointer items-center justify-center gap-1.5 border font-medium whitespace-nowrap transition-[background-color,border-color,color] select-none active:translate-y-px disabled:pointer-events-none aria-disabled:pointer-events-none",
+    iconOnly ? iconOnlyClassName[size] : sizeClassName[size],
+    variantClassName[variant],
+    grow && "flex-1",
+  );
+}
+
+/**
+ * 버튼 (Components 07 · REBUILD 5-1). 모양 4가지 × 크기 3가지.
+ *
+ * 높이 · 좌우 패딩은 크기 토큰으로만 정해진다. 아이콘 16 · 아이콘–글자 6 · 테두리 1.
+ * 키보드 초점은 2px 띄운 2px 링, 누르면 1px 내려가고, 못 누르면 40%.
+ *
+ * @example
+ * <Button variant="primary">추가</Button>
+ * <Button variant="ghost" size="sm" iconOnly aria-label="닫기" tip="닫기 · Esc"><X size={18} /></Button>
+ */
+export default function Button({
+  variant = "secondary",
+  size = "md",
+  iconOnly = false,
+  tip,
+  href,
+  grow = false,
+  className,
+  type = "button",
+  ref,
+  children,
+  ...props
+}: ButtonProps) {
+  const classes = cn(buttonClassName({ variant, size, iconOnly, grow }), className);
+
+  if (href) {
+    return (
+      <Link
+        href={href}
+        className={classes}
+        data-tip={tip}
+        aria-label={props["aria-label"]}
+        onClick={props.onClick as never}
+      >
+        {children}
+      </Link>
+    );
+  }
+
+  return (
+    <button ref={ref} type={type} className={classes} data-tip={tip} {...props}>
+      {children}
+    </button>
+  );
+}
