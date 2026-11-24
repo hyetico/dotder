@@ -1,12 +1,13 @@
 "use client";
 
-import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react";
-
+import { createContext, useContext, useEffect, useRef, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 
 import CloseButton from "@/components/ui/button/CloseButton";
+
 import { useProjectAccentStyle } from "@/features/projects/components/ProjectAccent";
 
+import { useIsClient } from "@/hooks/useIsClient";
 import { useModalScrollLock } from "@/hooks/useModalScrollLock";
 
 type ModalProps = {
@@ -47,7 +48,7 @@ function ModalRoot({
   children,
   panelClassName = "",
   maxWidthClassName = "max-w-[640px]",
-  zIndexClassName = "z-[160]",
+  zIndexClassName = "z-[var(--z-modal)]",
   padded = true,
   labelledBy,
   describedBy,
@@ -58,11 +59,7 @@ function ModalRoot({
 
   const setScrollRoot = useModalScrollLock(isOpen);
 
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  const isClient = useIsClient();
 
   useEffect(() => {
     if (!isOpen) {
@@ -92,7 +89,7 @@ function ModalRoot({
     };
   }, [isOpen, onClose]);
 
-  if (!isOpen || !isMounted) {
+  if (!isOpen || !isClient) {
     return null;
   }
 
@@ -104,7 +101,7 @@ function ModalRoot({
     >
       <div
         role="presentation"
-        className="flex min-h-full items-center justify-center bg-black/40 p-4 backdrop-blur-[1px]"
+        className="flex min-h-full items-center justify-center bg-[var(--color-overlay)] p-4 backdrop-blur-[1px]"
         onMouseDown={(event) => {
           event.stopPropagation();
           onClose();
@@ -116,7 +113,7 @@ function ModalRoot({
           aria-modal="true"
           aria-labelledby={labelledBy}
           aria-describedby={describedBy}
-          className={`flex w-full ${maxHeightClassName} flex-col overflow-hidden rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] shadow-[var(--shadow-dropdown)] ${maxWidthClassName} ${panelClassName} `}
+          className={`flex w-full ${maxHeightClassName} flex-col overflow-hidden rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] shadow-[var(--shadow-overlay)] ${maxWidthClassName} ${panelClassName} `}
           onMouseDown={(event) => {
             event.stopPropagation();
           }}

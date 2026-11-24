@@ -1,31 +1,29 @@
 "use client";
 
-import { useMemo, useState, useSyncExternalStore } from "react";
-
 import { usePathname, useRouter } from "next/navigation";
+import { useMemo, useState, useSyncExternalStore } from "react";
 
 import { useQuery } from "@tanstack/react-query";
 
-import StatCountCard from "@/components/ui/stats/StatCountCard";
-import StatCountGrid, { statCountWideCardClassName } from "@/components/ui/stats/StatCountGrid";
 import { HeaderActionLink, HeaderActions } from "@/components/layout/Header/HeaderActions";
 import PageHeading from "@/components/layout/pages/Page/PageHeading";
 import PageInset from "@/components/layout/pages/Page/PageInset";
-import ProjectListSection from "@/features/projects/content/ProjectsPageContent/ProjectListSection";
+import { CheckCircle2, Circle, Folder, PauseCircle, Plus, Star } from "@/components/ui/icon";
+import SearchInput from "@/components/ui/input/SearchInput";
+import StatCountCard from "@/components/ui/stats/StatCountCard";
+import StatCountGrid, { statCountWideCardClassName } from "@/components/ui/stats/StatCountGrid";
+import Toast from "@/components/ui/Toast";
+
+import { getProjectListItems } from "@/features/projects/api/projects";
+import FavoriteAddCard from "@/features/projects/components/FavoriteAddCard";
 import ProjectsScopeTabs, {
   type ProjectsScopeTab,
 } from "@/features/projects/components/ProjectsScopeTabs";
 import { ProjectInProgressIcon } from "@/features/projects/components/ProjectStatusIcon";
-import { CheckCircle2, Circle, Folder, PauseCircle, Plus, Star } from "@/components/ui/icon";
-import SearchInput from "@/components/ui/input/SearchInput";
-import FavoriteAddCard from "@/features/projects/components/FavoriteAddCard";
-import FavoriteRemovedToast from "@/features/projects/components/FavoriteRemovedToast";
+import ProjectListSection from "@/features/projects/content/ProjectsPageContent/ProjectListSection";
 import FavoriteProjectsModal from "@/features/projects/modals/FavoriteProjectsModal";
-
-import { getProjectListItems } from "@/features/projects/api/projects";
 import { computeProjectStats } from "@/features/projects/utils/projectUtils";
 
-import { projectQueryKeys } from "@/lib/queryKeys";
 import {
   getFavoriteProjectsPath,
   getMainProjectsPath,
@@ -39,12 +37,13 @@ import {
   setFavoriteProjectIds,
   subscribeFavoriteProjectIds,
 } from "@/lib/projectSwitcherPreferences";
+import { projectQueryKeys } from "@/lib/queryKeys";
 
 const projectsPageShellClassName = "min-w-0";
 const projectsPageFrameClassName = "project-board-width @container";
 const projectsPageBodyClassName = "space-y-5";
 const favoriteEditButtonClassName =
-  "inline-flex h-[32px] shrink-0 cursor-pointer items-center rounded-[8px] px-[12px] text-[13px]! leading-none! font-medium! text-[var(--color-text-secondary)] transition-colors hover:bg-[var(--color-hover-soft)] hover:text-[var(--color-text)]";
+  "inline-flex h-[32px] shrink-0 cursor-pointer items-center rounded-[var(--radius-sm)] px-[12px] text-xs! leading-none! font-medium! text-[var(--color-text-secondary)] transition-colors hover:bg-[var(--color-hover-soft)] hover:text-[var(--color-text)]";
 
 /**
  * ProjectsPageContent
@@ -238,20 +237,20 @@ export default function ProjectsPageContent() {
         label="진행 중"
         count={stats.inProgress}
         icon={ProjectInProgressIcon}
-        iconClassName="text-blue-600"
-        pair={{ label: "지연", count: stats.delayed, className: "text-red-600" }}
+        iconClassName="text-[var(--color-info-text)]"
+        pair={{ label: "지연", count: stats.delayed, className: "text-[var(--color-danger-text)]" }}
       />
       <StatCountCard
         label="보류"
         count={stats.onHold}
         icon={PauseCircle}
-        iconClassName="text-amber-600"
+        iconClassName="text-[var(--color-warning-text)]"
       />
       <StatCountCard
         label="완료"
         count={stats.done}
         icon={CheckCircle2}
-        iconClassName="text-green-600"
+        iconClassName="text-[var(--color-success-text)]"
       />
     </StatCountGrid>
   );
@@ -265,7 +264,7 @@ export default function ProjectsPageContent() {
           <PageInset>
             <div className={projectsPageFrameClassName}>
               {pageHeading}
-              <p className="text-body-sm py-12 text-center text-[var(--color-text-secondary)]">
+              <p className="text-caption py-12 text-center text-[var(--color-text-secondary)]">
                 프로젝트를 불러오는 중...
               </p>
             </div>
@@ -346,7 +345,12 @@ export default function ProjectsPageContent() {
         onClose={() => setIsFavoriteModalOpen(false)}
       />
       {isEditingFavorites && removedFavoriteIds.length > 0 ? (
-        <FavoriteRemovedToast onUndo={undoFavoriteRemoval} />
+        <Toast
+          key={removedFavoriteIds.length}
+          message="즐겨찾기에서 해제했어요."
+          action={{ label: "실행 취소", onClick: undoFavoriteRemoval }}
+          onClose={() => setRemovedFavoriteIds([])}
+        />
       ) : null}
     </>
   );

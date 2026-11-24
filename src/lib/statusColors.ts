@@ -1,131 +1,86 @@
-export type StatusColorKey = "all" | "planned" | "inProgress" | "onHold" | "done" | "delayed";
+import type { ProjectStatus } from "@/features/projects/types/project";
 
-export type StatusColorTokens = {
-  text: string;
-  background: string;
-  hoverText: string;
-  hoverBackground: string;
-  activeBackground: string;
-  activeText: string;
-  dark: {
-    background: string;
-    text: string;
+/**
+ * 상태와 색의 연결은 이 파일에서만 정한다 (style-guide 1-5).
+ *
+ * 값은 모두 globals.css 토큰이라 라이트·다크가 같이 바뀐다.
+ * 기본 상태색은 막대·점·넓은 면에, `-text` 색은 글자와 작은 아이콘에 쓴다.
+ */
+
+export type ProjectStatusColorKey = ProjectStatus | "DELAYED";
+
+export type ProjectStatusColorStep = "progress" | "goal" | "task";
+
+export type ProjectStatusColorScale = Record<ProjectStatusColorStep, string>;
+
+const STATUS_TOKEN: Record<ProjectStatusColorKey, string> = {
+  PLANNED: "neutral",
+  IN_PROGRESS: "info",
+  ON_HOLD: "warning",
+  DONE: "success",
+  DELAYED: "danger",
+};
+
+function statusVar(status: ProjectStatusColorKey, suffix = "") {
+  return `var(--color-${STATUS_TOKEN[status]}${suffix})`;
+}
+
+function mixWithSurface(color: string, percent: number) {
+  return `color-mix(in srgb, ${color} ${percent}%, var(--color-surface))`;
+}
+
+function byStatus<T>(make: (status: ProjectStatusColorKey) => T) {
+  return Object.fromEntries(
+    (Object.keys(STATUS_TOKEN) as ProjectStatusColorKey[]).map((status) => [status, make(status)]),
+  ) as Record<ProjectStatusColorKey, T>;
+}
+
+/** 상태 필터·선택 버튼의 작은 아이콘 색. 흰 바탕 대비 4.5:1을 넘는 `-text` 색이다. */
+export const PROJECT_STATUS_FILTER_ICON_COLORS = byStatus((status) => statusVar(status, "-text"));
+
+/** 진행률 막대 바탕. 상태색에서 바탕 쪽으로 옅어지는 그라데이션이다. */
+export const progressGradients = byStatus(
+  (status) =>
+    `linear-gradient(90deg, ${statusVar(status)} 0%, ${mixWithSurface(statusVar(status), 50)} 100%)`,
+);
+
+/**
+ * 프로젝트 상태 색의 3단계.
+ * 진행률(상태색) → 목표(한 단계 옅게) → 태스크(한 단계 반 옅게).
+ */
+export const PROJECT_STATUS_COLOR_SCALES = byStatus<ProjectStatusColorScale>((status) => ({
+  progress: statusVar(status),
+  goal: mixWithSurface(statusVar(status), 80),
+  task: mixWithSurface(statusVar(status), 65),
+}));
+
+/**
+ * 상태 아이콘 뒤에 깔 옅은 바탕과 아이콘 색을 만든다.
+ *
+ * @param color - 아이콘 색. 토큰(`var(...)`)이나 hex 모두 된다
+ */
+export function getProjectStatusIconSurface(color: string) {
+  return {
+    backgroundColor: `color-mix(in srgb, ${color} 14%, transparent)`,
+    color,
   };
-};
-
-const restingBackground = "linear-gradient(180deg, #FFFFFF 0%, #F7F8FA 100%)";
-
-/**
- * 상태 필터의 기본 컬러.
- * 버튼 배경은 상태마다 바꾸지 않고, 선택된 버튼은 프라이머리 그라데이션을 쓴다.
- */
-export const STATUS_COLORS: Record<StatusColorKey, StatusColorTokens> = {
-  all: {
-    text: "#475569",
-    background: restingBackground,
-    hoverText: "#343840",
-    hoverBackground: "linear-gradient(180deg, #F3F4F6 0%, #E5E7EB 100%)",
-    activeBackground: "linear-gradient(90deg, #343840 0%, #484D56 100%)",
-    activeText: "#FFFFFF",
-    dark: {
-      background: "#343840",
-      text: "#F7F7F5",
-    },
-  },
-  planned: {
-    text: "#475569",
-    background: restingBackground,
-    hoverText: "#475569",
-    hoverBackground: "linear-gradient(180deg, #F7F7F5 0%, #E2E8F0 100%)",
-    activeBackground: "linear-gradient(135deg, #F1F5F9 0%, #D5DEE8 52%, #B7C3D1 100%)",
-    activeText: "#3E4C5F",
-    dark: {
-      background: "#1F2937",
-      text: "#E5E7EB",
-    },
-  },
-  inProgress: {
-    text: "#475569",
-    background: restingBackground,
-    hoverText: "#1D4ED8",
-    hoverBackground: "linear-gradient(180deg, #F5F9FF 0%, #E7F0FE 100%)",
-    activeBackground: "linear-gradient(135deg, #1E40AF 0%, #3B82F6 45%, #93C5FD 100%)",
-    activeText: "#FFFFFF",
-    dark: {
-      background: "#1E3A8A",
-      text: "#BFDBFE",
-    },
-  },
-  onHold: {
-    text: "#475569",
-    background: restingBackground,
-    hoverText: "#92400E",
-    hoverBackground: "linear-gradient(180deg, #FFFBF3 0%, #FEF3C7 100%)",
-    activeBackground: "linear-gradient(135deg, #B45309 0%, #F59E0B 45%, #FCD34D 100%)",
-    activeText: "#FFFFFF",
-    dark: {
-      background: "#92400E",
-      text: "#FED7AA",
-    },
-  },
-  done: {
-    text: "#475569",
-    background: restingBackground,
-    hoverText: "#065F46",
-    hoverBackground: "linear-gradient(180deg, #F4FDF8 0%, #D1FAE5 100%)",
-    activeBackground: "linear-gradient(135deg, #047857 0%, #10B981 45%, #6EE7B7 100%)",
-    activeText: "#FFFFFF",
-    dark: {
-      background: "#065F46",
-      text: "#A7F3D0",
-    },
-  },
-  delayed: {
-    text: "#475569",
-    background: restingBackground,
-    hoverText: "#B91C1C",
-    hoverBackground: "linear-gradient(180deg, #FFF8F8 0%, #FEE2E2 100%)",
-    activeBackground: "linear-gradient(135deg, #B91C1C 0%, #EF4444 45%, #FCA5A5 100%)",
-    activeText: "#FFFFFF",
-    dark: {
-      background: "#991B1B",
-      text: "#FEE2E2",
-    },
-  },
-};
-
-const STATUS_TONE_BY_ID: Record<string, StatusColorKey> = {
-  all: "all",
-  PLANNED: "planned",
-  NOT_STARTED: "planned",
-  TODO: "planned",
-  IN_PROGRESS: "inProgress",
-  ON_HOLD: "onHold",
-  DONE: "done",
-  COMPLETED: "done",
-  DELAYED: "delayed",
-};
-
-/**
- * getStatusColor
- *
- * 상태 키에 해당하는 공용 컬러를 반환합니다.
- *
- * @param tone - 상태 컬러 키
- * @returns 글자, 그라데이션 배경, 선택, 다크 모드 컬러
- */
-export function getStatusColor(tone: StatusColorKey) {
-  return STATUS_COLORS[tone];
 }
 
 /**
- * getStatusFilterTone
+ * 프로젝트 상태(지연 포함)에 맞는 3단계 색을 고른다.
  *
- * 목록 필터 id를 공용 상태 컬러 키로 바꿉니다.
- *
- * @param id - 전체, 계획, 진행 중, 보류, 완료, 지연 필터 id
- * @returns 상태 컬러 키
+ * @param status - 프로젝트 상태
+ * @param options.delayed - 지연이면 상태와 상관없이 지연 색
  */
-export function getStatusFilterTone(id: string): StatusColorKey {
-  return STATUS_TONE_BY_ID[id] ?? "all";
+export function getProjectStatusColorScale(
+  status: ProjectStatus,
+  options?: {
+    delayed?: boolean;
+  },
+): ProjectStatusColorScale {
+  if (options?.delayed) {
+    return PROJECT_STATUS_COLOR_SCALES.DELAYED;
+  }
+
+  return PROJECT_STATUS_COLOR_SCALES[status] ?? PROJECT_STATUS_COLOR_SCALES.PLANNED;
 }

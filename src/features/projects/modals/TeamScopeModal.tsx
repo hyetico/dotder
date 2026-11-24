@@ -2,24 +2,23 @@
 
 import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 
-import { AppIcon, RotateCcw, Search, UserRound, Users, X } from "@/components/ui/icon";
-
 import Badge from "@/components/ui/badge/Badge";
+import PrimaryButton from "@/components/ui/button/PrimaryButton";
+import SecondaryButton from "@/components/ui/button/SecondaryButton";
+import { AppIcon, RotateCcw, Search, UserRound, Users, X } from "@/components/ui/icon";
+import SearchInput from "@/components/ui/input/SearchInput";
 import List from "@/components/ui/list/List";
 import MemberAvatar from "@/components/ui/MemberAvatar";
 import Modal, { modalSidePaddingClassName } from "@/components/ui/modal/Modal";
-import PrimaryButton from "@/components/ui/button/PrimaryButton";
-import SearchInput from "@/components/ui/input/SearchInput";
-import SecondaryButton from "@/components/ui/button/SecondaryButton";
 import LineTabMenu, { type TabMenuItem } from "@/components/ui/tab/LineTabMenu";
-
-import { getMemberInitial, getTeamMembers, type TeamMember } from "@/lib/mock/teamMembers";
 
 import {
   PROJECT_TEAM_NONE,
   PROJECT_TEAM_PERSONAL,
   type ProjectTeamOption,
 } from "@/features/projects/utils/projectTeam";
+
+import { getMemberInitial, getTeamMembers, type TeamMember } from "@/lib/mock/teamMembers";
 
 import type { ListColumn, ListRow } from "@/components/ui/list/List";
 
@@ -312,7 +311,7 @@ function AdminHandoffSide({
   return (
     <div
       className={`flex min-w-0 items-center gap-2 px-3 py-2 ${
-        muted ? "bg-[#f4f5f7]" : `border-l border-[var(--color-border)] bg-white`
+        muted ? "bg-[#f4f5f7]" : `border-l border-[var(--color-border)] bg-[var(--color-surface)]`
       } `}
     >
       <span className="text-caption shrink-0 rounded-[6px] bg-[#e6e8ec] px-1.5 py-0.5 font-medium text-[var(--color-text-secondary)]">
@@ -331,7 +330,7 @@ function AdminHandoffSide({
           }
         />
       ) : (
-        <span className="text-body-sm text-[var(--color-text-muted)]">없음</span>
+        <span className="text-caption text-[var(--color-text-muted)]">없음</span>
       )}
     </div>
   );
@@ -807,7 +806,7 @@ export default function TeamScopeModal(props: TeamScopeModalProps) {
                       type="button"
                       aria-label={`${activeOption.label} 검색에서 빼기`}
                       onClick={leaveMembers}
-                      className="inline-flex h-4 w-4 shrink-0 items-center justify-center rounded-full text-[var(--color-text-secondary)] hover:bg-white hover:text-[var(--color-text)]"
+                      className="inline-flex h-4 w-4 shrink-0 items-center justify-center rounded-full text-[var(--color-text-secondary)] hover:bg-[var(--color-surface)] hover:text-[var(--color-text)]"
                     >
                       <AppIcon icon={X} size="xs" />
                     </button>
@@ -821,7 +820,7 @@ export default function TeamScopeModal(props: TeamScopeModalProps) {
 
         {mode === "admin" ? <AdminHandoff before={openedMember} after={draftMember} /> : null}
 
-        <p className="text-body-sm mt-3 text-right text-[var(--color-text-secondary)] tabular-nums">
+        <p className="text-caption mt-3 text-right text-[var(--color-text-secondary)] tabular-nums">
           {activeCategory === "team"
             ? `총 ${visibleTeams.length}팀`
             : `총 ${visibleMembers.length}명`}
@@ -833,7 +832,7 @@ export default function TeamScopeModal(props: TeamScopeModalProps) {
       >
         {activeCategory === "team" ? (
           visibleTeams.length === 0 ? (
-            <p className="text-body-sm px-2 py-10 text-center text-[var(--color-text-secondary)]">
+            <p className="text-caption px-2 py-10 text-center text-[var(--color-text-secondary)]">
               {emptyLabel}
             </p>
           ) : (
@@ -845,7 +844,7 @@ export default function TeamScopeModal(props: TeamScopeModalProps) {
             />
           )
         ) : visibleMembers.length === 0 ? (
-          <p className="text-body-sm px-2 py-10 text-center text-[var(--color-text-secondary)]">
+          <p className="text-caption px-2 py-10 text-center text-[var(--color-text-secondary)]">
             {emptyLabel}
           </p>
         ) : (

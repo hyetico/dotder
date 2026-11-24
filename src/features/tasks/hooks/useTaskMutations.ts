@@ -47,9 +47,8 @@ import { createTask, deleteTask, updateTask } from "@/features/tasks/api/tasks";
 
 import { taskQueryKeys } from "@/lib/queryKeys";
 
-import type { ProjectScope } from "@/lib/projectRoutes";
-
 import type { Task } from "@/features/tasks/types/task";
+import type { ProjectScope } from "@/lib/projectRoutes";
 
 export function useTaskMutations(projectScope: ProjectScope) {
   /*

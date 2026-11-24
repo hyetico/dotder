@@ -2,13 +2,12 @@
 
 import { useEffect, useRef, useState } from "react";
 
-import { AppIcon, ChevronDown } from "@/components/ui/icon";
-
 import {
   fieldHoverClassName,
   fieldOpenClassName,
   fieldPaddingClassName,
 } from "@/components/ui/fieldControl";
+import { AppIcon, ChevronDown } from "@/components/ui/icon";
 
 const selectTriggerClassName =
   "flex w-full min-w-0 items-center justify-between overflow-hidden rounded-[var(--radius-sm)] border border-[var(--color-field-border)] bg-[var(--color-field)] text-left text-[var(--color-field-text)] transition-[border-color,box-shadow] outline-none disabled:cursor-not-allowed disabled:border-[var(--color-field-border)] disabled:bg-[var(--color-field-disabled)] disabled:text-[var(--color-field-placeholder)] disabled:opacity-100 disabled:hover:border-[var(--color-field-border)]";
@@ -87,8 +86,8 @@ export default function Select({
         }}
         className={`${selectTriggerClassName} ${
           isSmall
-            ? `text-body-sm h-9 gap-2 px-3`
-            : `text-body h-10 gap-3 min-[1025px]:h-11 ${fieldPaddingClassName}`
+            ? `text-caption h-9 gap-2 px-3`
+            : `text-body h-10 gap-3 lg:h-11 ${fieldPaddingClassName}`
         } ${isOpen ? fieldOpenClassName : fieldHoverClassName}`}
       >
         <span
@@ -111,7 +110,7 @@ export default function Select({
       {isOpen && (
         <ul
           role="listbox"
-          className="absolute top-[calc(100%+4px)] left-0 z-20 w-max min-w-full overflow-hidden rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-white py-1 shadow-[var(--shadow-dropdown)]"
+          className="absolute top-[calc(100%+4px)] left-0 z-20 w-max min-w-full overflow-hidden rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-[var(--color-surface)] py-1 shadow-[var(--shadow-overlay)]"
         >
           {options.map((option) => {
             const isSelected = option.value === value;

@@ -1,12 +1,9 @@
 import { mockGoals } from "@/lib/mock/goals";
-
 import { mockProjects } from "@/lib/mock/projects";
-
 import { mockTeamMembers } from "@/lib/mock/teamMembers";
 
-import type { ProjectScope } from "@/lib/projectRoutes";
-
 import type { Goal } from "@/features/goals/types/goal";
+import type { ProjectScope } from "@/lib/projectRoutes";
 
 export type CreateGoalInput = Omit<
   Goal,

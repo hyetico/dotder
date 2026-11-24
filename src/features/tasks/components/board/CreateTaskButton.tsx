@@ -1,20 +1,21 @@
 "use client";
 
 import { useEffect, useId, useMemo, useState } from "react";
-import { Controller, useForm } from "react-hook-form";
-import { AppIcon, Plus } from "@/components/ui/icon";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Controller, useForm } from "react-hook-form";
 
-import Modal from "@/components/ui/modal/Modal";
-import DatePicker from "@/components/ui/date-picker/DatePicker";
-import Input from "@/components/ui/input/Input";
-import Textarea from "@/components/ui/input/Textarea";
 import IconButton from "@/components/ui/button/IconButton";
 import PrimaryButton from "@/components/ui/button/PrimaryButton";
 import SecondaryButton from "@/components/ui/button/SecondaryButton";
+import DatePicker from "@/components/ui/date-picker/DatePicker";
+import { AppIcon, Plus } from "@/components/ui/icon";
+import Input from "@/components/ui/input/Input";
+import Textarea from "@/components/ui/input/Textarea";
+import Modal from "@/components/ui/modal/Modal";
 import Select from "@/components/ui/select/Select";
 
+import { canAddProjectItems } from "@/features/projects/utils/projectUtils";
 import {
   allProjectsTaskSchema,
   taskSchema as baseTaskSchema,
@@ -23,8 +24,6 @@ import {
 } from "@/features/tasks/schemas/taskSchema";
 
 import { currentUser } from "@/lib/mock/users";
-import { canAddProjectItems } from "@/features/projects/utils/projectUtils";
-
 import { ALL_PROJECTS_SCOPE, type ProjectScope } from "@/lib/projectRoutes";
 
 import type { Project } from "@/features/projects/types/project";
@@ -61,6 +60,10 @@ const statusOptions = [
     label: "DONE",
   },
 ] as const;
+
+// 저장소가 정해지기 전(roadmap 10단계)까지 생성 시각을 임시 id로 쓴다.
+// 렌더 중이 아니라 제출할 때만 부르도록 컴포넌트 밖에 둔다.
+const createTaskId = () => Date.now();
 
 type CreateTaskButtonProps = {
   projectScope: ProjectScope;
@@ -219,7 +222,7 @@ export default function CreateTaskButton({
     }
 
     const newTask: Task = {
-      id: Date.now(),
+      id: createTaskId(),
 
       projectId: resolvedProjectId,
 
@@ -261,7 +264,7 @@ export default function CreateTaskButton({
               addDisabled ? "보류 중인 프로젝트에는 태스크를 추가할 수 없습니다." : "Task 추가"
             }
             onClick={() => setIsModalOpen(true)}
-            className="!h-8 !w-8 shrink-0 rounded-[var(--radius-sm)] border border-transparent text-[var(--color-text-muted)] hover:border-gray-200 hover:bg-[var(--color-hover-soft)] hover:text-[var(--color-text)]"
+            className="!h-8 !w-8 shrink-0 rounded-[var(--radius-sm)] border border-transparent text-[var(--color-text-muted)] hover:border-[var(--color-border)] hover:bg-[var(--color-hover-soft)] hover:text-[var(--color-text)]"
           >
             <AppIcon icon={Plus} size="md" />
           </IconButton>
@@ -282,7 +285,7 @@ export default function CreateTaskButton({
               addDisabled ? "보류 중인 프로젝트에는 태스크를 추가할 수 없습니다." : "Task 추가"
             }
             onClick={() => setIsModalOpen(true)}
-            className={`text-body-sm ${hasTasks ? "mt-3" : ""} w-full rounded-[var(--radius-sm)] border border-dashed border-gray-300 bg-white px-3 py-2.5 font-medium text-[var(--color-text-secondary)] transition-colors hover:border-gray-400 hover:bg-[var(--color-hover-soft)] hover:text-[var(--color-text)] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:border-gray-300 disabled:hover:bg-white disabled:hover:text-[var(--color-text-secondary)]`}
+            className={`text-caption ${hasTasks ? "mt-3" : ""} w-full rounded-[var(--radius-sm)] border border-dashed border-[var(--color-border-strong)] bg-[var(--color-surface)] px-3 py-2.5 font-medium text-[var(--color-text-secondary)] transition-colors hover:border-[var(--color-border-strong)] hover:bg-[var(--color-hover-soft)] hover:text-[var(--color-text)] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:border-[var(--color-border-strong)] disabled:hover:bg-[var(--color-surface)] disabled:hover:text-[var(--color-text-secondary)]`}
           >
             + Task 추가
           </button>
@@ -296,7 +299,7 @@ export default function CreateTaskButton({
       <Modal isOpen={isModalOpen} onClose={handleClose}>
         <Modal.Header
           title="새 Task"
-          description="새로운 업무 정보를 입력해주세요."
+          description="새로운 태스크 정보를 입력해주세요."
           onClose={handleClose}
           closeLabel="새 Task 창 닫기"
         />
@@ -323,46 +326,52 @@ export default function CreateTaskButton({
                 />
 
                 {"projectId" in errors && errors.projectId && (
-                  <p className="text-caption mt-1.5 text-red-500">{errors.projectId.message}</p>
+                  <p className="text-caption mt-1.5 text-[var(--color-danger-text)]">
+                    {errors.projectId.message}
+                  </p>
                 )}
               </div>
             )}
 
             {/*
              * =============================================
-             * 업무 제목
+             * 태스크 제목
              * =============================================
              */}
             <div>
               <label className="text-body mb-2 block font-medium text-[var(--color-text)]">
-                업무 제목
+                태스크 제목
               </label>
 
               <Input {...register("title")} placeholder="예: 로그인 API 연결" />
 
               {errors.title && (
-                <p className="text-caption mt-1.5 text-red-500">{errors.title.message}</p>
+                <p className="text-caption mt-1.5 text-[var(--color-danger-text)]">
+                  {errors.title.message}
+                </p>
               )}
             </div>
 
             {/*
              * =============================================
-             * 업무 설명
+             * 태스크 설명
              * =============================================
              */}
             <div>
               <label className="text-body mb-2 block font-medium text-[var(--color-text)]">
-                업무 설명
+                태스크 설명
               </label>
 
               <Textarea
                 {...register("description")}
-                placeholder="업무 내용을 입력해주세요."
+                placeholder="태스크 내용을 입력해주세요."
                 className="min-h-[132px] leading-6"
               />
 
               {errors.description && (
-                <p className="text-caption mt-1.5 text-red-500">{errors.description.message}</p>
+                <p className="text-caption mt-1.5 text-[var(--color-danger-text)]">
+                  {errors.description.message}
+                </p>
               )}
             </div>
 
@@ -441,7 +450,9 @@ export default function CreateTaskButton({
                 />
 
                 {errors.dueDate && (
-                  <p className="text-caption mt-1.5 text-red-500">{errors.dueDate.message}</p>
+                  <p className="text-caption mt-1.5 text-[var(--color-danger-text)]">
+                    {errors.dueDate.message}
+                  </p>
                 )}
               </div>
             </div>

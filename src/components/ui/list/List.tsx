@@ -1,7 +1,9 @@
-import type { CSSProperties, ReactNode } from "react";
 import Link from "next/link";
+
 import { AppIcon, ChevronRight } from "@/components/ui/icon";
+
 import type { LucideIcon } from "@/components/ui/icon/icons";
+import type { CSSProperties, ReactNode } from "react";
 
 /*
  * 리스트는 부모 너비의 100%다.
@@ -202,7 +204,7 @@ const listDetailButtonClass = `
   border
   border-[var(--color-border)]
 
-  bg-white
+  bg-[var(--color-surface)]
 
   text-[var(--color-text)]
 
@@ -211,7 +213,7 @@ const listDetailButtonClass = `
   hover:bg-[var(--color-hover-soft)]
 
   disabled:cursor-default
-  disabled:hover:bg-white
+  disabled:hover:bg-[var(--color-surface)]
 `;
 
 export function ListDetailButton({
@@ -584,7 +586,7 @@ function ListMobile({
 
                     if (isPlainText(cell.content)) {
                       return (
-                        <p key={column.id} className="text-body-sm mt-1 flex min-w-0 gap-1.5">
+                        <p key={column.id} className="text-caption mt-1 flex min-w-0 gap-1.5">
                           {label ? (
                             <span className="shrink-0 text-[var(--color-text-muted)]">{label}</span>
                           ) : null}
@@ -601,7 +603,7 @@ function ListMobile({
                     return (
                       <div
                         key={column.id}
-                        className="text-body-sm mt-2 flex min-w-0 flex-wrap items-center gap-x-1.5 gap-y-1"
+                        className="text-caption mt-2 flex min-w-0 flex-wrap items-center gap-x-1.5 gap-y-1"
                       >
                         {label ? (
                           <span className="shrink-0 text-[var(--color-text-muted)]">{label}</span>
@@ -645,7 +647,7 @@ export default function List({
   showAction,
   stackOnMobile = true,
   className = "",
-  headerClassName = "bg-white",
+  headerClassName = "bg-[var(--color-surface)]",
   actionGap = listActionGap,
 }: ListProps) {
   const showActionColumn = showAction ?? rows.some(rowHasAction);

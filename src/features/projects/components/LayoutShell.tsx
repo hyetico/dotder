@@ -4,13 +4,11 @@ import { usePathname } from "next/navigation";
 
 import { useQuery } from "@tanstack/react-query";
 
+import { getProjects } from "@/features/projects/api/projects";
 import CreateProjectPrompt from "@/features/projects/components/CreateProjectPrompt";
 
-import { getProjects } from "@/features/projects/api/projects";
-
+import { isMemosListPath, isGoalsListPath, isProjectsListPath } from "@/lib/projectRoutes";
 import { projectQueryKeys } from "@/lib/queryKeys";
-
-import { isBacklogListPath, isGoalsListPath, isProjectsListPath } from "@/lib/projectRoutes";
 
 type LayoutShellProps = {
   children: React.ReactNode;
@@ -28,9 +26,13 @@ export default function LayoutShell({ children }: LayoutShellProps) {
 
   const page = showCreatePage ? <CreateProjectPrompt /> : children;
 
-  if (!isProjectsListPath(pathname) && !isGoalsListPath(pathname) && !isBacklogListPath(pathname)) {
+  if (!isProjectsListPath(pathname) && !isGoalsListPath(pathname) && !isMemosListPath(pathname)) {
     return page;
   }
 
-  return <div className="min-h-[calc(100dvh-var(--header-height))] bg-white">{page}</div>;
+  return (
+    <div className="min-h-[calc(100dvh-var(--header-height))] bg-[var(--color-surface)]">
+      {page}
+    </div>
+  );
 }

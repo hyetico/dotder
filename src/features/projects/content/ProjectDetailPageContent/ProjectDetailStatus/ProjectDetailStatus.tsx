@@ -1,10 +1,10 @@
 "use client";
 
+import Link from "next/link";
 import { useState, type ReactNode } from "react";
 
-import Link from "next/link";
-
-import ProjectOverviewSummary from "@/features/projects/content/ProjectDetailPageContent/ProjectDetailStatus/ProjectOverviewSummary";
+import Badge from "@/components/ui/badge/Badge";
+import SecondaryButton from "@/components/ui/button/SecondaryButton";
 import {
   AppIcon,
   ArrowRight,
@@ -15,23 +15,22 @@ import {
   List,
   TrendingUp,
 } from "@/components/ui/icon";
-import Badge from "@/components/ui/badge/Badge";
-import SecondaryButton from "@/components/ui/button/SecondaryButton";
 import ExpandableList, {
   type ExpandableListColumn,
   type ExpandableListRow,
 } from "@/components/ui/list/ExpandableList";
-import SectionHeader from "@/features/projects/components/SectionHeader";
 
-import { getProjectDeadlineChanges } from "@/lib/mock/projectDeadlineChanges";
-import { getProjectEditPath } from "@/lib/projectRoutes";
+import SectionHeader from "@/features/projects/components/SectionHeader";
+import ProjectOverviewSummary from "@/features/projects/content/ProjectDetailPageContent/ProjectDetailStatus/ProjectOverviewSummary";
 import {
-  formatProjectDate,
   formatSignedProjectDays,
-  getProjectDayDelta,
   getProjectScheduleSnapshot,
   summarizeProjectDeadlineChanges,
 } from "@/features/projects/utils/projectUtils";
+
+import { formatDate, getDayDelta } from "@/lib/date";
+import { getProjectDeadlineChanges } from "@/lib/mock/projectDeadlineChanges";
+import { getProjectEditPath } from "@/lib/projectRoutes";
 
 import type { Goal } from "@/features/goals/types/goal";
 import type { ProjectDeadlineChange } from "@/features/projects/types/project";
@@ -39,7 +38,7 @@ import type { ProjectListItem } from "@/features/projects/types/project";
 import type { Task } from "@/features/tasks/types/task";
 
 const panelClassName =
-  "relative rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] shadow-[var(--shadow-card)]";
+  "relative rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)]";
 
 const historyColumns: ExpandableListColumn[] = [
   {
@@ -101,10 +100,10 @@ function formatChangedAt(value: string) {
   const clock = time.slice(0, 5);
 
   if (!clock) {
-    return formatProjectDate(date);
+    return formatDate(date);
   }
 
-  return `${formatProjectDate(date)} ${clock}`;
+  return `${formatDate(date)} ${clock}`;
 }
 
 /**
@@ -163,23 +162,29 @@ function HistoryChangeDetail({ change, actor }: { change: ProjectDeadlineChange;
   return (
     <div>
       <div className="flex items-baseline gap-2 border-b border-[var(--color-border)] pb-3 md:gap-6 md:border-b-0 md:pb-0">
-        <p className="shrink-0 text-[13px] leading-5 font-medium text-[var(--color-text-secondary)]">변경 사유</p>
-        <p className="text-[13px] leading-[21px] text-[var(--color-text)]">{changeReason(change)}</p>
+        <p className="shrink-0 text-xs leading-5 font-medium text-[var(--color-text-secondary)]">
+          변경 사유
+        </p>
+        <p className="text-sm leading-5 text-[var(--color-text)]">{changeReason(change)}</p>
       </div>
       <div className="mt-3 space-y-2 md:hidden">
         <p className="flex items-baseline gap-2">
-          <span className="shrink-0 text-[13px] leading-5 font-medium text-[var(--color-text-secondary)]">변경자</span>
-          <span className="text-[14px] leading-5 font-medium text-[var(--color-text)]">{actor}</span>
+          <span className="shrink-0 text-xs leading-5 font-medium text-[var(--color-text-secondary)]">
+            변경자
+          </span>
+          <span className="text-sm leading-5 font-medium text-[var(--color-text)]">{actor}</span>
         </p>
         <p className="flex items-baseline gap-2">
-          <span className="shrink-0 text-[13px] leading-5 font-medium text-[var(--color-text-secondary)]">변경 시각</span>
-          <span className="text-[14px] leading-5 font-medium text-[var(--color-text)] tabular-nums">
+          <span className="shrink-0 text-xs leading-5 font-medium text-[var(--color-text-secondary)]">
+            변경 시각
+          </span>
+          <span className="text-sm leading-5 font-medium text-[var(--color-text)] tabular-nums">
             {formatChangedAt(change.changedAt)}
           </span>
         </p>
       </div>
       {change.overdueDaysAtChange > 0 ? (
-        <p className="mt-3 flex items-center gap-1 text-xs leading-4 text-red-500">
+        <p className="mt-3 flex items-center gap-1 text-xs leading-4 text-[var(--color-danger-text)]">
           <AppIcon icon={Clock} size="xs" className="shrink-0" />
           변경 당시 이전 마감일 {change.overdueDaysAtChange}일 경과
         </p>
@@ -255,19 +260,30 @@ function DeadlineChangeButton({
  */
 function DeadlineTimeline({ changes }: { changes: ProjectDeadlineChange[] }) {
   if (changes.length === 0) {
-    return <p className="text-sm leading-5 text-[var(--color-text-secondary)]">기록된 일정이 없습니다.</p>;
+    return (
+      <p className="text-sm leading-5 text-[var(--color-text-secondary)]">
+        기록된 일정이 없습니다.
+      </p>
+    );
   }
 
   return (
     <ol className="flex flex-col">
       {changes.map((change) => (
-        <li key={change.id} className="grid grid-cols-[7.5rem_minmax(0,1fr)] gap-3 border-b border-[var(--color-border)] py-3 last:border-b-0">
-          <p className="text-[13px] leading-5 font-medium text-[var(--color-text-secondary)] tabular-nums">{formatChangedAt(change.changedAt)}</p>
+        <li
+          key={change.id}
+          className="grid grid-cols-[7.5rem_minmax(0,1fr)] gap-3 border-b border-[var(--color-border)] py-3 last:border-b-0"
+        >
+          <p className="text-xs leading-5 font-medium text-[var(--color-text-secondary)] tabular-nums">
+            {formatChangedAt(change.changedAt)}
+          </p>
           <div className="min-w-0">
-            <p className="text-[14px] leading-5 font-medium text-[var(--color-text)] tabular-nums">
-              {formatProjectDate(change.previousEndDate)} → {formatProjectDate(change.nextEndDate)}
+            <p className="text-sm leading-5 font-medium text-[var(--color-text)] tabular-nums">
+              {formatDate(change.previousEndDate)} → {formatDate(change.nextEndDate)}
             </p>
-            <p className="mt-0.5 text-[13px] leading-[21px] text-[var(--color-text-secondary)]">{changeReason(change)}</p>
+            <p className="mt-0.5 text-sm leading-5 text-[var(--color-text-secondary)]">
+              {changeReason(change)}
+            </p>
           </div>
         </li>
       ))}
@@ -300,7 +316,7 @@ export default function ProjectDetailStatus({
   const visibleChanges = showAllHistory ? changes : changes.slice(0, previewCount);
   const historyTruncated = !showAllHistory && changes.length > previewCount;
   const rows: ExpandableListRow[] = visibleChanges.map((change, index) => {
-    const delta = getProjectDayDelta(change.previousEndDate, change.nextEndDate);
+    const delta = getDayDelta(change.previousEndDate, change.nextEndDate);
 
     return {
       id: String(change.id),
@@ -309,18 +325,18 @@ export default function ProjectDetailStatus({
         schedule: (
           <span className="inline-flex items-center gap-2">
             <span className="text-[var(--color-text)] tabular-nums">
-              {formatProjectDate(change.previousEndDate)}
+              {formatDate(change.previousEndDate)}
             </span>
             <AppIcon icon={ArrowRight} size="sm" className="text-[var(--color-text-secondary)]" />
             <span className="font-semibold text-[var(--color-text)] tabular-nums">
-              {formatProjectDate(change.nextEndDate)}
+              {formatDate(change.nextEndDate)}
             </span>
           </span>
         ),
         delta: (
           <Badge
             shape="rounded"
-            className="bg-gray-100 font-semibold text-[var(--color-text-secondary)] tabular-nums"
+            className="bg-[var(--color-hover)] font-semibold text-[var(--color-text-secondary)] tabular-nums"
           >
             {formatExtensionLabel(delta)}
           </Badge>
@@ -351,7 +367,7 @@ export default function ProjectDetailStatus({
           <SectionHeader
             icon={<AppIcon icon={History} size="md" />}
             title="마감일 변경 이력"
-            titleClassName="text-[15px] leading-5 font-semibold"
+            titleClassName="text-base leading-5 font-semibold"
             plain
             actions={
               <div className="hidden items-center gap-2 md:flex">
@@ -369,11 +385,11 @@ export default function ProjectDetailStatus({
             }
           />
           {project.isDelayed ? (
-            <div className="mt-3 hidden flex-wrap items-center gap-2 rounded-[var(--radius-sm)] bg-[#F2F6FA] px-3 py-2 text-sm leading-5 md:flex">
+            <div className="mt-3 hidden flex-wrap items-center gap-2 rounded-[var(--radius-sm)] bg-[var(--color-hover-soft)] px-3 py-2 text-sm leading-5 md:flex">
               <AppIcon icon={Clock} size="sm" className="shrink-0 text-[var(--color-danger)]" />
               <Badge
                 shape="rounded"
-                className="bg-[#FCD8D8] font-semibold text-[var(--color-danger)] tabular-nums"
+                className="bg-[var(--color-danger-soft)] font-semibold text-[var(--color-danger)] tabular-nums"
               >
                 {schedule.overdueDays}일 경과
               </Badge>
@@ -399,7 +415,7 @@ export default function ProjectDetailStatus({
                 {
                   icon: CalendarDays,
                   label: "최초 마감일",
-                  value: formatProjectDate(summary.originalEndDate),
+                  value: formatDate(summary.originalEndDate),
                   valueClassName: "text-[var(--color-text)]",
                 },
                 {
@@ -407,7 +423,9 @@ export default function ProjectDetailStatus({
                   label: "최초 대비 마감",
                   value: formatSignedProjectDays(summary.slipFromOriginalDays),
                   valueClassName:
-                    summary.slipFromOriginalDays > 0 ? "text-red-500" : "text-[var(--color-text)]",
+                    summary.slipFromOriginalDays > 0
+                      ? "text-[var(--color-danger-text)]"
+                      : "text-[var(--color-text)]",
                 },
               ] as const
             ).map((item, index) => (
@@ -419,19 +437,19 @@ export default function ProjectDetailStatus({
                   <IconTile>
                     <AppIcon icon={item.icon} size="sm" />
                   </IconTile>
-                  <p className="text-[13px] leading-5 font-medium text-[var(--color-text)]">
+                  <p className="text-xs leading-5 font-medium text-[var(--color-text)]">
                     {item.label}
                   </p>
                 </div>
                 <p
-                  className={`mt-2 text-[20px] leading-7 font-bold tabular-nums ${item.valueClassName}`}
+                  className={`mt-2 text-xl leading-7 font-bold tabular-nums ${item.valueClassName}`}
                 >
                   {item.value}
                 </p>
               </div>
             ))}
           </div>
-          <div className="mt-3 grid grid-cols-2 rounded-[var(--radius-sm)] bg-[#F4F6F8] px-3 py-3 text-center text-sm leading-5 md:hidden">
+          <div className="mt-3 grid grid-cols-2 rounded-[var(--radius-sm)] bg-[var(--color-hover-soft)] px-3 py-3 text-center text-sm leading-5 md:hidden">
             <p className="text-[var(--color-text-secondary)]">
               변경{" "}
               <span className="font-semibold text-[var(--color-text)]">
@@ -441,7 +459,7 @@ export default function ProjectDetailStatus({
             <p className="border-l border-[var(--color-border)] text-[var(--color-text-secondary)]">
               최초 대비{" "}
               <span
-                className={`font-semibold tabular-nums ${summary.slipFromOriginalDays > 0 ? "text-red-500" : "text-[var(--color-text)]"}`}
+                className={`font-semibold tabular-nums ${summary.slipFromOriginalDays > 0 ? "text-[var(--color-danger-text)]" : "text-[var(--color-text)]"}`}
               >
                 {formatSignedProjectDays(summary.slipFromOriginalDays)}
               </span>
@@ -456,7 +474,7 @@ export default function ProjectDetailStatus({
             headerPaddingLeft={10}
             headerPaddingRight={10}
             minWidth={640}
-            detailClassName="bg-[#F4F6F8]"
+            detailClassName="bg-[var(--color-hover-soft)]"
             empty="마감일 변경 이력이 없습니다."
           />
         </div>

@@ -2,13 +2,13 @@
 
 import { useState } from "react";
 
+import SecondaryButton from "@/components/ui/button/SecondaryButton";
 import { AppIcon, UserRoundPen } from "@/components/ui/icon";
 
-import SecondaryButton from "@/components/ui/button/SecondaryButton";
 import TeamScopeModal from "@/features/projects/modals/TeamScopeModal";
 
-import type { TeamMember } from "@/lib/mock/teamMembers";
 import type { ProjectTeamOption } from "@/features/projects/utils/projectTeam";
+import type { TeamMember } from "@/lib/mock/teamMembers";
 
 const adminChangeLabel = "관리자 변경";
 

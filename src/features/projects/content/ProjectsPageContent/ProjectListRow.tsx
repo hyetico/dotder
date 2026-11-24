@@ -2,25 +2,23 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import type { CSSProperties, ReactNode } from "react";
 
-import { ProjectCardShell } from "@/features/projects/components/ProjectBoardCard";
-import FavoriteSelectBox from "@/features/projects/components/FavoriteSelectBox";
-import ProjectAccent from "@/features/projects/components/ProjectAccent";
-import DelayIssueBadge from "@/features/projects/components/DelayIssueBadge";
-import { ProjectStatusIconMark } from "@/features/projects/components/ProjectStatusBadge";
 import CrownBadge from "@/components/ui/badge/CrownBadge";
 import List, { type ListColumn, type ListRow } from "@/components/ui/list/List";
 
+import DelayIssueBadge from "@/features/projects/components/DelayIssueBadge";
+import FavoriteSelectBox from "@/features/projects/components/FavoriteSelectBox";
+import ProjectAccent from "@/features/projects/components/ProjectAccent";
+import { ProjectCardShell } from "@/features/projects/components/ProjectBoardCard";
+import { ProjectStatusIconMark } from "@/features/projects/components/ProjectStatusBadge";
 import { getProjectAccentColor } from "@/features/projects/utils/projectColors";
+import { getProjectScheduleMark } from "@/features/projects/utils/projectUtils";
+
+import { formatDate, formatDateRange } from "@/lib/date";
 import { getProjectDetailPath } from "@/lib/projectRoutes";
-import {
-  formatProjectDate,
-  formatProjectDateRange,
-  getProjectScheduleMark,
-} from "@/features/projects/utils/projectUtils";
 
 import type { ProjectListItem } from "@/features/projects/types/project";
+import type { CSSProperties, ReactNode } from "react";
 
 type ProjectListRowProps = {
   project: ProjectListItem;
@@ -31,9 +29,9 @@ type ProjectListRowProps = {
   onToggleSelected?: () => void;
 };
 
-const listCardDetailClassName = "flex min-w-0 items-start justify-between gap-3 min-[768px]:hidden";
+const listCardDetailClassName = "flex min-w-0 items-start justify-between gap-3 md:hidden";
 const listCardDetailNarrowClassName = "flex min-w-0 items-start justify-between gap-3";
-const listCardWideClassName = "hidden min-w-0 grid-cols-4 items-center min-[768px]:grid";
+const listCardWideClassName = "hidden min-w-0 grid-cols-4 items-center md:grid";
 
 /**
  * formatListCardDate
@@ -44,7 +42,7 @@ const listCardWideClassName = "hidden min-w-0 grid-cols-4 items-center min-[768p
  * @returns `26.08.01` 형태
  */
 function formatListCardDate(value: string) {
-  const formatted = formatProjectDate(value);
+  const formatted = formatDate(value);
 
   if (formatted.length < 10) {
     return formatted;
@@ -90,11 +88,11 @@ function ListCountPair({
 }) {
   return (
     <span
-      className={`text-body-sm inline-flex min-w-0 items-center gap-1 tabular-nums ${className} `}
+      className={`text-caption inline-flex min-w-0 items-center gap-1 tabular-nums ${className} `}
       title={`${completed} / ${total}`}
       aria-label={`${label} ${completed}개 완료, 전체 ${total}개`}
     >
-      <span className="shrink-0 font-medium text-[#3B82F6]">{label}</span>
+      <span className="shrink-0 font-medium text-[var(--color-info-text)]">{label}</span>
       <span className="min-w-0 truncate font-semibold text-[var(--color-text)]">
         {completed}
         <span className="mx-1 font-medium text-[var(--color-text-disabled)]">/</span>
@@ -105,7 +103,7 @@ function ListCountPair({
 }
 
 const progressValueClassName =
-  "shrink-0 text-[16px] leading-6 font-bold text-[var(--color-text)] tabular-nums";
+  "shrink-0 text-base leading-6 font-bold text-[var(--color-text)] tabular-nums";
 
 /**
  * getListDelayDays
@@ -165,7 +163,7 @@ function ProjectListCardFace({
   onToggleSelected?: () => void;
 }) {
   return (
-    <div className="flex min-w-0 flex-1 flex-col gap-2 rounded-[22px] bg-white px-3 py-3.5 md:px-4">
+    <div className="flex min-w-0 flex-1 flex-col gap-2 rounded-[var(--radius-lg)] bg-[var(--color-surface)] px-3 py-3.5 md:px-4">
       <div className="flex min-w-0 items-center gap-2">
         {onToggleSelected ? (
           <FavoriteSelectBox
@@ -174,7 +172,7 @@ function ProjectListCardFace({
             onChange={onToggleSelected}
           />
         ) : null}
-        <h3 className="min-w-0 flex-1 truncate text-[16px] leading-6 font-semibold tracking-[-0.01em] text-[var(--color-text)]">
+        <h3 className="min-w-0 flex-1 truncate text-base leading-6 font-semibold tracking-[-0.01em] text-[var(--color-text)]">
           {project.name}
         </h3>
         {project.isMain ? (
@@ -197,7 +195,7 @@ function ProjectListCardFace({
             completed={project.completedGoals}
             total={project.totalGoals}
           />
-          <span className="text-body-sm min-w-0 truncate font-medium text-[var(--color-text-secondary)]">
+          <span className="text-caption min-w-0 truncate font-medium text-[var(--color-text-secondary)]">
             {project.teamName}
           </span>
         </div>
@@ -208,7 +206,7 @@ function ProjectListCardFace({
             completed={project.completedTasks}
             total={project.totalTasks}
           />
-          <span className="text-body-sm font-medium whitespace-nowrap text-[var(--color-text-secondary)] tabular-nums">
+          <span className="text-caption font-medium whitespace-nowrap text-[var(--color-text-secondary)] tabular-nums">
             {formatListCardDateRange(project.startDate, project.endDate)}
           </span>
         </div>
@@ -229,10 +227,10 @@ function ProjectListCardFace({
             total={project.totalTasks}
           />
         </div>
-        <span className="text-body-sm min-w-0 truncate text-center font-medium text-[var(--color-text-secondary)]">
+        <span className="text-caption min-w-0 truncate text-center font-medium text-[var(--color-text-secondary)]">
           {project.teamName}
         </span>
-        <span className="text-body-sm min-w-0 truncate text-center font-medium whitespace-nowrap text-[var(--color-text-secondary)] tabular-nums">
+        <span className="text-caption min-w-0 truncate text-center font-medium whitespace-nowrap text-[var(--color-text-secondary)] tabular-nums">
           {formatListCardDateRange(project.startDate, project.endDate)}
         </span>
       </div>
@@ -369,13 +367,13 @@ const listBadgeClassName = `
   !gap-0.5
   !rounded
   !px-1.5
-  !text-[10px]
+  !text-2xs
   !leading-3
 
-  min-[1024px]:!h-5
-  min-[1024px]:!gap-0.5
-  min-[1024px]:!rounded
-  min-[1024px]:!px-1.5
+  lg:!h-5
+  lg:!gap-0.5
+  lg:!rounded
+  lg:!px-1.5
 
   [&_svg]:!size-2.5
 `;
@@ -385,7 +383,7 @@ const projectRowClass = `
 
   !border-b-0
 
-  bg-white
+  bg-[var(--color-surface)]
   bg-left
   bg-no-repeat
 
@@ -443,7 +441,7 @@ function projectListTableRow(
               />
             ) : null}
             <h3
-              className="min-w-0 flex-1 truncate text-[16px] leading-6 font-semibold tracking-[-0.01em] text-[var(--color-text)]"
+              className="min-w-0 flex-1 truncate text-base leading-6 font-semibold tracking-[-0.01em] text-[var(--color-text)]"
               title={project.name}
             >
               {project.name}
@@ -474,7 +472,7 @@ function projectListTableRow(
       },
       goals: {
         content: (
-          <span className="text-[14px] leading-5 font-medium text-[var(--color-text-secondary)] tabular-nums">
+          <span className="text-sm leading-5 font-medium text-[var(--color-text-secondary)] tabular-nums">
             {project.completedGoals}
             <span className="mx-0.5 text-[var(--color-text-disabled)]">/</span>
             {project.totalGoals}
@@ -484,7 +482,7 @@ function projectListTableRow(
       },
       tasks: {
         content: (
-          <span className="text-[14px] leading-5 font-medium text-[var(--color-text-secondary)] tabular-nums">
+          <span className="text-sm leading-5 font-medium text-[var(--color-text-secondary)] tabular-nums">
             {project.completedTasks}
             <span className="mx-0.5 text-[var(--color-text-disabled)]">/</span>
             {project.totalTasks}
@@ -495,7 +493,7 @@ function projectListTableRow(
       team: {
         content: (
           <span
-            className="min-w-0 truncate text-[14px] leading-5 font-medium text-[var(--color-text-secondary)]"
+            className="min-w-0 truncate text-sm leading-5 font-medium text-[var(--color-text-secondary)]"
             title={project.teamName}
           >
             {project.teamName}
@@ -505,8 +503,8 @@ function projectListTableRow(
       },
       period: {
         content: (
-          <span className="text-[14px] leading-5 font-medium text-[var(--color-text-secondary)] tabular-nums">
-            {formatProjectDateRange(project.startDate, project.endDate)}
+          <span className="text-sm leading-5 font-medium text-[var(--color-text-secondary)] tabular-nums">
+            {formatDateRange(project.startDate, project.endDate)}
           </span>
         ),
         contentWidth: 100,
@@ -569,14 +567,14 @@ export function ProjectListTable({
 
         !border-b-0
 
-        bg-white
+        bg-[var(--color-surface)]
 
         before:pointer-events-none
         before:absolute
         before:inset-y-0
         before:left-0
         before:w-[3px]
-        before:bg-[linear-gradient(180deg,#E5E7EB_0%,#D1D5DB_55%,#9CA3AF_100%)]
+        before:bg-[var(--color-border-strong)]
 
         after:pointer-events-none
         after:absolute
@@ -586,7 +584,7 @@ export function ProjectListTable({
         after:h-px
         after:bg-[var(--color-border)]
       "
-      className="shadow-[var(--shadow-card)]"
+      className="border border-[var(--color-border)]"
     />
   );
 }

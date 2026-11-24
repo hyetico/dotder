@@ -65,11 +65,7 @@ export default function FavoriteProjectFolderIcon({
   return (
     <div ref={frameRef} className={favoriteFolderFrameClassName}>
       <div ref={cardRef} className={favoriteFolderCardClassName}>
-        <ProjectBoardCard
-          project={closedProject}
-          pressed={pressed}
-          onSelect={onSelect}
-        />
+        <ProjectBoardCard project={closedProject} pressed={pressed} onSelect={onSelect} />
       </div>
     </div>
   );

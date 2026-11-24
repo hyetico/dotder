@@ -1,13 +1,14 @@
 "use client";
 
 import { Controller, type Control } from "react-hook-form";
-import ProjectBadge from "@/features/projects/components/ProjectBadge";
-import { PROJECT_COLOR_OPTIONS } from "@/features/projects/utils/projectColors";
-import { type ProjectFormData } from "@/features/projects/schemas/projectSchema";
-import { FormLabel } from "@/features/projects/components/ProjectForm/FormParts";
-import { ProjectColorSwatch } from "@/features/projects/components/ProjectForm/fields/ProjectColorSwatch";
 
-const colorBadgeClassName = "!h-10 !w-10 min-[1025px]:!h-11 min-[1025px]:!w-11";
+import ProjectBadge from "@/features/projects/components/ProjectBadge";
+import { ProjectColorSwatch } from "@/features/projects/components/ProjectForm/fields/ProjectColorSwatch";
+import { FormLabel } from "@/features/projects/components/ProjectForm/FormParts";
+import { type ProjectFormData } from "@/features/projects/schemas/projectSchema";
+import { PROJECT_COLOR_OPTIONS } from "@/features/projects/utils/projectColors";
+
+const colorBadgeClassName = "!h-10 !w-10 lg:!h-11 lg:!w-11";
 
 /**
  * ProjectColorField

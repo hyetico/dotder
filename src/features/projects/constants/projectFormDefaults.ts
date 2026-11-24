@@ -1,7 +1,8 @@
-import { mockTeams } from "@/lib/mock/teams";
-import { getProjectTeamOptions, PROJECT_TEAM_NONE } from "@/features/projects/utils/projectTeam";
-import { type ProjectFormData } from "@/features/projects/schemas/projectSchema";
 import { PROJECT_TAG_PRESETS } from "@/features/projects/constants/projectTags";
+import { type ProjectFormData } from "@/features/projects/schemas/projectSchema";
+import { getProjectTeamOptions, PROJECT_TEAM_NONE } from "@/features/projects/utils/projectTeam";
+
+import { mockTeams } from "@/lib/mock/teams";
 
 export const projectFormDomId = "project-form";
 

@@ -2,18 +2,18 @@
 
 import { useMemo, useState, type ReactNode } from "react";
 
-import GoalBoardList from "@/features/goals/components/GoalBoardList";
-import GoalStatusIcon from "@/features/goals/components/GoalStatusIcon";
-import HoldAddNotice from "@/features/projects/components/HoldAddNotice";
 import Badge from "@/components/ui/badge/Badge";
 import { AppIcon, Check, iconSize, Plus, Tag, Target } from "@/components/ui/icon";
 import SearchInput from "@/components/ui/input/SearchInput";
 import StatusFilterBar from "@/components/ui/StatusFilterBar";
-import type { StatusFilterChipItem } from "@/components/ui/StatusFilterChips";
 
+import GoalBoardList from "@/features/goals/components/GoalBoardList";
+import GoalStatusIcon from "@/features/goals/components/GoalStatusIcon";
 import { isGoalShownDelayed } from "@/features/goals/utils/goalProjectDelay";
 import { getGoalStatusLabel } from "@/features/goals/utils/goalUtils";
+import HoldAddNotice from "@/features/projects/components/HoldAddNotice";
 
+import type { StatusFilterChipItem } from "@/components/ui/StatusFilterChips";
 import type { Goal } from "@/features/goals/types/goal";
 import type { Project } from "@/features/projects/types/project";
 
@@ -42,16 +42,17 @@ const goalListSectionClassName =
   "@container min-w-0 space-y-4 border-t border-[var(--color-border)] pt-5 @[900px]:col-span-2";
 const popularTagLimit = 5;
 const popularTagTitleClassName =
-  "inline-flex h-8 shrink-0 items-center gap-1.5 text-[13px] leading-none font-semibold text-[#34393f]";
+  "inline-flex h-8 shrink-0 items-center gap-1.5 text-xs leading-none font-semibold text-[var(--color-text)]";
 const popularTagRowClassName =
   "flex min-w-0 flex-1 items-center gap-2 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden";
 const popularTagButtonClassName =
-  "inline-flex h-8 shrink-0 cursor-pointer items-center gap-2 rounded-[8px] border px-2.5 text-[12px]! leading-none! font-semibold! text-[#34393f] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary)]";
-const popularTagCountClassName = "text-[12px] leading-none font-medium text-[#6b7280] tabular-nums";
+  "inline-flex h-8 shrink-0 cursor-pointer items-center gap-2 rounded-[var(--radius-sm)] border px-2.5 text-xs! leading-none! font-semibold! text-[var(--color-text)] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary)]";
+const popularTagCountClassName =
+  "text-xs leading-none font-medium text-[var(--color-text-muted)] tabular-nums";
 const popularTagMoreClassName =
-  "inline-flex h-8 shrink-0 cursor-pointer items-center gap-1 rounded-[8px] border border-[#e5e7eb] bg-white px-2.5 text-[12px]! leading-none! font-semibold! text-[#34393f] transition-colors hover:bg-[#f7f8f9] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary)]";
+  "inline-flex h-8 shrink-0 cursor-pointer items-center gap-1 rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-[var(--color-surface)] px-2.5 text-xs! leading-none! font-semibold! text-[var(--color-text)] transition-colors hover:bg-[var(--color-hover-soft)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary)]";
 const popularTagResetClassName =
-  "ml-auto shrink-0 cursor-pointer text-[13px]! leading-none! font-medium! text-[#7c7c7e] transition-colors hover:text-[#34393f] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary)]";
+  "ml-auto shrink-0 cursor-pointer text-xs! leading-none! font-medium! text-[var(--color-text-muted)] transition-colors hover:text-[var(--color-text)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary)]";
 
 /**
  * matchesStatusFilter
@@ -168,7 +169,9 @@ function getPopularGoalTags(goals: Goal[]) {
 function popularTagButtonClass(selected: boolean) {
   return [
     popularTagButtonClassName,
-    selected ? "border-transparent bg-[#EBECF0]" : "border-[#e5e7eb] bg-white hover:bg-[#f7f8f9]",
+    selected
+      ? "border-transparent bg-[var(--color-hover)]"
+      : "border-[var(--color-border)] bg-[var(--color-surface)] hover:bg-[var(--color-hover-soft)]",
   ].join(" ");
 }
 
@@ -345,35 +348,35 @@ export default function GoalCategoryBoard({
       id: "all",
       label: "전체",
       count: counts.all,
-      iconColor: "#6B7280",
+      iconColor: "var(--color-text-muted)",
       icon: <AppIcon icon={Target} size="sm" />,
     },
     {
       id: "NOT_STARTED",
       label: getGoalStatusLabel("NOT_STARTED"),
       count: counts.notStarted,
-      iconColor: "#9CA3AF",
+      iconColor: "var(--color-neutral-text)",
       icon: <GoalStatusIcon status="NOT_STARTED" size={iconSize.sm} />,
     },
     {
       id: "IN_PROGRESS",
       label: getGoalStatusLabel("IN_PROGRESS"),
       count: counts.inProgress,
-      iconColor: "#3B82F6",
+      iconColor: "var(--color-info-text)",
       icon: <GoalStatusIcon status="IN_PROGRESS" size={iconSize.sm} />,
     },
     {
       id: "COMPLETED",
       label: getGoalStatusLabel("COMPLETED"),
       count: counts.completed,
-      iconColor: "#10B981",
+      iconColor: "var(--color-success-text)",
       icon: <GoalStatusIcon status="COMPLETED" size={iconSize.sm} />,
     },
     {
       id: "DELAYED",
       label: "마감 초과",
       count: counts.delayed,
-      iconColor: "#EF4444",
+      iconColor: "var(--color-danger-text)",
       icon: <GoalStatusIcon status="DELAYED" size={iconSize.sm} />,
     },
   ];
@@ -435,7 +438,7 @@ export default function GoalCategoryBoard({
         <div className="flex items-center gap-2">
           <h2 className="text-section-title text-[var(--color-text)]">목표 목록</h2>
           <Badge
-            className="h-6! bg-gray-100 px-2.5! text-sm! text-[var(--color-text-secondary)]"
+            className="h-6! bg-[var(--color-hover)] px-2.5! text-sm! text-[var(--color-text-secondary)]"
             title={`목표 목록 ${visibleGoals.length}개`}
           >
             {visibleGoals.length}개

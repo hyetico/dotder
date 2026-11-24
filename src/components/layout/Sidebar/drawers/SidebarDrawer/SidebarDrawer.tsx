@@ -1,42 +1,37 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
-
-import { createPortal } from "react-dom";
-
 import { usePathname } from "next/navigation";
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { createPortal } from "react-dom";
 
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { AppIcon, Clock, Crown, Star, type LucideIcon } from "@/components/ui/icon";
-
-import Modal, { modalSidePaddingClassName } from "@/components/ui/modal/Modal";
-import PrimaryButton from "@/components/ui/button/PrimaryButton";
-import SecondaryButton from "@/components/ui/button/SecondaryButton";
-
 import DrawerFavoriteRow from "@/components/layout/Sidebar/drawers/SidebarDrawer/comp/DrawerFavoriteRow";
 import DrawerRecentCard from "@/components/layout/Sidebar/drawers/SidebarDrawer/comp/DrawerRecentCard";
-import FavoriteProjectsModal from "@/features/projects/modals/FavoriteProjectsModal";
-import MainProjectModal from "@/features/projects/modals/MainProjectModal";
-
-import ProjectBoardCard from "@/features/projects/components/ProjectBoardCard";
-
 import Badge from "@/components/ui/badge/Badge";
+import PrimaryButton from "@/components/ui/button/PrimaryButton";
+import SecondaryButton from "@/components/ui/button/SecondaryButton";
+import { AppIcon, Clock, Crown, Star, type LucideIcon } from "@/components/ui/icon";
 import InfoTooltip from "@/components/ui/InfoTooltip";
 import SearchInput from "@/components/ui/input/SearchInput";
+import Modal, { modalSidePaddingClassName } from "@/components/ui/modal/Modal";
 import LineTabMenu, { type TabMenuItem } from "@/components/ui/tab/LineTabMenu";
 
 import { getGoals } from "@/features/goals/api/goals";
+import { clearMainProject, setMainProject } from "@/features/projects/api/projects";
+import ProjectBoardCard from "@/features/projects/components/ProjectBoardCard";
+import FavoriteProjectsModal from "@/features/projects/modals/FavoriteProjectsModal";
+import MainProjectModal from "@/features/projects/modals/MainProjectModal";
+import {
+  computeProjectTaskStats,
+  enrichProject,
+  resolveProjectProgress,
+} from "@/features/projects/utils/projectUtils";
 import { getTasks } from "@/features/tasks/api/tasks";
 
-import { clearMainProject, setMainProject } from "@/features/projects/api/projects";
-
+import { useIsClient } from "@/hooks/useIsClient";
 import { useModalScrollLock } from "@/hooks/useModalScrollLock";
-
-import { goalQueryKeys, projectQueryKeys, taskQueryKeys } from "@/lib/queryKeys";
-
 import { type ProjectScope } from "@/lib/projectRoutes";
-
 import {
   getFavoriteProjectIds,
   getRecentProjectEntries,
@@ -46,12 +41,7 @@ import {
   toggleFavoriteProjectId,
   type RecentProjectEntry,
 } from "@/lib/projectSwitcherPreferences";
-
-import {
-  computeProjectTaskStats,
-  enrichProject,
-  resolveProjectProgress,
-} from "@/features/projects/utils/projectUtils";
+import { goalQueryKeys, projectQueryKeys, taskQueryKeys } from "@/lib/queryKeys";
 
 import type { Project, ProjectListItem } from "@/features/projects/types/project";
 
@@ -241,6 +231,10 @@ function ProjectListBlock({
   );
 }
 
+function withoutMainProject(projectIds: number[], mainProjectId: number | null) {
+  return mainProjectId == null ? projectIds : projectIds.filter((id) => id !== mainProjectId);
+}
+
 export default function SidebarDrawer({ isOpen, onClose, projects }: SidebarDrawerProps) {
   const pathname = usePathname();
 
@@ -254,7 +248,7 @@ export default function SidebarDrawer({ isOpen, onClose, projects }: SidebarDraw
 
   const [recentEntries, setRecentEntries] = useState<RecentProjectEntry[]>([]);
 
-  const [isMounted, setIsMounted] = useState(false);
+  const isClient = useIsClient();
 
   const [isMainOpen, setIsMainOpen] = useState(false);
 
@@ -274,45 +268,52 @@ export default function SidebarDrawer({ isOpen, onClose, projects }: SidebarDraw
     enabled: isOpen,
   });
 
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  const previousPathname = useRef(pathname);
 
-  const initialPathname = useRef(pathname);
-
+  // 열린 채로 다른 페이지로 이동하면 닫는다.
   useEffect(() => {
-    if (pathname === initialPathname.current) {
+    if (pathname === previousPathname.current) {
       return;
     }
 
-    if (!isOpen) {
-      return;
+    previousPathname.current = pathname;
+
+    if (isOpen) {
+      onClose();
     }
+  }, [pathname, isOpen, onClose]);
 
-    onClose();
-  }, [pathname]);
+  const mainProjectId = projects.find((project) => project.isMain)?.id ?? null;
 
+  // 드로어가 열리는 순간에 저장된 즐겨찾기·최근 목록을 다시 읽고 화면 상태를 처음으로 돌린다.
+  const [wasOpen, setWasOpen] = useState(false);
+
+  if (isOpen !== wasOpen) {
+    setWasOpen(isOpen);
+
+    if (isOpen) {
+      setFavoriteIds(withoutMainProject(getFavoriteProjectIds(), mainProjectId));
+      setRecentEntries(getRecentProjectEntries());
+      setActiveTab("main");
+      setIsMainOpen(false);
+      setIsFavoriteManageOpen(false);
+      setFavoriteQuery("");
+    }
+  }
+
+  // 메인 프로젝트가 즐겨찾기에 남아 있으면 저장값에서도 뺀다.
   useEffect(() => {
     if (!isOpen) {
       return;
     }
 
     const storedFavoriteIds = getFavoriteProjectIds();
-    const mainId = projects.find((project) => project.isMain)?.id ?? null;
-    const nextFavoriteIds =
-      mainId == null ? storedFavoriteIds : storedFavoriteIds.filter((id) => id !== mainId);
+    const nextFavoriteIds = withoutMainProject(storedFavoriteIds, mainProjectId);
 
     if (nextFavoriteIds.length !== storedFavoriteIds.length) {
       setFavoriteProjectIds(nextFavoriteIds);
     }
-
-    setFavoriteIds(nextFavoriteIds);
-    setRecentEntries(getRecentProjectEntries());
-    setActiveTab("main");
-    setIsMainOpen(false);
-    setIsFavoriteManageOpen(false);
-    setFavoriteQuery("");
-  }, [isOpen]);
+  }, [isOpen, mainProjectId]);
 
   useEffect(() => {
     if (!isOpen) {
@@ -446,7 +447,7 @@ export default function SidebarDrawer({ isOpen, onClose, projects }: SidebarDraw
     setFavoriteIds(getFavoriteProjectIds());
   };
 
-  if (!isMounted || !isOpen) {
+  if (!isClient || !isOpen) {
     return null;
   }
 
@@ -459,7 +460,10 @@ export default function SidebarDrawer({ isOpen, onClose, projects }: SidebarDraw
           icon={Star}
           title="즐겨찾기 프로젝트"
           info={
-            <Badge size="sm" className="bg-gray-100 font-medium text-[var(--color-text-secondary)]">
+            <Badge
+              size="sm"
+              className="bg-[var(--color-hover)] font-medium text-[var(--color-text-secondary)]"
+            >
               {favoriteProjects.length}/{MAX_FAVORITES}
             </Badge>
           }
@@ -565,19 +569,19 @@ export default function SidebarDrawer({ isOpen, onClose, projects }: SidebarDraw
   }
 
   return createPortal(
-    <div ref={setScrollRoot} className="fixed inset-0 z-[120]" role="presentation">
+    <div ref={setScrollRoot} className="fixed inset-0 z-[var(--z-drawer)]" role="presentation">
       <button
         type="button"
         aria-label="내 프로젝트 닫기"
         onClick={onClose}
-        className="absolute inset-0 bg-black/20 transition-opacity duration-300"
+        className="absolute inset-0 bg-[var(--color-overlay)] transition-opacity duration-300"
       />
 
       <aside
         role="dialog"
         aria-modal="true"
         aria-label="내 프로젝트"
-        className="absolute top-0 right-0 flex h-full w-[min(100vw,480px)] flex-col border-l border-[var(--color-border)] bg-[var(--color-surface)] shadow-[var(--shadow-dropdown)] transition-transform duration-300 ease-out"
+        className="absolute top-0 right-0 flex h-full w-[min(100vw,var(--drawer-width))] flex-col border-l border-[var(--color-border)] bg-[var(--color-surface)] shadow-[var(--shadow-overlay)] transition-transform duration-300 ease-out"
       >
         <Modal.Header
           title="내 프로젝트"

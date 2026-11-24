@@ -3,9 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 
 import { AppIcon, Bell, ListTodo, LogOut, Moon, Settings, User } from "@/components/ui/icon";
-
-import Button from "@/components/ui/button/Button";
 import MenuLink from "@/components/ui/MenuLink";
+
 import { currentUser } from "@/lib/mock/users";
 
 const userMenuItems = [
@@ -68,13 +67,13 @@ export default function SidebarProfile({ isCollapsed, onNavigate }: SidebarProfi
 
   return (
     <div ref={menuRef} className="relative w-full">
-      <Button
+      <button
         type="button"
         onClick={() => setIsMenuOpen((prev) => !prev)}
         aria-expanded={isMenuOpen}
         aria-haspopup="menu"
         aria-label={`${currentUser.name} 계정 메뉴`}
-        className={`flex items-center hover:bg-[var(--color-nav-hover)] ${
+        className={`flex cursor-pointer items-center transition-colors hover:bg-[var(--color-nav-hover)] ${
           isMenuOpen ? "bg-[var(--color-nav-hover)]" : ""
         } ${
           isCollapsed
@@ -82,7 +81,7 @@ export default function SidebarProfile({ isCollapsed, onNavigate }: SidebarProfi
             : "h-20 w-full gap-2 rounded-xl px-2"
         } `}
       >
-        <div className="h-7 w-7 shrink-0 overflow-hidden rounded-full bg-gray-200">
+        <div className="h-7 w-7 shrink-0 overflow-hidden rounded-full bg-[var(--color-hover-strong)]">
           <img src={currentUser.image} alt="" className="h-full w-full object-cover" />
         </div>
 
@@ -91,16 +90,16 @@ export default function SidebarProfile({ isCollapsed, onNavigate }: SidebarProfi
             {currentUser.name}
           </span>
         )}
-      </Button>
+      </button>
 
       {isMenuOpen && (
         <div
           role="menu"
-          className={`absolute z-50 rounded-xl border border-[var(--color-border)] bg-white p-2 shadow-[var(--shadow-dropdown)] ${
+          className={`absolute z-50 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-2 shadow-[var(--shadow-overlay)] ${
             isCollapsed ? "bottom-0 left-[calc(100%+8px)] w-64" : "bottom-full left-0 mb-1.5 w-full"
           } `}
         >
-          <div className="border-b border-gray-100 px-3 py-3">
+          <div className="border-b border-[var(--color-border)] px-3 py-3">
             <p className="text-sm font-normal text-[var(--color-text)]">{currentUser.name}</p>
 
             <p className="mt-1 text-xs text-[var(--color-text-muted)]">{currentUser.email}</p>
@@ -126,25 +125,27 @@ export default function SidebarProfile({ isCollapsed, onNavigate }: SidebarProfi
               );
             })}
 
-            <Button
+            <button
               type="button"
-              className="flex w-full items-center gap-3 px-3 py-2 text-left text-sm text-[var(--color-text)] hover:bg-[var(--color-hover-soft)]"
+              role="menuitem"
+              className="flex w-full cursor-pointer items-center gap-3 rounded-lg px-3 py-2 text-left text-sm text-[var(--color-text)] transition-colors hover:bg-[var(--color-hover-soft)]"
             >
               <AppIcon icon={Moon} size="md" />
 
               <span>다크 모드</span>
-            </Button>
+            </button>
           </div>
 
-          <div className="border-t border-gray-100 pt-2">
-            <Button
+          <div className="border-t border-[var(--color-border)] pt-2">
+            <button
               type="button"
-              className="flex w-full items-center gap-3 px-3 py-2 text-left text-sm text-red-500 hover:bg-red-50"
+              role="menuitem"
+              className="flex w-full cursor-pointer items-center gap-3 rounded-lg px-3 py-2 text-left text-sm text-[var(--color-danger-text)] transition-colors hover:bg-[var(--color-danger-soft)]"
             >
               <AppIcon icon={LogOut} size="md" />
 
               <span>로그아웃</span>
-            </Button>
+            </button>
           </div>
         </div>
       )}

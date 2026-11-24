@@ -1,8 +1,8 @@
 "use client";
 
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-
 import { useRouter } from "next/navigation";
+
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import {
   createProject,
@@ -11,9 +11,8 @@ import {
   type CreateProjectInput,
 } from "@/features/projects/api/projects";
 
-import { projectQueryKeys } from "@/lib/queryKeys";
-
 import { getProjectDetailPath } from "@/lib/projectRoutes";
+import { projectQueryKeys } from "@/lib/queryKeys";
 
 import type { Project } from "@/features/projects/types/project";
 

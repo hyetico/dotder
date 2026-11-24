@@ -1,18 +1,18 @@
 "use client";
 
-import { useMemo, useState } from "react";
-
 import Link from "next/link";
+import { useMemo, useState } from "react";
 
 import { useQuery } from "@tanstack/react-query";
 
 import PageInset from "@/components/layout/pages/Page/PageInset";
-import ProjectBadge from "@/features/projects/components/ProjectBadge";
-import MemberAvatar from "@/components/ui/MemberAvatar";
 import SearchInput from "@/components/ui/input/SearchInput";
+import MemberAvatar from "@/components/ui/MemberAvatar";
 import Select from "@/components/ui/select/Select";
 
 import { getProjects } from "@/features/projects/api/projects";
+import ProjectBadge from "@/features/projects/components/ProjectBadge";
+
 import { getMemberInitial, getTeamMembers } from "@/lib/mock/teamMembers";
 import { mockTeams } from "@/lib/mock/teams";
 import { getProjectDetailPath } from "@/lib/projectRoutes";
@@ -96,7 +96,7 @@ export default function TeamsPageContent() {
       </div>
 
       {isPending ? (
-        <p className="text-body-sm py-12 text-center text-[var(--color-text-secondary)]">
+        <p className="text-caption py-12 text-center text-[var(--color-text-secondary)]">
           팀을 불러오는 중...
         </p>
       ) : teams.length > 0 ? (
@@ -104,11 +104,11 @@ export default function TeamsPageContent() {
           {teams.map((team) => (
             <article
               key={team.id}
-              className="flex min-w-0 flex-col gap-4 rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] p-3 shadow-[var(--shadow-card)] md:p-4"
+              className="flex min-w-0 flex-col gap-4 rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] p-3 md:p-4"
             >
               <div className="min-w-0">
                 <h2 className="text-card-title truncate text-[var(--color-text)]">{team.name}</h2>
-                <p className="text-body-sm mt-1 text-[var(--color-text-secondary)]">
+                <p className="text-caption mt-1 text-[var(--color-text-secondary)]">
                   멤버 {team.members.length}명 · 프로젝트 {team.projects.length}개
                 </p>
               </div>
@@ -122,7 +122,7 @@ export default function TeamsPageContent() {
                       tone={member.role === "관리자" ? "primary" : "neutral"}
                       bordered={false}
                     />
-                    <span className="text-body-sm min-w-0 flex-1 truncate text-[var(--color-text)]">
+                    <span className="text-caption min-w-0 flex-1 truncate text-[var(--color-text)]">
                       {member.name}
                     </span>
                     <span className="text-caption shrink-0 text-[var(--color-text-secondary)]">
@@ -138,7 +138,7 @@ export default function TeamsPageContent() {
                     <li key={project.id}>
                       <Link
                         href={getProjectDetailPath(project.id)}
-                        className="text-body-sm flex min-w-0 items-center gap-2 rounded-sm text-[var(--color-text)] hover:text-[var(--color-primary)]"
+                        className="text-caption flex min-w-0 items-center gap-2 rounded-sm text-[var(--color-text)] hover:text-[var(--color-primary)]"
                       >
                         <ProjectBadge color={project.color} size="xxs" />
                         <span className="min-w-0 truncate">{project.name}</span>
@@ -147,7 +147,7 @@ export default function TeamsPageContent() {
                   ))}
                 </ul>
               ) : (
-                <p className="text-body-sm border-t border-[var(--color-border)] pt-3 text-[var(--color-text-secondary)]">
+                <p className="text-caption border-t border-[var(--color-border)] pt-3 text-[var(--color-text-secondary)]">
                   맡은 프로젝트가 없습니다.
                 </p>
               )}
@@ -155,8 +155,8 @@ export default function TeamsPageContent() {
           ))}
         </section>
       ) : (
-        <div className="rounded-[var(--radius-md)] border border-dashed border-[var(--color-border)] bg-white px-6 py-16 text-center">
-          <p className="text-body-sm text-[var(--color-text-secondary)]">
+        <div className="rounded-[var(--radius-md)] border border-dashed border-[var(--color-border)] bg-[var(--color-surface)] px-6 py-16 text-center">
+          <p className="text-caption text-[var(--color-text-secondary)]">
             조건에 맞는 팀이 없습니다.
           </p>
         </div>

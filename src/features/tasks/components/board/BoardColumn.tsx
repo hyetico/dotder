@@ -3,25 +3,23 @@
 import { useState } from "react";
 
 import { useDroppable } from "@dnd-kit/core";
-
 import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
 
-import CreateTaskButton from "@/features/tasks/components/board/CreateTaskButton";
-import TaskCard from "@/features/tasks/components/board/TaskCard";
-import { useAlert } from "@/components/ui/modal/AlertModal";
 import DropdownMenu from "@/components/ui/DropdownMenu";
+import { useAlert } from "@/components/ui/modal/AlertModal";
 
 import { canAddProjectItems } from "@/features/projects/utils/projectUtils";
-
-import type { ProjectScope } from "@/lib/projectRoutes";
+import CreateTaskButton from "@/features/tasks/components/board/CreateTaskButton";
+import TaskCard from "@/features/tasks/components/board/TaskCard";
 
 import type { Project } from "@/features/projects/types/project";
 import type { Task, TaskStatus } from "@/features/tasks/types/task";
+import type { ProjectScope } from "@/lib/projectRoutes";
 
 const statusDotColors: Record<TaskStatus, string> = {
-  TODO: "bg-slate-400",
-  IN_PROGRESS: "bg-blue-600",
-  DONE: "bg-green-600",
+  TODO: "bg-[var(--color-neutral)]",
+  IN_PROGRESS: "bg-[var(--color-info)]",
+  DONE: "bg-[var(--color-success)]",
 };
 
 type BoardColumnProps = {
@@ -103,9 +101,9 @@ export default function BoardColumn({
             aria-hidden="true"
           />
 
-          <h3 className="text-body-sm truncate font-semibold text-[var(--color-text)]">{title}</h3>
+          <h3 className="text-caption truncate font-semibold text-[var(--color-text)]">{title}</h3>
 
-          <span className="shrink-0 rounded-full bg-white px-2 py-1 text-xs text-[var(--color-text-secondary)]">
+          <span className="shrink-0 rounded-full bg-[var(--color-surface)] px-2 py-1 text-xs text-[var(--color-text-secondary)]">
             {tasks.length}
           </span>
         </div>
@@ -122,7 +120,7 @@ export default function BoardColumn({
 
                   setIsCreateModalOpen(true);
                 }}
-                className="text-body-sm flex w-full items-center gap-2 rounded-[var(--radius-sm)] px-3 py-2 text-left font-medium text-[var(--color-text)] transition-colors hover:bg-[var(--color-hover-soft)] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-transparent"
+                className="text-caption flex w-full items-center gap-2 rounded-[var(--radius-sm)] px-3 py-2 text-left font-medium text-[var(--color-text)] transition-colors hover:bg-[var(--color-hover-soft)] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-transparent"
               >
                 추가
               </button>
@@ -135,7 +133,7 @@ export default function BoardColumn({
                   handleDeleteAll();
                 }}
                 disabled={tasks.length === 0}
-                className="text-body-sm flex w-full items-center gap-2 rounded-[var(--radius-sm)] px-3 py-2 text-left font-medium text-red-500 transition-colors hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-transparent"
+                className="text-caption flex w-full items-center gap-2 rounded-[var(--radius-sm)] px-3 py-2 text-left font-medium text-[var(--color-danger-text)] transition-colors hover:bg-[var(--color-danger-soft)] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-transparent"
               >
                 전체 삭제
               </button>

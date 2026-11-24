@@ -1,8 +1,8 @@
 "use client";
 
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-
 import { useRouter } from "next/navigation";
+
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import {
   createGoal,
@@ -10,12 +10,10 @@ import {
   type CreateGoalInput,
   type UpdateGoalInput,
 } from "@/features/goals/api/goals";
-
 import { useCurrentProjectScope } from "@/features/projects/hooks/useCurrentProjectScope";
 
-import { goalQueryKeys } from "@/lib/queryKeys";
-
 import { buildScopedViewPath } from "@/lib/projectRoutes";
+import { goalQueryKeys } from "@/lib/queryKeys";
 
 export function useGoalMutations() {
   const queryClient = useQueryClient();

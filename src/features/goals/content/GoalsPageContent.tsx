@@ -1,35 +1,33 @@
 "use client";
 
-import { Suspense, useCallback, useMemo, useState, useSyncExternalStore } from "react";
-
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { Suspense, useCallback, useMemo, useState, useSyncExternalStore } from "react";
 
 import { useQuery } from "@tanstack/react-query";
 
-import GoalCategoryBoard from "@/features/goals/components/GoalCategoryBoard";
-import GoalCreateDrawer, { type GoalCreateDraft } from "@/features/goals/modals/GoalCreateDrawer";
-import GoalDetailDrawer from "@/features/goals/modals/GoalDetailDrawer";
-import StatCountCard from "@/components/ui/stats/StatCountCard";
-import StatCountGrid, { statCountWideCardClassName } from "@/components/ui/stats/StatCountGrid";
-import GoalsScopeTabs, { type GoalsScopeTab } from "@/features/goals/components/GoalsScopeTabs";
 import { HeaderActionButton, HeaderActions } from "@/components/layout/Header/HeaderActions";
 import PageHeading from "@/components/layout/pages/Page/PageHeading";
 import PageInset from "@/components/layout/pages/Page/PageInset";
+import { CheckCircle2, Circle, Clock, Plus, Target } from "@/components/ui/icon";
+import StatCountCard from "@/components/ui/stats/StatCountCard";
+import StatCountGrid, { statCountWideCardClassName } from "@/components/ui/stats/StatCountGrid";
+
+import { getGoals } from "@/features/goals/api/goals";
+import GoalCategoryBoard from "@/features/goals/components/GoalCategoryBoard";
+import GoalsScopeTabs, { type GoalsScopeTab } from "@/features/goals/components/GoalsScopeTabs";
+import GoalCreateDrawer, { type GoalCreateDraft } from "@/features/goals/modals/GoalCreateDrawer";
+import GoalDetailDrawer from "@/features/goals/modals/GoalDetailDrawer";
+import { isGoalShownDelayed } from "@/features/goals/utils/goalProjectDelay";
+import { getProjectListItems, getProjects } from "@/features/projects/api/projects";
 import FavoriteProjectFolderIcon from "@/features/projects/components/FavoriteProjectFolderIcon";
+import HoldAddNotice from "@/features/projects/components/HoldAddNotice";
 import ProjectBoardCard from "@/features/projects/components/ProjectBoardCard";
 import ProjectCompactCard from "@/features/projects/components/ProjectCompactCard";
 import ProjectSummaryBox from "@/features/projects/components/ProjectSummaryBox";
-import HoldAddNotice from "@/features/projects/components/HoldAddNotice";
-import { CheckCircle2, Circle, Clock, Plus, Target } from "@/components/ui/icon";
-
-import { getGoals } from "@/features/goals/api/goals";
-import type { Goal } from "@/features/goals/types/goal";
-import { getProjectListItems, getProjects } from "@/features/projects/api/projects";
-import { isGoalShownDelayed } from "@/features/goals/utils/goalProjectDelay";
 import { canAddProjectItems, holdAddNoticeMessage } from "@/features/projects/utils/projectUtils";
+
 import { mockTeamMembers } from "@/lib/mock/teamMembers";
 import { currentUser } from "@/lib/mock/users";
-import { goalQueryKeys, projectQueryKeys } from "@/lib/queryKeys";
 import {
   ALL_PROJECTS_SCOPE,
   buildScopeChangeHref,
@@ -44,6 +42,9 @@ import {
   getFavoriteProjectIdsSnapshot,
   subscribeFavoriteProjectIds,
 } from "@/lib/projectSwitcherPreferences";
+import { goalQueryKeys, projectQueryKeys } from "@/lib/queryKeys";
+
+import type { Goal } from "@/features/goals/types/goal";
 
 const previewAssigneeId =
   mockTeamMembers.find((member) => member.email === currentUser.email)?.id ?? null;
@@ -59,7 +60,7 @@ const goalsAfterTitleClassName = "flex min-w-0 flex-col gap-4";
 const favoriteFolderIconsClassName = "flex min-w-0 flex-wrap items-start gap-3";
 const compactHeadingClassName = "flex min-w-0 flex-wrap items-start justify-between gap-3";
 const compactHeadingCopyClassName = "min-w-[12rem] flex-1";
-const goalsLoadingClassName = "text-body-sm py-12 text-center text-[var(--color-text-secondary)]";
+const goalsLoadingClassName = "text-caption py-12 text-center text-[var(--color-text-secondary)]";
 
 /**
  * GoalsPageLayout
@@ -354,27 +355,27 @@ function GoalsPageLayout() {
             count: visibleGoals.filter(
               (goal) => goal.status === "NOT_STARTED" && isGoalShownDelayed(goal, projects),
             ).length,
-            className: "text-red-600",
+            className: "text-[var(--color-danger-text)]",
           }}
         />
         <StatCountCard
           label="진행 중"
           count={visibleGoals.filter((goal) => goal.status === "IN_PROGRESS").length}
           icon={Clock}
-          iconClassName="text-blue-600"
+          iconClassName="text-[var(--color-info-text)]"
           pair={{
             label: "마감 초과",
             count: visibleGoals.filter(
               (goal) => goal.status === "IN_PROGRESS" && isGoalShownDelayed(goal, projects),
             ).length,
-            className: "text-red-600",
+            className: "text-[var(--color-danger-text)]",
           }}
         />
         <StatCountCard
           label="완료"
           count={visibleGoals.filter((goal) => goal.status === "COMPLETED").length}
           icon={CheckCircle2}
-          iconClassName="text-green-600"
+          iconClassName="text-[var(--color-success-text)]"
         />
       </StatCountGrid>
     ) : null;
@@ -526,7 +527,7 @@ export default function GoalsPageContent() {
         <PageInset
           top="none"
           bottom={false}
-          className="text-body-sm py-12 text-center text-[var(--color-text-secondary)]"
+          className="text-caption py-12 text-center text-[var(--color-text-secondary)]"
         >
           목표를 불러오는 중...
         </PageInset>

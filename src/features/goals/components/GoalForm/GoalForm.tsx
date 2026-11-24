@@ -1,11 +1,20 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 
-import Link from "next/link";
-
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 
+import BottomAppBar from "@/components/layout/pages/CreatePage/BottomAppBar";
+import { formPaneClassName } from "@/components/layout/pages/CreatePage/formSpacing";
+import PageHeading from "@/components/layout/pages/Page/PageHeading";
+import Badge from "@/components/ui/badge/Badge";
+import PrimaryButton from "@/components/ui/button/PrimaryButton";
+import SecondaryButton from "@/components/ui/button/SecondaryButton";
+import DatePicker from "@/components/ui/date-picker/DatePicker";
+import { fieldPaddingClassName } from "@/components/ui/fieldControl";
+import FieldNotice from "@/components/ui/FieldNotice";
 import {
   iconSize,
   AppIcon,
@@ -20,54 +29,36 @@ import {
   Pencil,
   X,
 } from "@/components/ui/icon";
+import IconTitle from "@/components/ui/IconTitle";
+import InfoTooltip, { type InfoTooltipItem } from "@/components/ui/InfoTooltip";
+import Textarea from "@/components/ui/input/Textarea";
+import ProfileSummary from "@/components/ui/ProfileSummary";
+import StatusChoiceButton from "@/components/ui/StatusChoiceButton";
+import LineTabMenu from "@/components/ui/tab/LineTabMenu";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-
+import GoalBadge from "@/features/goals/components/GoalBadge";
 import FormTitlePreviewFrame from "@/features/goals/components/GoalForm/FormTitlePreviewFrame";
+import GoalTitlePreview from "@/features/goals/components/GoalForm/GoalTitlePreview";
+import GoalStatusBadge from "@/features/goals/components/GoalStatusBadge";
+import GoalStatusIcon from "@/features/goals/components/GoalStatusIcon";
+import GoalTag from "@/features/goals/components/GoalTag";
 import GoalPreviewModal from "@/features/goals/modals/GoalPreviewModal";
 import LinkedProjectInfoModal from "@/features/goals/modals/LinkedProjectInfoModal";
-import BottomAppBar from "@/components/layout/pages/CreatePage/BottomAppBar";
-import { formPaneClassName } from "@/components/layout/pages/CreatePage/formSpacing";
-import { fieldPaddingClassName } from "@/components/ui/fieldControl";
-import Textarea from "@/components/ui/input/Textarea";
-import Badge from "@/components/ui/badge/Badge";
-import GoalBadge from "@/features/goals/components/GoalBadge";
-import GoalStatusBadge from "@/features/goals/components/GoalStatusBadge";
-import GoalTag from "@/features/goals/components/GoalTag";
-import GoalStatusIcon from "@/features/goals/components/GoalStatusIcon";
-import GoalTitlePreview from "@/features/goals/components/GoalForm/GoalTitlePreview";
-
-import FieldNotice from "@/components/ui/FieldNotice";
-import StatusChoiceButton from "@/components/ui/StatusChoiceButton";
-import IconTitle from "@/components/ui/IconTitle";
-import ProfileSummary from "@/components/ui/ProfileSummary";
-import SecondaryButton from "@/components/ui/button/SecondaryButton";
-
-import DatePicker from "@/components/ui/date-picker/DatePicker";
-import LineTabMenu from "@/components/ui/tab/LineTabMenu";
-import InfoTooltip, { type InfoTooltipItem } from "@/components/ui/InfoTooltip";
-import PrimaryButton from "@/components/ui/button/PrimaryButton";
-
 import { createGoalSchema, type GoalFormData } from "@/features/goals/schemas/goalSchema";
-
+import { GOAL_STATUSES, type GoalStatus } from "@/features/goals/types/goal";
 import { getTodayDateValue } from "@/features/goals/utils/goalDates";
-
 import {
   getGoalStatusLabel,
   getGoalStatusMetricColors,
   isGoalDelayed,
 } from "@/features/goals/utils/goalUtils";
-
-import { isProjectDelayed } from "@/features/projects/utils/projectUtils";
-
-import { currentUser } from "@/lib/mock/users";
-
 import {
   getProjectAccentColor,
   PROJECT_COLOR_OPTIONS,
 } from "@/features/projects/utils/projectColors";
+import { isProjectDelayed } from "@/features/projects/utils/projectUtils";
 
-import { GOAL_STATUSES, type GoalStatus } from "@/features/goals/types/goal";
+import { currentUser } from "@/lib/mock/users";
 
 import type { ProjectStatus } from "@/features/projects/types/project";
 
@@ -322,25 +313,25 @@ const goalStatusAutoRules = [
  */
 function GoalStatusAutoCard() {
   return (
-    <section className="rounded-[var(--radius-md)] border border-[var(--color-border)] bg-white p-[10px] md:p-3 xl:p-4">
+    <section className="rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] p-[10px] md:p-3 xl:p-4">
       <div className="flex items-start gap-2">
         <AppIcon icon={RefreshCw} size="sm" className="mt-0.5 shrink-0 text-[var(--color-text)]" />
 
         <div className="min-w-0">
           <h3 className="text-body font-medium text-[var(--color-text)]">자동 계산</h3>
 
-          <p className="text-body-sm mt-0.5 text-[var(--color-text-secondary)]">
+          <p className="text-caption mt-0.5 text-[var(--color-text-secondary)]">
             연결된 태스크의 상태에 따라 자동으로 변경됩니다.
           </p>
         </div>
       </div>
 
       <div className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 rounded-[var(--radius-sm)] bg-[var(--color-hover-soft)] px-3 py-2.5">
-        <span className="text-body-sm text-[var(--color-text-secondary)]">생성 시</span>
+        <span className="text-caption text-[var(--color-text-secondary)]">생성 시</span>
 
         <GoalStatusBadge status="NOT_STARTED" compact plain />
 
-        <Badge className="!h-6 bg-gray-100 text-[var(--color-text-secondary)]">
+        <Badge className="!h-6 bg-[var(--color-hover)] text-[var(--color-text-secondary)]">
           <AppIcon icon={ListTodo} size="xs" className="max-md:hidden" />
           <span className="md:hidden">태스크 없음</span>
           <span className="max-md:hidden">없음</span>
@@ -352,12 +343,12 @@ function GoalStatusAutoCard() {
           <li key={rule.condition} className="flex min-w-0 items-center gap-2">
             <span
               aria-hidden
-              className="text-caption flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-gray-100 font-medium text-[var(--color-text-secondary)]"
+              className="text-caption flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[var(--color-hover)] font-medium text-[var(--color-text-secondary)]"
             >
               {index + 1}
             </span>
 
-            <span className="text-body-sm min-w-0 flex-1 text-[var(--color-text-secondary)]">
+            <span className="text-caption min-w-0 flex-1 text-[var(--color-text-secondary)]">
               {rule.condition}
             </span>
 
@@ -443,13 +434,12 @@ const actionBarButtonClassName = `
  */
 function FormPageTitle({ title, description }: { title: string; description?: string }) {
   return (
-    <div className="hidden shrink-0 pt-6 pb-4 md:block">
-      <h1 className="text-page-title text-[var(--color-text)]">{title}</h1>
-
-      {description ? (
-        <p className="text-body mt-1 text-[var(--color-text-secondary)]">{description}</p>
-      ) : null}
-    </div>
+    <PageHeading
+      variant="form"
+      title={title}
+      description={description}
+      className="hidden shrink-0 pt-6 pb-4 md:block"
+    />
   );
 }
 
@@ -481,7 +471,7 @@ function FormSectionIntro({
         <span className="text-card-title hidden text-[var(--color-text)] md:inline">{title}</span>
       </h2>
 
-      <p className="text-body-sm mt-1 text-[var(--color-text-secondary)] md:mt-0.5">
+      <p className="text-caption mt-1 text-[var(--color-text-secondary)] md:mt-0.5">
         <span className="md:hidden">{mobileDescription ?? description}</span>
 
         <span className="hidden md:inline">{description}</span>
@@ -522,7 +512,7 @@ function GoalColorSwatch({
     >
       <span
         className={`relative inline-flex rounded-[var(--radius-sm)] ${
-          selected ? "ring-2 ring-gray-950" : ""
+          selected ? "ring-2 ring-[var(--color-primary)]" : ""
         } `}
       >
         {children}
@@ -530,7 +520,7 @@ function GoalColorSwatch({
         {selected ? (
           <span
             aria-hidden
-            className="pointer-events-none absolute -top-1 -right-1 z-10 flex h-4 w-4 items-center justify-center rounded-full bg-gray-950 text-white ring-2 ring-white"
+            className="pointer-events-none absolute -top-1 -right-1 z-10 flex h-4 w-4 items-center justify-center rounded-full bg-[var(--color-primary)] text-[var(--color-text-inverse)] ring-2 ring-white"
           >
             <Check size={10} strokeWidth={3} />
           </span>
@@ -594,9 +584,19 @@ export default function GoalForm({
         }
       : undefined;
 
+  const projectStartDate = projectPeriod?.startDate;
+
+  const projectEndDate = projectPeriod?.endDate;
+
+  // projectPeriod는 렌더마다 새 객체라서, 날짜 값이 바뀔 때만 스키마를 다시 만든다.
   const schema = useMemo(
-    () => createGoalSchema(projectPeriod),
-    [projectPeriod?.startDate, projectPeriod?.endDate],
+    () =>
+      createGoalSchema(
+        projectStartDate && projectEndDate
+          ? { startDate: projectStartDate, endDate: projectEndDate }
+          : undefined,
+      ),
+    [projectStartDate, projectEndDate],
   );
 
   const {
@@ -691,7 +691,9 @@ export default function GoalForm({
 
   const endDateMax = projectPeriod?.endDate;
 
-  const selectedTags = watch("tags") ?? [];
+  const watchedTags = watch("tags");
+
+  const selectedTags = useMemo(() => watchedTags ?? [], [watchedTags]);
 
   const projectTags = project?.tags ?? [];
 
@@ -1000,8 +1002,6 @@ export default function GoalForm({
 
     px-3
     py-3
-
-    shadow-[var(--shadow-card)]
 
     md:h-full
     md:min-h-0
@@ -1363,7 +1363,7 @@ export default function GoalForm({
                   type="button"
                   onClick={onCancel}
                   disabled={isSubmitting}
-                  className="text-body inline-flex h-[var(--button-height-action)] min-w-[96px] items-center justify-center rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-white px-[var(--button-px-action)] font-medium text-[var(--color-text)] transition-colors hover:bg-[var(--color-hover-soft)] hover:text-[var(--color-text)] disabled:cursor-not-allowed disabled:opacity-50"
+                  className="text-body inline-flex h-[var(--button-height-action)] min-w-[96px] items-center justify-center rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-[var(--color-surface)] px-[var(--button-px-action)] font-medium text-[var(--color-text)] transition-colors hover:bg-[var(--color-hover-soft)] hover:text-[var(--color-text)] disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   취소
                 </button>

@@ -1,12 +1,10 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useId, useState, type ReactNode } from "react";
 
-import { useRouter } from "next/navigation";
-
-import { AppIcon, ArrowRight, Info } from "@/components/ui/icon";
-
 import PrimaryButton from "@/components/ui/button/PrimaryButton";
+import { AppIcon, ArrowRight, Info } from "@/components/ui/icon";
 import Modal, { modalSidePaddingClassName } from "@/components/ui/modal/Modal";
 
 export type InfoTooltipItem = {
@@ -41,7 +39,7 @@ function PageMoveButton({ label, onClick }: { label: string; onClick: () => void
     <button
       type="button"
       onClick={onClick}
-      className="text-body-sm inline-flex h-9 cursor-pointer items-center gap-1.5 rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-white px-3 font-medium text-[var(--color-text)] transition-colors hover:bg-[var(--color-hover-soft)]"
+      className="text-caption inline-flex h-9 cursor-pointer items-center gap-1.5 rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-[var(--color-surface)] px-3 font-medium text-[var(--color-text)] transition-colors hover:bg-[var(--color-hover-soft)]"
     >
       {label}
       <AppIcon icon={ArrowRight} size="sm" />
@@ -85,7 +83,7 @@ function NestedTooltipSection({
           {descriptionLines.length > 0 ? (
             <div className="mt-1 space-y-1">
               {descriptionLines.map((line) => (
-                <p key={line} className="text-body-sm text-[var(--color-text-secondary)]">
+                <p key={line} className="text-caption text-[var(--color-text-secondary)]">
                   {line}
                 </p>
               ))}
@@ -159,7 +157,7 @@ export default function InfoTooltip({
         }}
         className={
           triggerLabel
-            ? `text-caption inline-flex h-8 shrink-0 cursor-pointer items-center gap-1 rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-white px-2.5 leading-none font-medium text-[var(--color-text-secondary)] transition-colors hover:bg-[var(--color-hover-soft)] hover:text-[var(--color-text)] ${className} `
+            ? `text-caption inline-flex h-8 shrink-0 cursor-pointer items-center gap-1 rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-[var(--color-surface)] px-2.5 leading-none font-medium text-[var(--color-text-secondary)] transition-colors hover:bg-[var(--color-hover-soft)] hover:text-[var(--color-text)] ${className} `
             : `inline-flex size-[22px] shrink-0 cursor-pointer items-center justify-center rounded-full p-0 leading-none text-[var(--color-text-muted)] transition-colors hover:bg-[var(--color-primary-soft)] hover:text-[var(--color-primary)] ${className} `
         }
       >
@@ -241,7 +239,7 @@ export default function InfoTooltip({
                                 <span className="inline-flex shrink-0 items-center">
                                   <span
                                     aria-hidden
-                                    className="inline-flex h-7 w-8 shrink-0 -translate-x-[2px] items-center justify-center text-[18px] leading-none font-medium text-[var(--color-text-muted)]"
+                                    className="inline-flex h-7 w-8 shrink-0 -translate-x-[2px] items-center justify-center text-lg leading-none font-medium text-[var(--color-text-muted)]"
                                   >
                                     |
                                   </span>
@@ -252,7 +250,7 @@ export default function InfoTooltip({
                                       close();
                                       item.inlineAction?.onClick();
                                     }}
-                                    className="text-body-sm inline-flex h-7 shrink-0 items-center justify-center gap-1.5 rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-[var(--color-surface)] px-2 font-medium whitespace-nowrap text-[var(--color-text)] transition-colors hover:bg-[var(--color-hover-soft)]"
+                                    className="text-caption inline-flex h-7 shrink-0 items-center justify-center gap-1.5 rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-[var(--color-surface)] px-2 font-medium whitespace-nowrap text-[var(--color-text)] transition-colors hover:bg-[var(--color-hover-soft)]"
                                   >
                                     {item.inlineAction.icon}
                                     {item.inlineAction.label}
@@ -274,7 +272,7 @@ export default function InfoTooltip({
                             {descriptionLines.map((line) => (
                               <p
                                 key={line}
-                                className={`text-body-sm text-[var(--color-text-secondary)] ${
+                                className={`text-caption text-[var(--color-text-secondary)] ${
                                   centered ? "text-center" : ""
                                 } `}
                               >
@@ -286,7 +284,7 @@ export default function InfoTooltip({
                           {item.note || item.action ? (
                             <div className="mt-3 border-t border-[var(--color-border)] pt-3">
                               {item.note ? (
-                                <p className="text-body-sm text-[var(--color-text-secondary)]">
+                                <p className="text-caption text-[var(--color-text-secondary)]">
                                   {item.note}
                                 </p>
                               ) : null}
@@ -331,7 +329,7 @@ export default function InfoTooltip({
                     key={paragraph}
                     className={
                       centered
-                        ? "text-body-sm leading-5 text-[var(--color-text-secondary)]"
+                        ? "text-caption leading-5 text-[var(--color-text-secondary)]"
                         : "text-body text-[var(--color-text)]"
                     }
                   >

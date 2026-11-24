@@ -2,14 +2,15 @@
 
 import { useId, type ReactNode } from "react";
 
+import ExpandablePreviewText from "@/components/ui/ExpandablePreviewText";
+import Modal from "@/components/ui/modal/Modal";
+
 import GoalBadge from "@/features/goals/components/GoalBadge";
 import GoalStatusBadge from "@/features/goals/components/GoalStatusBadge";
 import GoalTag from "@/features/goals/components/GoalTag";
 import ProjectBadge from "@/features/projects/components/ProjectBadge";
-import ExpandablePreviewText from "@/components/ui/ExpandablePreviewText";
-import Modal from "@/components/ui/modal/Modal";
 
-import { formatProjectDate, formatProjectDateRange } from "@/features/projects/utils/projectUtils";
+import { formatDateRange } from "@/lib/date";
 
 import type { GoalStatus } from "@/features/goals/types/goal";
 
@@ -30,31 +31,6 @@ type GoalPreviewModalProps = {
   authorName: string;
   tags: string[];
 };
-
-/**
- * formatPreviewPeriod
- *
- * 시작일과 마감일을 미리보기 기간 문구로 바꿉니다.
- *
- * @param startDate - 시작일
- * @param endDate - 마감일
- * @returns 기간 문구. 날짜가 없으면 빈 문자열
- */
-function formatPreviewPeriod(startDate: string, endDate: string) {
-  if (startDate && endDate) {
-    return formatProjectDateRange(startDate, endDate);
-  }
-
-  if (startDate) {
-    return `${formatProjectDate(startDate)} ~`;
-  }
-
-  if (endDate) {
-    return formatProjectDate(endDate);
-  }
-
-  return "";
-}
 
 /**
  * PreviewRow
@@ -138,7 +114,7 @@ export default function GoalPreviewModal({
 }: GoalPreviewModalProps) {
   const titleId = useId();
 
-  const period = formatPreviewPeriod(startDate, endDate);
+  const period = formatDateRange(startDate, endDate);
 
   const trimmedTitle = title.trim();
 

@@ -2,19 +2,19 @@
 
 import { useEffect, useId } from "react";
 
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-
+import PrimaryButton from "@/components/ui/button/PrimaryButton";
+import SecondaryButton from "@/components/ui/button/SecondaryButton";
 import DatePicker from "@/components/ui/date-picker/DatePicker";
 import Input from "@/components/ui/input/Input";
 import Textarea from "@/components/ui/input/Textarea";
 import Modal from "@/components/ui/modal/Modal";
-import PrimaryButton from "@/components/ui/button/PrimaryButton";
-import SecondaryButton from "@/components/ui/button/SecondaryButton";
 import Select from "@/components/ui/select/Select";
 
 import { taskSchema, type TaskFormData } from "@/features/tasks/schemas/taskSchema";
+
 import type { Task } from "@/features/tasks/types/task";
 
 const priorityOptions = [
@@ -138,7 +138,7 @@ export default function EditTaskModal({
     <Modal isOpen={isOpen} onClose={handleClose}>
       <Modal.Header
         title="Task 수정"
-        description="업무 정보를 수정해주세요."
+        description="태스크 정보를 수정해주세요."
         onClose={handleClose}
         closeLabel="Task 수정창 닫기"
       />
@@ -147,29 +147,33 @@ export default function EditTaskModal({
         <form id={formId} onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div>
             <label className="text-body mb-2 block font-medium text-[var(--color-text)]">
-              업무 제목
+              태스크 제목
             </label>
 
             <Input {...register("title")} placeholder="예: 로그인 API 연결" />
 
             {errors.title && (
-              <p className="text-caption mt-1.5 text-red-500">{errors.title.message}</p>
+              <p className="text-caption mt-1.5 text-[var(--color-danger-text)]">
+                {errors.title.message}
+              </p>
             )}
           </div>
 
           <div>
             <label className="text-body mb-2 block font-medium text-[var(--color-text)]">
-              업무 설명
+              태스크 설명
             </label>
 
             <Textarea
               {...register("description")}
-              placeholder="업무 내용을 입력해주세요."
+              placeholder="태스크 내용을 입력해주세요."
               className="min-h-[132px] leading-6"
             />
 
             {errors.description && (
-              <p className="text-caption mt-1.5 text-red-500">{errors.description.message}</p>
+              <p className="text-caption mt-1.5 text-[var(--color-danger-text)]">
+                {errors.description.message}
+              </p>
             )}
           </div>
 
@@ -228,7 +232,9 @@ export default function EditTaskModal({
               />
 
               {errors.dueDate && (
-                <p className="text-caption mt-1.5 text-red-500">{errors.dueDate.message}</p>
+                <p className="text-caption mt-1.5 text-[var(--color-danger-text)]">
+                  {errors.dueDate.message}
+                </p>
               )}
             </div>
           </div>
@@ -240,7 +246,7 @@ export default function EditTaskModal({
           <button
             type="button"
             onClick={handleDelete}
-            className="mr-auto inline-flex h-[var(--button-height-modal)] min-w-[96px] items-center justify-center rounded-[var(--radius-sm)] border border-red-200 bg-white px-[var(--button-px-modal)] text-[length:var(--button-font)] leading-[var(--button-line)] font-medium text-red-600 transition-colors hover:border-red-300 hover:bg-red-50"
+            className="mr-auto inline-flex h-[var(--button-height-modal)] min-w-[96px] items-center justify-center rounded-[var(--radius-sm)] border border-[var(--color-danger)]/40 bg-[var(--color-surface)] px-[var(--button-px-modal)] text-[length:var(--button-font)] leading-[var(--button-line)] font-medium text-[var(--color-danger-text)] transition-colors hover:border-[var(--color-danger)]/40 hover:bg-[var(--color-danger-soft)]"
           >
             삭제
           </button>

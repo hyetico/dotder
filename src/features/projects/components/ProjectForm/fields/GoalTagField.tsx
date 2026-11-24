@@ -1,19 +1,21 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { AppIcon, TagPlus } from "@/components/ui/icon";
-import GoalTag from "@/features/goals/components/GoalTag";
-import FieldNotice from "@/components/ui/FieldNotice";
-import Input from "@/components/ui/input/Input";
+import { useState } from "react";
+
 import PrimaryButton from "@/components/ui/button/PrimaryButton";
 import SecondaryButton from "@/components/ui/button/SecondaryButton";
+import FieldNotice from "@/components/ui/FieldNotice";
+import { AppIcon, TagPlus } from "@/components/ui/icon";
+import Input from "@/components/ui/input/Input";
+
+import GoalTag from "@/features/goals/components/GoalTag";
+import { FieldError, FormLabel } from "@/features/projects/components/ProjectForm/FormParts";
+import { getProjectGoalTagGuideItems } from "@/features/projects/constants/projectFormGuides";
 import {
   isGlobalProjectTag,
   PROJECT_TAG_LIMIT,
   PROJECT_TAG_PRESETS,
 } from "@/features/projects/constants/projectTags";
-import { getProjectGoalTagGuideItems } from "@/features/projects/constants/projectFormGuides";
-import { FieldError, FormLabel } from "@/features/projects/components/ProjectForm/FormParts";
 
 export function GoalTagField({
   tags,
@@ -32,13 +34,9 @@ export function GoalTagField({
 
   const [tagInput, setTagInput] = useState("");
 
-  const tagsRef = useRef(tags);
-
-  tagsRef.current = tags;
-
   const customTags = tags.filter((tag) => !isGlobalProjectTag(tag));
 
-  const isAtLimit = tagsRef.current.length >= PROJECT_TAG_LIMIT;
+  const isAtLimit = tags.length >= PROJECT_TAG_LIMIT;
 
   const trimmedTag = tagInput.trim();
 
@@ -58,16 +56,11 @@ export function GoalTagField({
   const addTag = () => {
     const trimmed = tagInput.trim();
 
-    const currentTags = tagsRef.current;
-
-    if (!trimmed || currentTags.length >= PROJECT_TAG_LIMIT || currentTags.includes(trimmed)) {
+    if (!trimmed || tags.length >= PROJECT_TAG_LIMIT || tags.includes(trimmed)) {
       return;
     }
 
-    const nextTags = [...currentTags, trimmed];
-
-    tagsRef.current = nextTags;
-    onChange(nextTags);
+    onChange([...tags, trimmed]);
     setTagInput("");
   };
 
@@ -114,7 +107,7 @@ export function GoalTagField({
             type="button"
             onClick={addTag}
             disabled={isAtLimit || trimmedTag === "" || isDuplicate}
-            className="!h-10 shrink-0 min-[1025px]:!h-11"
+            className="!h-10 shrink-0 lg:!h-11"
           >
             추가
           </PrimaryButton>
@@ -123,7 +116,7 @@ export function GoalTagField({
             type="button"
             onClick={addTag}
             disabled={isAtLimit || trimmedTag === "" || isDuplicate}
-            className="!h-10 shrink-0 min-[1025px]:!h-11"
+            className="!h-10 shrink-0 lg:!h-11"
             hideIconOnMobile
             icon={<AppIcon icon={TagPlus} size="sm" />}
           >
@@ -138,7 +131,12 @@ export function GoalTagField({
         ))}
 
         {customTags.map((tag) => (
-          <GoalTag key={tag} tag={tag} className={getMatchedClassName(tag)} onRemove={() => removeTag(tag)} />
+          <GoalTag
+            key={tag}
+            tag={tag}
+            className={getMatchedClassName(tag)}
+            onRemove={() => removeTag(tag)}
+          />
         ))}
       </div>
 

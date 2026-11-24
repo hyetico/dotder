@@ -1,4 +1,3 @@
-import StatCountGrid from "@/components/ui/stats/StatCountGrid";
 import {
   AppIcon,
   BarChart3,
@@ -9,6 +8,8 @@ import {
   Target,
   type LucideIcon,
 } from "@/components/ui/icon";
+import StatCountGrid from "@/components/ui/stats/StatCountGrid";
+
 import { ProjectInProgressIcon } from "@/features/projects/components/ProjectStatusIcon";
 import {
   getProjectScheduleSnapshot,
@@ -19,7 +20,7 @@ import {
 import type { ProjectListItem, ProjectStatus } from "@/features/projects/types/project";
 
 const statBoxClassName =
-  "flex h-full min-w-0 items-center rounded-[4px] border border-[var(--color-border)] bg-white px-3 py-3 md:px-4";
+  "flex h-full min-w-0 items-center rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-3 md:px-4";
 const statLabelClassName = "text-xs text-[var(--color-text)]";
 const statValueClassName = "mt-0.5 text-sm font-semibold tabular-nums";
 
@@ -57,7 +58,10 @@ function MainProjectStatBox({
   iconClassName,
   valueClassName,
 }: MainProjectStatBoxProps) {
-  const iconWrapClassName = ["hidden shrink-0 items-center justify-center md:flex", iconClassName].join(" ");
+  const iconWrapClassName = [
+    "hidden shrink-0 items-center justify-center md:flex",
+    iconClassName,
+  ].join(" ");
   const numberClassName = [statValueClassName, valueClassName].join(" ");
 
   return (
@@ -124,8 +128,8 @@ export default function MainProjectStatBoxes({ project }: MainProjectStatBoxesPr
       label: "지연",
       value: `${overdue ? schedule.overdueDays : 0}일`,
       icon: Calendar,
-      iconClassName: overdue ? "text-red-600" : "text-[var(--color-text)]",
-      valueClassName: overdue ? "text-red-600" : "text-[var(--color-text)]",
+      iconClassName: overdue ? "text-[var(--color-danger-text)]" : "text-[var(--color-text)]",
+      valueClassName: overdue ? "text-[var(--color-danger-text)]" : "text-[var(--color-text)]",
     },
   ];
 

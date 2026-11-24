@@ -1,17 +1,21 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
-import { Controller, useForm, type Control, type FieldErrors } from "react-hook-form";
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+
 import { zodResolver } from "@hookform/resolvers/zod";
-import { AppIcon, CalendarSync, CircleAlert, CircleCheck, History } from "@/components/ui/icon";
+import { Controller, useForm, type Control, type FieldErrors } from "react-hook-form";
 
 import BottomAppBar from "@/components/layout/pages/CreatePage/BottomAppBar";
+import PageHeading from "@/components/layout/pages/Page/PageHeading";
 import PrimaryButton from "@/components/ui/button/PrimaryButton";
 import SecondaryButton from "@/components/ui/button/SecondaryButton";
 import DatePicker from "@/components/ui/date-picker/DatePicker";
 import FieldNotice from "@/components/ui/FieldNotice";
+import { AppIcon, CalendarSync, CircleAlert, CircleCheck, History } from "@/components/ui/icon";
 import StatusChoiceButton from "@/components/ui/StatusChoiceButton";
+import Toast from "@/components/ui/Toast";
+
 import { useSyncProjectAccent } from "@/features/projects/components/ProjectAccent";
 import { WizardBasicInfoStep } from "@/features/projects/components/ProjectCreateWizard/steps/WizardBasicInfoStep";
 import {
@@ -20,7 +24,6 @@ import {
 } from "@/features/projects/components/ProjectCreateWizard/steps/WizardScheduleStep";
 import { WizardSettingsStep } from "@/features/projects/components/ProjectCreateWizard/steps/WizardSettingsStep";
 import AdminSelect from "@/features/projects/components/ProjectForm/AdminSelect";
-import { DeadlineToast } from "@/features/projects/components/ProjectForm/DeadlineToast";
 import { FieldError, FormLabel } from "@/features/projects/components/ProjectForm/FormParts";
 import {
   deadlineChangeLabel,
@@ -54,9 +57,10 @@ import {
   getProjectStatusLabel,
   isProjectDelayed,
 } from "@/features/projects/utils/projectUtils";
-import { getProjectDetailPath } from "@/lib/projectRoutes";
+
 import { getTeamMembers } from "@/lib/mock/teamMembers";
 import { currentUser } from "@/lib/mock/users";
+import { getProjectDetailPath } from "@/lib/projectRoutes";
 
 type ProjectEditTab = "basic" | "schedule" | "team";
 
@@ -83,17 +87,17 @@ const projectEditTabs: {
   },
   {
     id: "team",
-    label: "팀 및 설정",
-    title: "팀 및 설정",
-    description: "팀, 관리자, 메인 프로젝트 설정을 변경해요.",
-    statusLabel: "팀 및 설정 수정 중",
+    label: "설정",
+    title: "설정",
+    description: "목표 태그와 메인 프로젝트 설정을 변경해요.",
+    statusLabel: "설정 수정 중",
   },
 ];
 
 const editShellClassName =
   "mx-auto flex w-full max-w-[880px] flex-col gap-5 px-[var(--page-padding-x)] pt-3 pb-6 md:pt-5";
 const editCardClassName =
-  "rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] p-4 shadow-[var(--shadow-card)] md:px-6 md:py-5";
+  "rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] p-4 md:px-6 md:py-5";
 const editPanelClassName = "flex flex-col gap-4";
 const editDividerClassName = "border-t border-[var(--color-border)] pt-4";
 const editFooterClassName = "mt-5 border-t border-[var(--color-border)] pt-4";
@@ -253,25 +257,33 @@ function EditSchedulePanel({
         />
 
         {isDelayed ? (
-          <div className="mt-3 flex items-start gap-2 rounded-[var(--radius-sm)] border border-red-200 bg-red-50 px-3 py-3">
-            <AppIcon icon={CircleAlert} size="sm" className="mt-0.5 shrink-0 text-red-500" />
+          <div className="mt-3 flex items-start gap-2 rounded-[var(--radius-sm)] border border-[var(--color-danger)]/40 bg-[var(--color-danger-soft)] px-3 py-3">
+            <AppIcon
+              icon={CircleAlert}
+              size="sm"
+              className="mt-0.5 shrink-0 text-[var(--color-danger-text)]"
+            />
 
             <div className="min-w-0">
-              <p className="text-body-sm font-medium text-red-600">
+              <p className="text-caption font-medium text-[var(--color-danger-text)]">
                 <span className="md:hidden">{delayDays}일 지연되었습니다.</span>
                 <span className="hidden md:inline">프로젝트가 {delayDays}일 지연되었습니다.</span>
               </p>
 
-              <p className="text-caption mt-1 text-red-600">
+              <p className="text-caption mt-1 text-[var(--color-danger-text)]">
                 지연 중에는 상태를 변경할 수 없습니다. 마감일을 변경해야 저장할 수 있습니다.
               </p>
             </div>
           </div>
         ) : recoveredFromDelay ? (
-          <div className="mt-3 flex items-start gap-2 rounded-[var(--radius-sm)] border border-blue-200 bg-blue-50 px-3 py-3">
-            <AppIcon icon={CircleCheck} size="sm" className="mt-0.5 shrink-0 text-blue-600" />
+          <div className="mt-3 flex items-start gap-2 rounded-[var(--radius-sm)] border border-[var(--color-info)]/40 bg-[var(--color-info-soft)] px-3 py-3">
+            <AppIcon
+              icon={CircleCheck}
+              size="sm"
+              className="mt-0.5 shrink-0 text-[var(--color-info-text)]"
+            />
 
-            <p className="text-body-sm text-blue-700">
+            <p className="text-caption text-[var(--color-info-text)]">
               마감일이 변경되어 프로젝트가 진행 중으로 전환되었습니다. 필요에 따라 다른 정보를
               수정할 수 있습니다.
             </p>
@@ -306,7 +318,7 @@ function EditSchedulePanel({
 
         <div className="grid gap-3 md:grid-cols-2">
           <div className="min-w-0">
-            <p className="text-caption mb-1.5 text-black">시작일</p>
+            <p className="text-caption mb-1.5 text-[var(--color-text)]">시작일</p>
 
             <DatePicker
               value={startDateValue}
@@ -320,7 +332,7 @@ function EditSchedulePanel({
           </div>
 
           <div className="min-w-0">
-            <p className="text-caption mb-1.5 text-black">마감일</p>
+            <p className="text-caption mb-1.5 text-[var(--color-text)]">마감일</p>
 
             <DatePicker
               value={endDateDisplay}
@@ -594,13 +606,12 @@ export default function ProjectEditForm({
     >
       <div ref={scrollRef} className="flex min-h-0 flex-1 flex-col md:overflow-y-auto">
         <div className={editShellClassName}>
-          <div className="text-center">
-            <h1 className="text-page-title text-[var(--color-text)]">프로젝트 수정</h1>
-
-            <p className="text-body mt-1 text-[var(--color-text-secondary)]">
-              기존 프로젝트 정보를 확인하고 변경하세요.
-            </p>
-          </div>
+          <PageHeading
+            variant="form"
+            align="center"
+            title="프로젝트 수정"
+            description="기존 프로젝트 정보를 확인하고 변경하세요."
+          />
 
           <ProjectEditTabs value={tab} onChange={showTab} />
 
@@ -715,7 +726,14 @@ export default function ProjectEditForm({
         onSubmit={applyPendingDeadline}
       />
 
-      <DeadlineToast deadlineToast={deadlineToast} setDeadlineToast={setDeadlineToast} />
+      {deadlineToast ? (
+        <Toast
+          tone="success"
+          message="마감일이 변경되었습니다."
+          description={deadlineToast.description}
+          onClose={() => setDeadlineToast(null)}
+        />
+      ) : null}
     </form>
   );
 }

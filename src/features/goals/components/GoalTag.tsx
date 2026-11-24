@@ -1,9 +1,9 @@
 import { AppIcon, X } from "@/components/ui/icon";
 
 const goalTagClassName =
-  "inline-flex max-w-full min-w-0 items-center rounded-[9px] border border-[#e9ebee] bg-[#f7f8f9] px-2.5 py-1 text-[12px] leading-[18px] font-semibold text-[#34393f]";
+  "inline-flex max-w-full min-w-0 items-center rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-[var(--color-hover-soft)] px-2.5 py-1 text-xs leading-[18px] font-semibold text-[var(--color-text)]";
 const goalTagRemoveClassName =
-  "inline-flex size-4 shrink-0 cursor-pointer items-center justify-center rounded-full text-[#6b7280] hover:bg-white hover:text-[#34393f]";
+  "inline-flex size-4 shrink-0 cursor-pointer items-center justify-center rounded-full text-[var(--color-text-muted)] hover:bg-[var(--color-surface)] hover:text-[var(--color-text)]";
 
 type GoalTagProps = {
   tag: string;
@@ -23,13 +23,20 @@ type GoalTagProps = {
  * @param props.className - 칩에 더할 클래스
  */
 export default function GoalTag({ tag, onRemove, className = "" }: GoalTagProps) {
-  const chipClassName = [goalTagClassName, onRemove ? "gap-1 pr-1" : "", className].filter(Boolean).join(" ");
+  const chipClassName = [goalTagClassName, onRemove ? "gap-1 pr-1" : "", className]
+    .filter(Boolean)
+    .join(" ");
 
   return (
     <span title={tag} className={chipClassName}>
       <span className="min-w-0 truncate">{tag}</span>
       {onRemove ? (
-        <button type="button" aria-label={`${tag} 삭제`} onClick={onRemove} className={goalTagRemoveClassName}>
+        <button
+          type="button"
+          aria-label={`${tag} 삭제`}
+          onClick={onRemove}
+          className={goalTagRemoveClassName}
+        >
           <AppIcon icon={X} size="xs" />
         </button>
       ) : null}

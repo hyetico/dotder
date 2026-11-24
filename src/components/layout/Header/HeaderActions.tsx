@@ -1,8 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import { createContext, useContext, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
-import Link from "next/link";
 
 import { buttonIconHitClassName } from "@/components/ui/button/buttonSize";
 import DropdownMenu, { DropdownMenuLink } from "@/components/ui/DropdownMenu";
@@ -46,7 +46,9 @@ export function HeaderActionsSlot() {
     return null;
   }
 
-  return <div ref={context.setSlot} className="flex shrink-0 items-center gap-2 empty:hidden" />;
+  const { setSlot } = context;
+
+  return <div ref={setSlot} className="flex shrink-0 items-center gap-2 empty:hidden" />;
 }
 
 /**
@@ -96,21 +98,21 @@ export function headerIconButtonClassName(pressed = false) {
 
     active:border-transparent
     active:bg-[var(--color-primary)]
-    active:text-white
+    active:text-[var(--color-text-inverse)]
 
     ${
       pressed
         ? `
           border-transparent
           bg-[var(--color-primary)]
-          text-white
+          text-[var(--color-text-inverse)]
 
           hover:bg-[var(--color-primary-hover)]
-          hover:text-white
+          hover:text-[var(--color-text-inverse)]
         `
         : `
           border-[var(--color-border)]
-          bg-white
+          bg-[var(--color-surface)]
           text-[var(--color-text)]
 
           hover:bg-[var(--color-hover-soft)]
@@ -148,7 +150,7 @@ const headerActionClassName = `
 const headerActionToneClassName = {
   default: `
     border-[var(--color-border)]
-    bg-white
+    bg-[var(--color-surface)]
     text-[var(--color-text)]
 
     hover:bg-[var(--color-hover-soft)]
@@ -159,7 +161,7 @@ const headerActionToneClassName = {
 
     border-transparent
     bg-primary-gradient
-    text-white
+    text-[var(--color-text-inverse)]
   `,
 };
 

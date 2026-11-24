@@ -1,14 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import AdminSelect from "@/features/projects/components/ProjectForm/AdminSelect";
+
 import { fieldPaddingClassName } from "@/components/ui/fieldControl";
-import { getTeamMembers } from "@/lib/mock/teamMembers";
-import { mockUsers } from "@/lib/mock/users";
-import { parseProjectTeamSelection } from "@/features/projects/utils/projectTeam";
+
+import AdminSelect from "@/features/projects/components/ProjectForm/AdminSelect";
+import { FormLabel } from "@/features/projects/components/ProjectForm/FormParts";
 import { teamOptions } from "@/features/projects/constants/projectFormDefaults";
 import { getProjectAdminGuideItems } from "@/features/projects/constants/projectFormGuides";
-import { FormLabel } from "@/features/projects/components/ProjectForm/FormParts";
+import { parseProjectTeamSelection } from "@/features/projects/utils/projectTeam";
+
+import { getTeamMembers } from "@/lib/mock/teamMembers";
+import { mockUsers } from "@/lib/mock/users";
 
 export type ProjectAdminSummary = {
   name: string;
@@ -30,7 +33,7 @@ function AdminPerson({ name, image, caption }: { name: string; image?: string; c
   return (
     <div className="flex min-w-0 flex-1 items-center gap-2">
       {image ? (
-        <span className="h-9 w-9 shrink-0 overflow-hidden rounded-full bg-gray-200">
+        <span className="h-9 w-9 shrink-0 overflow-hidden rounded-full bg-[var(--color-hover-strong)]">
           <img src={image} alt={`${name} 프로필`} className="h-full w-full object-cover" />
         </span>
       ) : (

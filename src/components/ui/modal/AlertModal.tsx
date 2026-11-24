@@ -12,11 +12,10 @@ import {
   type ReactNode,
 } from "react";
 
-import { AppIcon, Info, TriangleAlert, type LucideIcon } from "@/components/ui/icon";
-
-import Modal from "@/components/ui/modal/Modal";
 import PrimaryButton from "@/components/ui/button/PrimaryButton";
 import SecondaryButton from "@/components/ui/button/SecondaryButton";
+import { AppIcon, Info, TriangleAlert, type LucideIcon } from "@/components/ui/icon";
+import Modal from "@/components/ui/modal/Modal";
 
 export type AlertTone = "default" | "info" | "warning" | "danger";
 
@@ -106,7 +105,7 @@ export default function AlertModal({
       isOpen={isOpen}
       onClose={onClose}
       maxWidthClassName="max-w-[320px]"
-      zIndexClassName="z-[200]"
+      zIndexClassName="z-[var(--z-modal)]"
       labelledBy={titleId}
       describedBy={description ? descriptionId : undefined}
     >
@@ -121,7 +120,7 @@ export default function AlertModal({
         <Modal.Body>
           <p
             id={descriptionId}
-            className="text-body-sm text-center whitespace-pre-line text-[var(--color-text)]"
+            className="text-caption text-center whitespace-pre-line text-[var(--color-text)]"
           >
             {description}
           </p>
@@ -140,7 +139,7 @@ export default function AlertModal({
             type="button"
             onClick={onConfirm}
             autoFocus={!focusCancel}
-            className="inline-flex h-[var(--button-height-modal)] items-center justify-center rounded-[var(--radius-sm)] bg-red-500 px-[var(--button-px-modal)] text-[length:var(--button-font)] leading-[var(--button-line)] font-medium whitespace-nowrap text-white transition-colors duration-150 hover:bg-red-600 active:bg-red-700"
+            className="inline-flex h-[var(--button-height-modal)] items-center justify-center rounded-[var(--radius-sm)] bg-[var(--color-danger)] px-[var(--button-px-modal)] text-[length:var(--button-font)] leading-[var(--button-line)] font-medium whitespace-nowrap text-[var(--color-text-inverse)] transition-colors duration-150 hover:bg-[var(--color-danger)] active:bg-[var(--color-danger)]"
           >
             {confirmLabel}
           </button>

@@ -7,7 +7,7 @@ export type Team = {
 export const mockTeams: Team[] = [
   {
     id: 1,
-    name: "ProjectFlow 팀",
+    name: "Dotder 팀",
     icon: "🚀",
   },
   {

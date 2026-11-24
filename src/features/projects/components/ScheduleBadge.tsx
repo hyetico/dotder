@@ -1,14 +1,14 @@
-import type { ReactNode } from "react";
-
 import { AppIcon, Calendar } from "@/components/ui/icon";
 
 import { getProjectStatusStyles } from "@/features/projects/utils/projectUtils";
 
+import type { ReactNode } from "react";
+
 export type ScheduleTone = "delayed" | "done" | "remaining";
 
 const scheduleToneClassName = {
-  done: "bg-[linear-gradient(135deg,#ecfdf5_0%,#a7f3d0_52%,#6ee7b7_100%)] text-emerald-800",
-  remaining: "bg-[linear-gradient(135deg,#eff6ff_0%,#bfdbfe_52%,#93c5fd_100%)] text-blue-700",
+  done: "bg-[var(--color-success-soft)] text-[var(--color-success-text)]",
+  remaining: "bg-[var(--color-info-soft)] text-[var(--color-info-text)]",
 } as const;
 
 export function getScheduleBadgeClassName(tone: ScheduleTone) {

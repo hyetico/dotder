@@ -1,26 +1,23 @@
 "use client";
 
-import { Suspense, useMemo, useState } from "react";
-
 import { useSearchParams } from "next/navigation";
+import { Suspense, useMemo, useState } from "react";
 
 import { useQuery } from "@tanstack/react-query";
 
-import HoldAddNotice from "@/features/projects/components/HoldAddNotice";
-import { AppIcon, CheckCircle2, Circle, ListTodo, LoaderCircle, Plus } from "@/components/ui/icon";
-import type { StatusFilterChipItem } from "@/components/ui/StatusFilterChips";
-
-import CreateTaskButton from "@/features/tasks/components/board/CreateTaskButton";
 import PageInset from "@/components/layout/pages/Page/PageInset";
-import TaskCalendarView from "@/features/tasks/components/TaskCalendarView";
-import TasksToolbar from "@/features/tasks/components/TasksToolbar";
-import TaskBoardClient from "@/features/tasks/components/board/TaskBoardClient";
 import PrimaryButton from "@/components/ui/button/PrimaryButton";
+import { AppIcon, CheckCircle2, Circle, ListTodo, LoaderCircle, Plus } from "@/components/ui/icon";
 
 import { getProjects } from "@/features/projects/api/projects";
-import { getTasks } from "@/features/tasks/api/tasks";
+import HoldAddNotice from "@/features/projects/components/HoldAddNotice";
 import { useCurrentProjectScope } from "@/features/projects/hooks/useCurrentProjectScope";
 import { canAddProjectItems, holdAddNoticeMessage } from "@/features/projects/utils/projectUtils";
+import { getTasks } from "@/features/tasks/api/tasks";
+import CreateTaskButton from "@/features/tasks/components/board/CreateTaskButton";
+import TaskBoardClient from "@/features/tasks/components/board/TaskBoardClient";
+import TaskCalendarView from "@/features/tasks/components/TaskCalendarView";
+import TasksToolbar from "@/features/tasks/components/TasksToolbar";
 import { useTaskMutations } from "@/features/tasks/hooks/useTaskMutations";
 import {
   filterTasksBySearchQuery,
@@ -28,8 +25,11 @@ import {
   taskTodayStamp,
   type TaskFilterTab,
 } from "@/features/tasks/utils/taskUtils";
+
 import { parseTaskViewMode } from "@/lib/projectRoutes";
 import { projectQueryKeys, taskQueryKeys } from "@/lib/queryKeys";
+
+import type { StatusFilterChipItem } from "@/components/ui/StatusFilterChips";
 
 const tasksPageClassName = "space-y-4 pt-3 md:space-y-6 md:pt-6";
 
@@ -80,14 +80,14 @@ function TasksPageLayout() {
       id: "all",
       label: "전체",
       count: searchedTasks.length,
-      iconColor: "#6B7280",
+      iconColor: "var(--color-text-muted)",
       icon: <AppIcon icon={ListTodo} size="sm" />,
     },
     {
       id: "TODO",
       label: "할 일",
       count: searchedTasks.filter((task) => matchesTaskStatusFilter(task, "TODO", today)).length,
-      iconColor: "#9CA3AF",
+      iconColor: "var(--color-neutral-text)",
       icon: <AppIcon icon={Circle} size="sm" />,
     },
     {
@@ -95,21 +95,21 @@ function TasksPageLayout() {
       label: "진행 중",
       count: searchedTasks.filter((task) => matchesTaskStatusFilter(task, "IN_PROGRESS", today))
         .length,
-      iconColor: "#3B82F6",
+      iconColor: "var(--color-info-text)",
       icon: <AppIcon icon={LoaderCircle} size="sm" />,
     },
     {
       id: "DONE",
       label: "완료",
       count: searchedTasks.filter((task) => matchesTaskStatusFilter(task, "DONE", today)).length,
-      iconColor: "#10B981",
+      iconColor: "var(--color-success-text)",
       icon: <AppIcon icon={CheckCircle2} size="sm" />,
     },
     {
       id: "DELAYED",
       label: "지연",
       count: searchedTasks.filter((task) => matchesTaskStatusFilter(task, "DELAYED", today)).length,
-      iconColor: "#EF4444",
+      iconColor: "var(--color-danger-text)",
       icon: null,
     },
   ];
@@ -130,14 +130,14 @@ function TasksPageLayout() {
         action={
           hideTaskAdd ? null : (
             <PrimaryButton
-              icon={<AppIcon icon={Plus} size="md" className="text-white" />}
+              icon={<AppIcon icon={Plus} size="md" className="text-[var(--color-text-inverse)]" />}
               aria-label="새 태스크"
               title={taskAddDisabled ? holdAddNoticeMessage : "새 태스크"}
               disabled={taskAddDisabled}
               onClick={() => setCreateOpen(true)}
-              className="!h-[var(--button-icon)] !w-[var(--button-icon)] justify-center !px-0 min-[1025px]:!h-[var(--button-height)] min-[1025px]:!w-auto min-[1025px]:!px-[var(--button-px)]"
+              className="!h-[var(--button-icon)] !w-[var(--button-icon)] justify-center !px-0 lg:!h-[var(--button-height)] lg:!w-auto lg:!px-[var(--button-px)]"
             >
-              <span className="hidden min-[1025px]:inline">새 태스크</span>
+              <span className="hidden lg:inline">새 태스크</span>
             </PrimaryButton>
           )
         }

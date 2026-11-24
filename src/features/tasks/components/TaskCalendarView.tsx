@@ -2,20 +2,17 @@
 
 import { useMemo, useState } from "react";
 
-import { AppIcon, ChevronLeft, ChevronRight, Plus } from "@/components/ui/icon";
-
 import { useQuery } from "@tanstack/react-query";
 
-import CreateTaskButton from "@/features/tasks/components/board/CreateTaskButton";
-import EditTaskModal from "@/features/tasks/modals/EditTaskModal";
+import { AppIcon, ChevronLeft, ChevronRight, Plus } from "@/components/ui/icon";
 import Modal from "@/components/ui/modal/Modal";
 
 import { getProjects } from "@/features/projects/api/projects";
-import { getTasks } from "@/features/tasks/api/tasks";
-
-import { useTaskMutations } from "@/features/tasks/hooks/useTaskMutations";
 import { canAddProjectItems } from "@/features/projects/utils/projectUtils";
-
+import { getTasks } from "@/features/tasks/api/tasks";
+import CreateTaskButton from "@/features/tasks/components/board/CreateTaskButton";
+import { useTaskMutations } from "@/features/tasks/hooks/useTaskMutations";
+import EditTaskModal from "@/features/tasks/modals/EditTaskModal";
 import {
   filterTasksBySearchQuery,
   matchesTaskStatusFilter,
@@ -23,11 +20,11 @@ import {
   type TaskFilterTab,
 } from "@/features/tasks/utils/taskUtils";
 
+import { formatLongDate, toDateKey } from "@/lib/date";
 import { projectQueryKeys, taskQueryKeys } from "@/lib/queryKeys";
 
-import type { ProjectScope } from "@/lib/projectRoutes";
-
 import type { Task, TaskStatus } from "@/features/tasks/types/task";
+import type { ProjectScope } from "@/lib/projectRoutes";
 
 type TaskCalendarViewProps = {
   projectScope: ProjectScope;
@@ -53,26 +50,26 @@ const statusStyle: Record<
 > = {
   TODO: {
     label: "TODO",
-    bar: "bg-slate-400",
+    bar: "bg-[var(--color-neutral)]",
   },
 
   IN_PROGRESS: {
     label: "IN PROGRESS",
-    bar: "bg-blue-600",
+    bar: "bg-[var(--color-info)]",
   },
 
   DONE: {
     label: "DONE",
-    bar: "bg-green-600",
+    bar: "bg-[var(--color-success)]",
   },
 };
 
 const priorityStyle: Record<TaskPriority, string> = {
-  HIGH: "bg-red-50 text-red-500",
+  HIGH: "bg-[var(--color-danger-soft)] text-[var(--color-danger-text)]",
 
-  MEDIUM: "bg-orange-50 text-orange-500",
+  MEDIUM: "bg-[var(--color-warning-soft)] text-[var(--color-warning-text)]",
 
-  LOW: "bg-emerald-50 text-emerald-600",
+  LOW: "bg-[var(--color-success-soft)] text-[var(--color-success-text)]",
 };
 
 const priorityLabel: Record<TaskPriority, string> = {
@@ -82,33 +79,6 @@ const priorityLabel: Record<TaskPriority, string> = {
 };
 
 const weekDays = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
-
-/*
- * Date를 Task dueDate 형식과 동일하게 변환
- *
- * 예:
- * 2026-09-03
- */
-function formatDateKey(date: Date) {
-  const year = date.getFullYear();
-
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-
-  const day = String(date.getDate()).padStart(2, "0");
-
-  return `${year}-${month}-${day}`;
-}
-
-/*
- * dateKey → Modal 제목용
- *
- * 예: 2026-09-03 → 2026년 9월 3일
- */
-function formatDateLabel(dateKey: string) {
-  const [year, month, day] = dateKey.split("-").map(Number);
-
-  return `${year}년 ${month}월 ${day}일`;
-}
 
 type CalendarTaskCardProps = {
   task: Task;
@@ -133,7 +103,7 @@ function CalendarTaskCard({
         type="button"
         aria-label={`${task.title} 상세 보기`}
         onClick={onClick}
-        className="group flex w-full max-w-full min-w-0 items-stretch gap-1 overflow-hidden rounded-[2px] py-px text-left transition-colors hover:bg-[var(--color-hover-soft)]"
+        className="group flex w-full max-w-full min-w-0 items-stretch gap-1 overflow-hidden rounded-[var(--radius-xs)] py-px text-left transition-colors hover:bg-[var(--color-hover-soft)]"
         title={task.title}
       >
         <span
@@ -141,7 +111,7 @@ function CalendarTaskCard({
           aria-hidden="true"
         />
 
-        <span className="min-w-0 flex-1 basis-0 overflow-hidden text-[10px] leading-[14px] text-ellipsis whitespace-nowrap text-[var(--color-text-secondary)] group-hover:text-[var(--color-text)]">
+        <span className="min-w-0 flex-1 basis-0 overflow-hidden text-2xs leading-[14px] text-ellipsis whitespace-nowrap text-[var(--color-text-secondary)] group-hover:text-[var(--color-text)]">
           {task.title}
         </span>
       </button>
@@ -153,7 +123,7 @@ function CalendarTaskCard({
       type="button"
       aria-label={`${task.title} 상세 보기`}
       onClick={onClick}
-      className="w-full rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-white px-2 py-1.5 text-left transition-colors hover:border-gray-300 hover:bg-[var(--color-hover-soft)]"
+      className="w-full rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-[var(--color-surface)] px-2 py-1.5 text-left transition-colors hover:border-[var(--color-border-strong)] hover:bg-[var(--color-hover-soft)]"
     >
       <div className="flex min-w-0 items-center gap-1.5">
         <span className={`h-3.5 w-0.5 shrink-0 rounded-full ${status.bar} `} aria-hidden="true" />
@@ -163,14 +133,14 @@ function CalendarTaskCard({
         </p>
 
         <span
-          className={`shrink-0 rounded-full px-1.5 py-0.5 text-[10px] font-medium ${priorityStyle[task.priority]} `}
+          className={`shrink-0 rounded-full px-1.5 py-0.5 text-2xs font-medium ${priorityStyle[task.priority]} `}
         >
           {priorityLabel[task.priority]}
         </span>
       </div>
 
       {showProjectName && (
-        <p className="mt-1 truncate text-[10px] text-[var(--color-text-muted)]">
+        <p className="mt-1 truncate text-2xs text-[var(--color-text-muted)]">
           {projectName ?? "알 수 없는 프로젝트"}
         </p>
       )}
@@ -213,7 +183,7 @@ function createCalendarDays(currentMonth: Date): CalendarDay[] {
       return {
         date,
 
-        dateKey: formatDateKey(date),
+        dateKey: toDateKey(date),
 
         day: date.getDate(),
 
@@ -348,7 +318,7 @@ export default function TaskCalendarView({
   /*
    * 오늘 날짜
    */
-  const todayKey = formatDateKey(new Date());
+  const todayKey = toDateKey(new Date());
 
   /*
    * 이전 달
@@ -394,13 +364,13 @@ export default function TaskCalendarView({
   if (isError) {
     return (
       <div className="flex h-[var(--tasks-calendar-height)] shrink-0 items-center justify-center rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)]">
-        <p className="text-body text-red-500">Task를 불러오지 못했습니다.</p>
+        <p className="text-body text-[var(--color-danger-text)]">Task를 불러오지 못했습니다.</p>
       </div>
     );
   }
 
   return (
-    <div className="flex h-[var(--tasks-calendar-height)] shrink-0 flex-col overflow-hidden rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] shadow-[var(--shadow-card)]">
+    <div className="flex h-[var(--tasks-calendar-height)] shrink-0 flex-col overflow-hidden rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)]">
       {/*
        * =====================================================
        * Calendar Header
@@ -412,11 +382,11 @@ export default function TaskCalendarView({
             {currentMonth.getFullYear()}년 {currentMonth.getMonth() + 1}월
           </h2>
 
-          <span className="shrink-0 rounded-full bg-gray-100 px-2 py-1 text-xs text-[var(--color-text-secondary)]">
+          <span className="shrink-0 rounded-full bg-[var(--color-hover)] px-2 py-1 text-xs text-[var(--color-text-secondary)]">
             {currentMonthTaskCount}
           </span>
 
-          <span className="shrink-0 rounded-full bg-gray-100 px-2 py-1 text-xs text-[var(--color-text-secondary)]">
+          <span className="shrink-0 rounded-full bg-[var(--color-hover)] px-2 py-1 text-xs text-[var(--color-text-secondary)]">
             마감일 기준
           </span>
         </div>
@@ -428,7 +398,7 @@ export default function TaskCalendarView({
           <button
             type="button"
             onClick={handleToday}
-            className="text-body-sm h-9 rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-white px-3 font-medium text-[var(--color-text)] transition-colors hover:bg-[var(--color-hover-soft)]"
+            className="text-caption h-9 rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-[var(--color-surface)] px-3 font-medium text-[var(--color-text)] transition-colors hover:bg-[var(--color-hover-soft)]"
           >
             오늘
           </button>
@@ -437,7 +407,7 @@ export default function TaskCalendarView({
             type="button"
             onClick={handlePreviousMonth}
             aria-label="이전 달"
-            className="flex h-9 w-9 items-center justify-center rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-white text-[var(--color-text-secondary)] transition-colors hover:bg-[var(--color-hover-soft)] hover:text-[var(--color-text)]"
+            className="flex h-9 w-9 items-center justify-center rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-secondary)] transition-colors hover:bg-[var(--color-hover-soft)] hover:text-[var(--color-text)]"
           >
             <AppIcon icon={ChevronLeft} size="md" />
           </button>
@@ -446,7 +416,7 @@ export default function TaskCalendarView({
             type="button"
             onClick={handleNextMonth}
             aria-label="다음 달"
-            className="flex h-9 w-9 items-center justify-center rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-white text-[var(--color-text-secondary)] transition-colors hover:bg-[var(--color-hover-soft)] hover:text-[var(--color-text)]"
+            className="flex h-9 w-9 items-center justify-center rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-secondary)] transition-colors hover:bg-[var(--color-hover-soft)] hover:text-[var(--color-text)]"
           >
             <AppIcon icon={ChevronRight} size="md" />
           </button>
@@ -472,7 +442,7 @@ export default function TaskCalendarView({
             {weekDays.map((weekDay) => (
               <div
                 key={weekDay}
-                className="border-r border-[var(--color-border)] px-2 py-0.5 text-center text-[10px] leading-[14px] font-medium text-[var(--color-text-secondary)] last:border-r-0"
+                className="border-r border-[var(--color-border)] px-2 py-0.5 text-center text-2xs leading-[14px] font-medium text-[var(--color-text-secondary)] last:border-r-0"
               >
                 {weekDay}
               </div>
@@ -505,7 +475,9 @@ export default function TaskCalendarView({
                 <div
                   key={calendarDay.dateKey}
                   className={`flex h-full min-h-0 min-w-0 flex-col overflow-hidden border-r border-b border-[var(--color-border)] px-1.5 py-1 ${
-                    !calendarDay.isCurrentMonth ? "bg-[var(--color-hover-soft)]/50" : "bg-white"
+                    !calendarDay.isCurrentMonth
+                      ? "bg-[var(--color-hover-soft)]/50"
+                      : "bg-[var(--color-surface)]"
                   } ${(index + 1) % 7 === 0 ? "border-r-0" : ""} `}
                 >
                   {/*
@@ -516,9 +488,9 @@ export default function TaskCalendarView({
                   <div className="flex shrink-0 items-center justify-between gap-1">
                     <div className="flex min-w-0 items-center gap-1">
                       <span
-                        className={`flex h-5 min-w-5 items-center justify-center rounded-full px-0.5 text-[12px] leading-none font-medium ${
+                        className={`flex h-5 min-w-5 items-center justify-center rounded-full px-0.5 text-xs leading-none font-medium ${
                           isToday
-                            ? "bg-primary-gradient text-white"
+                            ? "bg-primary-gradient text-[var(--color-text-inverse)]"
                             : calendarDay.isCurrentMonth
                               ? "text-[var(--color-text)]"
                               : "text-[var(--color-text-muted)]"
@@ -533,16 +505,16 @@ export default function TaskCalendarView({
                             className="
                               shrink-0
 
-                              rounded-[3px]
+                              rounded-[var(--radius-xs)]
 
-                              bg-red-500
+                              bg-[var(--color-danger)]
 
                               px-1
 
-                              text-[9px]
+                              text-2xs
                               leading-[14px]
                               font-medium
-                              text-white
+                              text-[var(--color-text-inverse)]
                             "
                           >
                             {
@@ -562,7 +534,7 @@ export default function TaskCalendarView({
                           : `${calendarDay.day}일 Task 추가`
                       }
                       onClick={() => setCreateTaskDateKey(calendarDay.dateKey)}
-                      className="flex h-4 w-4 shrink-0 items-center justify-center rounded-[3px] text-[var(--color-text-muted)] transition-colors hover:bg-gray-100 hover:text-[var(--color-text)] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-transparent disabled:hover:text-[var(--color-text-muted)]"
+                      className="flex h-4 w-4 shrink-0 items-center justify-center rounded-[var(--radius-xs)] text-[var(--color-text-muted)] transition-colors hover:bg-[var(--color-hover)] hover:text-[var(--color-text)] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-transparent disabled:hover:text-[var(--color-text-muted)]"
                     >
                       <AppIcon icon={Plus} size="xs" />
                     </button>
@@ -606,7 +578,7 @@ export default function TaskCalendarView({
                                */}
                               <span className="w-0.5 shrink-0" aria-hidden="true" />
 
-                              <span className="min-w-0 flex-1 truncate text-[10px] leading-[14px] font-normal text-[var(--color-text-muted)] group-hover:text-[var(--color-text-secondary)]">
+                              <span className="min-w-0 flex-1 truncate text-2xs leading-[14px] font-normal text-[var(--color-text-muted)] group-hover:text-[var(--color-text-secondary)]">
                                 {hiddenTaskCount}개 더 보기
                               </span>
                             </button>
@@ -614,14 +586,6 @@ export default function TaskCalendarView({
                         </div>
                       </div>
                     </div>
-
-                    {/* <div
-                        className="
-                          min-h-0
-                          flex-1
-                        "
-                        aria-hidden="true"
-                      /> */}
                   </div>
                 </div>
               );
@@ -653,7 +617,7 @@ export default function TaskCalendarView({
        */}
       <Modal isOpen={expandedDateKey !== null} onClose={() => setExpandedDateKey(null)}>
         <Modal.Header
-          title={expandedDateKey ? `${formatDateLabel(expandedDateKey)} Task` : "Task 목록"}
+          title={expandedDateKey ? `${formatLongDate(expandedDateKey)} Task` : "Task 목록"}
           description={
             expandedDateKey ? `총 ${(tasksByDate[expandedDateKey] ?? []).length}개` : undefined
           }

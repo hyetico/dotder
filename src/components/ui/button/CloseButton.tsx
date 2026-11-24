@@ -1,9 +1,8 @@
-import type { ButtonHTMLAttributes } from "react";
-
 import { buttonIconHitClassName } from "@/components/ui/button/buttonSize";
-
 import AppIcon from "@/components/ui/icon/AppIcon";
 import { X } from "@/components/ui/icon/icons";
+
+import type { ButtonHTMLAttributes } from "react";
 
 type CloseButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "children"> & {
   label?: string;
@@ -12,7 +11,8 @@ type CloseButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "children"
 /**
  * CloseButton
  *
- * 모달, 검색, 드로어를 닫는 버튼입니다.
+ * 모달, 검색, 드로어를 닫는 버튼입니다. 오버레이의 닫기는 이 X 하나만 쓴다 (handoff B3).
+ * 마우스를 올리면 "닫기 · Esc" 툴팁이 보인다.
  *
  * @param props - CloseButton 컴포넌트 Props
  * @param props.label - 버튼 이름. 기본값은 닫기
@@ -29,7 +29,9 @@ export default function CloseButton({
       {...props}
       type={type}
       aria-label={label}
-      className={` ${buttonIconHitClassName} flex size-[var(--button-icon)] shrink-0 cursor-pointer items-center justify-center rounded-[var(--radius-sm)] text-[var(--color-primary)] transition-colors hover:bg-gray-100 hover:text-[var(--color-primary)] ${className} `}
+      title="닫기 · Esc"
+      aria-keyshortcuts="Escape"
+      className={` ${buttonIconHitClassName} flex size-[var(--button-icon)] shrink-0 cursor-pointer items-center justify-center rounded-[var(--radius-sm)] text-[var(--color-primary)] transition-colors hover:bg-[var(--color-hover)] hover:text-[var(--color-primary)] ${className} `}
     >
       <AppIcon icon={X} size="md" />
     </button>

@@ -5,6 +5,7 @@ import { Controller, type Control, type FieldErrors } from "react-hook-form";
 import DatePicker from "@/components/ui/date-picker/DatePicker";
 import FieldNotice from "@/components/ui/FieldNotice";
 import StatusChoiceButton from "@/components/ui/StatusChoiceButton";
+
 import { FieldError, FormLabel } from "@/features/projects/components/ProjectForm/FormParts";
 import {
   getProjectPeriodGuideItems,
@@ -30,7 +31,7 @@ export function StatusRadioMark({ selected }: { selected: boolean }) {
     <span
       aria-hidden
       className={`flex h-[18px] w-[18px] items-center justify-center rounded-full border-2 ${
-        selected ? "border-[var(--color-field-focus)]" : "border-gray-300"
+        selected ? "border-[var(--color-field-focus)]" : "border-[var(--color-border-strong)]"
       }`}
     >
       {selected ? <span className="h-2 w-2 rounded-full bg-[var(--color-field-focus)]" /> : null}
@@ -129,7 +130,7 @@ export function WizardScheduleStep({
 
         <div className="grid gap-3 md:grid-cols-2">
           <div className="min-w-0">
-            <p className="text-caption mb-1.5 text-black">시작일</p>
+            <p className="text-caption mb-1.5 text-[var(--color-text)]">시작일</p>
 
             <Controller
               name="startDate"
@@ -151,7 +152,7 @@ export function WizardScheduleStep({
           </div>
 
           <div className="min-w-0">
-            <p className="text-caption mb-1.5 text-black">마감일</p>
+            <p className="text-caption mb-1.5 text-[var(--color-text)]">마감일</p>
 
             <Controller
               name="endDate"

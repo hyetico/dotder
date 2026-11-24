@@ -2,32 +2,31 @@
 
 import { useMemo, useState, type ReactNode } from "react";
 
-import ProjectBoardCard from "@/features/projects/components/ProjectBoardCard";
+import Badge from "@/components/ui/badge/Badge";
+import StatusFilterBar from "@/components/ui/StatusFilterBar";
+
 import FavoriteEditToolbar from "@/features/projects/components/FavoriteEditToolbar";
 import FavoriteRemoveButton, {
   favoriteRemoveButtonFloatingClassName,
 } from "@/features/projects/components/FavoriteRemoveButton";
-import ProjectListRow, {
-  ProjectListTable,
-} from "@/features/projects/content/ProjectsPageContent/ProjectListRow";
-import Badge from "@/components/ui/badge/Badge";
-import StatusFilterBar from "@/components/ui/StatusFilterBar";
-import ProjectViewToggle, {
-  type ProjectCardViewMode,
-} from "@/features/projects/content/ProjectsPageContent/ProjectViewToggle";
+import ProjectBoardCard from "@/features/projects/components/ProjectBoardCard";
 import {
   compareProjects,
   getProjectStatusFilters,
   matchesProjectFilter,
   type ProjectFilterTab,
 } from "@/features/projects/constants/projectFilters";
-
+import ProjectListRow, {
+  ProjectListTable,
+} from "@/features/projects/content/ProjectsPageContent/ProjectListRow";
+import ProjectViewToggle, {
+  type ProjectCardViewMode,
+} from "@/features/projects/content/ProjectsPageContent/ProjectViewToggle";
 import { computeProjectStats } from "@/features/projects/utils/projectUtils";
 
 import type { ProjectListItem } from "@/features/projects/types/project";
 
-const projectBoardGridClassName =
-  "grid min-w-0 grid-cols-1 gap-6 lg:grid-cols-2 xl:grid-cols-3 min-[1440px]:grid-cols-4 md:[html[data-sidebar=closed]_&]:grid-cols-2 lg:[html[data-sidebar=closed]_&]:grid-cols-3 xl:[html[data-sidebar=closed]_&]:grid-cols-4 min-[1440px]:[html[data-sidebar=open]_&]:grid-cols-4 min-[1440px]:[html[data-sidebar=closed]_&]:grid-cols-4";
+const projectBoardGridClassName = "grid min-w-0 grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3";
 const projectToolbarClassName = "flex min-w-0 flex-col gap-4";
 const projectListSectionClassName = "min-w-0 space-y-4 border-t border-[var(--color-border)] pt-5";
 
@@ -209,7 +208,7 @@ export default function ProjectListSection({
           <div className="flex min-w-0 items-center gap-2">
             <h2 className="text-section-title text-[var(--color-text)]">{sectionTitle}</h2>
             <Badge
-              className="h-6! bg-gray-100 px-2.5! text-sm! text-[var(--color-text-secondary)]"
+              className="h-6! bg-[var(--color-hover)] px-2.5! text-sm! text-[var(--color-text-secondary)]"
               title={countTitle ?? `${sectionTitle} ${visibleProjects.length}개`}
             >
               {countLabel ?? visibleProjects.length}
@@ -245,7 +244,7 @@ export default function ProjectListSection({
           </section>
         ) : visibleProjects.length > 0 ? (
           <>
-            <section className="flex min-w-0 flex-col gap-4 min-[1025px]:hidden">
+            <section className="flex min-w-0 flex-col gap-4 lg:hidden">
               {visibleProjects.map((project) => (
                 <ProjectListRow
                   key={project.id}
@@ -264,7 +263,7 @@ export default function ProjectListSection({
                 />
               ))}
             </section>
-            <div className="hidden min-[1025px]:block">
+            <div className="hidden lg:block">
               <ProjectListTable
                 projects={visibleProjects}
                 selectedIds={editing ? selectedIds : undefined}
@@ -280,8 +279,8 @@ export default function ProjectListSection({
             </div>
           </>
         ) : (
-          <div className="rounded-[var(--radius-md)] border border-dashed border-[var(--color-border)] bg-white px-6 py-16 text-center">
-            <p className="text-body-sm text-[var(--color-text-secondary)]">{emptyLabel}</p>
+          <div className="rounded-[var(--radius-md)] border border-dashed border-[var(--color-border)] bg-[var(--color-surface)] px-6 py-16 text-center">
+            <p className="text-caption text-[var(--color-text-secondary)]">{emptyLabel}</p>
           </div>
         )}
       </div>

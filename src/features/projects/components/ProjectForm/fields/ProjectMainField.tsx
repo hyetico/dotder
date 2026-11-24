@@ -1,14 +1,16 @@
 "use client";
 
 import { Controller, type Control } from "react-hook-form";
+
 import CrownBadge from "@/components/ui/badge/CrownBadge";
 import { fieldPaddingClassName } from "@/components/ui/fieldControl";
 import Switch from "@/components/ui/Switch";
-import { type ProjectFormData } from "@/features/projects/schemas/projectSchema";
-import { type Project } from "@/features/projects/types/project";
-import { getProjectMainGuideItems } from "@/features/projects/constants/projectFormGuides";
+
 import { FormLabel } from "@/features/projects/components/ProjectForm/FormParts";
 import { mainSettingTitle } from "@/features/projects/constants/projectFormDefaults";
+import { getProjectMainGuideItems } from "@/features/projects/constants/projectFormGuides";
+import { type ProjectFormData } from "@/features/projects/schemas/projectSchema";
+import { type Project } from "@/features/projects/types/project";
 
 const changeBoxClassName =
   "grid min-w-0 w-full grid-cols-1 overflow-hidden rounded-[var(--radius-md)] border border-[var(--color-border)] md:grid-cols-2";
@@ -134,7 +136,10 @@ export function ProjectMainField({
                 <div className={`flex items-center gap-3 py-3 ${fieldPaddingClassName} `}>
                   <CrownBadge title="메인 프로젝트" />
 
-                  <MainProjectChangeBox nameValue={nameValue} currentMainProject={currentMainProject} />
+                  <MainProjectChangeBox
+                    nameValue={nameValue}
+                    currentMainProject={currentMainProject}
+                  />
 
                   {settingSwitch}
                 </div>

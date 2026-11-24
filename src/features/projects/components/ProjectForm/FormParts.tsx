@@ -1,8 +1,11 @@
 "use client";
 
 import { type ReactNode } from "react";
+
+import PageHeading from "@/components/layout/pages/Page/PageHeading";
 import { AppIcon, type LucideIcon } from "@/components/ui/icon";
 import InfoTooltip, { type InfoTooltipItem } from "@/components/ui/InfoTooltip";
+
 import { tooltipWidthClassName } from "@/features/projects/constants/projectFormDefaults";
 
 /**
@@ -16,13 +19,12 @@ import { tooltipWidthClassName } from "@/features/projects/constants/projectForm
  */
 export function FormPageTitle({ title, description }: { title: string; description?: string }) {
   return (
-    <div className="hidden shrink-0 px-[var(--page-padding-x)] pt-6 pb-4 md:block">
-      <h1 className="text-page-title text-[var(--color-text)]">{title}</h1>
-
-      {description ? (
-        <p className="text-body mt-1 text-[var(--color-text-secondary)]">{description}</p>
-      ) : null}
-    </div>
+    <PageHeading
+      variant="form"
+      title={title}
+      description={description}
+      className="hidden shrink-0 px-[var(--page-padding-x)] pt-6 pb-4 md:block"
+    />
   );
 }
 
@@ -64,7 +66,7 @@ export function FormSectionIntro({
           <span className="text-card-title hidden text-[var(--color-text)] md:inline">{title}</span>
         </h2>
 
-        <p className="text-body-sm mt-1 text-[var(--color-text-secondary)] md:mt-0.5">
+        <p className="text-caption mt-1 text-[var(--color-text-secondary)] md:mt-0.5">
           <span className="md:hidden">{mobileDescription ?? description}</span>
 
           <span className="hidden md:inline">{description}</span>
@@ -82,7 +84,7 @@ export function FormSectionIntro({
       <div className="min-w-0">
         <h2 className="text-card-title text-[var(--color-text)]">{title}</h2>
 
-        <p className="text-body-sm mt-0.5 text-[var(--color-text-secondary)]">{description}</p>
+        <p className="text-caption mt-0.5 text-[var(--color-text-secondary)]">{description}</p>
       </div>
     </div>
   );

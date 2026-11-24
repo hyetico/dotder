@@ -1,8 +1,10 @@
-import { useEffect, useState } from "react";
-import { getProjectDaysAfterEnd, isProjectDelayed } from "@/features/projects/utils/projectUtils";
+import { useState } from "react";
+
+import { type UseFormSetValue } from "react-hook-form";
+
 import { type ProjectFormData } from "@/features/projects/schemas/projectSchema";
 import { getTomorrowDateValue } from "@/features/projects/utils/projectFormUtils";
-import { type UseFormSetValue } from "react-hook-form";
+import { getProjectDaysAfterEnd, isProjectDelayed } from "@/features/projects/utils/projectUtils";
 
 /**
  * useProjectDeadlineChange
@@ -92,25 +94,10 @@ export function useProjectDeadlineChange({
       ? "완료된 프로젝트는 마감일을 변경할 수 없습니다."
       : null;
 
-  useEffect(() => {
-    if (!isDelayed) {
-      setDeadlineSaveError(null);
-    }
-  }, [isDelayed]);
-
-  useEffect(() => {
-    if (!deadlineToast) {
-      return;
-    }
-
-    const timer = window.setTimeout(() => {
-      setDeadlineToast(null);
-    }, 4000);
-
-    return () => {
-      window.clearTimeout(timer);
-    };
-  }, [deadlineToast]);
+  // 지연이 풀리면 마감 저장 오류도 지운다.
+  if (!isDelayed && deadlineSaveError !== null) {
+    setDeadlineSaveError(null);
+  }
 
   const applyPendingDeadline = (endDate: string, reason: string) => {
     const wasDelayed = isDelayed;

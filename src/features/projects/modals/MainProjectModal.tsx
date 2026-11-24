@@ -2,6 +2,14 @@
 
 import { useMemo, useState } from "react";
 
+import PrimaryButton from "@/components/ui/button/PrimaryButton";
+import SecondaryButton from "@/components/ui/button/SecondaryButton";
+import { useAlert } from "@/components/ui/modal/AlertModal";
+import Modal, {
+  modalSidePaddingClassName,
+  stableListModalPanelClassName,
+} from "@/components/ui/modal/Modal";
+
 import ProjectList, { ListScroll } from "@/features/projects/components/ProjectPicker/ProjectList";
 import ProjectPickerFields from "@/features/projects/components/ProjectPicker/ProjectPickerFields";
 import {
@@ -10,13 +18,6 @@ import {
   matchesProjectPicker,
   sortProjectsByName,
 } from "@/features/projects/utils/projectPicker";
-import PrimaryButton from "@/components/ui/button/PrimaryButton";
-import SecondaryButton from "@/components/ui/button/SecondaryButton";
-import Modal, {
-  modalSidePaddingClassName,
-  stableListModalPanelClassName,
-} from "@/components/ui/modal/Modal";
-import { useAlert } from "@/components/ui/modal/AlertModal";
 
 import type { ProjectFilterTab } from "@/features/projects/constants/projectFilters";
 import type { Project } from "@/features/projects/types/project";
@@ -137,7 +138,7 @@ export default function MainProjectModal({
       onClose={onClose}
       padded={false}
       labelledBy="main-project-modal-title"
-      zIndexClassName="z-[170]"
+      zIndexClassName="z-[var(--z-modal)]"
       maxWidthClassName="max-w-[520px]"
       panelClassName={stableListModalPanelClassName}
     >

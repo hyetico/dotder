@@ -1,10 +1,16 @@
 "use client";
 
 import { useMemo, useRef, useState, type SubmitEvent } from "react";
-import { useForm, type FieldErrors } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import type { ZodType } from "zod";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm, type FieldErrors } from "react-hook-form";
+
+import PageHeading from "@/components/layout/pages/Page/PageHeading";
+
+import { useSyncProjectAccent } from "@/features/projects/components/ProjectAccent";
+import { WizardBasicInfoStep } from "@/features/projects/components/ProjectCreateWizard/steps/WizardBasicInfoStep";
+import { WizardScheduleStep } from "@/features/projects/components/ProjectCreateWizard/steps/WizardScheduleStep";
+import { WizardSettingsStep } from "@/features/projects/components/ProjectCreateWizard/steps/WizardSettingsStep";
 import {
   WizardBottomBar,
   WizardCard,
@@ -14,10 +20,6 @@ import {
   FolderIllustration,
 } from "@/features/projects/components/ProjectCreateWizard/WizardIllustration";
 import { WizardProgress } from "@/features/projects/components/ProjectCreateWizard/WizardProgress";
-import { WizardBasicInfoStep } from "@/features/projects/components/ProjectCreateWizard/steps/WizardBasicInfoStep";
-import { WizardScheduleStep } from "@/features/projects/components/ProjectCreateWizard/steps/WizardScheduleStep";
-import { WizardSettingsStep } from "@/features/projects/components/ProjectCreateWizard/steps/WizardSettingsStep";
-import { useSyncProjectAccent } from "@/features/projects/components/ProjectAccent";
 import { defaultFormValues } from "@/features/projects/constants/projectFormDefaults";
 import {
   projectWizardLastStep,
@@ -33,7 +35,10 @@ import { getProjectAccentColor } from "@/features/projects/utils/projectColors";
 import { scrollToProjectFormError } from "@/features/projects/utils/projectFormUtils";
 import { PROJECT_TEAM_NONE } from "@/features/projects/utils/projectTeam";
 import { getProjectSpanDays } from "@/features/projects/utils/projectUtils";
+
 import { currentUser } from "@/lib/mock/users";
+
+import type { ZodType } from "zod";
 
 const wizardFormDomId = "project-create-wizard";
 
@@ -256,13 +261,13 @@ export default function ProjectCreateWizard({
     >
       <div ref={scrollRef} className="flex min-h-0 flex-1 flex-col md:overflow-y-auto">
         <div className="mx-auto flex w-full max-w-[880px] flex-1 flex-col gap-5 px-[var(--page-padding-x)] pt-3 pb-6 md:gap-5 md:pt-5 md:pb-6">
-          <div className="hidden text-center md:block">
-            <h1 className="text-page-title text-[var(--color-text)]">새 프로젝트 추가</h1>
-
-            <p className="text-body mt-1 text-[var(--color-text-secondary)]">
-              3단계로 새 프로젝트를 빠르고 간단하게 생성하세요.
-            </p>
-          </div>
+          <PageHeading
+            variant="form"
+            align="center"
+            title="새 프로젝트 추가"
+            description="3단계로 새 프로젝트를 빠르고 간단하게 생성하세요."
+            className="hidden md:block"
+          />
 
           <WizardProgress current={step} onStepClick={moveToStep} />
 

@@ -1,12 +1,12 @@
 "use client";
 
-import type { ReactNode } from "react";
-
-import ProjectListItem from "@/features/projects/components/ProjectPicker/ProjectListItem";
-import type { ProjectBadgeMark } from "@/features/projects/components/ProjectBadge";
 import { modalSidePaddingClassName } from "@/components/ui/modal/Modal";
 
+import ProjectListItem from "@/features/projects/components/ProjectPicker/ProjectListItem";
+
+import type { ProjectBadgeMark } from "@/features/projects/components/ProjectBadge";
 import type { Project } from "@/features/projects/types/project";
+import type { ReactNode } from "react";
 
 type ProjectListProps = {
   projects: Project[];
@@ -71,7 +71,7 @@ export default function ProjectList({
 }: ProjectListProps) {
   if (projects.length === 0) {
     return (
-      <p className="text-body-sm px-2 py-8 text-center text-[var(--color-text-secondary)]">
+      <p className="text-caption px-2 py-8 text-center text-[var(--color-text-secondary)]">
         {emptyLabel}
       </p>
     );

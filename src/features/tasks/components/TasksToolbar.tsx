@@ -1,19 +1,18 @@
 "use client";
 
-import type { ReactNode } from "react";
-
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import { CalendarDays, ListTodo } from "@/components/ui/icon";
-
 import SearchInput from "@/components/ui/input/SearchInput";
 import SegmentedIconToggle from "@/components/ui/SegmentedIconToggle";
 import Select from "@/components/ui/select/Select";
 import StatusFilterBar from "@/components/ui/StatusFilterBar";
-import type { StatusFilterChipItem } from "@/components/ui/StatusFilterChips";
-import type { TaskFilterTab } from "@/features/tasks/utils/taskUtils";
 
 import { DEFAULT_TASK_VIEW_MODE, parseTaskViewMode, type TaskViewMode } from "@/lib/projectRoutes";
+
+import type { StatusFilterChipItem } from "@/components/ui/StatusFilterChips";
+import type { TaskFilterTab } from "@/features/tasks/utils/taskUtils";
+import type { ReactNode } from "react";
 
 type TasksToolbarProps = {
   searchQuery: string;
@@ -27,7 +26,7 @@ type TasksToolbarProps = {
 };
 
 const toolbarRowClassName =
-  "flex min-w-0 flex-col items-start gap-2 min-[1025px]:flex-row min-[1025px]:items-center min-[1025px]:justify-between";
+  "flex min-w-0 flex-col items-start gap-2 lg:flex-row lg:items-center lg:justify-between";
 
 const toolbarActionsClassName = "flex shrink-0 items-center gap-2";
 

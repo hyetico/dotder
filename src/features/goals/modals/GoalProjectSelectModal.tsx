@@ -2,6 +2,13 @@
 
 import { useMemo, useState } from "react";
 
+import PrimaryButton from "@/components/ui/button/PrimaryButton";
+import SecondaryButton from "@/components/ui/button/SecondaryButton";
+import Modal, {
+  modalSidePaddingClassName,
+  stableListModalPanelClassName,
+} from "@/components/ui/modal/Modal";
+
 import ProjectList, { ListScroll } from "@/features/projects/components/ProjectPicker/ProjectList";
 import ProjectPickerFields from "@/features/projects/components/ProjectPicker/ProjectPickerFields";
 import {
@@ -10,12 +17,6 @@ import {
   sortProjectsByName,
 } from "@/features/projects/utils/projectPicker";
 import { canAddProjectItems } from "@/features/projects/utils/projectUtils";
-import PrimaryButton from "@/components/ui/button/PrimaryButton";
-import SecondaryButton from "@/components/ui/button/SecondaryButton";
-import Modal, {
-  modalSidePaddingClassName,
-  stableListModalPanelClassName,
-} from "@/components/ui/modal/Modal";
 
 import type { ProjectFilterTab } from "@/features/projects/constants/projectFilters";
 import type { Project } from "@/features/projects/types/project";
@@ -101,7 +102,7 @@ export default function GoalProjectSelectModal({
       onClose={onClose}
       padded={false}
       labelledBy="goal-project-select-title"
-      zIndexClassName="z-[170]"
+      zIndexClassName="z-[var(--z-modal)]"
       maxWidthClassName="max-w-[520px]"
       panelClassName={stableListModalPanelClassName}
     >
@@ -144,7 +145,12 @@ export default function GoalProjectSelectModal({
       </ListScroll>
 
       <Modal.Footer>
-        <SecondaryButton size="modal" onClick={() => setDraftId(null)} disabled={draftId == null} className="mr-auto">
+        <SecondaryButton
+          size="modal"
+          onClick={() => setDraftId(null)}
+          disabled={draftId == null}
+          className="mr-auto"
+        >
           해제하기
         </SecondaryButton>
         <SecondaryButton size="modal" onClick={onClose}>

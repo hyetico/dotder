@@ -1,25 +1,26 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useState, type ReactNode } from "react";
 
 import { useQuery } from "@tanstack/react-query";
 
 import SidebarDrawer from "@/components/layout/Sidebar/drawers/SidebarDrawer/SidebarDrawer";
-import ProjectAccent from "@/features/projects/components/ProjectAccent";
 import CrownBadge from "@/components/ui/badge/CrownBadge";
 import IconButton from "@/components/ui/button/IconButton";
-import ProjectSettingsIcon from "@/features/projects/components/ProjectSettingsIcon";
 
 import { getProjects, readMainProjectId, readProject } from "@/features/projects/api/projects";
+import ProjectAccent from "@/features/projects/components/ProjectAccent";
+import ProjectSettingsIcon from "@/features/projects/components/ProjectSettingsIcon";
 import { useCurrentProjectScope } from "@/features/projects/hooks/useCurrentProjectScope";
-import { projectQueryKeys } from "@/lib/queryKeys";
+
 import {
   buildScopeChangeHref,
   getContextualMainProjectPath,
   type ProjectScope,
 } from "@/lib/projectRoutes";
+import { projectQueryKeys } from "@/lib/queryKeys";
 
 type SidebarMainProjectProps = {
   isCollapsed: boolean;
@@ -45,7 +46,7 @@ type SidebarHoverLabelProps = {
 function SidebarHoverLabel({ children, group = "group" }: SidebarHoverLabelProps) {
   return (
     <span
-      className={`pointer-events-none absolute top-1/2 left-[calc(100%+20px)] z-50 hidden h-9 -translate-y-1/2 items-center rounded-xl bg-[var(--color-nav-hover)]/50 px-3 text-sm font-medium whitespace-nowrap text-black shadow-[var(--shadow-dropdown)] backdrop-blur-sm ${
+      className={`pointer-events-none absolute top-1/2 left-[calc(100%+20px)] z-50 hidden h-9 -translate-y-1/2 items-center rounded-xl bg-[var(--color-nav-hover)]/50 px-3 text-sm font-medium whitespace-nowrap text-[var(--color-text)] shadow-[var(--shadow-overlay)] backdrop-blur-sm ${
         group === "settings" ? "group-hover/settings:flex" : "group-hover:flex"
       } `}
     >
@@ -76,8 +77,8 @@ function CollapsedSettingsButton({ label, boxed = false, onClick }: CollapsedSet
       <IconButton
         label={label}
         onClick={onClick}
-        className={`size-9! shrink-0 rounded-xl! text-black hover:bg-gray-100 hover:text-black ${
-          boxed ? `bg-white shadow-[var(--shadow-card)]` : ""
+        className={`size-9! shrink-0 rounded-xl! text-[var(--color-text)] hover:bg-[var(--color-hover)] hover:text-[var(--color-text)] ${
+          boxed ? `border border-[var(--color-border)] bg-[var(--color-surface)]` : ""
         } `}
       >
         <ProjectSettingsIcon />
@@ -158,14 +159,14 @@ export default function SidebarMainProject({
       <button
         type="button"
         onClick={openSettings}
-        className="flex h-10 w-full min-w-0 cursor-pointer items-center justify-center gap-0 rounded-xl border border-[var(--color-border)] bg-white px-2 font-medium tracking-tight text-[var(--color-text)] shadow-[var(--shadow-card)] transition-colors hover:bg-[var(--color-nav-hover)]"
+        className="flex h-10 w-full min-w-0 cursor-pointer items-center justify-center gap-0 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] px-2 font-medium tracking-tight text-[var(--color-text)] transition-colors hover:bg-[var(--color-nav-hover)]"
       >
         <span className="flex max-w-full min-w-0 items-center">
           <span className="flex size-[34px] shrink-0 items-center justify-center">
             <ProjectSettingsIcon />
           </span>
 
-          <span className="min-w-0 truncate text-[14px] leading-5">메인 프로젝트 설정</span>
+          <span className="min-w-0 truncate text-sm leading-5">메인 프로젝트 설정</span>
 
           <span aria-hidden="true" className="size-[34px] shrink-0" />
         </span>
@@ -173,7 +174,7 @@ export default function SidebarMainProject({
     );
   } else if (isCollapsed) {
     content = (
-      <div className="mx-auto flex w-9 flex-col items-center gap-1 rounded-xl bg-white shadow-[var(--shadow-card)]">
+      <div className="mx-auto flex w-9 flex-col items-center gap-1 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)]">
         <Link
           href={href}
           onClick={onNavigate}
@@ -192,7 +193,7 @@ export default function SidebarMainProject({
     );
   } else {
     content = (
-      <div className="relative flex h-10 min-w-0 items-center rounded-xl bg-white pr-0.5 pl-[11px] shadow-[var(--shadow-card)]">
+      <div className="relative flex h-10 min-w-0 items-center rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] pr-0.5 pl-[11px]">
         <Link
           href={href}
           onClick={onNavigate}
@@ -212,7 +213,7 @@ export default function SidebarMainProject({
           type="button"
           aria-label="내 프로젝트"
           onClick={openSettings}
-          className="flex size-[34px] shrink-0 cursor-pointer items-center justify-center rounded-xl text-black transition-colors hover:bg-gray-100 hover:text-black"
+          className="flex size-[34px] shrink-0 cursor-pointer items-center justify-center rounded-xl text-[var(--color-text)] transition-colors hover:bg-[var(--color-hover)] hover:text-[var(--color-text)]"
         >
           <ProjectSettingsIcon />
         </button>

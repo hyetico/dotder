@@ -16,7 +16,7 @@ type ProjectSettingsIconProps = {
  */
 export default function ProjectSettingsIcon({
   className = "",
-  badgeClassName = "bg-white",
+  badgeClassName = "bg-[var(--color-surface)]",
 }: ProjectSettingsIconProps) {
   return (
     <span

@@ -4,12 +4,13 @@ import { getGoalStatusLabel } from "@/features/goals/utils/goalUtils";
 
 import type { GoalStatus } from "@/features/goals/types/goal";
 
-const goalStatusLabelClassName = "inline-flex shrink-0 items-center gap-1.5 text-[13px] leading-5 font-semibold";
+const goalStatusLabelClassName =
+  "inline-flex shrink-0 items-center gap-1.5 text-xs leading-5 font-semibold";
 
 const goalStatusTheme: Record<GoalStatus, { icon: LucideIcon; className: string }> = {
-  COMPLETED: { icon: CheckCircle2, className: "text-[#16a34a]" },
-  IN_PROGRESS: { icon: Clock, className: "text-[#2563eb]" },
-  NOT_STARTED: { icon: Circle, className: "text-[#9ca3af]" },
+  COMPLETED: { icon: CheckCircle2, className: "text-[var(--color-success-text)]" },
+  IN_PROGRESS: { icon: Clock, className: "text-[var(--color-info-text)]" },
+  NOT_STARTED: { icon: Circle, className: "text-[var(--color-text-disabled)]" },
 };
 
 type GoalStatusLabelProps = {

@@ -1,39 +1,37 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useRef, useState, type RefObject } from "react";
 
-import Link from "next/link";
-
+import Badge from "@/components/ui/badge/Badge";
 import DropdownMenu from "@/components/ui/DropdownMenu";
 import { AppIcon, ChevronRight, FileText, Folder, Plus, Trash2 } from "@/components/ui/icon";
-import Badge from "@/components/ui/badge/Badge";
 
-import {
-  formatMemoDate,
-  getMemoProjectLabel,
-  getMemoRegistrationLabel,
-} from "@/features/memos/utils/memoDisplay";
-import type { Memo } from "@/features/memos/types/memo";
+import { getMemoProjectLabel, getMemoRegistrationLabel } from "@/features/memos/utils/memoDisplay";
+
+import { formatDateTime } from "@/lib/date";
 import { buildTasksPath, getGoalDetailPath } from "@/lib/projectRoutes";
 
+import type { Memo } from "@/features/memos/types/memo";
+
 const memoCardClassName =
-  "flex h-full min-h-[172px] flex-col rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-white p-4 shadow-[var(--shadow-card)]";
+  "flex h-full min-h-[172px] flex-col rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] p-4";
 const memoTitleClassName =
-  "line-clamp-2 min-w-0 flex-1 text-left text-[15px] leading-6 font-semibold text-[var(--color-text)]";
+  "line-clamp-2 min-w-0 flex-1 text-left text-base leading-6 font-semibold text-[var(--color-text)]";
 const memoMetaClassName =
-  "flex min-w-0 items-center gap-1 text-[12px] leading-4 text-[var(--color-text-muted)]";
+  "flex min-w-0 items-center gap-1 text-xs leading-4 text-[var(--color-text-muted)]";
 const memoMenuItemClassName =
-  "text-body-sm flex w-full items-center gap-2 rounded-[var(--radius-sm)] px-3 py-2 text-left font-medium text-[var(--color-text)] transition-colors hover:bg-[var(--color-hover-soft)]";
+  "text-caption flex w-full items-center gap-2 rounded-[var(--radius-sm)] px-3 py-2 text-left font-medium text-[var(--color-text)] transition-colors hover:bg-[var(--color-hover-soft)]";
 const memoDeleteItemClassName =
-  "text-body-sm flex w-full items-center gap-2 rounded-[var(--radius-sm)] px-3 py-2 text-left font-medium text-red-500 transition-colors hover:bg-red-50";
+  "text-caption flex w-full items-center gap-2 rounded-[var(--radius-sm)] px-3 py-2 text-left font-medium text-[var(--color-danger-text)] transition-colors hover:bg-[var(--color-danger-soft)]";
 const memoProjectBadgeClassName = "bg-[var(--color-field)] text-[var(--color-text-secondary)]";
 const memoRegisteredBadgeClassName = "bg-[var(--color-primary-soft)] text-[var(--color-primary)]";
 const memoLinkClassName =
-  "inline-flex items-center gap-0.5 text-[13px] leading-none font-medium text-[var(--color-text-secondary)] transition-colors hover:text-[var(--color-text)]";
+  "inline-flex items-center gap-0.5 text-xs leading-none font-medium text-[var(--color-text-secondary)] transition-colors hover:text-[var(--color-text)]";
 const composeInputClassName =
-  "min-h-0 flex-1 resize-none bg-transparent text-[15px] leading-6 font-semibold text-[var(--color-text)] outline-none placeholder:font-medium placeholder:text-[var(--color-text-muted)]";
+  "min-h-0 flex-1 resize-none bg-transparent text-base leading-6 font-semibold text-[var(--color-text)] outline-none placeholder:font-medium placeholder:text-[var(--color-text-muted)]";
 const addCardClassName =
-  "flex h-full min-h-[172px] w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-[var(--radius-lg)] border border-dashed border-[var(--color-border)] bg-white text-[var(--color-text-secondary)] transition-colors hover:bg-[var(--color-hover-soft)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-text)] disabled:cursor-not-allowed disabled:opacity-50";
+  "flex h-full min-h-[172px] w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-[var(--radius-lg)] border border-dashed border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-secondary)] transition-colors hover:bg-[var(--color-hover-soft)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-text)] disabled:cursor-not-allowed disabled:opacity-50";
 
 type MemoProject = {
   id: number;
@@ -156,7 +154,7 @@ export function MemoComposeCard({ inputRef, disabled = false, onSave }: MemoComp
         }}
         onBlur={saveDraft}
       />
-      <p className="text-[12px] leading-4 text-[var(--color-text-muted)]">자동 저장</p>
+      <p className="text-xs leading-4 text-[var(--color-text-muted)]">자동 저장</p>
     </form>
   );
 }
@@ -180,7 +178,7 @@ export function MemoCard({ memo, project, registeredProject, onOpen, onDelete }:
   const projectLabel = getMemoProjectLabel(registrationLabel ? registeredProject : project);
   const cardClassName = memo.registration
     ? memoCardClassName
-    : `${memoCardClassName} cursor-pointer transition-shadow hover:shadow-[var(--shadow-project-card-hover)]`;
+    : `${memoCardClassName} cursor-pointer transition-colors hover:border-[var(--color-border-strong)]`;
   const openMemo = () => {
     if (memo.registration) {
       return;
@@ -233,7 +231,7 @@ export function MemoCard({ memo, project, registeredProject, onOpen, onDelete }:
       {registrationLabel ? (
         <div className="mt-2 flex min-h-0 flex-1 flex-col">
           {memo.body ? (
-            <p className="line-clamp-2 text-[13px] leading-5 text-[var(--color-text-secondary)]">
+            <p className="line-clamp-2 text-xs leading-5 text-[var(--color-text-secondary)]">
               {memo.body}
             </p>
           ) : null}
@@ -265,7 +263,7 @@ export function MemoCard({ memo, project, registeredProject, onOpen, onDelete }:
             <span className="truncate">{projectLabel}</span>
           </span>
           <time dateTime={memo.createdAt} className="shrink-0 tabular-nums">
-            {formatMemoDate(memo.createdAt)}
+            {formatDateTime(memo.createdAt)}
           </time>
         </div>
       )}
@@ -286,7 +284,7 @@ export function MemoAddCard({ disabled = false, onClick }: MemoAddCardProps) {
   return (
     <button type="button" disabled={disabled} onClick={onClick} className={addCardClassName}>
       <Plus size={28} aria-hidden />
-      <span className="text-[15px] leading-6 font-semibold">새 메모</span>
+      <span className="text-base leading-6 font-semibold">새 메모</span>
     </button>
   );
 }

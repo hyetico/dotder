@@ -4,6 +4,12 @@ import { useEffect, useId, useState, type ReactNode } from "react";
 
 import { useQuery } from "@tanstack/react-query";
 
+import Badge from "@/components/ui/badge/Badge";
+import PrimaryButton from "@/components/ui/button/PrimaryButton";
+import SecondaryButton from "@/components/ui/button/SecondaryButton";
+import DatePicker from "@/components/ui/date-picker/DatePicker";
+import { fieldPaddingClassName } from "@/components/ui/fieldControl";
+import FieldNotice from "@/components/ui/FieldNotice";
 import {
   AppIcon,
   Calendar,
@@ -14,24 +20,18 @@ import {
   Target,
   type LucideIcon,
 } from "@/components/ui/icon";
-
-import Badge from "@/components/ui/badge/Badge";
-import DelayIssueBadge from "@/features/projects/components/DelayIssueBadge";
-import DatePicker from "@/components/ui/date-picker/DatePicker";
 import InfoTooltip from "@/components/ui/InfoTooltip";
-import FieldNotice from "@/components/ui/FieldNotice";
 import Textarea from "@/components/ui/input/Textarea";
-import PrimaryButton from "@/components/ui/button/PrimaryButton";
-import SecondaryButton from "@/components/ui/button/SecondaryButton";
 import Modal, { modalSidePaddingClassName } from "@/components/ui/modal/Modal";
-import { fieldPaddingClassName } from "@/components/ui/fieldControl";
 
 import { getGoals } from "@/features/goals/api/goals";
+import DelayIssueBadge from "@/features/projects/components/DelayIssueBadge";
 import { getTasks } from "@/features/tasks/api/tasks";
+
+import { formatDate, formatMonthDay, getDayDelta, toDateKey } from "@/lib/date";
 import { goalQueryKeys, taskQueryKeys } from "@/lib/queryKeys";
 
 const REASON_LIMIT = 200;
-const DAY_MS = 86_400_000;
 const LINKED_LIST_LIMIT = 3;
 
 type LinkedScheduleItem = {
@@ -52,101 +52,6 @@ type ChangeProjectDeadlineModalProps = {
 };
 
 /**
- * parseDay
- *
- * `YYYY-MM-DD` 문자열을 그 날의 시작 시각으로 바꿉니다.
- *
- * @param value - 날짜 문자열
- * @returns 해석한 날짜. 형식이 아니면 null
- */
-function parseDay(value: string) {
-  const [year, month, day] = value.split("-").map(Number);
-
-  if (!year || !month || !day) {
-    return null;
-  }
-
-  return new Date(year, month - 1, day);
-}
-
-/**
- * diffDays
- *
- * 두 날짜 사이의 일수를 계산합니다.
- *
- * @param from - 시작 날짜
- * @param to - 끝 날짜
- * @returns 끝 날짜에서 시작 날짜를 뺀 일수
- */
-function diffDays(from: string, to: string) {
-  const start = parseDay(from);
-  const end = parseDay(to);
-
-  if (!start || !end) {
-    return 0;
-  }
-
-  return Math.round((end.getTime() - start.getTime()) / DAY_MS);
-}
-
-/**
- * formatPaddedDate
- *
- * 날짜를 `2026. 09. 01.` 형식으로 바꿉니다.
- *
- * @param value - `YYYY-MM-DD` 날짜
- * @returns 점을 찍은 날짜. 해석할 수 없으면 빈 문자열
- */
-function formatPaddedDate(value: string) {
-  const date = parseDay(value);
-
-  if (!date) {
-    return "";
-  }
-
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-
-  const day = String(date.getDate()).padStart(2, "0");
-
-  return `${date.getFullYear()}. ${month}. ${day}.`;
-}
-
-/**
- * formatMonthDay
- *
- * 날짜를 `10월 31일` 형식으로 바꿉니다.
- *
- * @param value - `YYYY-MM-DD` 날짜
- * @returns 월과 일. 해석할 수 없으면 빈 문자열
- */
-function formatMonthDay(value: string) {
-  const date = parseDay(value);
-
-  if (!date) {
-    return "";
-  }
-
-  return `${date.getMonth() + 1}월 ${date.getDate()}일`;
-}
-
-/**
- * todayStamp
- *
- * 오늘 날짜를 `YYYY-MM-DD`로 만듭니다.
- *
- * @returns 오늘 날짜
- */
-function todayStamp() {
-  const today = new Date();
-
-  const month = String(today.getMonth() + 1).padStart(2, "0");
-
-  const day = String(today.getDate()).padStart(2, "0");
-
-  return `${today.getFullYear()}-${month}-${day}`;
-}
-
-/**
  * deadlineShiftSentence
  *
  * 새 마감일의 연장·단축과 오늘부터 남은 날을 한 문장으로 만듭니다.
@@ -157,7 +62,7 @@ function todayStamp() {
  * @returns 연장과 남은 날을 잇는 문장
  */
 function deadlineShiftSentence(currentDate: string, nextDate: string, includeBaseline: boolean) {
-  const remain = diffDays(todayStamp(), nextDate);
+  const remain = getDayDelta(toDateKey(new Date()), nextDate);
 
   const remainText =
     remain > 0
@@ -170,7 +75,7 @@ function deadlineShiftSentence(currentDate: string, nextDate: string, includeBas
     return remainText;
   }
 
-  const shifted = diffDays(currentDate, nextDate);
+  const shifted = getDayDelta(currentDate, nextDate);
 
   if (shifted === 0) {
     const same = includeBaseline ? "기존 마감일과 같습니다" : "마감일이 같습니다";
@@ -264,11 +169,11 @@ function DeadlineFieldLabel({
  * @param props.placeholder - 날짜가 없을 때 보여 줄 문구
  */
 function ReadOnlyDateField({ value, placeholder }: { value: string; placeholder: string }) {
-  const label = value ? formatPaddedDate(value) : "";
+  const label = value ? formatDate(value) : "";
 
   return (
     <div
-      className={`text-body flex h-10 w-full items-center justify-between gap-3 rounded-[var(--radius-sm)] border border-[var(--color-field-border)] bg-[var(--color-field)] min-[1025px]:h-11 ${fieldPaddingClassName} text-[var(--color-field-text)]`}
+      className={`text-body flex h-10 w-full items-center justify-between gap-3 rounded-[var(--radius-sm)] border border-[var(--color-field-border)] bg-[var(--color-field)] lg:h-11 ${fieldPaddingClassName} text-[var(--color-field-text)]`}
     >
       <span className={label ? "truncate" : "truncate text-[var(--color-field-placeholder)]"}>
         {label || placeholder}
@@ -290,7 +195,7 @@ function ReadOnlyDateField({ value, placeholder }: { value: string; placeholder:
  * @param props.delayDays - 지연 일수. 0이면 지연 표시를 숨깁니다
  */
 function CurrentDeadlineDisplay({ date, delayDays }: { date: string; delayDays: number }) {
-  const label = formatPaddedDate(date);
+  const label = formatDate(date);
 
   return (
     <div>
@@ -334,7 +239,7 @@ function DeadlineShiftSummary({
 }) {
   const sentence = deadlineShiftSentence(currentDate, nextDate, placement === "box");
 
-  const basis = `${formatPaddedDate(todayStamp())} 기준`;
+  const basis = `${formatDate(toDateKey(new Date()))} 기준`;
 
   if (placement === "center") {
     return (
@@ -396,7 +301,7 @@ function LinkedCountBadge({ title, count }: { title: string; count: number }) {
 
   return (
     <Badge
-      className="border border-[#D1D5DB] bg-gray-100 font-medium text-[var(--color-text-secondary)]"
+      className="border border-[var(--color-border-strong)] bg-[var(--color-hover)] font-medium text-[var(--color-text-secondary)]"
       title={label}
       ariaLabel={label}
     >
@@ -654,17 +559,20 @@ export default function ChangeProjectDeadlineModal({
 
   const [detailsOpen, setDetailsOpen] = useState(false);
 
-  useEffect(() => {
-    if (isOpen) {
-      return;
-    }
+  // 닫히면 입력값과 오류를 처음으로 돌린다.
+  const [wasOpen, setWasOpen] = useState(isOpen);
 
-    setNextDate("");
-    setReason("");
-    setDateError("");
-    setReasonError("");
-    setDetailsOpen(false);
-  }, [isOpen]);
+  if (isOpen !== wasOpen) {
+    setWasOpen(isOpen);
+
+    if (!isOpen) {
+      setNextDate("");
+      setReason("");
+      setDateError("");
+      setReasonError("");
+      setDetailsOpen(false);
+    }
+  }
 
   const canLoadLinked = isOpen && projectId != null;
 

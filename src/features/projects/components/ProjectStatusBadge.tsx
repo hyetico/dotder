@@ -1,8 +1,6 @@
-import type { ReactNode } from "react";
-
-import ProjectStatusIcon from "@/features/projects/components/ProjectStatusIcon";
 import Badge, { badgeIconSize, type BadgeSize } from "@/components/ui/badge/Badge";
 
+import ProjectStatusIcon from "@/features/projects/components/ProjectStatusIcon";
 import {
   getProjectStatusLabel,
   getProjectStatusStyles,
@@ -10,6 +8,7 @@ import {
 } from "@/features/projects/utils/projectUtils";
 
 import type { ProjectStatus } from "@/features/projects/types/project";
+import type { ReactNode } from "react";
 
 const statusIconSize = 20;
 const statusIconMarkClassName = "inline-flex h-5 w-5 shrink-0 items-center justify-center";

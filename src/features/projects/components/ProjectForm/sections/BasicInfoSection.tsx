@@ -1,18 +1,20 @@
 "use client";
 
 import { Controller, type Control, type FieldErrors, type UseFormRegister } from "react-hook-form";
-import { FileText } from "@/components/ui/icon";
+
 import DatePicker from "@/components/ui/date-picker/DatePicker";
+import { FileText } from "@/components/ui/icon";
 import Textarea from "@/components/ui/input/Textarea";
-import { type ProjectFormData } from "@/features/projects/schemas/projectSchema";
-import { getProjectPeriodGuideItems } from "@/features/projects/constants/projectFormGuides";
+
+import { ProjectColorField } from "@/features/projects/components/ProjectForm/fields/ProjectColorField";
 import {
   FieldError,
   FormLabel,
   FormSectionIntro,
 } from "@/features/projects/components/ProjectForm/FormParts";
+import { getProjectPeriodGuideItems } from "@/features/projects/constants/projectFormGuides";
+import { type ProjectFormData } from "@/features/projects/schemas/projectSchema";
 import { type ProjectFormLayout } from "@/features/projects/utils/projectFormLayout";
-import { ProjectColorField } from "@/features/projects/components/ProjectForm/fields/ProjectColorField";
 
 /**
  * BasicInfoSection
@@ -147,7 +149,7 @@ export function BasicInfoSection({
 
           <div className="grid gap-3 md:grid-cols-2">
             <div className="min-w-0">
-              <p className="text-caption mb-1.5 text-black">시작일</p>
+              <p className="text-caption mb-1.5 text-[var(--color-text)]">시작일</p>
 
               <Controller
                 name="startDate"
@@ -169,7 +171,7 @@ export function BasicInfoSection({
             </div>
 
             <div className="min-w-0">
-              <p className="text-caption mb-1.5 text-black">마감일</p>
+              <p className="text-caption mb-1.5 text-[var(--color-text)]">마감일</p>
 
               {datesLocked ? (
                 <DatePicker

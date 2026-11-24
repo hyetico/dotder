@@ -1,12 +1,11 @@
 "use client";
 
-import type { ReactNode } from "react";
-
 import ProjectBadge, { type ProjectBadgeMark } from "@/features/projects/components/ProjectBadge";
 import ProjectStatusBadge from "@/features/projects/components/ProjectStatusBadge";
 import { isProjectDelayed } from "@/features/projects/utils/projectUtils";
 
 import type { Project } from "@/features/projects/types/project";
+import type { ReactNode } from "react";
 
 type ProjectListItemProps = {
   project: Project;
@@ -60,7 +59,7 @@ export default function ProjectListItem({
     <>
       <ProjectBadge color={project.color} size="sm" mark={mark} selected={selected} />
       <span className="min-w-0 flex-1">
-        <span className="text-body-sm block truncate font-semibold text-[var(--color-text)]">
+        <span className="text-caption block truncate font-semibold text-[var(--color-text)]">
           {project.name}
         </span>
         {project.description ? (

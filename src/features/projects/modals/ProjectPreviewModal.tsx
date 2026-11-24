@@ -3,12 +3,14 @@
 import { useId, type ReactNode } from "react";
 
 import ExpandablePreviewText from "@/components/ui/ExpandablePreviewText";
+import Modal from "@/components/ui/modal/Modal";
+
 import GoalTag from "@/features/goals/components/GoalTag";
 import ProjectBadge from "@/features/projects/components/ProjectBadge";
 import ProjectStatusBadge from "@/features/projects/components/ProjectStatusBadge";
-import Modal from "@/components/ui/modal/Modal";
 
-import { formatProjectDate, formatProjectDateRange } from "@/features/projects/utils/projectUtils";
+import { formatDateRange } from "@/lib/date";
+import { TEAM_FEATURES_VISIBLE } from "@/lib/v1Scope";
 
 import type { ProjectStatus } from "@/features/projects/types/project";
 
@@ -27,31 +29,6 @@ type ProjectPreviewModalProps = {
   adminName: string;
   tags: string[];
 };
-
-/**
- * PreviewPeriod
- *
- * 시작일과 마감일을 미리보기 기간 문구로 바꿉니다.
- *
- * @param startDate - 시작일
- * @param endDate - 마감일
- * @returns 기간 문구. 날짜가 없으면 빈 문자열
- */
-function formatPreviewPeriod(startDate: string, endDate: string) {
-  if (startDate && endDate) {
-    return formatProjectDateRange(startDate, endDate);
-  }
-
-  if (startDate) {
-    return `${formatProjectDate(startDate)} ~`;
-  }
-
-  if (endDate) {
-    return formatProjectDate(endDate);
-  }
-
-  return "";
-}
 
 /**
  * PreviewRow
@@ -131,7 +108,7 @@ export default function ProjectPreviewModal({
 }: ProjectPreviewModalProps) {
   const titleId = useId();
 
-  const period = formatPreviewPeriod(startDate, endDate);
+  const period = formatDateRange(startDate, endDate);
 
   const trimmedName = name.trim();
 
@@ -189,17 +166,21 @@ export default function ProjectPreviewModal({
             </p>
           </PreviewRow>
 
-          <PreviewRow label="팀">
-            <p className="text-caption font-medium break-words text-[var(--color-text)]">
-              {teamLabel}
-            </p>
-          </PreviewRow>
+          {TEAM_FEATURES_VISIBLE ? (
+            <>
+              <PreviewRow label="팀">
+                <p className="text-caption font-medium break-words text-[var(--color-text)]">
+                  {teamLabel}
+                </p>
+              </PreviewRow>
 
-          <PreviewRow label="프로젝트 관리자">
-            <p className="text-caption font-medium break-words text-[var(--color-text)]">
-              {adminName}
-            </p>
-          </PreviewRow>
+              <PreviewRow label="프로젝트 관리자">
+                <p className="text-caption font-medium break-words text-[var(--color-text)]">
+                  {adminName}
+                </p>
+              </PreviewRow>
+            </>
+          ) : null}
 
           <PreviewRow label="목표 태그">
             {tags.length > 0 ? (

@@ -44,14 +44,16 @@ export default function StatusFilterPills<T extends string>({
             aria-checked={selected}
             onClick={() => onChange(item.id)}
             className={`text-caption inline-flex h-8 shrink-0 items-center gap-1 rounded-full border-0 px-2.5 font-medium whitespace-nowrap text-[var(--color-text)] transition-colors focus-visible:ring-2 focus-visible:ring-[var(--color-primary-ring)] focus-visible:outline-none ${
-              selected ? "bg-[#F1F1EF]" : "bg-white hover:bg-[var(--color-hover-soft)]"
+              selected
+                ? "bg-[var(--color-hover)]"
+                : "bg-[var(--color-surface)] hover:bg-[var(--color-hover-soft)]"
             } `}
           >
             {item.icon ? (
               <span
                 className="inline-flex size-3.5 shrink-0 items-center justify-center"
                 style={{
-                  color: selected ? "currentColor" : "#787774",
+                  color: selected ? "currentColor" : "var(--color-text-muted)",
                 }}
               >
                 {item.icon}

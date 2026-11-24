@@ -28,21 +28,24 @@ import Input from "@/components/ui/input/Input";
 import Textarea from "@/components/ui/input/Textarea";
 import { useAlert } from "@/components/ui/modal/AlertModal";
 import ProfileSummary from "@/components/ui/ProfileSummary";
-import { FieldError, FormLabel } from "@/features/projects/components/ProjectForm/FormParts";
+
 import { getGoal, updateGoal } from "@/features/goals/api/goals";
 import GoalStatusIcon from "@/features/goals/components/GoalStatusIcon";
 import GoalTag from "@/features/goals/components/GoalTag";
-import GoalProjectSelectModal from "@/features/goals/modals/GoalProjectSelectModal";
-import LinkedProjectInfoModal from "@/features/goals/modals/LinkedProjectInfoModal";
 import {
   useGoalDrawerOffset,
   useGoalDrawerPushesPage,
 } from "@/features/goals/modals/goalDrawerOffset";
-import type { Goal, GoalIcon, GoalStatus } from "@/features/goals/types/goal";
+import GoalProjectSelectModal from "@/features/goals/modals/GoalProjectSelectModal";
+import LinkedProjectInfoModal from "@/features/goals/modals/LinkedProjectInfoModal";
 import { getGoalStatusLabel } from "@/features/goals/utils/goalUtils";
+import { FieldError, FormLabel } from "@/features/projects/components/ProjectForm/FormParts";
+
+import { formatDate } from "@/lib/date";
 import { getTeamMember } from "@/lib/mock/teamMembers";
 import { goalQueryKeys } from "@/lib/queryKeys";
 
+import type { Goal, GoalIcon, GoalStatus } from "@/features/goals/types/goal";
 import type { Project } from "@/features/projects/types/project";
 
 const SLIDE_MS = 400;
@@ -56,14 +59,15 @@ const goalIconPreviewClassName =
   "flex size-10 shrink-0 items-center justify-center rounded-[var(--radius-sm)] bg-[var(--color-field)] text-[var(--color-text-secondary)]";
 const periodFieldClassName = `flex min-w-0 flex-wrap items-center gap-x-3 gap-y-2 rounded-[var(--radius-sm)] bg-[var(--color-field)] py-3 ${fieldPaddingClassName}`;
 const periodLinkClassName =
-  "text-body-sm ml-auto inline-flex shrink-0 items-center gap-1 font-medium whitespace-nowrap text-[var(--color-text-muted)]";
+  "text-caption ml-auto inline-flex shrink-0 items-center gap-1 font-medium whitespace-nowrap text-[var(--color-text-muted)]";
 const projectDetailButtonClassName =
-  "inline-flex cursor-pointer items-center gap-0.5 text-[13px] leading-none font-medium text-[var(--color-text-secondary)] transition-colors hover:text-[var(--color-text)]";
+  "inline-flex cursor-pointer items-center gap-0.5 text-xs leading-none font-medium text-[var(--color-text-secondary)] transition-colors hover:text-[var(--color-text)]";
 const plainControlClassName =
   "border-transparent! shadow-none! hover:border-transparent! hover:shadow-none!";
 const tagButtonClassName = "max-w-full min-w-0 cursor-pointer disabled:cursor-not-allowed";
 const lockedPeriodButtonClassName = `${periodLinkClassName} cursor-not-allowed`;
-const editButtonPressedClassName = "border-transparent! bg-[var(--color-primary)]! text-white! hover:bg-[var(--color-primary-hover)]! hover:text-white!";
+const editButtonPressedClassName =
+  "border-transparent! bg-[var(--color-primary)]! text-[var(--color-text-inverse)]! hover:bg-[var(--color-primary-hover)]! hover:text-[var(--color-text-inverse)]!";
 
 type GoalEditErrors = {
   title: string;
@@ -79,8 +83,8 @@ const emptyEditErrors: GoalEditErrors = {
   endDate: "",
 };
 const statusIconClassName: Record<GoalStatus, string> = {
-  COMPLETED: "text-[#16a34a]",
-  IN_PROGRESS: "text-[#2563eb]",
+  COMPLETED: "text-[var(--color-success-text)]",
+  IN_PROGRESS: "text-[var(--color-info-text)]",
   NOT_STARTED: "text-[var(--color-text-muted)]",
 };
 const goalIcons: Record<GoalIcon, LucideIcon> = {
@@ -96,24 +100,6 @@ type GoalDetailDrawerProps = {
   projects: Project[];
   onClose: () => void;
 };
-
-/**
- * formatGoalPeriodDate
- *
- * 목표 기간 칸에 보여줄 날짜를 만듭니다.
- *
- * @param value - YYYY-MM-DD 날짜
- * @returns `2026.11.09` 형태의 날짜. 값이 없으면 빈 문자열
- */
-function formatGoalPeriodDate(value: string) {
-  const [year, month, day] = value.split("-");
-
-  if (!year || !month || !day) {
-    return "";
-  }
-
-  return `${year}.${month}.${day}`;
-}
 
 /**
  * GoalDetailEditForm
@@ -425,11 +411,11 @@ function GoalDetailEditForm({
                     setErrors((current) => ({ ...current, startDate: "", endDate: "" }));
                   }}
                   placeholder="시작일"
-                  formatValue={formatGoalPeriodDate}
+                  formatValue={formatDate}
                   max={endDate || undefined}
                   disabled={periodLocked}
                   invalid={Boolean(errors.startDate)}
-                  zIndexClassName="z-[180]"
+                  zIndexClassName="z-[var(--z-popover)]"
                 />
                 <span className="shrink-0 text-[var(--color-text-muted)]">~</span>
                 <DatePicker
@@ -440,11 +426,11 @@ function GoalDetailEditForm({
                     setErrors((current) => ({ ...current, endDate: "" }));
                   }}
                   placeholder="마감일"
-                  formatValue={formatGoalPeriodDate}
+                  formatValue={formatDate}
                   min={startDate || undefined}
                   disabled={periodLocked}
                   invalid={Boolean(errors.endDate)}
-                  zIndexClassName="z-[180]"
+                  zIndexClassName="z-[var(--z-popover)]"
                 />
               </div>
               {periodLocked && startDate === project?.startDate && endDate === project?.endDate ? (
@@ -576,9 +562,7 @@ function GoalDetailDrawerPanel({
   const assignee =
     goal?.assigneeIds.map((id) => getTeamMember(id)).find((member) => member != null) ?? null;
   const periodText = goal
-    ? [formatGoalPeriodDate(goal.startDate), formatGoalPeriodDate(goal.endDate)]
-        .filter(Boolean)
-        .join(" ~ ")
+    ? [formatDate(goal.startDate), formatDate(goal.endDate)].filter(Boolean).join(" ~ ")
     : "";
   const periodLinked =
     project != null &&
@@ -623,11 +607,11 @@ function GoalDetailDrawerPanel({
           <div className="flex min-h-0 flex-1 flex-col">
             <Drawer.Body>
               {isPending ? (
-                <p className="text-body-sm py-8 text-center text-[var(--color-text-secondary)]">
+                <p className="text-caption py-8 text-center text-[var(--color-text-secondary)]">
                   목표를 불러오는 중...
                 </p>
               ) : isError || !goal ? (
-                <p className="text-body-sm py-8 text-center text-[var(--color-text-secondary)]">
+                <p className="text-caption py-8 text-center text-[var(--color-text-secondary)]">
                   목표를 찾을 수 없습니다.
                 </p>
               ) : (
@@ -753,16 +737,6 @@ function GoalDetailDrawerPanel({
                 </>
               )}
             </Drawer.Body>
-
-            <Drawer.Footer>
-              <SecondaryButton
-                size="modal"
-                onClick={onClose}
-                className="min-w-[80px] justify-center"
-              >
-                닫기
-              </SecondaryButton>
-            </Drawer.Footer>
           </div>
         )}
       </Drawer>
