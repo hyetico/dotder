@@ -3,24 +3,15 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 
-import { useQuery } from "@tanstack/react-query";
-
-import { getProjects } from "@/features/projects/api/projects";
 import ProjectCreateDrawer from "@/features/projects/modals/ProjectCreateDrawer";
 
 import { NEW_PROJECT_PARAM } from "@/lib/projectRoutes";
-import { projectQueryKeys } from "@/lib/queryKeys";
 
 function ProjectCreateDrawerFromQuery() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const isOpen = searchParams.get(NEW_PROJECT_PARAM) === "1";
-
-  const { data: projects = [] } = useQuery({
-    queryKey: projectQueryKeys.all,
-    queryFn: getProjects,
-  });
 
   const close = () => {
     const params = new URLSearchParams(searchParams.toString());
@@ -29,13 +20,7 @@ function ProjectCreateDrawerFromQuery() {
     router.replace(query ? `${pathname}?${query}` : pathname, { scroll: false });
   };
 
-  return (
-    <ProjectCreateDrawer
-      isOpen={isOpen}
-      mainProject={projects.find((project) => project.isMain) ?? null}
-      onClose={close}
-    />
-  );
+  return <ProjectCreateDrawer isOpen={isOpen} onClose={close} />;
 }
 
 /**
