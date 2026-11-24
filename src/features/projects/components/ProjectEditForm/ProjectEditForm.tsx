@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm, type Control, type FieldErrors } from "react-hook-form";
 
 import BottomAppBar from "@/components/layout/pages/CreatePage/BottomAppBar";
+import PageHeading from "@/components/layout/pages/Page/PageHeading";
 import PrimaryButton from "@/components/ui/button/PrimaryButton";
 import SecondaryButton from "@/components/ui/button/SecondaryButton";
 import DatePicker from "@/components/ui/date-picker/DatePicker";
@@ -86,10 +87,10 @@ const projectEditTabs: {
   },
   {
     id: "team",
-    label: "팀 및 설정",
-    title: "팀 및 설정",
-    description: "팀, 관리자, 메인 프로젝트 설정을 변경해요.",
-    statusLabel: "팀 및 설정 수정 중",
+    label: "설정",
+    title: "설정",
+    description: "목표 태그와 메인 프로젝트 설정을 변경해요.",
+    statusLabel: "설정 수정 중",
   },
 ];
 
@@ -605,13 +606,12 @@ export default function ProjectEditForm({
     >
       <div ref={scrollRef} className="flex min-h-0 flex-1 flex-col md:overflow-y-auto">
         <div className={editShellClassName}>
-          <div className="text-center">
-            <h1 className="text-page-title text-[var(--color-text)]">프로젝트 수정</h1>
-
-            <p className="text-body mt-1 text-[var(--color-text-secondary)]">
-              기존 프로젝트 정보를 확인하고 변경하세요.
-            </p>
-          </div>
+          <PageHeading
+            variant="form"
+            align="center"
+            title="프로젝트 수정"
+            description="기존 프로젝트 정보를 확인하고 변경하세요."
+          />
 
           <ProjectEditTabs value={tab} onChange={showTab} />
 

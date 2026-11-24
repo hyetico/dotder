@@ -98,16 +98,16 @@
 
 ## 5. 공통 컴포넌트 정리 — `refactor/ui-components`
 
-- [ ] 탭: `FolderTabMenu`, `TileTabMenu` → `LineTabMenu`
-- [ ] 필터: `StatusFilterBar`, `StatusFilterPills`, `StatFilterButtons` → `StatusFilterChips`
+- [x] 탭: `FolderTabMenu`, `TileTabMenu` → `LineTabMenu` (쓰는 곳이 없어 삭제)
+- [ ] 필터: `StatusFilterBar`, `StatusFilterPills`, `StatFilterButtons` → `StatusFilterChips` — 마감 뒤로 미룸 (tech-debt C-3). `StatFilterButtons`는 삭제
 - [ ] `StatusBadge` 만들고 상태 뱃지 3종을 그 위로
 - [ ] `Toast`, `Notice`, `EmptyState`, `Skeleton`, `ErrorState` 만들기
-- [ ] `PageHeading` `variant="form"` 추가, 직접 쓴 `<h1>` 5곳 교체, 사이드바 로고 `<h1>` 제거
+- [x] `PageHeading` `variant="form"` 추가, 직접 쓴 `<h1>` 4곳 교체, 사이드바 로고 `<h1>` 제거 (상세 1곳은 7단계)
 - [ ] `div onClick` 2곳 → 링크
-- [ ] 이모지 아이콘 6곳 → `AppIcon`
-- [ ] `Button` 직접 사용 2곳 교체
-- [ ] 팀 관련 화면 숨김: 팀 메뉴, 생성·수정의 팀 선택 (PRD 5-4, P-6). 디테일의 팀 탭은 7단계
-- [ ] 메뉴 정리: 리포트 숨김, 플레이그라운드는 개발 환경에서만, 스프린트 페이지 제거 (P-6, P-7)
+- [x] 이모지 아이콘 → `AppIcon` (숨긴 팀 목업 데이터만 남음)
+- [x] `Button` 직접 사용 교체
+- [x] 팀 관련 화면 숨김: 팀 메뉴, 생성·수정의 팀 선택 (PRD 5-4, P-6). 디테일의 팀 탭은 7단계
+- [x] 메뉴 정리: 리포트 숨김, 플레이그라운드는 개발 환경에서만, 스프린트 페이지 제거 (P-6, P-7)
 - [ ] component-guide 상태 표시 갱신
 
 - [ ] handoff B1 드로어 너비 400 (웹·태블릿), 드로어 안 확인창은 드로어 가운데

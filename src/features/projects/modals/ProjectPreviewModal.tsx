@@ -10,6 +10,7 @@ import ProjectBadge from "@/features/projects/components/ProjectBadge";
 import ProjectStatusBadge from "@/features/projects/components/ProjectStatusBadge";
 
 import { formatDateRange } from "@/lib/date";
+import { TEAM_FEATURES_VISIBLE } from "@/lib/v1Scope";
 
 import type { ProjectStatus } from "@/features/projects/types/project";
 
@@ -165,17 +166,21 @@ export default function ProjectPreviewModal({
             </p>
           </PreviewRow>
 
-          <PreviewRow label="팀">
-            <p className="text-caption font-medium break-words text-[var(--color-text)]">
-              {teamLabel}
-            </p>
-          </PreviewRow>
+          {TEAM_FEATURES_VISIBLE ? (
+            <>
+              <PreviewRow label="팀">
+                <p className="text-caption font-medium break-words text-[var(--color-text)]">
+                  {teamLabel}
+                </p>
+              </PreviewRow>
 
-          <PreviewRow label="프로젝트 관리자">
-            <p className="text-caption font-medium break-words text-[var(--color-text)]">
-              {adminName}
-            </p>
-          </PreviewRow>
+              <PreviewRow label="프로젝트 관리자">
+                <p className="text-caption font-medium break-words text-[var(--color-text)]">
+                  {adminName}
+                </p>
+              </PreviewRow>
+            </>
+          ) : null}
 
           <PreviewRow label="목표 태그">
             {tags.length > 0 ? (

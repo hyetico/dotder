@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 
-import Button from "@/components/ui/button/Button";
 import { AppIcon, Bell, ListTodo, LogOut, Moon, Settings, User } from "@/components/ui/icon";
 import MenuLink from "@/components/ui/MenuLink";
 
@@ -68,13 +67,13 @@ export default function SidebarProfile({ isCollapsed, onNavigate }: SidebarProfi
 
   return (
     <div ref={menuRef} className="relative w-full">
-      <Button
+      <button
         type="button"
         onClick={() => setIsMenuOpen((prev) => !prev)}
         aria-expanded={isMenuOpen}
         aria-haspopup="menu"
         aria-label={`${currentUser.name} 계정 메뉴`}
-        className={`flex items-center hover:bg-[var(--color-nav-hover)] ${
+        className={`flex cursor-pointer items-center transition-colors hover:bg-[var(--color-nav-hover)] ${
           isMenuOpen ? "bg-[var(--color-nav-hover)]" : ""
         } ${
           isCollapsed
@@ -91,7 +90,7 @@ export default function SidebarProfile({ isCollapsed, onNavigate }: SidebarProfi
             {currentUser.name}
           </span>
         )}
-      </Button>
+      </button>
 
       {isMenuOpen && (
         <div
@@ -126,25 +125,27 @@ export default function SidebarProfile({ isCollapsed, onNavigate }: SidebarProfi
               );
             })}
 
-            <Button
+            <button
               type="button"
-              className="flex w-full items-center gap-3 px-3 py-2 text-left text-sm text-[var(--color-text)] hover:bg-[var(--color-hover-soft)]"
+              role="menuitem"
+              className="flex w-full cursor-pointer items-center gap-3 rounded-lg px-3 py-2 text-left text-sm text-[var(--color-text)] transition-colors hover:bg-[var(--color-hover-soft)]"
             >
               <AppIcon icon={Moon} size="md" />
 
               <span>다크 모드</span>
-            </Button>
+            </button>
           </div>
 
           <div className="border-t border-[var(--color-border)] pt-2">
-            <Button
+            <button
               type="button"
-              className="flex w-full items-center gap-3 px-3 py-2 text-left text-sm text-[var(--color-danger-text)] hover:bg-[var(--color-danger-soft)]"
+              role="menuitem"
+              className="flex w-full cursor-pointer items-center gap-3 rounded-lg px-3 py-2 text-left text-sm text-[var(--color-danger-text)] transition-colors hover:bg-[var(--color-danger-soft)]"
             >
               <AppIcon icon={LogOut} size="md" />
 
               <span>로그아웃</span>
-            </Button>
+            </button>
           </div>
         </div>
       )}

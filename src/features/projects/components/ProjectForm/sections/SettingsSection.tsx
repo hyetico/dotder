@@ -21,6 +21,8 @@ import { type ProjectFormData } from "@/features/projects/schemas/projectSchema"
 import { type Project } from "@/features/projects/types/project";
 import { type ProjectFormLayout } from "@/features/projects/utils/projectFormLayout";
 
+import { TEAM_FEATURES_VISIBLE } from "@/lib/v1Scope";
+
 /**
  * SettingsSection
  *
@@ -102,8 +104,8 @@ export function SettingsSection({
             plain={createShell}
             icon={Settings}
             title="프로젝트 설정"
-            description="프로젝트의 상태, 마감일, 태그, 팀, 관리자를 설정합니다."
-            mobileDescription="상태, 태그, 팀, 관리자를 설정해주세요."
+            description="프로젝트의 상태, 마감일, 태그를 설정합니다."
+            mobileDescription="상태, 마감일, 태그를 설정해주세요."
           />
         ) : null}
 
@@ -143,23 +145,25 @@ export function SettingsSection({
           />
         </div>
 
-        <div
-          className={
-            splitLayout
-              ? ` ${isCreating ? "order-5" : "order-6"} grid shrink-0 gap-3`
-              : "space-y-4 md:space-y-6"
-          }
-        >
-          <ProjectTeamField control={control} accentColor={accentColor} />
+        {TEAM_FEATURES_VISIBLE ? (
+          <div
+            className={
+              splitLayout
+                ? ` ${isCreating ? "order-5" : "order-6"} grid shrink-0 gap-3`
+                : "space-y-4 md:space-y-6"
+            }
+          >
+            <ProjectTeamField control={control} accentColor={accentColor} />
 
-          <ProjectAdminField
-            admin={admin}
-            teamValue={teamIdValue}
-            accentColor={accentColor}
-            showChangeButton={!isCreating}
-            onAdminChange={setPreviewAdminName}
-          />
-        </div>
+            <ProjectAdminField
+              admin={admin}
+              teamValue={teamIdValue}
+              accentColor={accentColor}
+              showChangeButton={!isCreating}
+              onAdminChange={setPreviewAdminName}
+            />
+          </div>
+        ) : null}
 
         <ProjectMainField
           control={control}
