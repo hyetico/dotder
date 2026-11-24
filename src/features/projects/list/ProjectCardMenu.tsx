@@ -33,7 +33,11 @@ export default function ProjectCardMenu({ project, variant = "card" }: ProjectCa
 
   return (
     <>
-      <MoreMenu label={`‘${project.name}’ 메뉴`} size={variant === "card" ? "xs" : "sm"}>
+      <MoreMenu
+        label={`‘${project.name}’ 메뉴`}
+        size={variant === "card" ? "xs" : "sm"}
+        onCard={variant === "card"}
+      >
         {(close) => {
           const run = (action: () => void) => () => {
             close();
