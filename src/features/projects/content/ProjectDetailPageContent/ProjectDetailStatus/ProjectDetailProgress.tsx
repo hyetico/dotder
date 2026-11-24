@@ -72,7 +72,7 @@ function countTasks(tasks: Task[]): TaskCounts {
 function ProgressDonut({
   value,
   gradient,
-  trackColor = "#E8EDF5",
+  trackColor = "var(--color-hover)",
 }: {
   value: number;
   gradient: string;
@@ -179,7 +179,7 @@ export default function ProjectDetailProgress({
     : progressGradients[project.status];
   const progressTrackColor = project.isDelayed
     ? PROJECT_STATUS_COLOR_SCALES.DELAYED.progress
-    : "#E8EDF5";
+    : "var(--color-hover)";
   const hasTasks = counts.total > 0;
   const hasGoals = goals.length > 0;
   const onHold = project.status === "ON_HOLD";
@@ -200,7 +200,7 @@ export default function ProjectDetailProgress({
 
       {!hasTasks && !hasGoals ? (
         <div className="flex flex-col items-center py-10 text-center">
-          <span className="flex h-14 w-14 items-center justify-center rounded-full bg-[#F3F4F6] text-[var(--color-text-secondary)]">
+          <span className="flex h-14 w-14 items-center justify-center rounded-full bg-[var(--color-hover)] text-[var(--color-text-secondary)]">
             <AppIcon icon={ClipboardList} size="xl" />
           </span>
           <p className="mt-4 text-sm leading-5 font-semibold text-[var(--color-text)]">
@@ -285,7 +285,7 @@ export default function ProjectDetailProgress({
               </>
             ) : (
               <>
-                <div className="flex h-40 w-40 items-center justify-center rounded-full border-2 border-dashed border-[#D1D5DB] text-2xl leading-7 font-bold text-[var(--color-text-muted)]">
+                <div className="flex h-40 w-40 items-center justify-center rounded-full border-2 border-dashed border-[var(--color-border-strong)] text-2xl leading-7 font-bold text-[var(--color-text-muted)]">
                   —
                 </div>
                 <p className="mt-3 text-sm leading-5 font-medium text-[var(--color-text)]">

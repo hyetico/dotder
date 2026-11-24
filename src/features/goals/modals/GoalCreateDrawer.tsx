@@ -43,38 +43,40 @@ const SLIDE_MS = 400;
 const goalIconPreviewClassName =
   "flex size-12 shrink-0 items-center justify-center rounded-[12px] bg-[var(--color-hover-soft)] text-2xl leading-none";
 const goalTitleAreaClassName =
-  "text-2xl! leading-[32px]! font-[700]! text-[#292D32]! placeholder:text-2xl placeholder:leading-[32px] placeholder:font-[700] placeholder:text-[#e1e0de]! focus:placeholder:text-[#e1e0de]!";
+  "text-2xl! leading-[32px]! font-[700]! text-[var(--color-text)]! placeholder:text-2xl placeholder:leading-[32px] placeholder:font-[700] placeholder:text-[var(--color-text-placeholder)]! focus:placeholder:text-[var(--color-text-placeholder)]!";
 const goalDescriptionAreaClassName =
-  "placeholder:text-[#e1e0de]! focus:placeholder:text-[#e1e0de]!";
+  "placeholder:text-[var(--color-text-placeholder)]! focus:placeholder:text-[var(--color-text-placeholder)]!";
 const goalTitleBlockClassName = "flex w-full min-w-0 flex-col items-stretch gap-[16px]";
 const drawerBodyClassName = "!px-[62px]";
 const drawerRowClassName = "flex min-w-0 items-center gap-[12px] py-4";
 const drawerRowTopClassName = "mt-[32px] flex min-w-0 items-start gap-[12px] pb-4";
 const drawerRowLabelClassName =
-  "w-[80px] shrink-0 text-sm leading-[20px] font-[500] text-[#78746E]";
+  "w-[80px] shrink-0 text-sm leading-[20px] font-[500] text-[var(--color-text-muted)]";
 const drawerAsideClassName =
-  "ml-auto inline-flex shrink-0 items-center gap-1 text-xs leading-[18px] font-[400] whitespace-nowrap text-[#64748B]";
+  "ml-auto inline-flex shrink-0 items-center gap-1 text-xs leading-[18px] font-[400] whitespace-nowrap text-[var(--color-text-muted)]";
 const projectNameClassName =
-  "min-w-0 flex-1 truncate text-sm leading-[20px] font-[400] text-[#292D32]";
+  "min-w-0 flex-1 truncate text-sm leading-[20px] font-[400] text-[var(--color-text)]";
 const periodTextClassName =
-  "min-w-0 flex-1 truncate text-sm leading-[20px] font-[400] text-[#292D32]";
+  "min-w-0 flex-1 truncate text-sm leading-[20px] font-[400] text-[var(--color-text)]";
 const periodLinkClassName =
-  "ml-auto inline-flex shrink-0 items-center gap-1 text-xs leading-[18px] font-[400] whitespace-nowrap text-[#64748B]";
-const tagLimitClassName = "text-xs leading-[20px] font-[400] text-[#64748B] tabular-nums";
+  "ml-auto inline-flex shrink-0 items-center gap-1 text-xs leading-[18px] font-[400] whitespace-nowrap text-[var(--color-text-muted)]";
+const tagLimitClassName =
+  "text-xs leading-[20px] font-[400] text-[var(--color-text-muted)] tabular-nums";
 const tagListClassName = "mt-[8px] flex min-w-0 flex-wrap items-center gap-1.5";
-const tagEmptyClassName = "mt-[8px] text-sm leading-[20px] font-[400] text-[#64748B]";
+const tagEmptyClassName =
+  "mt-[8px] text-sm leading-[20px] font-[400] text-[var(--color-text-muted)]";
 const goalTagSectionClassName = "py-4";
 const tagButtonClassName =
   "max-w-full min-w-0 cursor-pointer rounded-[9px] disabled:cursor-not-allowed";
 const tagSelectedClassName = "outline outline-1 outline-[var(--color-text)]";
 const assigneeSummaryClassName =
-  "h-auto! w-auto! shrink-0 border-transparent! bg-transparent! px-0! py-0! md:px-0! [&_.truncate]:text-sm! [&_.truncate]:leading-[20px]! [&_.truncate]:font-[400]! [&_.truncate]:text-[#292D32]!";
+  "h-auto! w-auto! shrink-0 border-transparent! bg-transparent! px-0! py-0! md:px-0! [&_.truncate]:text-sm! [&_.truncate]:leading-[20px]! [&_.truncate]:font-[400]! [&_.truncate]:text-[var(--color-text)]!";
 const statusTextClassName =
-  "inline-flex min-w-0 items-center gap-1.5 text-sm leading-[20px] font-[400] text-[#292D32]";
+  "inline-flex min-w-0 items-center gap-1.5 text-sm leading-[20px] font-[400] text-[var(--color-text)]";
 const dateButtonEmptyClassName =
-  "w-full justify-start text-sm! leading-[20px]! font-[400]! text-[#64748B]! [&_span]:text-sm! [&_span]:leading-[20px]! [&_span]:font-[400]! [&_span]:text-[#64748B]!";
+  "w-full justify-start text-sm! leading-[20px]! font-[400]! text-[var(--color-text-muted)]! [&_span]:text-sm! [&_span]:leading-[20px]! [&_span]:font-[400]! [&_span]:text-[var(--color-text-muted)]!";
 const dateButtonValueClassName =
-  "w-full justify-start text-sm! leading-[20px]! font-[400]! text-[#292D32]! [&_span]:text-sm! [&_span]:leading-[20px]! [&_span]:font-[400]! [&_span]:text-[#292D32]!";
+  "w-full justify-start text-sm! leading-[20px]! font-[400]! text-[var(--color-text)]! [&_span]:text-sm! [&_span]:leading-[20px]! [&_span]:font-[400]! [&_span]:text-[var(--color-text)]!";
 
 const goalStatusAutoRules: { condition: string; status: GoalStatus }[] = [
   { condition: "태스크 없음 또는 모두 미시작", status: "NOT_STARTED" },
@@ -82,7 +84,7 @@ const goalStatusAutoRules: { condition: string; status: GoalStatus }[] = [
   { condition: "1개 이상 연결되며 모두 완료", status: "COMPLETED" },
 ];
 const goalStatusAutoInfoButtonClassName =
-  "inline-flex size-[22px] shrink-0 cursor-pointer items-center justify-center rounded-full p-0 leading-none text-[#64748B] transition-colors hover:bg-[var(--color-primary-soft)] hover:text-[var(--color-primary)]";
+  "inline-flex size-[22px] shrink-0 cursor-pointer items-center justify-center rounded-full p-0 leading-none text-[var(--color-text-muted)] transition-colors hover:bg-[var(--color-primary-soft)] hover:text-[var(--color-primary)]";
 const goalStatusAutoRuleClassName =
   "flex min-w-0 items-center justify-between gap-3 border-b border-[var(--color-border)] py-3 last:border-b-0";
 

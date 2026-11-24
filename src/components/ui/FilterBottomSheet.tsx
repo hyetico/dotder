@@ -85,7 +85,7 @@ function FilterSheetButton({
                 ? `bg-white text-[var(--color-text)] shadow-sm`
                 : `text-[var(--color-text-muted)] hover:text-[var(--color-text-secondary)]`
             } `
-          : `h-10 w-10 rounded-[var(--radius-sm)] border border-[#E5E7EB] bg-white text-[var(--color-text)] hover:bg-[var(--color-hover-soft)] ${className} `
+          : `h-10 w-10 rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-white text-[var(--color-text)] hover:bg-[var(--color-hover-soft)] ${className} `
       } `}
     >
       <AppIcon icon={Funnel} size={iconSize} className={hideIconOnMobile ? "max-md:hidden" : ""} />
@@ -107,7 +107,7 @@ function FilterSheetButton({
 
   return (
     <span
-      className={`inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-[var(--radius-sm)] bg-[#F1F3F5] p-0.5 lg:h-9 lg:w-9 ${className} `}
+      className={`inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-[var(--radius-sm)] bg-[var(--color-hover)] p-0.5 lg:h-9 lg:w-9 ${className} `}
     >
       {button}
     </span>
@@ -271,7 +271,7 @@ export default function FilterBottomSheet<T extends string>({
                             className={`flex size-5 shrink-0 items-center justify-center rounded-full border ${
                               selected
                                 ? "border-[var(--color-primary)] bg-[var(--color-primary)]"
-                                : "border-[#D1D5DB] bg-white"
+                                : "border-[var(--color-border-strong)] bg-white"
                             } `}
                           >
                             {selected ? <span className="size-2 rounded-full bg-white" /> : null}

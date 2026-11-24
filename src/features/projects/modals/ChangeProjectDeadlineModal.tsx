@@ -396,7 +396,7 @@ function LinkedCountBadge({ title, count }: { title: string; count: number }) {
 
   return (
     <Badge
-      className="border border-[#D1D5DB] bg-gray-100 font-medium text-[var(--color-text-secondary)]"
+      className="border border-[var(--color-border-strong)] bg-gray-100 font-medium text-[var(--color-text-secondary)]"
       title={label}
       ariaLabel={label}
     >

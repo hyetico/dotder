@@ -228,7 +228,7 @@ export default function ProjectDetailTeam({
 
       <div className="grid gap-3 sm:grid-cols-2">
         <section className={`${panelClassName} flex items-center gap-3 p-[10px] md:p-4`}>
-          <AppIcon icon={Users} size="md" color="#111827" />
+          <AppIcon icon={Users} size="md" color="var(--color-text)" />
           <div>
             <p className="text-xs leading-5 font-medium text-[var(--color-text-secondary)]">
               참여 팀원
@@ -237,7 +237,7 @@ export default function ProjectDetailTeam({
           </div>
         </section>
         <section className={`${panelClassName} flex items-center gap-3 p-[10px] md:p-4`}>
-          <AppIcon icon={ListTodo} size="md" color="#111827" />
+          <AppIcon icon={ListTodo} size="md" color="var(--color-text)" />
           <div>
             <p className="text-xs leading-5 font-medium text-[var(--color-text-secondary)]">
               진행중 태스크

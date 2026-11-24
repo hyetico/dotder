@@ -45,7 +45,9 @@ export default function ProjectCompactCard({ project }: ProjectCompactCardProps)
     "--folder-fill": getProjectTintColor(color),
     "--folder-line": getProjectTintLineColor(color),
     "--folder-ink": color ? getProjectTintInkColor(color) : "var(--color-text-secondary)",
-    "--folder-fill-hover": color ? `color-mix(in srgb, ${color} 22%, white)` : "#E4E7EB",
+    "--folder-fill-hover": color
+      ? `color-mix(in srgb, ${color} 22%, white)`
+      : "var(--color-hover-strong)",
   } as CSSProperties;
 
   return (

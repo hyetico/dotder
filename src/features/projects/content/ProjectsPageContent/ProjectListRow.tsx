@@ -95,7 +95,7 @@ function ListCountPair({
       title={`${completed} / ${total}`}
       aria-label={`${label} ${completed}개 완료, 전체 ${total}개`}
     >
-      <span className="shrink-0 font-medium text-[#3B82F6]">{label}</span>
+      <span className="shrink-0 font-medium text-[var(--color-info-text)]">{label}</span>
       <span className="min-w-0 truncate font-semibold text-[var(--color-text)]">
         {completed}
         <span className="mx-1 font-medium text-[var(--color-text-disabled)]">/</span>
@@ -577,7 +577,7 @@ export function ProjectListTable({
         before:inset-y-0
         before:left-0
         before:w-[3px]
-        before:bg-[linear-gradient(180deg,#E5E7EB_0%,#D1D5DB_55%,#9CA3AF_100%)]
+        before:bg-[var(--color-border-strong)]
 
         after:pointer-events-none
         after:absolute

@@ -2,7 +2,7 @@
 
 import type { ReactNode } from "react";
 
-const pillMutedColor = "#787774";
+const pillMutedColor = "var(--color-text-muted)";
 const pillButtonClassName =
   "text-body inline-flex h-9 shrink-0 items-center gap-1.5 rounded-full border-0 px-3 font-medium whitespace-nowrap transition-colors focus-visible:ring-2 focus-visible:ring-[var(--color-primary-ring)] focus-visible:outline-none";
 
@@ -121,7 +121,7 @@ export function StatusFilterChipButton<T extends string>({
   }
 
   return (
-    <div className="inline-flex h-10 shrink-0 items-center rounded-[var(--radius-sm)] bg-[#F1F3F5] p-0.5">
+    <div className="inline-flex h-10 shrink-0 items-center rounded-[var(--radius-sm)] bg-[var(--color-hover)] p-0.5">
       {control}
     </div>
   );
@@ -155,7 +155,7 @@ export default function StatusFilterChips<T extends string>({
       className={
         pill
           ? "inline-flex max-w-full min-w-0 flex-wrap items-center gap-1.5"
-          : "inline-flex max-w-full min-w-0 flex-wrap items-center gap-0.5 rounded-[var(--radius-sm)] bg-[#F1F3F5] p-0.5"
+          : "inline-flex max-w-full min-w-0 flex-wrap items-center gap-0.5 rounded-[var(--radius-sm)] bg-[var(--color-hover)] p-0.5"
       }
     >
       {items.map((item) => {

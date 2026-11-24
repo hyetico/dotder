@@ -347,7 +347,7 @@ export default function Sidebar({ variant = "desktop", onNavigate }: SidebarProp
                     background: `conic-gradient(
                     var(--color-primary)
                     ${mockWeeklyProgress.percent}%,
-                    #e5e7eb
+                    var(--color-hover-strong)
                     ${mockWeeklyProgress.percent}%
                   )`,
                   }}

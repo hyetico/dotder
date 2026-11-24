@@ -82,8 +82,8 @@ const emptyEditErrors: GoalEditErrors = {
   endDate: "",
 };
 const statusIconClassName: Record<GoalStatus, string> = {
-  COMPLETED: "text-[#16a34a]",
-  IN_PROGRESS: "text-[#2563eb]",
+  COMPLETED: "text-[var(--color-success-text)]",
+  IN_PROGRESS: "text-[var(--color-info-text)]",
   NOT_STARTED: "text-[var(--color-text-muted)]",
 };
 const goalIcons: Record<GoalIcon, LucideIcon> = {

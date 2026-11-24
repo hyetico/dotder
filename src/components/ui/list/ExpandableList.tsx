@@ -575,7 +575,7 @@ export default function ExpandableList({
   headerPaddingRight = 20,
   minWidth = 760,
   className = "",
-  detailClassName = "bg-[#faf8f8]",
+  detailClassName = "bg-[var(--color-hover-soft)]",
   summaryClassName = `
     flex
     h-[52px]

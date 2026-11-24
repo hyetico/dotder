@@ -186,7 +186,7 @@ function getProjectFolderColors(color: string | null | undefined, white = false)
   const line = white ? getProjectTintLineColor(null) : getProjectTintLineColor(color);
 
   return {
-    "--folder-fill": white ? "#ffffff" : getProjectTintColor(color),
+    "--folder-fill": white ? "var(--color-surface)" : getProjectTintColor(color),
     "--folder-line": line,
     "--folder-shell": line,
   } as CSSProperties;

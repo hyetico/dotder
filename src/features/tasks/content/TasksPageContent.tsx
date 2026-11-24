@@ -80,14 +80,14 @@ function TasksPageLayout() {
       id: "all",
       label: "전체",
       count: searchedTasks.length,
-      iconColor: "#6B7280",
+      iconColor: "var(--color-text-muted)",
       icon: <AppIcon icon={ListTodo} size="sm" />,
     },
     {
       id: "TODO",
       label: "할 일",
       count: searchedTasks.filter((task) => matchesTaskStatusFilter(task, "TODO", today)).length,
-      iconColor: "#9CA3AF",
+      iconColor: "var(--color-neutral-text)",
       icon: <AppIcon icon={Circle} size="sm" />,
     },
     {
@@ -95,21 +95,21 @@ function TasksPageLayout() {
       label: "진행 중",
       count: searchedTasks.filter((task) => matchesTaskStatusFilter(task, "IN_PROGRESS", today))
         .length,
-      iconColor: "#3B82F6",
+      iconColor: "var(--color-info-text)",
       icon: <AppIcon icon={LoaderCircle} size="sm" />,
     },
     {
       id: "DONE",
       label: "완료",
       count: searchedTasks.filter((task) => matchesTaskStatusFilter(task, "DONE", today)).length,
-      iconColor: "#10B981",
+      iconColor: "var(--color-success-text)",
       icon: <AppIcon icon={CheckCircle2} size="sm" />,
     },
     {
       id: "DELAYED",
       label: "지연",
       count: searchedTasks.filter((task) => matchesTaskStatusFilter(task, "DELAYED", today)).length,
-      iconColor: "#EF4444",
+      iconColor: "var(--color-danger-text)",
       icon: null,
     },
   ];

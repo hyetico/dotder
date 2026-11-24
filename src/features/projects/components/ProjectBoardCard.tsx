@@ -27,7 +27,8 @@ type ProjectBoardCardProps = {
 
 const folderCountClassName =
   "inline-flex max-w-full min-w-0 items-center gap-1 overflow-hidden whitespace-nowrap";
-const folderCountLabelClassName = "text-sm leading-5 font-medium text-[#626A74]";
+const folderCountLabelClassName =
+  "text-sm leading-5 font-medium text-[var(--color-text-secondary)]";
 const folderCountValueClassName =
   "text-sm leading-5 font-semibold text-[var(--color-text)] tabular-nums";
 
@@ -116,7 +117,11 @@ export function ProjectCardShell({
   return (
     <article
       className={`flex min-w-0 overflow-hidden rounded-[28px] shadow-[var(--shadow-project-card)] transition-shadow hover:shadow-[var(--shadow-project-card-hover)] ${labelOnTop ? "flex-col" : ""} `}
-      style={{ backgroundColor: hasColor ? getProjectAccentColor(project.color) : "#E5E7EB" }}
+      style={{
+        backgroundColor: hasColor
+          ? getProjectAccentColor(project.color)
+          : "var(--color-hover-strong)",
+      }}
     >
       <div aria-hidden className={labelOnTop ? "h-[6px] shrink-0" : "w-[6px] shrink-0"} />
       {children}
@@ -128,13 +133,14 @@ const cardProgressLabelClassName =
   "text-xs leading-5 font-medium text-[var(--color-text-secondary)]";
 const cardProgressPercentClassName =
   "text-base leading-6 font-bold text-[var(--color-text)] tabular-nums";
-const cardProgressTrackClassName = "h-1.5 overflow-hidden rounded-full bg-[#E5E7EB]";
-const cardProgressFillClassName = "h-full rounded-full bg-[#292D32]";
+const cardProgressTrackClassName =
+  "h-1.5 overflow-hidden rounded-full bg-[var(--color-hover-strong)]";
+const cardProgressFillClassName = "h-full rounded-full bg-[var(--color-primary)]";
 const cardStatusRowClassName = "flex min-w-0 items-center justify-between gap-2";
 const cardStatusLabelClassName =
   "inline-flex min-w-0 items-center gap-1.5 text-xs leading-5 font-medium text-[var(--color-text)]";
 const cardDelayLabelClassName =
-  "inline-flex shrink-0 items-center gap-1 text-xs leading-5 font-medium text-[#EF4444] tabular-nums";
+  "inline-flex shrink-0 items-center gap-1 text-xs leading-5 font-medium text-[var(--color-danger-text)] tabular-nums";
 const cardTitleClassName =
   "min-w-0 flex-1 text-base leading-6 font-semibold text-[var(--color-text)]";
 const cardTitleRowClassName = "flex min-w-0 items-start gap-2";

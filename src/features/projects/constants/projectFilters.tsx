@@ -58,7 +58,7 @@ export function getProjectStatusFilters(
       id: "all",
       label: "전체",
       count: stats.total,
-      iconColor: "#6B7280",
+      iconColor: "var(--color-text-muted)",
       icon: <AppIcon icon={Folder} size="sm" />,
     },
     {

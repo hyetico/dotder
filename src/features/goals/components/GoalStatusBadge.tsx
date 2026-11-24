@@ -8,7 +8,7 @@ import {
 import type { GoalStatus } from "@/features/goals/types/goal";
 import type { ReactNode } from "react";
 
-const badgeFill = "bg-[linear-gradient(180deg,#ffffff_0%,#f3f4f6_100%)]";
+const badgeFill = "bg-[var(--color-surface)]";
 
 const statusOutlineClass: Record<ReturnType<typeof getGoalVisualStatus>, string> = {
   NOT_STARTED: "border-slate-400 text-[var(--color-text-secondary)]",

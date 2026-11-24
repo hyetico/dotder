@@ -26,18 +26,18 @@ const viewLinkClassName =
   "inline-flex shrink-0 items-center gap-1 text-xs leading-5 font-medium text-[var(--color-text-secondary)]";
 const noticeCardClassName =
   "rounded-[var(--radius-md)] border border-[var(--color-border)] px-4 py-4";
-const summaryTrackClassName = "h-3 overflow-hidden rounded-full bg-[#E8EEF5]";
-const goalTrackClassName = "h-2 overflow-hidden rounded-full bg-[#E8EEF5]";
-const taskTrackClassName = "h-4 overflow-hidden rounded-full bg-[#E8EEF5]";
-const progressFillClassName = "h-full rounded-full bg-[#3B82F6]";
+const summaryTrackClassName = "h-3 overflow-hidden rounded-full bg-[var(--color-hover)]";
+const goalTrackClassName = "h-2 overflow-hidden rounded-full bg-[var(--color-hover)]";
+const taskTrackClassName = "h-4 overflow-hidden rounded-full bg-[var(--color-hover)]";
+const progressFillClassName = "h-full rounded-full bg-[var(--color-info)]";
 const delayBadgeClassName = getProjectStatusStyles("DELAYED").badge;
 const dueBadgeClassName = getProjectStatusStyles("IN_PROGRESS").badge;
 
 const taskSegmentColors = {
-  done: "#3B82F6",
-  active: "#93C5FD",
-  delayed: "#EF4444",
-  waiting: "#D1D5DB",
+  done: "var(--color-info)",
+  active: "color-mix(in srgb, var(--color-info) 50%, var(--color-surface))",
+  delayed: "var(--color-danger)",
+  waiting: "var(--color-border-strong)",
 } as const;
 
 type ScheduleItem = {

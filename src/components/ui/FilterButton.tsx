@@ -115,7 +115,7 @@ export default function FilterButton({
               } inline-flex shrink-0 items-center self-center rounded-full font-medium whitespace-nowrap transition-colors ${
                 selected
                   ? `bg-primary-gradient text-white hover:shadow-none! active:shadow-none!`
-                  : `bg-[#f4f5f7] text-[var(--color-text-secondary)] hover:bg-[#e9ebef]`
+                  : `bg-[var(--color-hover-soft)] text-[var(--color-text-secondary)] hover:bg-[var(--color-hover-strong)]`
               } `
       }
     >
@@ -251,7 +251,7 @@ export function FilterButtonGroup({
       ref={trayRef}
       className={`inline-flex items-center ${
         className.includes("gap-") ? "" : "gap-1"
-      } rounded-full border border-[var(--color-border)] bg-[#f7f8fa] bg-[linear-gradient(135deg,#ffffff_0%,#f4f5f7_52%,#e5e7eb_100%)] p-1 shadow-[var(--shadow-card)] ${
+      } rounded-full border border-[var(--color-border)] bg-[var(--color-hover-soft)] p-1 shadow-[var(--shadow-card)] ${
         scrollable
           ? `!m-0 w-max flex-nowrap lg:w-auto lg:max-w-full lg:flex-wrap`
           : "max-w-full flex-wrap"

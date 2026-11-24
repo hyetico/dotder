@@ -386,11 +386,11 @@ export default function ProjectDetailStatus({
             }
           />
           {project.isDelayed ? (
-            <div className="mt-3 hidden flex-wrap items-center gap-2 rounded-[var(--radius-sm)] bg-[#F2F6FA] px-3 py-2 text-sm leading-5 md:flex">
+            <div className="mt-3 hidden flex-wrap items-center gap-2 rounded-[var(--radius-sm)] bg-[var(--color-hover-soft)] px-3 py-2 text-sm leading-5 md:flex">
               <AppIcon icon={Clock} size="sm" className="shrink-0 text-[var(--color-danger)]" />
               <Badge
                 shape="rounded"
-                className="bg-[#FCD8D8] font-semibold text-[var(--color-danger)] tabular-nums"
+                className="bg-[var(--color-danger-soft)] font-semibold text-[var(--color-danger)] tabular-nums"
               >
                 {schedule.overdueDays}일 경과
               </Badge>
@@ -448,7 +448,7 @@ export default function ProjectDetailStatus({
               </div>
             ))}
           </div>
-          <div className="mt-3 grid grid-cols-2 rounded-[var(--radius-sm)] bg-[#F4F6F8] px-3 py-3 text-center text-sm leading-5 md:hidden">
+          <div className="mt-3 grid grid-cols-2 rounded-[var(--radius-sm)] bg-[var(--color-hover-soft)] px-3 py-3 text-center text-sm leading-5 md:hidden">
             <p className="text-[var(--color-text-secondary)]">
               변경{" "}
               <span className="font-semibold text-[var(--color-text)]">
@@ -473,7 +473,7 @@ export default function ProjectDetailStatus({
             headerPaddingLeft={10}
             headerPaddingRight={10}
             minWidth={640}
-            detailClassName="bg-[#F4F6F8]"
+            detailClassName="bg-[var(--color-hover-soft)]"
             empty="마감일 변경 이력이 없습니다."
           />
         </div>

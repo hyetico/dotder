@@ -65,8 +65,7 @@ export function getProjectStatusStyles(status: ProjectStatusColorKey) {
   switch (status) {
     case "PLANNED":
       return {
-        badge:
-          "bg-[linear-gradient(135deg,#f7f7f5_0%,#e2e8f0_52%,#cbd5e1_100%)] text-[var(--color-text-secondary)]",
+        badge: "bg-[var(--color-neutral-soft)] text-[var(--color-neutral-text)]",
         text: "text-[var(--color-text-muted)]",
         dot: "bg-slate-400",
         bar: "bg-slate-400",
@@ -74,7 +73,7 @@ export function getProjectStatusStyles(status: ProjectStatusColorKey) {
 
     case "IN_PROGRESS":
       return {
-        badge: "bg-[linear-gradient(135deg,#eff6ff_0%,#bfdbfe_52%,#93c5fd_100%)] text-blue-700",
+        badge: "bg-[var(--color-info-soft)] text-[var(--color-info-text)]",
         text: "text-blue-600",
         dot: "bg-blue-600",
         bar: "bg-blue-600",
@@ -82,7 +81,7 @@ export function getProjectStatusStyles(status: ProjectStatusColorKey) {
 
     case "ON_HOLD":
       return {
-        badge: "bg-[linear-gradient(135deg,#fffbeb_0%,#fde68a_52%,#fcd34d_100%)] text-amber-800",
+        badge: "bg-[var(--color-warning-soft)] text-[var(--color-warning-text)]",
         text: "text-amber-600",
         dot: "bg-amber-600",
         bar: "bg-amber-600",
@@ -90,7 +89,7 @@ export function getProjectStatusStyles(status: ProjectStatusColorKey) {
 
     case "DONE":
       return {
-        badge: "bg-[linear-gradient(135deg,#ecfdf5_0%,#a7f3d0_52%,#6ee7b7_100%)] text-emerald-800",
+        badge: "bg-[var(--color-success-soft)] text-[var(--color-success-text)]",
         text: "text-green-600",
         dot: "bg-green-600",
         bar: "bg-green-600",
@@ -98,7 +97,7 @@ export function getProjectStatusStyles(status: ProjectStatusColorKey) {
 
     case "DELAYED":
       return {
-        badge: "bg-[linear-gradient(135deg,#fef2f2_0%,#fecaca_52%,#fca5a5_100%)] text-red-700",
+        badge: "bg-[var(--color-danger-soft)] text-[var(--color-danger-text)]",
         text: "text-red-600",
         dot: "bg-red-500",
         bar: "bg-red-500",
@@ -106,8 +105,7 @@ export function getProjectStatusStyles(status: ProjectStatusColorKey) {
 
     default:
       return {
-        badge:
-          "bg-[linear-gradient(135deg,#f7f7f5_0%,#e5e7eb_52%,#d1d5db_100%)] text-[var(--color-text)]",
+        badge: "bg-[var(--color-hover)] text-[var(--color-text)]",
         text: "text-[var(--color-text-secondary)]",
         dot: "bg-gray-400",
         bar: "bg-gray-400",

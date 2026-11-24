@@ -22,7 +22,7 @@ export default function ProjectProgressMeter({
   const width = Math.min(100, Math.max(0, progress));
 
   const bar = (
-    <div className="h-1.5 min-w-0 flex-1 overflow-hidden rounded-full bg-[#eef0f4]">
+    <div className="h-1.5 min-w-0 flex-1 overflow-hidden rounded-full bg-[var(--color-hover)]">
       <div
         className="h-full rounded-full"
         style={{

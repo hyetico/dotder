@@ -30,7 +30,7 @@ type ProjectViewToggleProps = {
  *
  * 프로젝트 카드를 보드와 리스트로 바꾸는 버튼입니다.
  * 바깥은 높이 44px 알약이고, 안은 반으로 나뉘며 가운데에 세로 구분선이 있습니다.
- * 선택된 반쪽 배경은 #EEF0F3이고, 웹과 모바일에서 같은 모양을 씁니다.
+ * 선택된 반쪽 배경은 --color-hover이고, 웹과 모바일에서 같은 모양을 씁니다.
  *
  * @param props - ProjectViewToggle 컴포넌트 Props
  * @param props.viewMode - 현재 보기

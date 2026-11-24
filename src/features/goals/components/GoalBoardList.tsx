@@ -35,19 +35,19 @@ const stripTheme: Record<
   }
 > = {
   COMPLETED: {
-    badgeClassName: "bg-[#e8f8ef] text-[#16a34a]",
-    barClassName: "bg-[#22c55e]",
-    percentClassName: "text-[#16a34a]",
+    badgeClassName: "bg-[var(--color-success-soft)] text-[var(--color-success-text)]",
+    barClassName: "bg-[var(--color-success)]",
+    percentClassName: "text-[var(--color-success-text)]",
   },
   IN_PROGRESS: {
-    badgeClassName: "bg-[#eaf2ff] text-[#2563eb]",
-    barClassName: "bg-[#3b82f6]",
-    percentClassName: "text-[#2563eb]",
+    badgeClassName: "bg-[var(--color-info-soft)] text-[var(--color-info-text)]",
+    barClassName: "bg-[var(--color-info)]",
+    percentClassName: "text-[var(--color-info-text)]",
   },
   NOT_STARTED: {
-    badgeClassName: "bg-[#f3f4f6] text-[#9ca3af]",
-    barClassName: "bg-[#d1d5db]",
-    percentClassName: "text-[#9ca3af]",
+    badgeClassName: "bg-[var(--color-hover)] text-[var(--color-text-disabled)]",
+    barClassName: "bg-[var(--color-border-strong)]",
+    percentClassName: "text-[var(--color-text-disabled)]",
   },
 };
 
@@ -59,7 +59,7 @@ const goalCardButtonClassName =
 
 const goalCardClassName =
   "flex h-full min-w-0 flex-col gap-3 rounded-[16px] bg-[var(--color-surface)] p-4 shadow-[0_1px_2px_rgb(20_25_35/4%)] transition-shadow hover:shadow-[0_6px_14px_rgb(20_25_35/8%)]";
-const goalCardBorderClassName = "border border-[#e6e8eb]";
+const goalCardBorderClassName = "border border-[var(--color-border)]";
 const goalSelectedCardClassName = "selected-border";
 
 const goalTitleClassName =
@@ -68,7 +68,8 @@ const goalTitleClassName =
 const goalTaskCountClassName =
   "inline-flex shrink-0 items-center gap-1 rounded-[8px] px-2 py-1 text-xs leading-none font-semibold tabular-nums";
 
-const goalProgressTrackClassName = "h-2 min-w-0 flex-1 overflow-hidden rounded-full bg-[#eceff3]";
+const goalProgressTrackClassName =
+  "h-2 min-w-0 flex-1 overflow-hidden rounded-full bg-[var(--color-hover)]";
 
 const goalProgressPercentClassName = "shrink-0 text-xs leading-5 font-semibold tabular-nums";
 
@@ -76,10 +77,11 @@ const goalStatusRowClassName = "mt-auto flex items-center gap-3 pt-1";
 
 const goalStatusGroupClassName = "inline-flex min-w-0 items-center gap-2";
 
-const goalOverdueDividerClassName = "shrink-0 text-xs leading-5 font-normal text-[#d1d5db]";
+const goalOverdueDividerClassName =
+  "shrink-0 text-xs leading-5 font-normal text-[var(--color-text-disabled)]";
 
 const goalOverdueClassName =
-  "inline-flex min-w-0 items-center text-xs leading-5 font-semibold text-[#e5484d]";
+  "inline-flex min-w-0 items-center text-xs leading-5 font-semibold text-[var(--color-danger-text)]";
 
 const goalTagRowClassName = "flex min-h-7 flex-wrap gap-1.5";
 const goalProjectLineClassName =
