@@ -65,9 +65,9 @@
 탭 줄                         [전체][메인][즐겨찾기][맞춤…][+]
    ↕ 32 (--page-title-above)
 페이지 제목  ← PageHeading
-   ↕ 8  (--page-title-gap)
+   ↕ 4  (--page-title-gap)
 설명
-   ↕ 32 (--page-title-below)
+   ↕ 24 (--page-title-below)
 요약 카드 줄 (선택)
    ↕ 24 (--section-gap)
 검색 · 상태 필터 칩 · 정렬 · 보기 전환

@@ -50,3 +50,6 @@ next-env.d.ts
 
 # design handoff (보드·캡처·프로토타입, git 제외)
 /design/
+
+# iCloud가 만드는 사본 (예: Toast 2.tsx)
+* 2.*

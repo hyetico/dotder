@@ -186,8 +186,8 @@
 | `--page-padding-x` | 16 → 24(md) → 32(lg) | 페이지 좌우 (xl 이상도 32) |
 | `--page-padding` | 12 → 24(md) | 페이지 위아래 |
 | `--page-title-above` | 32 | 탭 아래 ~ 제목 |
-| `--page-title-gap` | 8 | 제목 ~ 설명 |
-| `--page-title-below` | 32 | 제목 영역 ~ 다음 블록 |
+| `--page-title-gap` | 4 | 제목 ~ 한 줄 요약 |
+| `--page-title-below` | 24 | 제목 영역 ~ 다음 블록 (탭 · 툴바) |
 | `--section-gap` | 24 | 페이지 안 섹션 사이 |
 | `--drawer-padding-x` | 56 (모바일 20) | 드로어 본문 좌우 (지금 `62px` 하드코딩) |
 | `--drawer-label-width` | 80 | 드로어 라벨 |

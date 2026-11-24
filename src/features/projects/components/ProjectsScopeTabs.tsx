@@ -31,7 +31,7 @@ export default function ProjectsScopeTabs({
   return (
     <LineTabMenu<ProjectsScopeTab>
       ariaLabel="프로젝트 조회 범위"
-      className={placement === "top" ? "project-board-tab-line" : "-mx-3 -mt-2 mb-6"}
+      className={placement === "top" ? "project-board-tab-line" : "-mx-3 mb-6"}
       value={value}
       onChange={onChange}
       items={[
