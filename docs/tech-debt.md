@@ -36,6 +36,7 @@
 | **C-5** | 상태 뱃지 3종 바탕 없음, 토스트 2종 따로 | 5 | 5 |
 | **C-7** | 15KB 넘는 파일 12개 (`GoalForm` 44KB 최대) | 12 | 5~7 |
 | **C-8** | 쿼리 스코프 탭 3종 (`ProjectsScopeTabs` 등) | 3 | 9 |
+| **C-9** | `DatePicker` 모바일이 아직 가운데 모달 · 칸 36 (handoff B6: 바텀시트 · 칸 44). 공통 바텀시트가 없음(`FilterBottomSheet`는 필터 전용). 부르는 곳의 빈 칸 글자가 「시작일 선택」 「마감일 선택」 등 「~ 선택」으로 남음 | 1 + 부르는 곳 | 5 |
 | **A-1** | `div onClick` (`ProjectBoardCard`, `ProjectListRow`) | 2곳 | 5 |
 | **A-3** | `PageHeading` 대신 `<h1>` 직접 사용: 프로젝트 상세 `DetailTitle` 1곳 (폼 4곳은 5단계에서 바꿈) | 1곳 | 7 |
 | **A-4** | 이모지 아이콘: 숨긴 팀 목업 데이터(`lib/mock/teams.ts`) 6개만 남음 | 6곳 | v2 |
