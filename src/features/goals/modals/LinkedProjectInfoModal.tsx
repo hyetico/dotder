@@ -3,7 +3,6 @@
 import { useId, type ReactNode } from "react";
 
 import CrownBadge from "@/components/ui/badge/CrownBadge";
-import PrimaryButton from "@/components/ui/button/PrimaryButton";
 import ExpandablePreviewText from "@/components/ui/ExpandablePreviewText";
 import FieldNotice from "@/components/ui/FieldNotice";
 import Modal from "@/components/ui/modal/Modal";
@@ -170,12 +169,6 @@ export default function LinkedProjectInfoModal({
           <p className="text-body text-[var(--color-text-secondary)]">없음</p>
         )}
       </Modal.Body>
-
-      <Modal.Footer>
-        <PrimaryButton size="modal" onClick={onClose}>
-          닫기
-        </PrimaryButton>
-      </Modal.Footer>
     </Modal>
   );
 }

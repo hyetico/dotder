@@ -737,16 +737,6 @@ function GoalDetailDrawerPanel({
                 </>
               )}
             </Drawer.Body>
-
-            <Drawer.Footer>
-              <SecondaryButton
-                size="modal"
-                onClick={onClose}
-                className="min-w-[80px] justify-center"
-              >
-                닫기
-              </SecondaryButton>
-            </Drawer.Footer>
           </div>
         )}
       </Drawer>
