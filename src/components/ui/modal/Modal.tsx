@@ -26,6 +26,8 @@ type ModalProps = {
    * 확인창(`AlertModal`)과 통합 검색은 끈다.
    */
   mobileSheet?: boolean;
+  /** 그릴 곳. 없으면 `document.body`. 드로어 패널을 넘기면 드로어 가운데에 뜬다. */
+  container?: HTMLElement | null;
 };
 
 const ModalPadContext = createContext(true);
@@ -67,6 +69,7 @@ function ModalRoot({
   describedBy,
   maxHeightClassName = "max-h-[min(720px,calc(100dvh-2rem))]",
   mobileSheet = true,
+  container,
 }: ModalProps) {
   const dialogRef = useRef<HTMLDivElement>(null);
   const accentStyle = useProjectAccentStyle();
@@ -143,7 +146,7 @@ function ModalRoot({
         </div>
       </div>
     </div>,
-    document.body,
+    container ?? document.body,
   );
 }
 

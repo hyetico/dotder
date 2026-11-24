@@ -6,6 +6,8 @@ import PageInset from "@/components/layout/pages/Page/PageInset";
 import PrimaryButton from "@/components/ui/button/PrimaryButton";
 import { AppIcon, Folder, Plus } from "@/components/ui/icon";
 
+import { getNewProjectPath } from "@/lib/projectRoutes";
+
 export default function CreateProjectPrompt() {
   const router = useRouter();
 
@@ -29,7 +31,7 @@ export default function CreateProjectPrompt() {
 
         <PrimaryButton
           icon={<AppIcon icon={Plus} size="md" />}
-          onClick={() => router.push("/projects/new")}
+          onClick={() => router.push(getNewProjectPath())}
           className="mx-auto mt-6 !text-[var(--color-text-inverse)]"
           size="md"
         >

@@ -1,7 +1,11 @@
 import { getGoals } from "@/features/goals/api/goals";
 import { decodeActivityCounts, type ActivityDay } from "@/features/projects/utils/activityMosaic";
 import { getProjectInitial } from "@/features/projects/utils/projectDisplay";
-import { enrichProject, getProjectDaysAfterEnd } from "@/features/projects/utils/projectUtils";
+import {
+  enrichProject,
+  getProjectDaysAfterEnd,
+  resolveProjectStatus,
+} from "@/features/projects/utils/projectUtils";
 import { getTasks } from "@/features/tasks/api/tasks";
 
 import { MOCK_ACTIVITY_FROM, mockProjectActivity } from "@/lib/mock/projectActivity";
@@ -20,6 +24,7 @@ export type CreateProjectInput = Omit<Project, "id" | "icon"> & {
 export async function getProjects(): Promise<Project[]> {
   return mockProjects.map((project) => ({
     ...project,
+    status: resolveProjectStatus(project),
     tags: [...project.tags],
   }));
 }
@@ -27,7 +32,9 @@ export async function getProjects(): Promise<Project[]> {
 export async function getProjectListItems(): Promise<ProjectListItem[]> {
   const [tasks, goals] = await Promise.all([getTasks("all"), getGoals("all")]);
 
-  return mockProjects.map((project) => enrichProject(project, tasks, goals));
+  return mockProjects.map((project) =>
+    enrichProject({ ...project, status: resolveProjectStatus(project) }, tasks, goals),
+  );
 }
 
 /**

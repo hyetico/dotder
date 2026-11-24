@@ -14,6 +14,7 @@ import {
 
 import PrimaryButton from "@/components/ui/button/PrimaryButton";
 import SecondaryButton from "@/components/ui/button/SecondaryButton";
+import { useDrawerPanel } from "@/components/ui/drawer/Drawer";
 import { AppIcon, Info, TriangleAlert, type LucideIcon } from "@/components/ui/icon";
 import Modal from "@/components/ui/modal/Modal";
 
@@ -74,6 +75,8 @@ export default function AlertModal({
 }: AlertModalProps) {
   const titleId = useId();
   const descriptionId = useId();
+  // 드로어 안에서 열면 드로어 가운데에 뜬다 (Layout Spec 05 「드로어 가운데 확인창 320」)
+  const drawerPanel = useDrawerPanel();
 
   const ToneIcon = icon ?? toneIcons[tone];
   const focusCancel = tone === "danger" && !hideCancel;
@@ -106,6 +109,7 @@ export default function AlertModal({
       onClose={onClose}
       maxWidthClassName="max-w-[var(--confirm-width)]"
       mobileSheet={false}
+      container={drawerPanel}
       zIndexClassName="z-[var(--z-modal)]"
       labelledBy={titleId}
       describedBy={description ? descriptionId : undefined}

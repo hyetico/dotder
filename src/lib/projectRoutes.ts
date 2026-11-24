@@ -428,3 +428,16 @@ export function isStaticNavActive(href: string, pathname: string): boolean {
 
   return pathname === href || pathname.startsWith(`${href}/`);
 }
+
+/** 프로젝트 만들기 드로어를 여는 주소 값 (`/projects?new=1`) */
+export const NEW_PROJECT_PARAM = "new";
+
+/**
+ * 프로젝트 만들기 드로어를 여는 주소. 예전 `/projects/new` 페이지는 여기로 넘긴다.
+ *
+ * @example
+ * getNewProjectPath() // "/projects?new=1"
+ */
+export function getNewProjectPath(): string {
+  return `/projects?${NEW_PROJECT_PARAM}=1`;
+}

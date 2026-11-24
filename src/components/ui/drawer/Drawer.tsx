@@ -1,6 +1,14 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode, type Ref } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+  type ReactNode,
+  type Ref,
+} from "react";
 import { createPortal } from "react-dom";
 
 import CloseButton from "@/components/ui/button/CloseButton";
@@ -20,17 +28,21 @@ const mobileSheetClassName =
 // 손잡이 36 × 4 · 가운데 · 위 8
 const sheetHandleClassName =
   "mx-auto mt-2 h-1 w-9 shrink-0 rounded-full bg-[var(--color-border-strong)] md:hidden";
-const barShellClassName = "flex h-[54px] shrink-0 items-center border-[var(--color-border)]";
-const headerFrameClassName = "flex h-full items-center gap-2 px-3";
-const headerControlsClassName = "hidden shrink-0 items-center gap-0.5 md:flex";
+// Layout Spec 05: 헤더 56 (왼쪽 24 / 오른쪽 12) · 본문 패딩 24 · 필드 간격 24 · 푸터 72 (좌우 24 · 간격 8)
+const headerShellClassName =
+  "flex h-14 shrink-0 items-center border-b border-[var(--color-border)]";
+const footerShellClassName =
+  "flex h-18 shrink-0 items-center border-t border-[var(--color-border)]";
+const headerFrameClassName = "flex h-full items-center gap-1 pr-3 pl-6";
+const headerControlsClassName = "hidden shrink-0 items-center md:flex";
 const headerButtonClassName = "text-[var(--color-text-secondary)] hover:text-[var(--color-text)]";
 const fullscreenIconClassName = "origin-center scale-[0.67]";
 const bodyScrollClassName =
-  "thin-scrollbar flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain py-5 ![scrollbar-gutter:auto]";
-const bodyFrameClassName = "flex min-h-full flex-col gap-4 px-5";
+  "thin-scrollbar flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain py-6 ![scrollbar-gutter:auto]";
+const bodyFrameClassName = "flex min-h-full flex-col gap-6 px-6";
 // 모바일 바텀시트는 주 버튼(맨 끝)이 남은 폭을 모두 쓴다 (Layout Spec 08)
 const footerFrameClassName =
-  "flex h-full items-center justify-end gap-2 px-5 max-md:[&>*:last-child]:flex-1 max-md:[&>*:last-child]:justify-center";
+  "flex h-full items-center justify-end gap-2 px-6 max-md:[&>*:last-child]:flex-1 max-md:[&>*:last-child]:justify-center";
 
 type DrawerProps = {
   isEntered: boolean;
@@ -40,6 +52,8 @@ type DrawerProps = {
   children: ReactNode;
   closeLabel?: string;
   headerAction?: ReactNode;
+  /** 넓게 보기(화면 전체) 버튼. 상세 드로어에서만 켠다 (Layout Spec 05). */
+  expandable?: boolean;
   overlay?: boolean;
   lockScroll?: boolean;
   panelRef?: Ref<HTMLElement | null>;
@@ -108,7 +122,7 @@ function DrawerBody({ children, className = "" }: DrawerBodyProps) {
  */
 function DrawerFooter({ children, className = "" }: DrawerFooterProps) {
   return (
-    <div className={`${barShellClassName} border-t`}>
+    <div className={footerShellClassName}>
       <DrawerFrame className={[footerFrameClassName, className].filter(Boolean).join(" ")}>
         {children}
       </DrawerFrame>
@@ -143,11 +157,13 @@ function DrawerRoot({
   children,
   closeLabel = "닫기",
   headerAction,
+  expandable = false,
   overlay = true,
   lockScroll = false,
   panelRef,
 }: DrawerProps) {
   const internalRef = useRef<HTMLElement | null>(null);
+  const [panelNode, setPanelNodeState] = useState<HTMLElement | null>(null);
   const [isExpanded, setIsExpanded] = useState(false);
   const setScrollRoot = useModalScrollLock(lockScroll);
   const panelWidthClassName = isExpanded
@@ -220,6 +236,7 @@ function DrawerRoot({
 
   const setPanelNode = (node: HTMLElement | null) => {
     internalRef.current = node;
+    setPanelNodeState(node);
 
     if (lockScroll) {
       setScrollRoot(node);
@@ -256,25 +273,8 @@ function DrawerRoot({
         className={panelStateClassName}
       >
         <span aria-hidden className={sheetHandleClassName} />
-        <div className={`${barShellClassName} border-b`}>
+        <div className={headerShellClassName}>
           <DrawerFrame className={headerFrameClassName}>
-            <div className={headerControlsClassName}>
-              <IconButton
-                label={isExpanded ? "접기" : "전체 화면"}
-                title={isExpanded ? "접기" : "전체 화면"}
-                hoverSize="icon"
-                aria-pressed={isExpanded}
-                onClick={() => setIsExpanded((expanded) => !expanded)}
-                className={headerButtonClassName}
-              >
-                <AppIcon
-                  icon={isExpanded ? Minimize2 : Maximize2}
-                  size="md"
-                  className={fullscreenIconClassName}
-                />
-              </IconButton>
-            </div>
-
             {hasTitle ? (
               <h2
                 id={titleId}
@@ -288,15 +288,45 @@ function DrawerRoot({
 
             {headerAction ? <div className="shrink-0">{headerAction}</div> : null}
 
+            {expandable ? (
+              <div className={headerControlsClassName}>
+                <IconButton
+                  label={isExpanded ? "접기" : "넓게 보기"}
+                  title={isExpanded ? "접기" : "넓게 보기"}
+                  hoverSize="icon"
+                  aria-pressed={isExpanded}
+                  onClick={() => setIsExpanded((expanded) => !expanded)}
+                  className={headerButtonClassName}
+                >
+                  <AppIcon
+                    icon={isExpanded ? Minimize2 : Maximize2}
+                    size="md"
+                    className={fullscreenIconClassName}
+                  />
+                </IconButton>
+              </div>
+            ) : null}
+
             <CloseButton label={closeLabel} onClick={onClose} />
           </DrawerFrame>
         </div>
 
-        {children}
+        <DrawerPanelContext.Provider value={panelNode}>{children}</DrawerPanelContext.Provider>
       </aside>
     </>,
     document.body,
   );
+}
+
+const DrawerPanelContext = createContext<HTMLElement | null>(null);
+
+/**
+ * 감싼 드로어의 패널 요소를 돌려준다. 드로어 밖이면 null.
+ *
+ * 드로어 안에서 연 확인창(`AlertModal`)을 드로어 가운데에 그릴 때 쓴다 (Layout Spec 05).
+ */
+export function useDrawerPanel() {
+  return useContext(DrawerPanelContext);
 }
 
 const Drawer = Object.assign(DrawerRoot, {
