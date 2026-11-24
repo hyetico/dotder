@@ -869,6 +869,7 @@ export default function IntegratedSearchModal({
       labelledBy="integrated-search-modal-title"
       zIndexClassName="z-[var(--z-modal)]"
       maxWidthClassName="max-w-[var(--search-width)]"
+      mobileSheet={false}
       panelClassName={stableListModalPanelClassName}
     >
       <Modal.Header
