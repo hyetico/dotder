@@ -94,6 +94,8 @@ type MoreMenuProps = {
   label: string;
   /** 버튼 크기. 카드 제목 줄은 xs 28 (REBUILD 6-1) */
   size?: ButtonSize;
+  /** 카드 제목 줄: 본문 글자색 · 투명도 0.7 (보드 01) */
+  onCard?: boolean;
   /** 메뉴 내용. `close`를 불러 닫는다 */
   children: (close: () => void) => ReactNode;
 };
@@ -105,7 +107,7 @@ type MoreMenuProps = {
  * @example
  * <MoreMenu label="프로젝트 메뉴" size="xs">{(close) => <MenuItem onSelect={() => { open(); close(); }}>열기</MenuItem>}</MoreMenu>
  */
-export function MoreMenu({ label, size = "xs", children }: MoreMenuProps) {
+export function MoreMenu({ label, size = "xs", onCard = false, children }: MoreMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const close = () => setIsOpen(false);
@@ -128,8 +130,9 @@ export function MoreMenu({ label, size = "xs", children }: MoreMenuProps) {
     <>
       <Button
         ref={buttonRef}
-        variant="ghost"
+        variant={onCard ? "ghostText" : "ghost"}
         size={size}
+        className={onCard ? "opacity-70 hover:opacity-100" : undefined}
         iconOnly
         aria-label={label}
         aria-haspopup="menu"

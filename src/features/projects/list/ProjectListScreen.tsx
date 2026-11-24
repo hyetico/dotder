@@ -16,6 +16,7 @@ import { getProjectActivity, getProjectListItems } from "@/features/projects/api
 import ArchiveModal, { useArchivedProjects } from "@/features/projects/list/ArchiveModal";
 import FavoritesPanel from "@/features/projects/list/FavoritesPanel";
 import ProjectCard from "@/features/projects/list/ProjectCard";
+import ProjectCardGrid from "@/features/projects/list/ProjectCardGrid";
 import ProjectCreateRoute from "@/features/projects/list/ProjectCreateDrawer";
 import {
   getProjectCounts,
@@ -147,13 +148,13 @@ export default function ProjectListScreen({ scope }: { scope: ProjectListScope }
                 text="필터를 바꾸거나 새 프로젝트를 추가해 보세요."
               />
             ) : view === "card" ? (
-              <ul className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+              <ProjectCardGrid>
                 {visible.map((project) => (
                   <li key={project.id} className="min-w-0">
                     <ProjectCard project={project} activity={activity[project.id] ?? NO_ACTIVITY} />
                   </li>
                 ))}
-              </ul>
+              </ProjectCardGrid>
             ) : (
               <ul className="flex flex-col gap-2">
                 {visible.map((project) => (

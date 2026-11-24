@@ -14,6 +14,7 @@ import { GripVertical, Plus, Star } from "@/components/ui/icon";
 
 import { TOAST_TEXT } from "@/content/ui";
 import ProjectCard, { getLateDays } from "@/features/projects/list/ProjectCard";
+import ProjectCardGrid from "@/features/projects/list/ProjectCardGrid";
 import { getProjectStatusLabel } from "@/features/projects/utils/projectUtils";
 
 import { cn } from "@/lib/cn";
@@ -177,7 +178,7 @@ export default function FavoritesPanel({ projects, activity, onShowAll }: Favori
         </div>
       )}
 
-      <ul className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+      <ProjectCardGrid>
         {favorites.map((project) => {
           const isSelected = selected.includes(project.id);
           const toggle = () =>
@@ -246,7 +247,7 @@ export default function FavoritesPanel({ projects, activity, onShowAll }: Favori
             {addPopover(addRef)}
           </li>
         ) : null}
-      </ul>
+      </ProjectCardGrid>
     </div>
   );
 }

@@ -40,8 +40,8 @@ function Tile({ level }: { level: ActivityLevel }) {
 /**
  * 활동 모자이크 (보드 01 · REBUILD 5). 7줄 × 20주, 그날 한 일이 많을수록 조각이 크다.
  *
- * 상자 --mosaic-box · 모서리 12 · 안쪽 12. 칸 11 · 사이 3 · 왼쪽 정렬이고, 상자가 좁을 때만 가로 사이를 줄인다
- * (넘치게 가리지 않는다). 아래 줄 「최근 20주 · 활동한 날 N일」은 자르지 않고, 범례는 좁으면 다음 줄 오른쪽.
+ * 상자 --mosaic-box · 모서리 12 · 안쪽 12. 칸 11 · 가로 사이 (100% − 220) / 19로 상자 폭을 늘 꽉 채우고
+ * 세로 사이 3 (넘치게 가리지 않는다). 아래 줄 「최근 20주 · 활동한 날 N일」은 자르지 않고, 범례는 좁으면 다음 줄 오른쪽.
  *
  * @example
  * <Mosaic days={activity} color={project.color} />
@@ -57,12 +57,13 @@ export default function Mosaic({ days, color, today }: MosaicProps) {
         aria-label={`최근 20주 활동한 날 ${mosaic.activeDays}일`}
         className="rounded-[var(--radius-md)] bg-[var(--mosaic-box)] p-3"
       >
-        {/* 칸 11 고정 · 사이 3 · 왼쪽 정렬(보드 01). 상자가 좁을 때만 가로 사이를 0까지 줄인다 */}
-        <div className="grid grid-flow-col grid-cols-[repeat(20,--spacing(2.75))] grid-rows-[repeat(7,--spacing(2.75))] justify-start gap-x-[clamp(0px,calc((100%-var(--spacing)*55)/19),var(--spacing)*0.75)] gap-y-0.75">
+        {/* 칸 11 · 가로 사이 = (상자 폭 − 220) / 19로 상자를 늘 꽉 채운다 · 세로 사이 3 (보드 01 · REBUILD 5) */}
+        <div className="grid grid-flow-col grid-cols-[repeat(20,--spacing(2.75))] grid-rows-[repeat(7,--spacing(2.75))] justify-start gap-x-[calc((100%-var(--spacing)*55)/19)] gap-y-0.75">
           {mosaic.weeks.flatMap((week) =>
             week.map((cell) => (
               <span key={cell.date} className="flex justify-center">
-                {cell.isFuture ? <span className="size-2.75" /> : <Tile level={cell.level} />}
+                {/* 오늘 이후 칸도 빈 날 점으로 그린다 (7×20 모두). 개수에는 안 셈 (buildActivityMosaic) */}
+                <Tile level={cell.isFuture ? 0 : cell.level} />
               </span>
             )),
           )}
