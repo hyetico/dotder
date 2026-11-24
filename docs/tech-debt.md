@@ -19,11 +19,10 @@
 | **P-3** | 마감일 필수 (PRD: 비워도 됨) | 스키마 | 6 |
 | **P-4** | 기본 목표 태그가 상수(`PROJECT_TAG_PRESETS`)에 고정 (PRD: 설정에서) | 1곳 | 8 |
 | **P-5** | 프로젝트 생성이 3단계 위저드 페이지 (PRD: 드로어) | 화면 | 6 |
-| **P-6** | 팀·리포트·플레이그라운드가 메뉴에 보이고, 프로젝트 생성·수정에 팀 선택이 있음 (PRD: v1 숨김) | 메뉴 · 폼 | 5 |
-| **P-7** | 스프린트 페이지가 빈 화면 (PRD: 제거) | 1곳 | 5 |
+| **P-6** | 팀 메뉴 · 리포트 · 팀 선택은 5단계에서 숨김(`lib/v1Scope.ts`). 남은 곳: 프로젝트 상세의 팀 탭 · 팀/담당자 줄, 메모 카드의 팀 이름 | 화면 일부 | 7 |
 | **S-1** | 하드코딩 색 hex. UI 코드에 **10곳** 남음: `TeamScopeModal` 9 (v1 숨김, PRD 5-4라 손대지 않음), `MemoRegisterDrawer` 기본 프로젝트 색 1 (팔레트 값). 4단계에서 154곳 → 10곳 | 10곳 | 5 (팀 화면 정리 때) |
 | **S-3** | 임의 줄 높이 `leading-[Npx]` (글자 크기 `text-[Npx]`는 4단계에서 0곳) | 27곳 | 5 (점진) |
-| **S-5** | 체계 밖 모서리 2곳: `TeamScopeModal` `rounded-[6px]` (v1 숨김), `tab/appearance.ts` 폴더 탭 `rounded-[10px]` (`FolderTabMenu`는 5단계에서 삭제 예정) | 2곳 | 5 |
+| **S-5** | 체계 밖 모서리 1곳: `TeamScopeModal` `rounded-[6px]` (v1 숨김) | 1곳 | v2 |
 | **S-6** | 폴더 카드 그림자: `--shadow-project-card`(`-hover`), `ProjectBoardCard`·`ProjectFolder`의 `shadow-[0_…]` 7곳. 폴더 카드 모양(handoff C1)과 같이 정리. (입력칸 포커스 링 `shadow-[0_0_0_1px_var(…)]`은 토큰을 쓰는 테두리라 제외) | 9곳 | 5 |
 | **S-8** | 강제 덮어쓰기 `!` | 55곳 | 4, 5 |
 | **S-9** | 임의 px 값 전체 | 490곳 | 4 (점진) |
@@ -32,16 +31,14 @@
 | **S-14** | 컨트롤 높이 토큰이 style-guide와 다름: `--control-sm` 32 (가이드 36), `--control-xs`(28) 없음 | 2 | 5 |
 | **S-15** | handoff A4 다크 메인 왕관 색(프로젝트 색 + 흰색 30%)과 A5 다크 로고. 앱 사이드바 로고가 아직 `design/svg/` 로고가 아닌 폴더 아이콘이라 로고 교체와 같이 한다 | 2 | 5 (B8 · A-2와 같이) |
 | **S-16** | 숨김 화면(`TeamScopeModal`, `ProjectDetailTeam`)도 4단계 일괄 치환(글자 크기 · 색 토큰)으로 바뀜. 동작은 그대로 | 기록 | - |
-| **C-2** | 탭 3종 (`Line`, `Folder`, `Tile`) | 3 | 5 |
-| **C-3** | 상태 필터 4종 | 4 | 5 |
-| **C-4** | 모바일 필터 3종 | 3 | 5 |
+| **C-3** | 상태 필터 3종(`StatusFilterBar` · `StatusFilterChips` · `StatusFilterPills`)과 모바일 시트(`FilterBottomSheet`). 원본(Components 17)은 "Segmented(트랙 36 · 버튼 32) + 필터 팝오버 280"과 바텀시트 1개. **마감(2026-11-24) 뒤로 미룸** | 3 + 1 | 마감 뒤 |
+| **C-4** | 모바일 필터: `FilterButton` · `MobileFilterDrawer`는 5단계에서 삭제(쓰는 곳 0). 남은 `FilterBottomSheet`는 C-3과 같이 | 1 | 마감 뒤 |
 | **C-5** | 상태 뱃지 3종 바탕 없음, 토스트 2종 따로 | 5 | 5 |
 | **C-7** | 15KB 넘는 파일 12개 (`GoalForm` 44KB 최대) | 12 | 5~7 |
 | **C-8** | 쿼리 스코프 탭 3종 (`ProjectsScopeTabs` 등) | 3 | 9 |
 | **A-1** | `div onClick` (`ProjectBoardCard`, `ProjectListRow`) | 2곳 | 5 |
-| **A-2** | 사이드바 로고가 `<h1>` → 페이지에 h1 두 개 | 1곳 | 5 |
-| **A-3** | `PageHeading` 대신 `<h1>` 직접 사용 | 5곳 | 5 |
-| **A-4** | 이모지를 아이콘으로 사용 | 6곳 | 5 |
+| **A-3** | `PageHeading` 대신 `<h1>` 직접 사용: 프로젝트 상세 `DetailTitle` 1곳 (폼 4곳은 5단계에서 바꿈) | 1곳 | 7 |
+| **A-4** | 이모지 아이콘: 숨긴 팀 목업 데이터(`lib/mock/teams.ts`) 6개만 남음 | 6곳 | v2 |
 | **D-2** | ✅ 완료 — README가 create-next-app 기본 → 프로젝트 소개로 교체 | 1 | 1 |
 | **D-3** | 프로젝트 디테일의 메모 하위 주소가 아직 `/projects/[id]/backlog` (메모 목록 `/memos`와 코드 이름은 2단계에서 바꿈) | 라우트 1 | 7 |
 | **D-4** | 앱 이름은 Tessera로 통일했지만 GitHub 저장소 이름이 아직 `flow-choice`. 바꾸면 원격 주소(`git remote`)도 갱신 | 1 | 공개 전 |
