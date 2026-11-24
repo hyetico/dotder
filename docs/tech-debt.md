@@ -30,6 +30,7 @@
 | **S-13** | `text-badge-sm-mobile` 5곳. 의미 클래스(`text-*`)가 `@layer` 밖 일반 CSS라 `lg:` 같은 변형을 못 붙이고, `font-medium` 같은 유틸리티보다 항상 이긴다(굵기를 덮어씀). Tailwind `@utility`로 옮기면 변형이 되지만 굵기가 함께 쓰인 101곳의 모양이 바뀐다 | 5 / 101곳 | 5 |
 | **S-14** | 컨트롤 높이 토큰이 style-guide와 다름: `--control-sm` 32 (가이드 36), `--control-xs`(28) 없음 | 2 | 5 |
 | **S-16** | 숨김 화면(`TeamScopeModal`, `ProjectDetailTeam`)도 4단계 일괄 치환(글자 크기 · 색 토큰)으로 바뀜. 동작은 그대로 | 기록 | - |
+| **S-19** | 전체 태스크(`/tasks`) 바탕이 `--color-page` 회색 (원본 10은 흰색). 다른 목록은 흰색. 보드 보기 때문인지 확인 필요 | 1 | 5 |
 | **C-3** | 상태 필터 3종(`StatusFilterBar` · `StatusFilterChips` · `StatusFilterPills`)과 모바일 시트(`FilterBottomSheet`). 원본(Components 17)은 "Segmented(트랙 36 · 버튼 32) + 필터 팝오버 280"과 바텀시트 1개. **마감(2026-11-24) 뒤로 미룸** | 3 + 1 | 마감 뒤 |
 | **C-4** | 모바일 필터: `FilterButton` · `MobileFilterDrawer`는 5단계에서 삭제(쓰는 곳 0). 남은 `FilterBottomSheet`는 C-3과 같이 | 1 | 마감 뒤 |
 | **C-5** | 상태 뱃지 3종(`ProjectStatusBadge` · `GoalStatusBadge` · `TaskStatusBadge`) 공통 바탕 `StatusBadge` 없음 (토스트 2종은 공통 `Toast`로 합침, handoff B5) | 5 | 5 |
@@ -39,6 +40,7 @@
 | **C-10** | 태블릿 · 모바일 헤더에 페이지 제목 + 한 줄 요약(원본 01 · 768 · 390). 페이지가 헤더에 제목 · 요약을 넘기는 자리(`HeaderActions` 같은 슬롯)가 없어 새로 만들어야 함. 지금은 본문 `PageHeading`과 헤더 브레드크럼을 그대로 둠 | 슬롯 1 + 목록 4 | 5 |
 | **C-11** | 폴더 카드 활동 모자이크(최근 20주 · 활동한 날 · 적음–많음)와 태블릿 · 모바일 작은 카드(제목 1줄 · 모자이크 2줄 · 진행 막대). 새 컴포넌트와 날짜별 활동 데이터가 필요 | 컴포넌트 2 + 데이터 | 10 |
 | **C-12** | 데스크톱 헤더: 원본은 검색칸(⌘K) + 「추가」, 헤더 아래 선. 지금은 검색 아이콘 버튼 | 1 | 5 |
+| **C-13** | 전체 태스크: 헤더 「추가」와 보드 안 「새 Task」가 둘 다 있음. 원본 10은 헤더 하나 + 목록 맨 위 빠른 추가 줄. 툴바(보기 · 프로젝트 · 지연만 · 묶기 · 필터)도 원본과 다름 (C-3과 같이) | 1 | 5 |
 | **A-1** | `div onClick` (`ProjectBoardCard`, `ProjectListRow`) | 2곳 | 5 |
 | **A-3** | `PageHeading` 대신 `<h1>` 직접 사용: 프로젝트 상세 `DetailTitle` 1곳 (폼 4곳은 5단계에서 바꿈) | 1곳 | 7 |
 | **A-4** | 이모지 아이콘: 숨긴 팀 목업 데이터(`lib/mock/teams.ts`) 6개만 남음 | 6곳 | v2 |
