@@ -210,9 +210,8 @@ export default function ProjectBoardCard({
 
   if (onToggleSelected) {
     return (
-      <div className="group relative block min-w-0 cursor-pointer" onClick={onToggleSelected}>
-        {folder}
-      </div>
+      // 카드 어디를 눌러도 안의 체크 버튼이 눌린다 (label 기본 동작). 키보드는 체크 버튼으로.
+      <label className="group relative block min-w-0 cursor-pointer">{folder}</label>
     );
   }
 
