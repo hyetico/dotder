@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 
@@ -177,7 +178,31 @@ export default function Header({ isMobileSidebarOpen, onToggleMobileSidebar }: H
               <AppIcon icon={ChevronLeft} size="lg" />
             </Link>
           </div>
-        ) : null}
+        ) : (
+          // 모바일 첫 화면은 사이드바가 숨으므로 헤더 왼쪽에 로고를 둔다 (design/screens/mobile-390).
+          <Link
+            href="/projects"
+            aria-label="프로젝트로 이동"
+            className="mr-3 flex shrink-0 items-center md:hidden"
+          >
+            <Image
+              src="/brand/dotder-logo.svg"
+              alt=""
+              width={26}
+              height={22}
+              unoptimized
+              className="logo-light"
+            />
+            <Image
+              src="/brand/dotder-logo-dark.svg"
+              alt=""
+              width={26}
+              height={22}
+              unoptimized
+              className="logo-dark"
+            />
+          </Link>
+        )}
 
         <nav aria-label="현재 위치" className="max-w-full min-w-0 flex-1 overflow-hidden">
           <ol className="flex min-w-0 items-center gap-3 text-base leading-5 font-medium md:text-sm">
@@ -273,7 +298,7 @@ export default function Header({ isMobileSidebarOpen, onToggleMobileSidebar }: H
        * 데스크톱은 헤더 끝에 고정한다.
        * 모바일 A안은 페이지 버튼을 전체 메뉴와 분리해 메뉴 왼쪽에 둔다.
        */}
-      <div className="flex shrink-0 items-center gap-2">
+      <div className="flex shrink-0 items-center lg:gap-2">
         <HeaderSearchButton />
         <HeaderActionsSlot />
 

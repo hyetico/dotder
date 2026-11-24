@@ -7,6 +7,8 @@ export type ProjectsScopeTab = "all" | "main" | "favorites";
 type ProjectsScopeTabsProps = {
   value: ProjectsScopeTab;
   mainDisabled?: boolean;
+  /** `top`: 화면 맨 위 전체 폭 줄. `page`: 페이지 제목 아래 본문 폭 줄 (프로젝트 목록, handoff 01). */
+  placement?: "top" | "page";
   onChange: (value: ProjectsScopeTab) => void;
 };
 
@@ -23,29 +25,30 @@ type ProjectsScopeTabsProps = {
 export default function ProjectsScopeTabs({
   value,
   mainDisabled = false,
+  placement = "top",
   onChange,
 }: ProjectsScopeTabsProps) {
   return (
     <LineTabMenu<ProjectsScopeTab>
       ariaLabel="프로젝트 조회 범위"
-      className="project-board-tab-line"
+      className={placement === "top" ? "project-board-tab-line" : "-mx-3 -mt-2 mb-6"}
       value={value}
       onChange={onChange}
       items={[
         {
           id: "all",
-          label: "전체 프로젝트",
+          label: "전체",
           title: "전체 프로젝트",
         },
         {
           id: "main",
-          label: "메인 프로젝트",
+          label: "메인",
           disabled: mainDisabled,
           title: mainDisabled ? "메인 프로젝트가 없습니다." : "메인 프로젝트",
         },
         {
           id: "favorites",
-          label: "즐겨찾기 프로젝트",
+          label: "즐겨찾기",
           title: "즐겨찾기한 프로젝트",
         },
       ]}

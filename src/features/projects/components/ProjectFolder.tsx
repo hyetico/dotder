@@ -188,7 +188,8 @@ function getProjectFolderColors(color: string | null | undefined, white = false)
   return {
     "--folder-fill": white ? "var(--color-surface)" : getProjectTintColor(color),
     "--folder-line": line,
-    "--folder-shell": line,
+    // 몸통도 탭과 같은 바탕(프로젝트 색 18% · 다크 20%, Components 11 폴더 카드)
+    "--folder-shell": white ? "var(--color-surface)" : getProjectTintColor(color),
   } as CSSProperties;
 }
 

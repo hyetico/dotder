@@ -15,6 +15,7 @@ import ProjectsScopeTabs, {
   type ProjectsScopeTab,
 } from "@/features/projects/components/ProjectsScopeTabs";
 import MainProjectStatBoxes from "@/features/projects/content/MainProjectStatBoxes";
+import { computeProjectStats } from "@/features/projects/utils/projectUtils";
 
 import { getFavoriteProjectsPath } from "@/lib/projectRoutes";
 import { projectQueryKeys } from "@/lib/queryKeys";
@@ -36,7 +37,8 @@ export default function MainProjectsPageContent() {
     queryFn: getProjectListItems,
   });
   const mainProject = useMemo(() => projects.find((project) => project.isMain) ?? null, [projects]);
-  const mainCount = mainProject ? 1 : 0;
+  // 머리는 전체 · 즐겨찾기 탭과 같다 (ProjectsPageContent). 탭을 바꿔도 위치가 튀지 않게.
+  const stats = computeProjectStats(projects);
 
   const changeScope = (next: ProjectsScopeTab) => {
     if (next === "favorites") {
@@ -54,21 +56,34 @@ export default function MainProjectsPageContent() {
   return (
     <>
       <HeaderActions>
-        <HeaderActionLink href="/projects/new" label="새 프로젝트" icon={Plus} tone="primary" />
+        <HeaderActionLink href="/projects/new" label="추가" icon={Plus} tone="primary" />
       </HeaderActions>
       <div className={mainProjectsPageShellClassName}>
-        <ProjectsScopeTabs
-          value="main"
-          mainDisabled={!isLoading && mainProject == null}
-          onChange={changeScope}
-        />
         <PageInset>
           <div className={mainProjectsPageFrameClassName}>
             <PageHeading
-              title="메인 프로젝트"
-              description="메인 프로젝트를 확인하고 관리하세요."
-              count={isLoading ? null : mainCount}
-              countTitle={`메인 프로젝트 ${mainCount}개`}
+              title="프로젝트"
+              description={
+                isLoading ? null : (
+                  <>
+                    {stats.total}개 중 {stats.inProgress}개 진행 중
+                    {stats.delayed > 0 ? (
+                      <>
+                        {" · "}
+                        <span className="text-[var(--color-danger-text)]">
+                          {stats.delayed}개 마감 지남
+                        </span>
+                      </>
+                    ) : null}
+                  </>
+                )
+              }
+            />
+            <ProjectsScopeTabs
+              placement="page"
+              value="main"
+              mainDisabled={!isLoading && mainProject == null}
+              onChange={changeScope}
             />
             {mainProject ? <MainProjectStatBoxes project={mainProject} /> : null}
           </div>
