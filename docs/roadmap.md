@@ -117,12 +117,12 @@
 - [x] handoff B5 토스트 4초 / 6초 · 멈춤 · `role="status"` · reduced-motion
 - [x] handoff B6 `DatePicker`: 브라우저 기본 날짜 입력 없애기, 달력 팝오버 282, 모바일 바텀시트 (칸 44)
 - [x] handoff B7 고르는 목록에서 이름 자르지 않기 (프로젝트 고르는 목록 `ProjectListItem`)
-- [ ] handoff B8 고르는 목록의 메인 표시 = 프로젝트 색 왕관 — 고르는 목록 줄이 원본(색 점 + 이름)과 달라(폴더 상자) 줄 모양부터 정해야 함 (tech-debt C-16)
+- [x] handoff B8 고르는 목록의 메인 표시 = 프로젝트 색 왕관 (`ProjectMark`)
 - [x] handoff A4 다크 메인 왕관 색 · A5 다크 로고
 - [ ] 폴더 카드 그림자 정리 (handoff C1과 같이, tech-debt S-6)
 - [x] handoff B9 `StatusText` ★ (폴더 카드 전용 글자형 상태)
 - [ ] handoff B10 체크 목록 (상자 18 + 색 점 + 이름) — 상자 18 완료, 체크 목록은 맞춤 탭(9단계)에서
-- [ ] handoff B11 모바일 선택 시트 줄 (터치 44) — 모바일 바텀시트와 같이
+- [x] handoff B11 모바일 선택 시트 줄 (터치 44)
 - [x] handoff C1 폴더 카드: 폴더 탭 글씨는 메인만, 제목 16/24 2줄, 상태 줄 (바탕 18% · 패딩 18 포함. 활동 모자이크 7줄 × 20주 포함)
 - [ ] handoff C3 태스크 목록 줄 끝 `⋯` 메뉴, 모바일 줄 높이 56 — 태스크 목록 보기가 아직 없음 (tech-debt C-17)
 - [x] 목록 페이지 순서: 제목 + 요약 → 탭 → 툴바 → 내용 (layout-guide 5-1) — 프로젝트 · 목표 · 태스크 · 메모
