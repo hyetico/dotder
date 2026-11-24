@@ -268,7 +268,7 @@ function ReadOnlyDateField({ value, placeholder }: { value: string; placeholder:
 
   return (
     <div
-      className={`text-body flex h-10 w-full items-center justify-between gap-3 rounded-[var(--radius-sm)] border border-[var(--color-field-border)] bg-[var(--color-field)] min-[1025px]:h-11 ${fieldPaddingClassName} text-[var(--color-field-text)]`}
+      className={`text-body flex h-10 w-full items-center justify-between gap-3 rounded-[var(--radius-sm)] border border-[var(--color-field-border)] bg-[var(--color-field)] lg:h-11 ${fieldPaddingClassName} text-[var(--color-field-text)]`}
     >
       <span className={label ? "truncate" : "truncate text-[var(--color-field-placeholder)]"}>
         {label || placeholder}

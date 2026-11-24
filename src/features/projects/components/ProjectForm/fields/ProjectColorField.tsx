@@ -8,7 +8,7 @@ import { FormLabel } from "@/features/projects/components/ProjectForm/FormParts"
 import { type ProjectFormData } from "@/features/projects/schemas/projectSchema";
 import { PROJECT_COLOR_OPTIONS } from "@/features/projects/utils/projectColors";
 
-const colorBadgeClassName = "!h-10 !w-10 min-[1025px]:!h-11 min-[1025px]:!w-11";
+const colorBadgeClassName = "!h-10 !w-10 lg:!h-11 lg:!w-11";
 
 /**
  * ProjectColorField

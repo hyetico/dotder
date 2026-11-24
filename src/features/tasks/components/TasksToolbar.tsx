@@ -26,7 +26,7 @@ type TasksToolbarProps = {
 };
 
 const toolbarRowClassName =
-  "flex min-w-0 flex-col items-start gap-2 min-[1025px]:flex-row min-[1025px]:items-center min-[1025px]:justify-between";
+  "flex min-w-0 flex-col items-start gap-2 lg:flex-row lg:items-center lg:justify-between";
 
 const toolbarActionsClassName = "flex shrink-0 items-center gap-2";
 

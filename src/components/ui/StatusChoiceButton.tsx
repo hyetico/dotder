@@ -70,7 +70,7 @@ export default function StatusChoiceButton({
       {icon ? (
         <span
           className={`flex shrink-0 items-center justify-center ${
-            showIconAlways ? "" : hideIconOnTablet ? "max-[1024px]:hidden" : "max-md:hidden"
+            showIconAlways ? "" : hideIconOnTablet ? "max-lg:hidden" : "max-md:hidden"
           } `}
         >
           {icon}

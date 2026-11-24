@@ -1,6 +1,14 @@
 @import "tailwindcss";
 
 /*
+ * 반응형 기준점. 2xl만 Tailwind 기본(96rem = 1536px) 대신 1440px로 둔다.
+ * layout-guide 2장: 1440 이상에서 본문을 가운데에 멈춘다.
+ */
+@theme {
+  --breakpoint-2xl: 90rem;
+}
+
+/*
  * 공통 서체와 글자 크기.
  * Tailwind text-xs ~ text-4xl 도 같은 짝수 px를 쓴다.
  * rem 배율은 루트 글자 크기에 따라 13px, 15px처럼

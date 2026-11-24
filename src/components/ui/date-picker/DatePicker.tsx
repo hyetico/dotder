@@ -561,7 +561,7 @@ export default function DatePicker({
 
             open();
           }}
-          className={`text-body flex h-10 w-full items-center ${fieldAlignClassName} gap-3 rounded-[var(--radius-sm)] border min-[1025px]:h-11 ${fieldPaddingClassName} text-left transition-colors outline-none ${
+          className={`text-body flex h-10 w-full items-center ${fieldAlignClassName} gap-3 rounded-[var(--radius-sm)] border lg:h-11 ${fieldPaddingClassName} text-left transition-colors outline-none ${
             disabled || readOnly
               ? `${fieldInactiveClassName} pointer-events-none hover:border-[var(--color-field-border)] hover:bg-[var(--color-field-disabled)]`
               : `border-[var(--color-field-border)] bg-[var(--color-field)] text-[var(--color-field-text)] ${fieldHoverClassName}`

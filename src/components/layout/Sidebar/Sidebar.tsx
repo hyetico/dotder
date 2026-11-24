@@ -377,7 +377,7 @@ export default function Sidebar({ variant = "desktop", onNavigate }: SidebarProp
           ) : (
             <MenuLink
               href="/reports"
-              className="flex h-10 justify-center rounded-xl border border-[var(--color-border)] bg-white px-0 hover:bg-[var(--color-hover-soft)] min-[1025px]:h-12"
+              className="flex h-10 justify-center rounded-xl border border-[var(--color-border)] bg-white px-0 hover:bg-[var(--color-hover-soft)] lg:h-12"
             >
               <span className="text-xs font-bold text-[var(--color-primary)]">
                 {mockWeeklyProgress.percent}%

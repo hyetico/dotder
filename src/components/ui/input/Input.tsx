@@ -6,7 +6,7 @@ import {
 
 import type { InputHTMLAttributes, ReactNode, Ref } from "react";
 
-const leadingFieldClassName = `${fieldControlClassName} ${fieldFocusWithinClassName} flex h-10 items-center gap-2 has-[input:disabled]:cursor-not-allowed has-[input:disabled]:border-[var(--color-field-border)] has-[input:disabled]:bg-[var(--color-field-disabled)] has-[input:disabled]:text-[var(--color-field-placeholder)] has-[input:disabled]:hover:border-[var(--color-field-border)] has-[input:disabled]:focus-within:border-[var(--color-field-border)] has-[input:disabled]:focus-within:shadow-none has-[input:read-only]:cursor-not-allowed has-[input:read-only]:border-[var(--color-field-border)] has-[input:read-only]:bg-[var(--color-field-disabled)] has-[input:read-only]:text-[var(--color-field-placeholder)] has-[input:read-only]:hover:border-[var(--color-field-border)] has-[input:read-only]:focus-within:border-[var(--color-field-border)] has-[input:read-only]:focus-within:shadow-none min-[1025px]:h-11`;
+const leadingFieldClassName = `${fieldControlClassName} ${fieldFocusWithinClassName} flex h-10 items-center gap-2 has-[input:disabled]:cursor-not-allowed has-[input:disabled]:border-[var(--color-field-border)] has-[input:disabled]:bg-[var(--color-field-disabled)] has-[input:disabled]:text-[var(--color-field-placeholder)] has-[input:disabled]:hover:border-[var(--color-field-border)] has-[input:disabled]:focus-within:border-[var(--color-field-border)] has-[input:disabled]:focus-within:shadow-none has-[input:read-only]:cursor-not-allowed has-[input:read-only]:border-[var(--color-field-border)] has-[input:read-only]:bg-[var(--color-field-disabled)] has-[input:read-only]:text-[var(--color-field-placeholder)] has-[input:read-only]:hover:border-[var(--color-field-border)] has-[input:read-only]:focus-within:border-[var(--color-field-border)] has-[input:read-only]:focus-within:shadow-none lg:h-11`;
 
 type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   leading?: ReactNode;
@@ -29,7 +29,7 @@ export default function Input({ className = "", leading, ref, ...props }: InputP
       <input
         ref={ref}
         {...props}
-        className={` ${fieldControlClassName} ${fieldStateClassName} h-10 min-[1025px]:h-11 [&::-webkit-search-cancel-button]:appearance-none ${className} `}
+        className={` ${fieldControlClassName} ${fieldStateClassName} h-10 lg:h-11 [&::-webkit-search-cancel-button]:appearance-none ${className} `}
       />
     );
   }

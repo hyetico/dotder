@@ -99,7 +99,7 @@ export function StatusFilterChipButton<T extends string>({
     >
       {item.icon ? (
         <span
-          className={`inline-flex size-4 shrink-0 items-center justify-center ${hideIconOnMobile ? "max-[1024px]:hidden" : ""} `}
+          className={`inline-flex size-4 shrink-0 items-center justify-center ${hideIconOnMobile ? "max-lg:hidden" : ""} `}
           style={{
             color: isPill && !selected ? pillMutedColor : item.iconColor,
           }}
