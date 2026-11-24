@@ -82,7 +82,7 @@ const detailLinkClassName = `
   md:rounded-[var(--radius-sm)]
   md:border
   md:border-[var(--color-border)]
-  md:bg-white
+  md:bg-[var(--color-surface)]
   md:px-3.5
   md:text-[var(--color-text)]
   md:hover:bg-[var(--color-hover-soft)]

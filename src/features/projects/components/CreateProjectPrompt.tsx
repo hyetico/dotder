@@ -30,7 +30,7 @@ export default function CreateProjectPrompt() {
         <PrimaryButton
           icon={<AppIcon icon={Plus} size="md" />}
           onClick={() => router.push("/projects/new")}
-          className="mx-auto mt-6 !text-white"
+          className="mx-auto mt-6 !text-[var(--color-text-inverse)]"
           size="md"
         >
           새 프로젝트 만들기

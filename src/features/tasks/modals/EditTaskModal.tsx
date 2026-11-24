@@ -240,7 +240,7 @@ export default function EditTaskModal({
           <button
             type="button"
             onClick={handleDelete}
-            className="mr-auto inline-flex h-[var(--button-height-modal)] min-w-[96px] items-center justify-center rounded-[var(--radius-sm)] border border-red-200 bg-white px-[var(--button-px-modal)] text-[length:var(--button-font)] leading-[var(--button-line)] font-medium text-red-600 transition-colors hover:border-red-300 hover:bg-red-50"
+            className="mr-auto inline-flex h-[var(--button-height-modal)] min-w-[96px] items-center justify-center rounded-[var(--radius-sm)] border border-red-200 bg-[var(--color-surface)] px-[var(--button-px-modal)] text-[length:var(--button-font)] leading-[var(--button-line)] font-medium text-red-600 transition-colors hover:border-red-300 hover:bg-red-50"
           >
             삭제
           </button>

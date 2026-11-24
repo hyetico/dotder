@@ -103,7 +103,7 @@ export default function BoardColumn({
 
           <h3 className="text-caption truncate font-semibold text-[var(--color-text)]">{title}</h3>
 
-          <span className="shrink-0 rounded-full bg-white px-2 py-1 text-xs text-[var(--color-text-secondary)]">
+          <span className="shrink-0 rounded-full bg-[var(--color-surface)] px-2 py-1 text-xs text-[var(--color-text-secondary)]">
             {tasks.length}
           </span>
         </div>

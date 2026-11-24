@@ -95,8 +95,8 @@ export default function FilterButton({
         isOutline
           ? `text-caption inline-flex h-8 max-h-8 min-h-8 shrink-0 items-center gap-1.5 self-center rounded-full border px-3 leading-5 font-medium whitespace-nowrap transition-colors focus-visible:ring-2 focus-visible:ring-[var(--color-primary-ring)] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-40 ${
               selected
-                ? `bg-primary-gradient border-transparent text-white hover:shadow-none! active:shadow-none!`
-                : `border-[var(--color-border)] bg-white text-[var(--color-text-secondary)] hover:border-[var(--color-border-strong)] hover:text-[var(--color-text)]`
+                ? `bg-primary-gradient border-transparent text-[var(--color-text-inverse)] hover:shadow-none! active:shadow-none!`
+                : `border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-secondary)] hover:border-[var(--color-border-strong)] hover:text-[var(--color-text)]`
             } `
           : color
             ? ` ${
@@ -105,8 +105,8 @@ export default function FilterButton({
                   : "h-9 max-h-9 min-h-9 gap-1.5 px-3 text-sm"
               } inline-flex shrink-0 items-center self-center rounded-full border-0 leading-5 font-medium whitespace-nowrap transition-[background-image,background-color,color] focus-visible:ring-2 focus-visible:ring-[var(--color-primary-ring)] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-40 ${
                 selected
-                  ? `bg-primary-gradient text-white hover:shadow-none! active:shadow-none!`
-                  : `bg-white [background-image:var(--filter-bg)] text-[var(--filter-text)] hover:[background-image:var(--filter-hover-bg)] hover:text-[var(--filter-hover-text)]`
+                  ? `bg-primary-gradient text-[var(--color-text-inverse)] hover:shadow-none! active:shadow-none!`
+                  : `bg-[var(--color-surface)] [background-image:var(--filter-bg)] text-[var(--filter-text)] hover:[background-image:var(--filter-hover-bg)] hover:text-[var(--filter-hover-text)]`
               } `
             : ` ${
                 isSmall
@@ -114,7 +114,7 @@ export default function FilterButton({
                   : "text-caption h-9 max-h-9 min-h-9 gap-1.5 px-3"
               } inline-flex shrink-0 items-center self-center rounded-full font-medium whitespace-nowrap transition-colors ${
                 selected
-                  ? `bg-primary-gradient text-white hover:shadow-none! active:shadow-none!`
+                  ? `bg-primary-gradient text-[var(--color-text-inverse)] hover:shadow-none! active:shadow-none!`
                   : `bg-[var(--color-hover-soft)] text-[var(--color-text-secondary)] hover:bg-[var(--color-hover-strong)]`
               } `
       }
@@ -139,7 +139,9 @@ export default function FilterButton({
         ) : (
           <span
             className={`text-caption inline-flex min-w-5 items-center justify-center rounded-full px-1.5 font-semibold ${
-              selected ? "bg-white/20 text-white" : "bg-white text-[var(--color-text-secondary)]"
+              selected
+                ? "bg-[var(--color-text-inverse)]/20 text-[var(--color-text-inverse)]"
+                : "bg-[var(--color-surface)] text-[var(--color-text-secondary)]"
             } `}
           >
             {count}

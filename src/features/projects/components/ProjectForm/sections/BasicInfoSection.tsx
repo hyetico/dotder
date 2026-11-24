@@ -149,7 +149,7 @@ export function BasicInfoSection({
 
           <div className="grid gap-3 md:grid-cols-2">
             <div className="min-w-0">
-              <p className="text-caption mb-1.5 text-black">시작일</p>
+              <p className="text-caption mb-1.5 text-[var(--color-text)]">시작일</p>
 
               <Controller
                 name="startDate"
@@ -171,7 +171,7 @@ export function BasicInfoSection({
             </div>
 
             <div className="min-w-0">
-              <p className="text-caption mb-1.5 text-black">마감일</p>
+              <p className="text-caption mb-1.5 text-[var(--color-text)]">마감일</p>
 
               {datesLocked ? (
                 <DatePicker

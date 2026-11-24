@@ -62,8 +62,8 @@ export default function StatusChoiceButton({
             } `
           : `h-9 justify-center gap-1 overflow-hidden rounded-[var(--radius-sm)] border px-4 text-center ${
               selected
-                ? `bg-primary-gradient border-transparent text-white`
-                : `border-[var(--color-border)] bg-white text-[var(--color-text)] hover:bg-[var(--color-hover)]`
+                ? `bg-primary-gradient border-transparent text-[var(--color-text-inverse)]`
+                : `border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text)] hover:bg-[var(--color-hover)]`
             } `
       } ${dimmed ? "cursor-not-allowed opacity-40" : disabled ? "cursor-default" : ""} `}
     >

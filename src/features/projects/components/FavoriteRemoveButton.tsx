@@ -3,7 +3,7 @@
 import { Minus } from "@/components/ui/icon";
 
 const favoriteRemoveButtonClassName =
-  "relative z-20 grid size-6 shrink-0 cursor-pointer place-items-center rounded-full border border-[rgba(41,45,50,0.08)] bg-white text-[var(--color-text-secondary)] shadow-[0_1px_2px_rgba(41,45,50,0.06),0_2px_4px_rgba(41,45,50,0.08)] before:absolute before:top-1/2 before:left-1/2 before:size-8 before:-translate-x-1/2 before:-translate-y-1/2 before:content-[''] hover:bg-[var(--color-hover-soft)]";
+  "relative z-20 grid size-6 shrink-0 cursor-pointer place-items-center rounded-full border border-[rgba(41,45,50,0.08)] bg-[var(--color-surface)] text-[var(--color-text-secondary)] shadow-[0_1px_2px_rgba(41,45,50,0.06),0_2px_4px_rgba(41,45,50,0.08)] before:absolute before:top-1/2 before:left-1/2 before:size-8 before:-translate-x-1/2 before:-translate-y-1/2 before:content-[''] hover:bg-[var(--color-hover-soft)]";
 
 export const favoriteRemoveButtonFloatingClassName = "absolute top-3.5 right-4 z-20";
 export const favoriteRemoveButtonCardClassName = "absolute top-3.5 right-4 z-20";

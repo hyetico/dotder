@@ -31,7 +31,7 @@ const choiceButtonClassName =
 const choiceOnClassName =
   "border-[var(--color-primary)] bg-[var(--color-primary-soft)] text-[var(--color-primary)]";
 const choiceOffClassName =
-  "border-[var(--color-border)] bg-white text-[var(--color-text)] hover:bg-[var(--color-hover-soft)]";
+  "border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text)] hover:bg-[var(--color-hover-soft)]";
 
 type MemoRegisterDrawerProps = {
   memo: Memo | null;

@@ -149,7 +149,7 @@ function CalendarTaskCard({
       type="button"
       aria-label={`${task.title} 상세 보기`}
       onClick={onClick}
-      className="w-full rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-white px-2 py-1.5 text-left transition-colors hover:border-gray-300 hover:bg-[var(--color-hover-soft)]"
+      className="w-full rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-[var(--color-surface)] px-2 py-1.5 text-left transition-colors hover:border-gray-300 hover:bg-[var(--color-hover-soft)]"
     >
       <div className="flex min-w-0 items-center gap-1.5">
         <span className={`h-3.5 w-0.5 shrink-0 rounded-full ${status.bar} `} aria-hidden="true" />
@@ -424,7 +424,7 @@ export default function TaskCalendarView({
           <button
             type="button"
             onClick={handleToday}
-            className="text-caption h-9 rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-white px-3 font-medium text-[var(--color-text)] transition-colors hover:bg-[var(--color-hover-soft)]"
+            className="text-caption h-9 rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-[var(--color-surface)] px-3 font-medium text-[var(--color-text)] transition-colors hover:bg-[var(--color-hover-soft)]"
           >
             오늘
           </button>
@@ -433,7 +433,7 @@ export default function TaskCalendarView({
             type="button"
             onClick={handlePreviousMonth}
             aria-label="이전 달"
-            className="flex h-9 w-9 items-center justify-center rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-white text-[var(--color-text-secondary)] transition-colors hover:bg-[var(--color-hover-soft)] hover:text-[var(--color-text)]"
+            className="flex h-9 w-9 items-center justify-center rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-secondary)] transition-colors hover:bg-[var(--color-hover-soft)] hover:text-[var(--color-text)]"
           >
             <AppIcon icon={ChevronLeft} size="md" />
           </button>
@@ -442,7 +442,7 @@ export default function TaskCalendarView({
             type="button"
             onClick={handleNextMonth}
             aria-label="다음 달"
-            className="flex h-9 w-9 items-center justify-center rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-white text-[var(--color-text-secondary)] transition-colors hover:bg-[var(--color-hover-soft)] hover:text-[var(--color-text)]"
+            className="flex h-9 w-9 items-center justify-center rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-secondary)] transition-colors hover:bg-[var(--color-hover-soft)] hover:text-[var(--color-text)]"
           >
             <AppIcon icon={ChevronRight} size="md" />
           </button>
@@ -501,7 +501,9 @@ export default function TaskCalendarView({
                 <div
                   key={calendarDay.dateKey}
                   className={`flex h-full min-h-0 min-w-0 flex-col overflow-hidden border-r border-b border-[var(--color-border)] px-1.5 py-1 ${
-                    !calendarDay.isCurrentMonth ? "bg-[var(--color-hover-soft)]/50" : "bg-white"
+                    !calendarDay.isCurrentMonth
+                      ? "bg-[var(--color-hover-soft)]/50"
+                      : "bg-[var(--color-surface)]"
                   } ${(index + 1) % 7 === 0 ? "border-r-0" : ""} `}
                 >
                   {/*
@@ -514,7 +516,7 @@ export default function TaskCalendarView({
                       <span
                         className={`flex h-5 min-w-5 items-center justify-center rounded-full px-0.5 text-xs leading-none font-medium ${
                           isToday
-                            ? "bg-primary-gradient text-white"
+                            ? "bg-primary-gradient text-[var(--color-text-inverse)]"
                             : calendarDay.isCurrentMonth
                               ? "text-[var(--color-text)]"
                               : "text-[var(--color-text-muted)]"
@@ -538,7 +540,7 @@ export default function TaskCalendarView({
                               text-2xs
                               leading-[14px]
                               font-medium
-                              text-white
+                              text-[var(--color-text-inverse)]
                             "
                           >
                             {

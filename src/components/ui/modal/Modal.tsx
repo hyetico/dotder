@@ -101,7 +101,7 @@ function ModalRoot({
     >
       <div
         role="presentation"
-        className="flex min-h-full items-center justify-center bg-black/40 p-4 backdrop-blur-[1px]"
+        className="flex min-h-full items-center justify-center bg-[var(--color-overlay)] p-4 backdrop-blur-[1px]"
         onMouseDown={(event) => {
           event.stopPropagation();
           onClose();

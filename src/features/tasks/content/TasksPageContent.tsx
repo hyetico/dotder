@@ -130,7 +130,7 @@ function TasksPageLayout() {
         action={
           hideTaskAdd ? null : (
             <PrimaryButton
-              icon={<AppIcon icon={Plus} size="md" className="text-white" />}
+              icon={<AppIcon icon={Plus} size="md" className="text-[var(--color-text-inverse)]" />}
               aria-label="새 태스크"
               title={taskAddDisabled ? holdAddNoticeMessage : "새 태스크"}
               disabled={taskAddDisabled}

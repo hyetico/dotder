@@ -51,7 +51,7 @@ export function FormActions({
         type="button"
         onClick={onCancel}
         disabled={isSubmitting}
-        className="text-body inline-flex h-[var(--button-height-action)] min-w-[96px] items-center justify-center rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-white px-[var(--button-px-action)] font-medium text-[var(--color-text)] transition-colors hover:bg-[var(--color-hover-soft)] hover:text-[var(--color-text)] disabled:cursor-not-allowed disabled:opacity-50"
+        className="text-body inline-flex h-[var(--button-height-action)] min-w-[96px] items-center justify-center rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-[var(--color-surface)] px-[var(--button-px-action)] font-medium text-[var(--color-text)] transition-colors hover:bg-[var(--color-hover-soft)] hover:text-[var(--color-text)] disabled:cursor-not-allowed disabled:opacity-50"
       >
         취소
       </button>

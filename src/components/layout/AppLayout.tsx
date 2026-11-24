@@ -106,7 +106,7 @@ function AppLayoutFrame({ children }: AppLayoutProps) {
           type="button"
           aria-label="모바일 메뉴 닫기"
           onClick={closeMobileSidebar}
-          className="fixed inset-0 z-40 bg-black/40 md:hidden"
+          className="fixed inset-0 z-40 bg-[var(--color-overlay)] md:hidden"
         />
       )}
 

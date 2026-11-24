@@ -312,7 +312,7 @@ const goalStatusAutoRules = [
  */
 function GoalStatusAutoCard() {
   return (
-    <section className="rounded-[var(--radius-md)] border border-[var(--color-border)] bg-white p-[10px] md:p-3 xl:p-4">
+    <section className="rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] p-[10px] md:p-3 xl:p-4">
       <div className="flex items-start gap-2">
         <AppIcon icon={RefreshCw} size="sm" className="mt-0.5 shrink-0 text-[var(--color-text)]" />
 
@@ -520,7 +520,7 @@ function GoalColorSwatch({
         {selected ? (
           <span
             aria-hidden
-            className="pointer-events-none absolute -top-1 -right-1 z-10 flex h-4 w-4 items-center justify-center rounded-full bg-gray-950 text-white ring-2 ring-white"
+            className="pointer-events-none absolute -top-1 -right-1 z-10 flex h-4 w-4 items-center justify-center rounded-full bg-gray-950 text-[var(--color-text-inverse)] ring-2 ring-white"
           >
             <Check size={10} strokeWidth={3} />
           </span>
@@ -1365,7 +1365,7 @@ export default function GoalForm({
                   type="button"
                   onClick={onCancel}
                   disabled={isSubmitting}
-                  className="text-body inline-flex h-[var(--button-height-action)] min-w-[96px] items-center justify-center rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-white px-[var(--button-px-action)] font-medium text-[var(--color-text)] transition-colors hover:bg-[var(--color-hover-soft)] hover:text-[var(--color-text)] disabled:cursor-not-allowed disabled:opacity-50"
+                  className="text-body inline-flex h-[var(--button-height-action)] min-w-[96px] items-center justify-center rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-[var(--color-surface)] px-[var(--button-px-action)] font-medium text-[var(--color-text)] transition-colors hover:bg-[var(--color-hover-soft)] hover:text-[var(--color-text)] disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   취소
                 </button>

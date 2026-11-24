@@ -39,7 +39,7 @@ function PageMoveButton({ label, onClick }: { label: string; onClick: () => void
     <button
       type="button"
       onClick={onClick}
-      className="text-caption inline-flex h-9 cursor-pointer items-center gap-1.5 rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-white px-3 font-medium text-[var(--color-text)] transition-colors hover:bg-[var(--color-hover-soft)]"
+      className="text-caption inline-flex h-9 cursor-pointer items-center gap-1.5 rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-[var(--color-surface)] px-3 font-medium text-[var(--color-text)] transition-colors hover:bg-[var(--color-hover-soft)]"
     >
       {label}
       <AppIcon icon={ArrowRight} size="sm" />
@@ -157,7 +157,7 @@ export default function InfoTooltip({
         }}
         className={
           triggerLabel
-            ? `text-caption inline-flex h-8 shrink-0 cursor-pointer items-center gap-1 rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-white px-2.5 leading-none font-medium text-[var(--color-text-secondary)] transition-colors hover:bg-[var(--color-hover-soft)] hover:text-[var(--color-text)] ${className} `
+            ? `text-caption inline-flex h-8 shrink-0 cursor-pointer items-center gap-1 rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-[var(--color-surface)] px-2.5 leading-none font-medium text-[var(--color-text-secondary)] transition-colors hover:bg-[var(--color-hover-soft)] hover:text-[var(--color-text)] ${className} `
             : `inline-flex size-[22px] shrink-0 cursor-pointer items-center justify-center rounded-full p-0 leading-none text-[var(--color-text-muted)] transition-colors hover:bg-[var(--color-primary-soft)] hover:text-[var(--color-primary)] ${className} `
         }
       >

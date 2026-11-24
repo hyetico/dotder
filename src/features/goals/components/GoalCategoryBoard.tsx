@@ -50,7 +50,7 @@ const popularTagButtonClassName =
 const popularTagCountClassName =
   "text-xs leading-none font-medium text-[var(--color-text-muted)] tabular-nums";
 const popularTagMoreClassName =
-  "inline-flex h-8 shrink-0 cursor-pointer items-center gap-1 rounded-[8px] border border-[var(--color-border)] bg-white px-2.5 text-xs! leading-none! font-semibold! text-[var(--color-text)] transition-colors hover:bg-[var(--color-hover-soft)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary)]";
+  "inline-flex h-8 shrink-0 cursor-pointer items-center gap-1 rounded-[8px] border border-[var(--color-border)] bg-[var(--color-surface)] px-2.5 text-xs! leading-none! font-semibold! text-[var(--color-text)] transition-colors hover:bg-[var(--color-hover-soft)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary)]";
 const popularTagResetClassName =
   "ml-auto shrink-0 cursor-pointer text-xs! leading-none! font-medium! text-[var(--color-text-muted)] transition-colors hover:text-[var(--color-text)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary)]";
 
@@ -171,7 +171,7 @@ function popularTagButtonClass(selected: boolean) {
     popularTagButtonClassName,
     selected
       ? "border-transparent bg-[var(--color-hover)]"
-      : "border-[var(--color-border)] bg-white hover:bg-[var(--color-hover-soft)]",
+      : "border-[var(--color-border)] bg-[var(--color-surface)] hover:bg-[var(--color-hover-soft)]",
   ].join(" ");
 }
 

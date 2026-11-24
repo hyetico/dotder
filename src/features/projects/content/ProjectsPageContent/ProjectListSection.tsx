@@ -280,7 +280,7 @@ export default function ProjectListSection({
             </div>
           </>
         ) : (
-          <div className="rounded-[var(--radius-md)] border border-dashed border-[var(--color-border)] bg-white px-6 py-16 text-center">
+          <div className="rounded-[var(--radius-md)] border border-dashed border-[var(--color-border)] bg-[var(--color-surface)] px-6 py-16 text-center">
             <p className="text-caption text-[var(--color-text-secondary)]">{emptyLabel}</p>
           </div>
         )}

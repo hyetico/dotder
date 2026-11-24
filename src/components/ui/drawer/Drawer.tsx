@@ -11,7 +11,7 @@ import { AppIcon, ChevronsRight, Maximize2, Minimize2 } from "@/components/ui/ic
 import { useModalScrollLock } from "@/hooks/useModalScrollLock";
 
 const overlayClassName =
-  "fixed inset-0 z-[110] bg-black/20 transition-opacity duration-[400ms] ease-in-out motion-reduce:duration-[1ms]";
+  "fixed inset-0 z-[110] bg-[var(--color-overlay)] transition-opacity duration-[400ms] ease-in-out motion-reduce:duration-[1ms]";
 const panelClassName =
   "fixed inset-y-0 right-0 z-[120] flex h-full w-full flex-col bg-[var(--color-surface)] shadow-[var(--shadow-dropdown)] transition-[transform,max-width] duration-[400ms] ease-in-out motion-reduce:duration-[1ms]";
 const barShellClassName = "flex h-[54px] shrink-0 items-center border-[var(--color-border)]";

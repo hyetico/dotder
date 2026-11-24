@@ -20,7 +20,7 @@ export default function MemberAvatar({
     <span
       title={title}
       className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-medium ${toneClassName[tone]} ${
-        bordered ? "border-2 border-white" : ""
+        bordered ? "border-2 border-[var(--color-surface)]" : ""
       } `}
     >
       {label}

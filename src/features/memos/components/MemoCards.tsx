@@ -18,7 +18,7 @@ import { buildTasksPath, getGoalDetailPath } from "@/lib/projectRoutes";
 import type { Memo } from "@/features/memos/types/memo";
 
 const memoCardClassName =
-  "flex h-full min-h-[172px] flex-col rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-white p-4 shadow-[var(--shadow-card)]";
+  "flex h-full min-h-[172px] flex-col rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] p-4 shadow-[var(--shadow-card)]";
 const memoTitleClassName =
   "line-clamp-2 min-w-0 flex-1 text-left text-base leading-6 font-semibold text-[var(--color-text)]";
 const memoMetaClassName =
@@ -34,7 +34,7 @@ const memoLinkClassName =
 const composeInputClassName =
   "min-h-0 flex-1 resize-none bg-transparent text-base leading-6 font-semibold text-[var(--color-text)] outline-none placeholder:font-medium placeholder:text-[var(--color-text-muted)]";
 const addCardClassName =
-  "flex h-full min-h-[172px] w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-[var(--radius-lg)] border border-dashed border-[var(--color-border)] bg-white text-[var(--color-text-secondary)] transition-colors hover:bg-[var(--color-hover-soft)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-text)] disabled:cursor-not-allowed disabled:opacity-50";
+  "flex h-full min-h-[172px] w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-[var(--radius-lg)] border border-dashed border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-secondary)] transition-colors hover:bg-[var(--color-hover-soft)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-text)] disabled:cursor-not-allowed disabled:opacity-50";
 
 type MemoProject = {
   id: number;

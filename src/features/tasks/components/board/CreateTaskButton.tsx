@@ -285,7 +285,7 @@ export default function CreateTaskButton({
               addDisabled ? "보류 중인 프로젝트에는 태스크를 추가할 수 없습니다." : "Task 추가"
             }
             onClick={() => setIsModalOpen(true)}
-            className={`text-caption ${hasTasks ? "mt-3" : ""} w-full rounded-[var(--radius-sm)] border border-dashed border-gray-300 bg-white px-3 py-2.5 font-medium text-[var(--color-text-secondary)] transition-colors hover:border-gray-400 hover:bg-[var(--color-hover-soft)] hover:text-[var(--color-text)] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:border-gray-300 disabled:hover:bg-white disabled:hover:text-[var(--color-text-secondary)]`}
+            className={`text-caption ${hasTasks ? "mt-3" : ""} w-full rounded-[var(--radius-sm)] border border-dashed border-gray-300 bg-[var(--color-surface)] px-3 py-2.5 font-medium text-[var(--color-text-secondary)] transition-colors hover:border-gray-400 hover:bg-[var(--color-hover-soft)] hover:text-[var(--color-text)] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:border-gray-300 disabled:hover:bg-[var(--color-surface)] disabled:hover:text-[var(--color-text-secondary)]`}
           >
             + Task 추가
           </button>

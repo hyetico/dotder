@@ -231,7 +231,7 @@ function ViewLink({ label, onClick }: ViewLinkProps) {
     <button
       type="button"
       onClick={onClick}
-      className="text-badge-sm inline-flex h-5 shrink-0 items-center rounded-[4px] border border-[var(--color-border)] bg-white px-1 leading-3 font-medium whitespace-nowrap text-[var(--color-text)] transition-colors hover:border-[var(--color-border-strong)] hover:bg-[var(--color-text-muted)] hover:text-white"
+      className="text-badge-sm inline-flex h-5 shrink-0 items-center rounded-[4px] border border-[var(--color-border)] bg-[var(--color-surface)] px-1 leading-3 font-medium whitespace-nowrap text-[var(--color-text)] transition-colors hover:border-[var(--color-border-strong)] hover:bg-[var(--color-text-muted)] hover:text-[var(--color-text-inverse)]"
     >
       {label}
     </button>
@@ -749,7 +749,7 @@ export default function IntegratedSearchModal({
                   <ResultRow
                     key={goal.id}
                     leading={
-                      <span className="flex size-9 shrink-0 items-center justify-center rounded-full border border-[var(--color-border)] bg-white text-[var(--color-text-secondary)]">
+                      <span className="flex size-9 shrink-0 items-center justify-center rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-secondary)]">
                         <AppIcon icon={Target} size="sm" />
                       </span>
                     }

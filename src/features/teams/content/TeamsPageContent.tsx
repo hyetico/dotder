@@ -155,7 +155,7 @@ export default function TeamsPageContent() {
           ))}
         </section>
       ) : (
-        <div className="rounded-[var(--radius-md)] border border-dashed border-[var(--color-border)] bg-white px-6 py-16 text-center">
+        <div className="rounded-[var(--radius-md)] border border-dashed border-[var(--color-border)] bg-[var(--color-surface)] px-6 py-16 text-center">
           <p className="text-caption text-[var(--color-text-secondary)]">
             조건에 맞는 팀이 없습니다.
           </p>

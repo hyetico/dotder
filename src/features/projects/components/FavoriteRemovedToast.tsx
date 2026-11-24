@@ -1,9 +1,9 @@
 "use client";
 
 const favoriteRemovedToastClassName =
-  "fixed bottom-6 left-1/2 z-[180] flex -translate-x-1/2 items-center gap-3 rounded-full bg-[var(--color-primary)] py-1.5 pr-1.5 pl-4 text-white shadow-[0_8px_24px_rgb(0_0_0/18%)]";
+  "fixed bottom-6 left-1/2 z-[180] flex -translate-x-1/2 items-center gap-3 rounded-full bg-[var(--color-primary)] py-1.5 pr-1.5 pl-4 text-[var(--color-text-inverse)] shadow-[0_8px_24px_rgb(0_0_0/18%)]";
 const favoriteRemovedUndoClassName =
-  "cursor-pointer rounded-full bg-white px-3 py-1.5 text-xs leading-5 font-semibold text-[var(--color-text)] transition-colors hover:bg-[var(--color-hover)]";
+  "cursor-pointer rounded-full bg-[var(--color-surface)] px-3 py-1.5 text-xs leading-5 font-semibold text-[var(--color-text)] transition-colors hover:bg-[var(--color-hover)]";
 
 type FavoriteRemovedToastProps = {
   onUndo: () => void;
@@ -21,7 +21,7 @@ type FavoriteRemovedToastProps = {
 export default function FavoriteRemovedToast({ onUndo }: FavoriteRemovedToastProps) {
   return (
     <div role="status" className={favoriteRemovedToastClassName}>
-      <span aria-hidden className="size-1.5 shrink-0 rounded-full bg-white" />
+      <span aria-hidden className="size-1.5 shrink-0 rounded-full bg-[var(--color-surface)]" />
       <span className="text-sm leading-5 font-medium whitespace-nowrap">
         즐겨찾기에서 해제했어요.
       </span>

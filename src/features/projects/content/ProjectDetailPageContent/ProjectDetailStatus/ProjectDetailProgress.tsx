@@ -216,7 +216,9 @@ export default function ProjectDetailProgress({
               <div className="mt-5 flex justify-center">
                 <PrimaryButton
                   className="h-9 max-h-9 min-h-9"
-                  icon={<AppIcon icon={Plus} size="sm" className="text-white" />}
+                  icon={
+                    <AppIcon icon={Plus} size="sm" className="text-[var(--color-text-inverse)]" />
+                  }
                   onClick={() => setCreateOpen(true)}
                 >
                   태스크 추가

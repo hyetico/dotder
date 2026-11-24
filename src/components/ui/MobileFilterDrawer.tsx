@@ -173,7 +173,7 @@ export default function MobileFilterDrawer<T extends string>({
         type="button"
         aria-label="필터 닫기"
         onClick={onClose}
-        className="absolute inset-0 bg-black/20 transition-opacity duration-300"
+        className="absolute inset-0 bg-[var(--color-overlay)] transition-opacity duration-300"
       />
 
       <aside
@@ -227,7 +227,7 @@ export default function MobileFilterDrawer<T extends string>({
               type="button"
               onClick={handleReset}
               disabled={isDefaultDraft}
-              className="text-caption inline-flex h-10 shrink-0 items-center gap-1.5 rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-white px-3 font-medium whitespace-nowrap text-[var(--color-text)] transition-colors hover:bg-[var(--color-hover-soft)] disabled:cursor-not-allowed disabled:opacity-50"
+              className="text-caption inline-flex h-10 shrink-0 items-center gap-1.5 rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-[var(--color-surface)] px-3 font-medium whitespace-nowrap text-[var(--color-text)] transition-colors hover:bg-[var(--color-hover-soft)] disabled:cursor-not-allowed disabled:opacity-50"
             >
               <AppIcon icon={RotateCcw} size="md" />
               초기화
@@ -237,7 +237,7 @@ export default function MobileFilterDrawer<T extends string>({
               type="button"
               onClick={handleApply}
               disabled={!hasChanges}
-              className="text-caption bg-primary-gradient flex h-10 min-w-0 flex-1 items-center justify-center rounded-[var(--radius-sm)] font-medium !text-white transition-[filter,opacity] duration-150 hover:!text-white disabled:cursor-not-allowed disabled:opacity-50"
+              className="text-caption bg-primary-gradient flex h-10 min-w-0 flex-1 items-center justify-center rounded-[var(--radius-sm)] font-medium !text-[var(--color-text-inverse)] transition-[filter,opacity] duration-150 hover:!text-[var(--color-text-inverse)] disabled:cursor-not-allowed disabled:opacity-50"
             >
               필터 적용하기
             </button>

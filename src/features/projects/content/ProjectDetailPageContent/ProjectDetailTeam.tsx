@@ -200,7 +200,7 @@ export default function ProjectDetailTeam({
             <span className="flex items-center gap-2">
               <Link
                 href="/teams"
-                className="text-caption inline-flex h-9 items-center gap-1.5 rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-white px-3 font-medium hover:bg-[var(--color-hover-soft)]"
+                className="text-caption inline-flex h-9 items-center gap-1.5 rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-[var(--color-surface)] px-3 font-medium hover:bg-[var(--color-hover-soft)]"
               >
                 <AppIcon icon={Settings} size="sm" />팀 관리
               </Link>

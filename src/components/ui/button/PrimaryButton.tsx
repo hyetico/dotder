@@ -50,7 +50,7 @@ export default function PrimaryButton({
   return (
     <button
       type={type}
-      className={`bg-primary-gradient inline-flex shrink-0 items-center rounded-[var(--radius-sm)] ${buttonLabelClassName} font-medium whitespace-nowrap text-white transition-[filter,opacity] duration-150 disabled:cursor-not-allowed disabled:opacity-50 ${sizeClasses[size]} ${className} `}
+      className={`bg-primary-gradient inline-flex shrink-0 items-center rounded-[var(--radius-sm)] ${buttonLabelClassName} font-medium whitespace-nowrap text-[var(--color-text-inverse)] transition-[filter,opacity] duration-150 disabled:cursor-not-allowed disabled:opacity-50 ${sizeClasses[size]} ${className} `}
       {...props}
     >
       {icon}

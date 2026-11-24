@@ -36,9 +36,10 @@ type HeaderProps = {
   onToggleMobileSidebar: () => void;
 };
 
-const currentCrumbTextClassName = "text-black";
+const currentCrumbTextClassName = "text-[var(--color-text)]";
 
-const parentCrumbTextClassName = "text-[var(--color-text-secondary)] group-hover:text-black";
+const parentCrumbTextClassName =
+  "text-[var(--color-text-secondary)] group-hover:text-[var(--color-text)]";
 
 const crumbLinkClassName = `
   min-w-0
@@ -171,7 +172,7 @@ export default function Header({ isMobileSidebarOpen, onToggleMobileSidebar }: H
             <Link
               href={backHref}
               aria-label="뒤로 가기"
-              className="flex size-9 shrink-0 items-center justify-center rounded-xl text-black transition-colors hover:bg-gray-100"
+              className="flex size-9 shrink-0 items-center justify-center rounded-xl text-[var(--color-text)] transition-colors hover:bg-gray-100"
             >
               <AppIcon icon={ChevronLeft} size="lg" />
             </Link>
@@ -198,8 +199,8 @@ export default function Header({ isMobileSidebarOpen, onToggleMobileSidebar }: H
                       size="lg"
                       className={`shrink-0 ${
                         sectionIsCurrent
-                          ? "text-black"
-                          : "text-[var(--color-text-secondary)] group-hover:text-black"
+                          ? "text-[var(--color-text)]"
+                          : "text-[var(--color-text-secondary)] group-hover:text-[var(--color-text)]"
                       } `}
                     />
                   </span>

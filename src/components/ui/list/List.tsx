@@ -204,7 +204,7 @@ const listDetailButtonClass = `
   border
   border-[var(--color-border)]
 
-  bg-white
+  bg-[var(--color-surface)]
 
   text-[var(--color-text)]
 
@@ -213,7 +213,7 @@ const listDetailButtonClass = `
   hover:bg-[var(--color-hover-soft)]
 
   disabled:cursor-default
-  disabled:hover:bg-white
+  disabled:hover:bg-[var(--color-surface)]
 `;
 
 export function ListDetailButton({
@@ -647,7 +647,7 @@ export default function List({
   showAction,
   stackOnMobile = true,
   className = "",
-  headerClassName = "bg-white",
+  headerClassName = "bg-[var(--color-surface)]",
   actionGap = listActionGap,
 }: ListProps) {
   const showActionColumn = showAction ?? rows.some(rowHasAction);

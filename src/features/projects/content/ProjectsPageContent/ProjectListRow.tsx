@@ -166,7 +166,7 @@ function ProjectListCardFace({
   onToggleSelected?: () => void;
 }) {
   return (
-    <div className="flex min-w-0 flex-1 flex-col gap-2 rounded-[22px] bg-white px-3 py-3.5 md:px-4">
+    <div className="flex min-w-0 flex-1 flex-col gap-2 rounded-[22px] bg-[var(--color-surface)] px-3 py-3.5 md:px-4">
       <div className="flex min-w-0 items-center gap-2">
         {onToggleSelected ? (
           <FavoriteSelectBox
@@ -386,7 +386,7 @@ const projectRowClass = `
 
   !border-b-0
 
-  bg-white
+  bg-[var(--color-surface)]
   bg-left
   bg-no-repeat
 
@@ -570,7 +570,7 @@ export function ProjectListTable({
 
         !border-b-0
 
-        bg-white
+        bg-[var(--color-surface)]
 
         before:pointer-events-none
         before:absolute

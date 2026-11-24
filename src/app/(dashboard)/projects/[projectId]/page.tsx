@@ -26,7 +26,11 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
   );
 
   if (!Number.isFinite(projectId)) {
-    return <div className="-mt-[var(--header-height)] min-h-dvh bg-white">{missingProject}</div>;
+    return (
+      <div className="-mt-[var(--header-height)] min-h-dvh bg-[var(--color-surface)]">
+        {missingProject}
+      </div>
+    );
   }
 
   const [project, goals, tasks] = await Promise.all([
@@ -36,7 +40,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
   ]);
 
   return (
-    <div className="-mt-[var(--header-height)] min-h-dvh bg-white">
+    <div className="-mt-[var(--header-height)] min-h-dvh bg-[var(--color-surface)]">
       {project ? (
         <ProjectDetailPageContent project={project} goals={goals} tasks={tasks} />
       ) : (

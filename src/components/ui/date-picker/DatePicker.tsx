@@ -303,7 +303,7 @@ function DatePickerCalendar({
                   isUnavailable
                     ? "cursor-not-allowed text-[var(--color-text-disabled)]"
                     : isSelected
-                      ? "bg-primary-gradient font-medium text-white"
+                      ? "bg-primary-gradient font-medium text-[var(--color-text-inverse)]"
                       : isToday
                         ? "font-medium text-[var(--color-primary)] ring-1 ring-[var(--color-primary)] ring-inset hover:bg-[var(--color-primary-soft)]"
                         : isCurrentMonth

@@ -3,7 +3,7 @@ import { AppIcon, X } from "@/components/ui/icon";
 const goalTagClassName =
   "inline-flex max-w-full min-w-0 items-center rounded-[9px] border border-[var(--color-border)] bg-[var(--color-hover-soft)] px-2.5 py-1 text-xs leading-[18px] font-semibold text-[var(--color-text)]";
 const goalTagRemoveClassName =
-  "inline-flex size-4 shrink-0 cursor-pointer items-center justify-center rounded-full text-[var(--color-text-muted)] hover:bg-white hover:text-[var(--color-text)]";
+  "inline-flex size-4 shrink-0 cursor-pointer items-center justify-center rounded-full text-[var(--color-text-muted)] hover:bg-[var(--color-surface)] hover:text-[var(--color-text)]";
 
 type GoalTagProps = {
   tag: string;

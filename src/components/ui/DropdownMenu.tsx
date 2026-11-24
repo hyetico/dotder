@@ -86,7 +86,7 @@ export default function DropdownMenu({
 
       {isOpen && (
         <div
-          className={`absolute top-10 right-0 z-30 w-32 rounded-[var(--radius-md)] border border-[var(--color-border)] bg-white p-1.5 shadow-[var(--shadow-dropdown)] ${panelClassName} `}
+          className={`absolute top-10 right-0 z-30 w-32 rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] p-1.5 shadow-[var(--shadow-dropdown)] ${panelClassName} `}
         >
           {content}
         </div>

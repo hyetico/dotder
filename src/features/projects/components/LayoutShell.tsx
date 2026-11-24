@@ -30,5 +30,9 @@ export default function LayoutShell({ children }: LayoutShellProps) {
     return page;
   }
 
-  return <div className="min-h-[calc(100dvh-var(--header-height))] bg-white">{page}</div>;
+  return (
+    <div className="min-h-[calc(100dvh-var(--header-height))] bg-[var(--color-surface)]">
+      {page}
+    </div>
+  );
 }

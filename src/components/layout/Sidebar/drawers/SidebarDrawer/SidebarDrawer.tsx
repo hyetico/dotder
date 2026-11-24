@@ -571,7 +571,7 @@ export default function SidebarDrawer({ isOpen, onClose, projects }: SidebarDraw
         type="button"
         aria-label="내 프로젝트 닫기"
         onClick={onClose}
-        className="absolute inset-0 bg-black/20 transition-opacity duration-300"
+        className="absolute inset-0 bg-[var(--color-overlay)] transition-opacity duration-300"
       />
 
       <aside

@@ -96,7 +96,7 @@ export default function SidebarProfile({ isCollapsed, onNavigate }: SidebarProfi
       {isMenuOpen && (
         <div
           role="menu"
-          className={`absolute z-50 rounded-xl border border-[var(--color-border)] bg-white p-2 shadow-[var(--shadow-dropdown)] ${
+          className={`absolute z-50 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-2 shadow-[var(--shadow-dropdown)] ${
             isCollapsed ? "bottom-0 left-[calc(100%+8px)] w-64" : "bottom-full left-0 mb-1.5 w-full"
           } `}
         >

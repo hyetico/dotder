@@ -6,7 +6,7 @@ import { ListFilter, iconStroke } from "@/components/ui/icon";
 import type { StatusFilterChipItem } from "@/components/ui/StatusFilterChips";
 
 const mobileFilterClassName =
-  "text-sm inline-flex h-11 min-w-0 shrink items-center gap-3 rounded-[22px] border border-[var(--color-border)] bg-white px-3 whitespace-nowrap text-[var(--color-text)] transition-colors focus-visible:ring-2 focus-visible:ring-[var(--color-primary-ring)] focus-visible:outline-none lg:hidden";
+  "text-sm inline-flex h-11 min-w-0 shrink items-center gap-3 rounded-[22px] border border-[var(--color-border)] bg-[var(--color-surface)] px-3 whitespace-nowrap text-[var(--color-text)] transition-colors focus-visible:ring-2 focus-visible:ring-[var(--color-primary-ring)] focus-visible:outline-none lg:hidden";
 
 const filterIconWrapClassName = "relative inline-flex";
 
@@ -14,7 +14,7 @@ const filterAppliedDotClassName =
   "absolute -top-1 -right-1 size-1.5 rounded-full bg-[var(--color-primary)] ring-2 ring-[var(--color-border)]";
 
 const filterBarClassName =
-  "hidden h-11 min-w-0 items-center rounded-[22px] border border-[var(--color-border)] bg-white p-1 lg:flex";
+  "hidden h-11 min-w-0 items-center rounded-[22px] border border-[var(--color-border)] bg-[var(--color-surface)] p-1 lg:flex";
 
 const chipRowClassName =
   "flex min-w-0 items-center gap-3 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden";

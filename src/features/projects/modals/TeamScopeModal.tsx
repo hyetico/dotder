@@ -311,7 +311,7 @@ function AdminHandoffSide({
   return (
     <div
       className={`flex min-w-0 items-center gap-2 px-3 py-2 ${
-        muted ? "bg-[#f4f5f7]" : `border-l border-[var(--color-border)] bg-white`
+        muted ? "bg-[#f4f5f7]" : `border-l border-[var(--color-border)] bg-[var(--color-surface)]`
       } `}
     >
       <span className="text-caption shrink-0 rounded-[6px] bg-[#e6e8ec] px-1.5 py-0.5 font-medium text-[var(--color-text-secondary)]">
@@ -806,7 +806,7 @@ export default function TeamScopeModal(props: TeamScopeModalProps) {
                       type="button"
                       aria-label={`${activeOption.label} 검색에서 빼기`}
                       onClick={leaveMembers}
-                      className="inline-flex h-4 w-4 shrink-0 items-center justify-center rounded-full text-[var(--color-text-secondary)] hover:bg-white hover:text-[var(--color-text)]"
+                      className="inline-flex h-4 w-4 shrink-0 items-center justify-center rounded-full text-[var(--color-text-secondary)] hover:bg-[var(--color-surface)] hover:text-[var(--color-text)]"
                     >
                       <AppIcon icon={X} size="xs" />
                     </button>

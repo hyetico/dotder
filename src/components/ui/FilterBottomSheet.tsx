@@ -82,10 +82,10 @@ function FilterSheetButton({
         isSoft
           ? `size-9 rounded-[6px] lg:size-8 ${
               active
-                ? `bg-white text-[var(--color-text)] shadow-sm`
+                ? `bg-[var(--color-surface)] text-[var(--color-text)] shadow-sm`
                 : `text-[var(--color-text-muted)] hover:text-[var(--color-text-secondary)]`
             } `
-          : `h-10 w-10 rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-white text-[var(--color-text)] hover:bg-[var(--color-hover-soft)] ${className} `
+          : `h-10 w-10 rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text)] hover:bg-[var(--color-hover-soft)] ${className} `
       } `}
     >
       <AppIcon icon={Funnel} size={iconSize} className={hideIconOnMobile ? "max-md:hidden" : ""} />
@@ -235,7 +235,7 @@ export default function FilterBottomSheet<T extends string>({
                 type="button"
                 aria-label="필터 닫기"
                 onClick={() => setIsOpen(false)}
-                className="absolute inset-0 bg-black/20"
+                className="absolute inset-0 bg-[var(--color-overlay)]"
               />
 
               <aside
@@ -271,10 +271,12 @@ export default function FilterBottomSheet<T extends string>({
                             className={`flex size-5 shrink-0 items-center justify-center rounded-full border ${
                               selected
                                 ? "border-[var(--color-primary)] bg-[var(--color-primary)]"
-                                : "border-[var(--color-border-strong)] bg-white"
+                                : "border-[var(--color-border-strong)] bg-[var(--color-surface)]"
                             } `}
                           >
-                            {selected ? <span className="size-2 rounded-full bg-white" /> : null}
+                            {selected ? (
+                              <span className="size-2 rounded-full bg-[var(--color-surface)]" />
+                            ) : null}
                           </span>
                           <span>
                             {option.label}

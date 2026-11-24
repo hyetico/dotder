@@ -20,7 +20,7 @@ export default function Switch({ checked, label, onChange, disabled = false }: S
     >
       <span
         aria-hidden
-        className={`block h-5 w-5 rounded-full bg-white shadow-sm transition-transform duration-200 ease-in-out ${
+        className={`block h-5 w-5 rounded-full bg-[var(--color-surface)] shadow-sm transition-transform duration-200 ease-in-out ${
           checked ? "translate-x-5" : "translate-x-0"
         } `}
       />

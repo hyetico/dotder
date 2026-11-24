@@ -90,7 +90,7 @@ export default function StatCountCard({
   pair,
 }: StatCountCardProps) {
   return (
-    <div className="flex h-full min-w-0 items-center rounded-[4px] border border-[var(--color-border)] bg-white px-3 py-3 md:px-4">
+    <div className="flex h-full min-w-0 items-center rounded-[4px] border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-3 md:px-4">
       <StatCountSide
         label={label}
         count={count}

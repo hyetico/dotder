@@ -17,7 +17,7 @@ import { buildTasksPath, getGoalDetailPath } from "@/lib/projectRoutes";
 import type { Memo } from "@/features/memos/types/memo";
 
 const archiveShellClassName =
-  "overflow-hidden rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-white";
+  "overflow-hidden rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)]";
 const archiveRowClassName =
   "flex items-center gap-3 border-b border-[var(--color-border)] px-4 py-3";
 const archiveTitleClassName =
