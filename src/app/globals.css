@@ -792,8 +792,9 @@ textarea {
  * 칸에 포커스가 들어가면 안내 문구를 숨긴다.
  * 포커스가 빠지고 값이 없으면 다시 보여 준다.
  * 개별 placeholder 색보다 우선한다.
+ * 검색칸(type=search)은 빼서 브라우저 기본처럼 글자를 입력할 때만 사라지게 한다 (tech-debt C-20).
  */
-html body input:focus::placeholder,
+html body input:not([type="search"]):focus::placeholder,
 html body textarea:focus::placeholder {
   color: transparent !important;
 }

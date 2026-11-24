@@ -157,6 +157,15 @@ export default function ProjectPickField({
       {allowNone ? (
         <li>
           <button type="button" onClick={() => pick(null)} className={rowClassName}>
+            {/* 점 자리에 빈 원 — 다른 줄과 이름 시작선을 맞춘다 */}
+            <span className="flex h-5 shrink-0 items-center">
+              <span className="flex size-3.5 items-center justify-center">
+                <span
+                  aria-hidden
+                  className="size-2.5 rounded-full border border-[var(--color-text-muted)]"
+                />
+              </span>
+            </span>
             <span className="min-w-0 flex-1 text-[var(--color-text-secondary)]">{NONE_LABEL}</span>
             {value == null ? <AppIcon icon={Check} size="sm" className="mt-0.5 shrink-0" /> : null}
           </button>
