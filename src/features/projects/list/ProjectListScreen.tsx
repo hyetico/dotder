@@ -149,8 +149,12 @@ export default function ProjectListScreen({ scope }: { scope: ProjectListScope }
               />
             ) : view === "card" ? (
               <ProjectCardGrid>
-                {visible.map((project) => (
-                  <li key={project.id} className="min-w-0">
+                {visible.map((project, index) => (
+                  <li
+                    key={project.id}
+                    className="min-w-0"
+                    data-tour={index === 0 ? "project-card" : undefined}
+                  >
                     <ProjectCard project={project} activity={activity[project.id] ?? NO_ACTIVITY} />
                   </li>
                 ))}
