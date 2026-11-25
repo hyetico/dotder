@@ -4,11 +4,25 @@ import { useState } from "react";
 
 import EmptyState from "@/components/kit/EmptyState";
 import Segmented from "@/components/kit/Segmented";
-import { CalendarSync, History } from "@/components/ui/icon";
+import {
+  CalendarSync,
+  Check,
+  Folder,
+  History,
+  Pencil,
+  Target,
+  Trash2,
+  ListTodo,
+} from "@/components/ui/icon";
 
-import { formatMonthDot } from "@/features/projects/detail/projectOverviewModel";
+import {
+  historyCompactText,
+  historyWideText,
+} from "@/features/projects/detail/projectHistoryModel";
 
-import type { ProjectDeadlineChange } from "@/features/projects/types/project";
+import { cn } from "@/lib/cn";
+
+import type { ProjectHistoryEntry } from "@/lib/mock/projectHistory";
 
 type HistoryKind = "all" | "deadline" | "status" | "items";
 
@@ -24,19 +38,58 @@ const dayLabel = (iso: string) => {
   return `${year}년 ${month}월 ${day}일`;
 };
 
+// 웹 종류 칸 (보드 08)
+const matchesWide = (kind: HistoryKind, entry: ProjectHistoryEntry) =>
+  kind === "all" ||
+  (kind === "deadline" && entry.kind === "deadline") ||
+  (kind === "status" && (entry.kind === "status" || entry.kind === "done")) ||
+  (kind === "items" &&
+    (entry.kind === "add" || entry.kind === "delete" || entry.kind === "create"));
+
+/** 기록 아이콘 원 (보드 08): 마감 변경 빨강 · 상태 파랑 · 그 밖은 --t2 */
+export function HistoryIcon({ entry }: { entry: ProjectHistoryEntry }) {
+  const icon =
+    entry.kind === "deadline" ? (
+      <CalendarSync size={16} aria-hidden />
+    ) : entry.kind === "status" ? (
+      <Pencil size={16} aria-hidden />
+    ) : entry.kind === "done" ? (
+      <Check size={16} aria-hidden />
+    ) : entry.kind === "delete" ? (
+      <Trash2 size={16} aria-hidden />
+    ) : entry.kind === "create" ? (
+      <Folder size={16} aria-hidden />
+    ) : entry.target === "goal" ? (
+      <Target size={16} aria-hidden />
+    ) : (
+      <ListTodo size={16} aria-hidden />
+    );
+  return (
+    <span
+      className={cn(
+        "inline-flex size-8 shrink-0 items-center justify-center rounded-full bg-[var(--s3)] text-[var(--t2)]",
+        entry.kind === "deadline" && "text-[var(--bad)]",
+        entry.kind === "status" && "text-[var(--badge-info-fg)]",
+      )}
+    >
+      {icon}
+    </span>
+  );
+}
+
 /**
- * 상세 기록 탭 (보드 08 · T · M 08 · 프로토타입 historyTab). 웹과 태블릿 · 모바일 보드의 모양이 달라 둘을 따로 그린다. 종류 칸(전체 · 마감 변경 · 상태 · 항목 추가·삭제) →
- * 날짜 묶음(12 600 --t3) → 기록 줄(아이콘 원 32 · 글 · 시각 · 사유 상자).
- * 지금 저장되는 기록은 마감일 변경뿐이라 다른 종류는 빈 상태로 보인다 (보고에 적음).
+ * 상세 기록 탭 (보드 08 · T · M 08). 웹과 태블릿 · 모바일 보드의 모양이 달라 둘을 따로 그린다.
+ * 웹: 종류 칸(전체 · 마감 변경 · 상태 · 항목 추가·삭제) → 날짜 묶음 → 아이콘 원 32 · 글 · 시각 · 사유 상자.
+ * 기록: 프로젝트 만듦 · 목표/태스크 추가 · 삭제 · 상태 · 완료 · 마감 변경 (REBUILD 6 버그 2).
  */
-export default function ProjectHistoryTab({ changes }: { changes: ProjectDeadlineChange[] }) {
+export default function ProjectHistoryTab({ entries }: { entries: ProjectHistoryEntry[] }) {
   return (
     <>
       <div className="flex flex-col gap-6 max-lg:hidden">
-        <WideHistory changes={changes} />
+        <WideHistory entries={entries} />
       </div>
       <div className="flex flex-col gap-3 lg:hidden">
-        <CompactHistory changes={changes} />
+        <CompactHistory entries={entries} />
       </div>
     </>
   );
@@ -51,14 +104,43 @@ const COMPACT_KIND_ITEMS: { value: CompactKind; label: string }[] = [
   { value: "goal", label: "목표" },
 ];
 
+const matchesCompact = (kind: CompactKind, entry: ProjectHistoryEntry) =>
+  kind === "all" ||
+  (kind === "task" && entry.target === "task") ||
+  (kind === "goal" && entry.target === "goal") ||
+  (kind === "schedule" && entry.target === "project");
+
 const WEEKDAYS = ["일", "월", "화", "수", "목", "금", "토"];
 
+// 기록 시각은 ISO(UTC)라 기기 시간대로 바꿔 본다
+const localDay = (iso: string) => {
+  const date = new Date(iso);
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+};
+const localTime = (iso: string) => {
+  const date = new Date(iso);
+  return `${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}`;
+};
+const localTimeKo = (iso: string) => {
+  const date = new Date(iso);
+  const hours = date.getHours();
+  return `${hours < 12 ? "오전" : "오후"} ${hours % 12 || 12}:${String(date.getMinutes()).padStart(2, "0")}`;
+};
+
+const DOT_CLASS: Record<ProjectHistoryEntry["kind"], string> = {
+  deadline: "bg-[var(--badge-warn-dot)]",
+  status: "bg-[var(--badge-info-dot)]",
+  done: "bg-[var(--badge-ok-dot)]",
+  add: "bg-[var(--badge-n-dot)]",
+  delete: "bg-[var(--badge-n-dot)]",
+  create: "bg-[var(--badge-n-dot)]",
+};
+
 /** 태블릿 · 모바일 (보드 T · M 08): 종류 칸 → 「MM.DD (요일)」 → 점 10 + 세로 선 · 글 · 작은 글 */
-function CompactHistory({ changes }: { changes: ProjectDeadlineChange[] }) {
+function CompactHistory({ entries }: { entries: ProjectHistoryEntry[] }) {
   const [kind, setKind] = useState<CompactKind>("all");
-  // 지금 저장되는 기록은 마감일 변경(일정)뿐이다
-  const visible = kind === "all" || kind === "schedule" ? changes : [];
-  const days = [...new Set(visible.map((change) => change.changedAt.slice(0, 10)))];
+  const visible = entries.filter((entry) => matchesCompact(kind, entry));
+  const days = [...new Set(visible.map((entry) => localDay(entry.at)))];
 
   return (
     <>
@@ -82,20 +164,19 @@ function CompactHistory({ changes }: { changes: ProjectDeadlineChange[] }) {
               </h3>
               <ul>
                 {visible
-                  .filter((change) => change.changedAt.startsWith(day))
-                  .map((change) => (
-                    <li key={change.id} className="flex items-start gap-3 py-1.5">
+                  .filter((entry) => localDay(entry.at) === day)
+                  .map((entry) => (
+                    <li key={entry.id} className="flex items-start gap-3 py-1.5">
                       <span aria-hidden className="flex flex-col items-center pt-1">
-                        <span className="size-2.5 rounded-full bg-[var(--badge-warn-dot)]" />
+                        <span className={cn("size-2.5 rounded-full", DOT_CLASS[entry.kind])} />
                         <span className="h-7.5 w-0.5 bg-[var(--border)]" />
                       </span>
                       <span className="flex min-w-0 flex-col text-sm">
-                        <span>
-                          마감일 변경 {formatMonthDot(change.previousEndDate)} →{" "}
-                          {formatMonthDot(change.nextEndDate)}
-                        </span>
-                        {change.reason ? (
-                          <span className="text-xs text-[var(--t3)]">사유: {change.reason}</span>
+                        <span>{historyCompactText(entry)}</span>
+                        {entry.reason ? (
+                          <span className="text-xs text-[var(--t3)]">사유: {entry.reason}</span>
+                        ) : entry.kind !== "deadline" ? (
+                          <span className="text-xs text-[var(--t3)]">{localTimeKo(entry.at)}</span>
                         ) : null}
                       </span>
                     </li>
@@ -109,10 +190,10 @@ function CompactHistory({ changes }: { changes: ProjectDeadlineChange[] }) {
   );
 }
 
-function WideHistory({ changes }: { changes: ProjectDeadlineChange[] }) {
+function WideHistory({ entries }: { entries: ProjectHistoryEntry[] }) {
   const [kind, setKind] = useState<HistoryKind>("all");
-  const visible = kind === "all" || kind === "deadline" ? changes : [];
-  const days = [...new Set(visible.map((change) => change.changedAt.slice(0, 10)))];
+  const visible = entries.filter((entry) => matchesWide(kind, entry));
+  const days = [...new Set(visible.map((entry) => localDay(entry.at)))];
 
   return (
     <>
@@ -132,31 +213,27 @@ function WideHistory({ changes }: { changes: ProjectDeadlineChange[] }) {
               <h3 className="text-xs font-semibold text-[var(--t3)]">{dayLabel(day)}</h3>
               <ul>
                 {visible
-                  .filter((change) => change.changedAt.startsWith(day))
-                  .map((change) => (
-                    <li key={change.id} className="flex items-start gap-3 py-3">
-                      <span className="inline-flex size-8 shrink-0 items-center justify-center rounded-full bg-[var(--s3)] text-[var(--bad)]">
-                        <CalendarSync size={16} aria-hidden />
-                      </span>
-                      <div className="flex min-w-0 flex-1 flex-col gap-0.5 text-sm">
-                        <span>
-                          마감일{" "}
-                          <b>
-                            {formatMonthDot(change.previousEndDate)} →{" "}
-                            {formatMonthDot(change.nextEndDate)}
-                          </b>
-                        </span>
-                        <span className="text-xs text-[var(--t3)]">
-                          {change.changedAt.slice(11, 16)}
-                        </span>
-                        {change.reason ? (
-                          <span className="mt-1 rounded-[var(--radius-sm)] bg-[var(--s2)] px-3 py-2 text-xs">
-                            사유: {change.reason}
+                  .filter((entry) => localDay(entry.at) === day)
+                  .map((entry) => {
+                    const { text, strong } = historyWideText(entry);
+                    return (
+                      <li key={entry.id} className="flex items-start gap-3 py-3">
+                        <HistoryIcon entry={entry} />
+                        <div className="flex min-w-0 flex-1 flex-col gap-0.5 text-sm">
+                          <span>
+                            {text}
+                            {strong ? <b>{strong}</b> : null}
                           </span>
-                        ) : null}
-                      </div>
-                    </li>
-                  ))}
+                          <span className="text-xs text-[var(--t3)]">{localTime(entry.at)}</span>
+                          {entry.reason ? (
+                            <span className="mt-1 rounded-[var(--radius-sm)] bg-[var(--s2)] px-3 py-2 text-xs">
+                              사유: {entry.reason}
+                            </span>
+                          ) : null}
+                        </div>
+                      </li>
+                    );
+                  })}
               </ul>
             </section>
           ))}

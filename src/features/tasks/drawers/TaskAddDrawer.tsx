@@ -2,7 +2,7 @@
 
 import { useId, useRef, useState, type FormEvent, type ReactNode } from "react";
 
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 import Button from "@/components/kit/Button";
 import { DiscardConfirmDialog } from "@/components/kit/ConfirmDialog";
@@ -16,6 +16,7 @@ import { ChevronDown } from "@/components/ui/icon";
 
 import { BUTTON_LABEL, TOAST_TEXT } from "@/content/ui";
 import GoalPicker from "@/features/goals/pick/GoalPicker";
+import { getProjects } from "@/features/projects/api/projects";
 import ProjectPicker from "@/features/projects/pick/ProjectPicker";
 import { useTaskMutations } from "@/features/tasks/hooks/useTaskMutations";
 import {
@@ -89,6 +90,14 @@ export default function TaskAddDrawer({
   const [openedFor, setOpenedFor] = useState(preset);
   const { createTaskMutation } = useTaskMutations(projectId ?? "all");
   const goalOptions = goals.filter((goal) => goal.projectId === form.projectId);
+  const { data: projects = [] } = useQuery({
+    queryKey: projectQueryKeys.all,
+    queryFn: getProjects,
+  });
+  const dueLimit =
+    goalOptions.find((goal) => goal.id === form.goalId)?.endDate ||
+    projects.find((project) => project.id === form.projectId)?.endDate ||
+    undefined;
   const isDirty = JSON.stringify(form) !== JSON.stringify(initial());
 
   if (preset !== openedFor) {
@@ -226,6 +235,8 @@ export default function TaskAddDrawer({
             <DateField
               label="마감일"
               value={form.dueDate}
+              // 태스크 마감 ≤ 목표 마감 ≤ 프로젝트 마감 (REBUILD 6 날짜 범위)
+              max={dueLimit}
               onChange={(dueDate) => update({ dueDate })}
             />
           </Field>

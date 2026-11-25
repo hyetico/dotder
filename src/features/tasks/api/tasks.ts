@@ -1,3 +1,4 @@
+import { recordProjectHistory } from "@/lib/mock/projectHistory";
 import { mockProjects } from "@/lib/mock/projects";
 
 import type { Task } from "@/features/tasks/types/task";
@@ -768,18 +769,48 @@ export async function createTask(newTask: Task): Promise<Task> {
   }
 
   mockTasks = [...mockTasks, newTask];
+  if (newTask.projectId) {
+    recordProjectHistory({
+      projectId: newTask.projectId,
+      kind: "add",
+      target: "task",
+      name: newTask.title,
+    });
+  }
 
   return newTask;
 }
 
 export async function updateTask(updatedTask: Task): Promise<Task> {
+  const previous = mockTasks.find((task) => task.id === updatedTask.id);
   mockTasks = mockTasks.map((task) => (task.id === updatedTask.id ? updatedTask : task));
+
+  // 상태가 바뀌면 기록 (완료는 따로 · 보드 08)
+  if (previous && previous.status !== updatedTask.status && updatedTask.projectId) {
+    recordProjectHistory({
+      projectId: updatedTask.projectId,
+      kind: updatedTask.status === "DONE" ? "done" : "status",
+      target: "task",
+      name: updatedTask.title,
+      from: previous.status,
+      to: updatedTask.status,
+    });
+  }
 
   return updatedTask;
 }
 
 export async function deleteTask(taskId: number): Promise<number> {
+  const removed = mockTasks.find((task) => task.id === taskId);
   mockTasks = mockTasks.filter((task) => task.id !== taskId);
+  if (removed?.projectId) {
+    recordProjectHistory({
+      projectId: removed.projectId,
+      kind: "delete",
+      target: "task",
+      name: removed.title,
+    });
+  }
 
   return taskId;
 }
@@ -793,4 +824,21 @@ export function unlinkTasksFromGoal(goalId: number) {
   mockTasks = mockTasks.map((task) =>
     task.goalId === goalId ? { ...task, goalId: undefined } : task,
   );
+}
+
+/**
+ * 프로젝트를 지울 때 그 프로젝트의 태스크를 함께 지운다 (REBUILD 6 버그 2).
+ *
+ * @returns 지운 태스크 (되돌리기에 쓴다)
+ */
+export function removeTasksOfProject(projectId: number): Task[] {
+  const removed = mockTasks.filter((task) => task.projectId === projectId);
+  mockTasks = mockTasks.filter((task) => task.projectId !== projectId);
+  return removed;
+}
+
+/** 프로젝트 삭제 되돌리기 때 태스크를 다시 넣는다 */
+export function restoreTasks(tasks: Task[]) {
+  const ids = new Set(mockTasks.map((task) => task.id));
+  mockTasks = [...mockTasks, ...tasks.filter((task) => !ids.has(task.id))];
 }

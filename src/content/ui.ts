@@ -30,6 +30,21 @@ export const DISCARD_CONFIRM = {
 export const DELETE_CONFIRM_TEXT = "삭제하면 되돌릴 수 없어요.";
 
 /**
+ * 프로젝트 삭제 확인창 앞 문장 (보드 03-f). 0개인 것은 빼고, 모두 0이면 빈 문자열.
+ *
+ * @example
+ * projectDeleteDetail({ goals: 4, tasks: 9, memos: 3 }) // "목표 4개, 태스크 9개, 메모 3개도 함께 삭제돼요."
+ */
+export function projectDeleteDetail(counts: { goals: number; tasks: number; memos: number }) {
+  const parts = [
+    counts.goals ? `목표 ${counts.goals}개` : "",
+    counts.tasks ? `태스크 ${counts.tasks}개` : "",
+    counts.memos ? `메모 ${counts.memos}개` : "",
+  ].filter(Boolean);
+  return parts.length ? `${parts.join(", ")}도 함께 삭제돼요.` : "";
+}
+
+/**
  * 삭제 확인 제목. 받침에 따라 「을 · 를」을 붙인다.
  *
  * @param target - 지울 대상 이름. 예: "프로젝트", "‘스토어 출시 준비’"
@@ -58,6 +73,8 @@ export const TOAST_TEXT = {
   deadlineChanged: "마감일을 변경했어요. 변경 내역은 기록 탭에서 볼 수 있어요.",
   /** 목표 ⋯ 「완료」 (프로토타입 gmenu) */
   goalCompleted: "목표를 완료했어요",
+  /** 태스크 체크 (프로토타입 tcheck) */
+  taskCompleted: "태스크를 완료했어요",
   /** 메모 ⋯ (프로토타입 mmenu) */
   memoToTask: "태스크로 등록했어요.",
   memoToGoal: "목표로 등록했어요.",

@@ -1,6 +1,7 @@
 import { unlinkTasksFromGoal } from "@/features/tasks/api/tasks";
 
 import { mockGoals } from "@/lib/mock/goals";
+import { recordProjectHistory } from "@/lib/mock/projectHistory";
 import { mockProjects } from "@/lib/mock/projects";
 import { mockTeamMembers } from "@/lib/mock/teamMembers";
 
@@ -87,6 +88,14 @@ export async function createGoal(input: CreateGoalInput): Promise<Goal> {
   };
 
   mockGoals.push(newGoal);
+  if (newGoal.projectId) {
+    recordProjectHistory({
+      projectId: newGoal.projectId,
+      kind: "add",
+      target: "goal",
+      name: newGoal.title,
+    });
+  }
 
   return newGoal;
 }
@@ -106,6 +115,14 @@ export async function deleteGoal(goalId: number): Promise<Goal> {
 
   const [removed] = mockGoals.splice(index, 1);
   unlinkTasksFromGoal(goalId);
+  if (removed.projectId) {
+    recordProjectHistory({
+      projectId: removed.projectId,
+      kind: "delete",
+      target: "goal",
+      name: removed.title,
+    });
+  }
 
   return removed;
 }
@@ -160,5 +177,41 @@ export async function updateGoal(input: UpdateGoalInput): Promise<Goal> {
 
   mockGoals[goalIndex] = updatedGoal;
 
+  // 상태가 바뀌면 기록 (완료는 따로 · 보드 08)
+  if (currentGoal.status !== updatedGoal.status && updatedGoal.projectId) {
+    recordProjectHistory({
+      projectId: updatedGoal.projectId,
+      kind: updatedGoal.status === "COMPLETED" ? "done" : "status",
+      target: "goal",
+      name: updatedGoal.title,
+      from: currentGoal.status,
+      to: updatedGoal.status,
+    });
+  }
+
   return updatedGoal;
+}
+
+/**
+ * 프로젝트를 지울 때 그 프로젝트의 목표를 함께 지운다 (REBUILD 6 버그 2).
+ *
+ * @returns 지운 목표 (되돌리기에 쓴다)
+ */
+export function removeGoalsOfProject(projectId: number): Goal[] {
+  const removed = mockGoals.filter((goal) => goal.projectId === projectId);
+  for (let index = mockGoals.length - 1; index >= 0; index -= 1) {
+    if (mockGoals[index].projectId === projectId) {
+      mockGoals.splice(index, 1);
+    }
+  }
+  return removed;
+}
+
+/** 프로젝트 삭제 되돌리기 때 목표를 다시 넣는다 */
+export function restoreGoals(goals: Goal[]) {
+  goals.forEach((goal) => {
+    if (!mockGoals.some((item) => item.id === goal.id)) {
+      mockGoals.push(goal);
+    }
+  });
 }
