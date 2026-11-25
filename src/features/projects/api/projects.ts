@@ -391,3 +391,28 @@ export async function clearExampleData(keepMain: boolean) {
     }
   }
 }
+
+/**
+ * 프로젝트 기간을 줄이며 같이 옮긴 목표 · 태스크 날짜를 기록에 남긴다 (DOC1 날짜 범위).
+ */
+export async function recordShiftedItems(
+  projectId: number,
+  moves: {
+    target: "goal" | "task";
+    field: "start" | "end";
+    name: string;
+    from: string;
+    to: string;
+  }[],
+) {
+  moves.forEach((move) =>
+    recordProjectHistory({
+      projectId,
+      kind: move.field === "start" ? "start" : "deadline",
+      target: move.target,
+      name: move.name,
+      from: move.from,
+      to: move.to,
+    }),
+  );
+}

@@ -41,7 +41,7 @@ const dayLabel = (iso: string) => {
 // 웹 종류 칸 (보드 08)
 const matchesWide = (kind: HistoryKind, entry: ProjectHistoryEntry) =>
   kind === "all" ||
-  (kind === "deadline" && entry.kind === "deadline") ||
+  (kind === "deadline" && (entry.kind === "deadline" || entry.kind === "start")) ||
   (kind === "status" && (entry.kind === "status" || entry.kind === "done")) ||
   (kind === "items" &&
     (entry.kind === "add" || entry.kind === "delete" || entry.kind === "create"));
@@ -49,7 +49,7 @@ const matchesWide = (kind: HistoryKind, entry: ProjectHistoryEntry) =>
 /** 기록 아이콘 원 (보드 08): 마감 변경 빨강 · 상태 파랑 · 그 밖은 --t2 */
 export function HistoryIcon({ entry }: { entry: ProjectHistoryEntry }) {
   const icon =
-    entry.kind === "deadline" ? (
+    entry.kind === "deadline" || entry.kind === "start" ? (
       <CalendarSync size={16} aria-hidden />
     ) : entry.kind === "status" ? (
       <Pencil size={16} aria-hidden />
@@ -68,7 +68,7 @@ export function HistoryIcon({ entry }: { entry: ProjectHistoryEntry }) {
     <span
       className={cn(
         "inline-flex size-8 shrink-0 items-center justify-center rounded-full bg-[var(--s3)] text-[var(--t2)]",
-        entry.kind === "deadline" && "text-[var(--bad)]",
+        (entry.kind === "deadline" || entry.kind === "start") && "text-[var(--bad)]",
         entry.kind === "status" && "text-[var(--badge-info-fg)]",
       )}
     >
@@ -108,7 +108,8 @@ const matchesCompact = (kind: CompactKind, entry: ProjectHistoryEntry) =>
   kind === "all" ||
   (kind === "task" && entry.target === "task") ||
   (kind === "goal" && entry.target === "goal") ||
-  (kind === "schedule" && entry.target === "project");
+  (kind === "schedule" &&
+    (entry.target === "project" || entry.kind === "deadline" || entry.kind === "start"));
 
 const WEEKDAYS = ["일", "월", "화", "수", "목", "금", "토"];
 
@@ -129,6 +130,7 @@ const localTimeKo = (iso: string) => {
 
 const DOT_CLASS: Record<ProjectHistoryEntry["kind"], string> = {
   deadline: "bg-[var(--badge-warn-dot)]",
+  start: "bg-[var(--badge-warn-dot)]",
   status: "bg-[var(--badge-info-dot)]",
   done: "bg-[var(--badge-ok-dot)]",
   add: "bg-[var(--badge-n-dot)]",
@@ -175,7 +177,7 @@ function CompactHistory({ entries }: { entries: ProjectHistoryEntry[] }) {
                         <span>{historyCompactText(entry)}</span>
                         {entry.reason ? (
                           <span className="text-xs text-[var(--t3)]">사유: {entry.reason}</span>
-                        ) : entry.kind !== "deadline" ? (
+                        ) : entry.target !== "project" || entry.kind !== "deadline" ? (
                           <span className="text-xs text-[var(--t3)]">{localTimeKo(entry.at)}</span>
                         ) : null}
                       </span>
