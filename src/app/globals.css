@@ -1097,14 +1097,6 @@ a.sidebar-nav-link[data-active="true"]:hover svg {
   color: var(--color-nav-active-text);
 }
 
-.sidebar-nav-tooltip {
-  display: none;
-}
-
-a.sidebar-nav-link:hover .sidebar-nav-tooltip {
-  display: flex;
-}
-
 /*
  * ---------------------------------------------------------
  * Image
@@ -1165,27 +1157,6 @@ textarea:-webkit-autofill:focus {
  * ---------------------------------------------------------
  */
 
-.selected-border {
-  border-width: var(--selected-border-width);
-  border-style: solid;
-  border-color: var(--color-selected-border);
-}
-
-.project-card-main-border {
-  border-color: transparent;
-  background-color: var(--color-surface);
-  background-image:
-    linear-gradient(var(--color-surface), var(--color-surface)), var(--gradient-primary);
-  background-origin: border-box;
-  background-clip: padding-box, border-box;
-}
-
-.project-card-main-border-delayed {
-  background-image:
-    linear-gradient(var(--color-surface), var(--color-surface)),
-    linear-gradient(135deg, #ef4444 0%, #f87171 42%, #fdb8b8 100%);
-}
-
 /* 메인 왕관 뱃지. 프로젝트 색(--accent-primary)이 있으면 그 색 한 가지, 다크는 팔레트 다크 값 */
 .bg-accent-gradient {
   background-color: var(--accent-primary, var(--color-primary));
@@ -1223,11 +1194,6 @@ textarea:-webkit-autofill:focus {
   box-shadow: none;
 }
 
-.sidebar-brand {
-  height: var(--sidebar-brand-height);
-  transition: height 220ms ease;
-}
-
 /*
  * 모달 안 스크롤이 끝에 닿아도
  * 뒤 페이지로 스크롤이 넘어가지 않게 한다.
@@ -1238,79 +1204,6 @@ textarea:-webkit-autofill:focus {
 }
 
 /* 토스트: 아래에서 위로 200ms. 움직임 줄이기면 제자리에서 보이기만 (handoff B5) */
-@keyframes toast-in {
-  from {
-    opacity: 0;
-    transform: translate(-50%, 8px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translate(-50%, 0);
-  }
-}
-
-.toast-enter {
-  animation: toast-in var(--duration-toast) var(--ease-out) both;
-}
-
-@keyframes drawer-slide-in {
-  from {
-    transform: translateX(100%);
-  }
-
-  to {
-    transform: translateX(0);
-  }
-}
-
-@keyframes drawer-slide-out {
-  from {
-    transform: translateX(0);
-  }
-
-  to {
-    transform: translateX(100%);
-  }
-}
-
-@keyframes drawer-fade-in {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes drawer-fade-out {
-  from {
-    opacity: 1;
-  }
-
-  to {
-    opacity: 0;
-  }
-}
-
-.drawer-slide-in {
-  transform: translateX(100%);
-  animation: drawer-slide-in 400ms ease-in-out both;
-}
-
-.drawer-slide-out {
-  animation: drawer-slide-out 400ms ease-in-out both;
-}
-
-.drawer-fade-in {
-  opacity: 0;
-  animation: drawer-fade-in 400ms ease-in-out both;
-}
-
-.drawer-fade-out {
-  animation: drawer-fade-out 400ms ease-in-out both;
-}
 
 /* 고르는 목록의 프로젝트 점 · 왕관 (ProjectMark). 다크 값은 팔레트 변수가 준다 */
 .project-mark {
@@ -1321,85 +1214,10 @@ textarea:-webkit-autofill:focus {
  * 활동 모자이크 (Design Guide 11). 색은 프로젝트 색 한 가지(--mosaic-color = var(--project-<키>)).
  * 다크 값은 팔레트 변수가 준다. 조각은 클수록 진하다.
  */
-.activity-mosaic {
-  --mosaic-ink: var(--mosaic-color, var(--color-neutral));
-}
-
-.activity-mosaic-box {
-  background-color: color-mix(in srgb, var(--color-surface) 50%, transparent);
-}
 
 /* 다크는 상자를 카드보다 어둡게, 조각은 덜 비치게 (design/screens 01 다크) */
-:root[data-theme="dark"] .activity-mosaic-box {
-  background-color: color-mix(in srgb, var(--color-page) 70%, transparent);
-}
-
-:root[data-theme="dark"] .mosaic-tone-0 {
-  background-color: color-mix(in srgb, var(--mosaic-ink) 40%, transparent);
-}
-
-:root[data-theme="dark"] .mosaic-tone-1 {
-  background-color: color-mix(in srgb, var(--mosaic-ink) 60%, transparent);
-}
-
-:root[data-theme="dark"] .mosaic-tone-2 {
-  background-color: color-mix(in srgb, var(--mosaic-ink) 75%, transparent);
-}
-
-:root[data-theme="dark"] .mosaic-tone-3 {
-  background-color: color-mix(in srgb, var(--mosaic-ink) 90%, transparent);
-}
-
-.mosaic-tone-0 {
-  background-color: color-mix(in srgb, var(--mosaic-ink) 30%, transparent);
-}
-
-.mosaic-tone-1 {
-  background-color: color-mix(in srgb, var(--mosaic-ink) 40%, transparent);
-}
-
-.mosaic-tone-2 {
-  background-color: color-mix(in srgb, var(--mosaic-ink) 60%, transparent);
-}
-
-.mosaic-tone-3 {
-  background-color: color-mix(in srgb, var(--mosaic-ink) 80%, transparent);
-}
-
-.mosaic-tone-4 {
-  background-color: var(--mosaic-ink);
-}
 
 /* 불러오는 중 자리 표시가 천천히 깜빡인다 (원본 .skel pulse 1.2s) */
-@keyframes skeleton-pulse {
-  50% {
-    opacity: 0.55;
-  }
-}
-
-.skeleton-pulse {
-  animation: skeleton-pulse 1.2s ease-in-out infinite;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .sidebar-brand {
-    transition: none;
-  }
-
-  .drawer-slide-in,
-  .drawer-slide-out,
-  .drawer-fade-in,
-  .drawer-fade-out {
-    animation-duration: 1ms;
-  }
-  .toast-enter {
-    animation: none;
-  }
-
-  .skeleton-pulse {
-    animation: none;
-  }
-}
 
 /*
  * ---------------------------------------------------------

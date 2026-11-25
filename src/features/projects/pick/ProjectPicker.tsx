@@ -88,7 +88,7 @@ export default function ProjectPicker({
         width="anchor"
         role="listbox"
       >
-        <div className="flex max-h-80 flex-col overflow-y-auto">
+        <div className="flex max-h-80 flex-col overflow-y-auto [&>*]:shrink-0">
           {projects.map((project) => (
             <PickRow
               key={project.id}

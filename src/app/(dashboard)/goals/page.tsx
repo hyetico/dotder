@@ -1,5 +1,5 @@
-import GoalsPageContent from "@/features/goals/content/GoalsPageContent";
+import GoalsScreen from "@/features/goals/list/GoalsScreen";
 
 export default function GoalsPage() {
-  return <GoalsPageContent />;
+  return <GoalsScreen scope="all" />;
 }

@@ -3,11 +3,10 @@
 import { useRef, useState } from "react";
 
 import Button from "@/components/kit/Button";
-import Checkbox from "@/components/kit/Checkbox";
 import { Chip } from "@/components/kit/Chip";
 import { DeleteConfirmDialog } from "@/components/kit/ConfirmDialog";
 import EmptyState from "@/components/kit/EmptyState";
-import { MenuHeader, MenuSeparator, PickRow } from "@/components/kit/Menu";
+import { PickRow } from "@/components/kit/Menu";
 import Popover from "@/components/kit/Popover";
 import Segmented from "@/components/kit/Segmented";
 import { useToast } from "@/components/kit/Toast";
@@ -17,6 +16,7 @@ import { TOAST_TEXT } from "@/content/ui";
 import GoalAddDrawer from "@/features/goals/drawers/GoalAddDrawer";
 import GoalDetailDrawer from "@/features/goals/drawers/GoalDetailDrawer";
 import { useGoalMutations } from "@/features/goals/hooks/useGoalMutations";
+import GoalFilterPopover from "@/features/goals/list/GoalFilterPopover";
 import {
   GOAL_SORT_LABEL,
   getGoalStats,
@@ -59,8 +59,6 @@ export default function ProjectGoalsTab({ project, goals, tasks, today }: Projec
 
   const count = (key: GoalStatusFilter) =>
     goals.filter((goal) => key === "all" || goal.status === key).length;
-  const tagFiltered = (tag: string) => goals.filter((goal) => goal.tags.includes(tag)).length;
-  const allTags = [...new Set(goals.flatMap((goal) => goal.tags))];
   const visible = selectGoals(goals, { status, tags, sort });
   const openGoal = goals.find((goal) => goal.id === openGoalId) ?? null;
   const isFiltered = status !== "all" || tags.length > 0;
@@ -162,36 +160,15 @@ export default function ProjectGoalsTab({ project, goals, tasks, today }: Projec
         </ul>
       )}
 
-      <Popover
+      <GoalFilterPopover
         isOpen={panel === "filter"}
         onClose={() => setPanel(null)}
         anchorRef={filterRef}
-        title="필터"
-        width={280}
-      >
-        <MenuHeader>태그</MenuHeader>
-        {allTags.map((tag) => {
-          const isOn = tags.includes(tag);
-          const toggle = () => setTags(isOn ? tags.filter((item) => item !== tag) : [...tags, tag]);
-          return (
-            <label
-              key={tag}
-              className="flex min-h-9 cursor-pointer items-center gap-2.5 rounded-[var(--radius-sm)] px-2.5 text-sm hover:bg-[var(--s3)] max-md:min-h-13"
-            >
-              <Checkbox checked={isOn} onChange={toggle} label={tag} />
-              <span className="flex-1">{tag}</span>
-              <span className="text-xs text-[var(--t3)] tabular-nums">{tagFiltered(tag)}</span>
-            </label>
-          );
-        })}
-        <MenuSeparator />
-        <div className="flex items-center gap-2 px-1.5 py-1">
-          <span className="flex-1 text-xs text-[var(--t3)]">결과 {visible.length}개</span>
-          <Button variant="ghost" size="xs" onClick={() => setTags([])}>
-            초기화
-          </Button>
-        </div>
-      </Popover>
+        goals={goals}
+        tags={tags}
+        onTagsChange={setTags}
+        resultCount={visible.length}
+      />
 
       <Popover
         isOpen={panel === "sort"}
