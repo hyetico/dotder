@@ -191,6 +191,7 @@ export default function GoalAddDrawer({ isOpen, onClose, projectId }: GoalAddDra
                   label="시작일"
                   value={form.startDate}
                   min={today}
+                  max={project?.endDate || undefined}
                   onChange={(startDate) =>
                     update({
                       startDate,
@@ -205,6 +206,8 @@ export default function GoalAddDrawer({ isOpen, onClose, projectId }: GoalAddDra
                   label="마감일"
                   value={form.endDate}
                   min={form.startDate || today}
+                  // 목표 마감은 프로젝트 마감을 넘지 않는다 (REBUILD 6 날짜 범위)
+                  max={project?.endDate || undefined}
                   onChange={(endDate) => update({ endDate })}
                 />
               </Field>

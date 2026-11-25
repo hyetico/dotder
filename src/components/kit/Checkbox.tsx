@@ -27,6 +27,7 @@ export default function Checkbox({
   const isOn = checked || indeterminate;
 
   return (
+    // 누르는 영역 24 · 보이는 칸 18 (보드 S5 체크박스)
     <button
       type="button"
       role="checkbox"
@@ -37,18 +38,30 @@ export default function Checkbox({
         event.stopPropagation();
         onChange(!checked);
       }}
-      className={cn(
-        "kit-focus inline-flex size-4.5 shrink-0 cursor-pointer items-center justify-center rounded-[var(--radius-kbd)] border-[length:var(--line-dash)]",
-        isOn
-          ? "border-[var(--primary)] bg-[var(--primary)] text-[var(--on-primary)]"
-          : "border-[var(--cb-line)] bg-[var(--surface)]",
-      )}
+      className="kit-focus group/cb -m-0.75 inline-flex size-6 shrink-0 cursor-pointer items-center justify-center rounded-[var(--radius-xs)]"
     >
-      {indeterminate ? (
-        <Minus size={12} aria-hidden />
-      ) : checked ? (
-        <Check size={12} aria-hidden />
-      ) : null}
+      <span
+        aria-hidden
+        className={cn(
+          "inline-flex size-4.5 items-center justify-center rounded-[var(--radius-kbd)] border-[length:var(--line-dash)] transition-colors duration-150",
+          isOn
+            ? "border-[var(--primary)] bg-[var(--primary)] text-[var(--on-primary)]"
+            : "border-[var(--cb-line)] bg-[var(--surface)] group-hover/cb:border-[var(--input-line-h)]",
+        )}
+      >
+        {indeterminate ? (
+          <Minus size={12} aria-hidden />
+        ) : (
+          <Check
+            size={12}
+            aria-hidden
+            className={cn(
+              "transition-[opacity,scale] duration-150 motion-reduce:duration-0",
+              checked ? "scale-100 opacity-100" : "scale-50 opacity-0",
+            )}
+          />
+        )}
+      </span>
     </button>
   );
 }

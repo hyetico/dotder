@@ -17,6 +17,8 @@ type DateFieldProps = {
   label: string;
   /** 이 날 이전은 고를 수 없다 (`YYYY-MM-DD`, 시작일은 오늘) */
   min?: string;
+  /** 이 날 뒤는 고를 수 없다 (`YYYY-MM-DD`, 태스크 마감 ≤ 목표 마감 ≤ 프로젝트 마감 · REBUILD 6) */
+  max?: string;
   invalid?: boolean;
   /** 바꿀 수 없는 칸 (보드 03-g 「지금 마감일」) */
   disabled?: boolean;
@@ -42,6 +44,7 @@ export default function DateField({
   onChange,
   label,
   min,
+  max,
   invalid = false,
   disabled = false,
   variant = "field",
@@ -169,7 +172,7 @@ export default function DateField({
             {days.map((date) => {
               const key = toDateKey(date);
               const isOther = date.getMonth() !== month.getMonth();
-              const isDisabled = Boolean(min && key < min);
+              const isDisabled = Boolean((min && key < min) || (max && key > max));
               const isSelected = key === value;
               const isToday = key === today;
 
@@ -206,7 +209,7 @@ export default function DateField({
             <Button
               variant="ghost"
               size="xs"
-              disabled={Boolean(min && today < min)}
+              disabled={Boolean((min && today < min) || (max && today > max))}
               onClick={() => pick(today)}
             >
               오늘

@@ -8,6 +8,7 @@ import Card from "@/components/kit/Card";
 import Checkbox from "@/components/kit/Checkbox";
 import EmptyState from "@/components/kit/EmptyState";
 import { MenuItem, MenuSeparator, MoreMenu } from "@/components/kit/Menu";
+import { collapseClassName, useDelayedComplete } from "@/components/kit/useDelayedComplete";
 import {
   Calendar,
   Check,
@@ -192,7 +193,7 @@ export function TaskBoardView({ tasks, goals, today, ...handlers }: TaskViewProp
                       </span>
                     ) : null}
                     {late != null ? (
-                      <Badge tone="bad">{late}일 지연</Badge>
+                      <Badge tone="bad">{late}일 지남</Badge>
                     ) : task.dueDate && !isDone ? (
                       <span>{formatMonthDot(task.dueDate)}</span>
                     ) : null}
@@ -265,6 +266,9 @@ function TaskRow({
   const late = getTaskLateDays(task, today);
   const goal = goalName(goals, task);
   const isDone = task.status === "DONE";
+  // 체크하면 1초 동안 체크 + 취소선을 보여 준 뒤 접히며 완료 (보드 S5)
+  const { stage, start } = useDelayedComplete(() => handlers.onToggleDone(task));
+  const looksDone = isDone || stage !== "idle";
   const projectDot = project ? (
     <span
       aria-hidden
@@ -274,74 +278,87 @@ function TaskRow({
   ) : null;
 
   return (
-    <li className="relative isolate flex min-h-12 items-center gap-3 border-t border-[var(--divider)] transition-colors duration-120 hover:bg-[var(--s2)] max-lg:min-h-14 lg:px-3">
-      <button
-        type="button"
-        onClick={() => handlers.onOpen(task)}
-        aria-label={`‘${task.title}’ 열기`}
-        className="kit-focus absolute inset-0 cursor-pointer"
-      />
-      <span className="relative z-10 inline-flex">
-        <Checkbox
-          checked={isDone}
-          onChange={() => handlers.onToggleDone(task)}
-          label={`‘${task.title}’ 완료`}
-        />
-      </span>
-      <span className="flex min-w-0 flex-1 flex-col">
-        <span className={cn("truncate text-sm", isDone && "text-[var(--t3)] line-through")}>
-          {task.title}
-        </span>
-        {/* 태블릿 · 모바일은 이름 아래 프로젝트 (보드 T · M 10) */}
-        {showProject && project ? (
-          <span className="flex min-w-0 items-center gap-1.5 text-xs text-[var(--t3)] lg:hidden">
-            {projectDot}
-            <span className="truncate">{project.name}</span>
+    <li className={collapseClassName(stage)}>
+      <div className="min-h-0 overflow-hidden">
+        <div className="relative isolate flex min-h-12 items-center gap-3 border-t border-[var(--divider)] transition-colors duration-120 hover:bg-[var(--s2)] max-lg:min-h-14 lg:px-3">
+          <button
+            type="button"
+            onClick={() => handlers.onOpen(task)}
+            aria-label={`‘${task.title}’ 열기`}
+            className="kit-focus absolute inset-0 cursor-pointer"
+          />
+          <span className="relative z-10 inline-flex">
+            <Checkbox
+              checked={looksDone}
+              onChange={() => (isDone ? handlers.onToggleDone(task) : start())}
+              label={`‘${task.title}’ 완료`}
+            />
           </span>
-        ) : null}
-      </span>
-      {showProject ? (
-        <span className="flex w-55 min-w-0 items-center gap-1.5 text-xs text-[var(--t2)] max-lg:hidden">
-          {project ? (
-            <>
-              {projectDot}
-              <span className="truncate">{project.name}</span>
-            </>
-          ) : (
-            "—"
-          )}
-        </span>
-      ) : null}
-      <span className="w-37.5 truncate text-xs text-[var(--t3)] max-lg:hidden">{goal ?? "—"}</span>
-      <span className="flex lg:w-25">
-        {late != null ? (
-          <Badge tone="bad">{late}일 지연</Badge>
-        ) : (
-          <>
-            <span className="text-xs text-[var(--t2)] max-lg:hidden">{dueText(task, today)}</span>
-            {/* 태블릿 · 모바일은 요일 없이 (보드 T · M 10) */}
-            {task.dueDate && !isDone ? (
-              <span className="text-xs text-[var(--t2)] lg:hidden">
-                {task.dueDate === today ? "오늘" : formatMonthDot(task.dueDate)}
+          <span className="flex min-w-0 flex-1 flex-col">
+            <span
+              className={cn(
+                "truncate text-sm transition-colors duration-150",
+                looksDone && "text-[var(--t3)] line-through",
+              )}
+            >
+              {task.title}
+            </span>
+            {/* 태블릿 · 모바일은 이름 아래 프로젝트 (보드 T · M 10) */}
+            {showProject && project ? (
+              <span className="flex min-w-0 items-center gap-1.5 text-xs text-[var(--t3)] lg:hidden">
+                {projectDot}
+                <span className="truncate">{project.name}</span>
               </span>
             ) : null}
-          </>
-        )}
-      </span>
-      <span className="flex w-15 items-center gap-1 text-xs max-lg:hidden">
-        {isDone ? null : (
-          <>
-            <span
-              aria-hidden
-              className={cn("size-2 rounded-full", TASK_PRIORITY_DOT[task.priority])}
-            />
-            {TASK_PRIORITY_LABEL[task.priority]}
-          </>
-        )}
-      </span>
-      <span className="relative z-10">
-        <TaskMenu task={task} {...handlers} />
-      </span>
+          </span>
+          {showProject ? (
+            <span className="flex w-55 min-w-0 items-center gap-1.5 text-xs text-[var(--t2)] max-lg:hidden">
+              {project ? (
+                <>
+                  {projectDot}
+                  <span className="truncate">{project.name}</span>
+                </>
+              ) : (
+                "—"
+              )}
+            </span>
+          ) : null}
+          <span className="w-37.5 truncate text-xs text-[var(--t3)] max-lg:hidden">
+            {goal ?? "—"}
+          </span>
+          <span className="flex lg:w-25">
+            {late != null ? (
+              <Badge tone="bad">{late}일 지남</Badge>
+            ) : (
+              <>
+                <span className="text-xs text-[var(--t2)] max-lg:hidden">
+                  {dueText(task, today)}
+                </span>
+                {/* 태블릿 · 모바일은 요일 없이 (보드 T · M 10) */}
+                {task.dueDate && !isDone ? (
+                  <span className="text-xs text-[var(--t2)] lg:hidden">
+                    {task.dueDate === today ? "오늘" : formatMonthDot(task.dueDate)}
+                  </span>
+                ) : null}
+              </>
+            )}
+          </span>
+          <span className="flex w-15 items-center gap-1 text-xs max-lg:hidden">
+            {isDone ? null : (
+              <>
+                <span
+                  aria-hidden
+                  className={cn("size-2 rounded-full", TASK_PRIORITY_DOT[task.priority])}
+                />
+                {TASK_PRIORITY_LABEL[task.priority]}
+              </>
+            )}
+          </span>
+          <span className="relative z-10">
+            <TaskMenu task={task} {...handlers} />
+          </span>
+        </div>
+      </div>
     </li>
   );
 }

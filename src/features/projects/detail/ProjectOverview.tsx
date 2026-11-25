@@ -5,7 +5,10 @@ import { useQueryClient } from "@tanstack/react-query";
 import Badge from "@/components/kit/Badge";
 import Button from "@/components/kit/Button";
 import Checkbox from "@/components/kit/Checkbox";
+import { useToast } from "@/components/kit/Toast";
+import { collapseClassName, useDelayedComplete } from "@/components/kit/useDelayedComplete";
 
+import { TOAST_TEXT } from "@/content/ui";
 import {
   formatMonthDot,
   getNextTasks,
@@ -20,14 +23,12 @@ import { projectQueryKeys } from "@/lib/queryKeys";
 
 import type { Goal } from "@/features/goals/types/goal";
 import type { ProjectDeadlineChange, ProjectListItem } from "@/features/projects/types/project";
-import type { ActivityDay } from "@/features/projects/utils/activityMosaic";
 import type { Task } from "@/features/tasks/types/task";
 
 type ProjectOverviewProps = {
   project: ProjectListItem;
   goals: Goal[];
   tasks: Task[];
-  activity: ActivityDay[];
   deadlineChanges: ProjectDeadlineChange[];
   lateDays: number | null;
   today: string;
@@ -46,7 +47,6 @@ export default function ProjectOverview({
   project,
   goals,
   tasks,
-  activity,
   deadlineChanges,
   lateDays,
   today,
@@ -67,10 +67,11 @@ export default function ProjectOverview({
       <ProjectScheduleCard
         project={project}
         goals={goals}
-        activity={activity}
+        tasks={tasks}
         deadlineChanges={deadlineChanges}
         lateDays={lateDays}
         today={today}
+        historyHref={tabHref("history")}
       />
       <div className="grid items-start gap-6 lg:grid-cols-[2fr_1fr]">
         <NextTasksCard
@@ -102,6 +103,7 @@ function NextTasksCard({
   href: string;
 }) {
   const queryClient = useQueryClient();
+  const toast = useToast();
   const { updateTaskMutation } = useTaskMutations(projectId);
   const next = getNextTasks(tasks, 3);
   const goalName = (task: Task) => goals.find((goal) => goal.id === task.goalId)?.title;
@@ -110,6 +112,12 @@ function NextTasksCard({
     await updateTaskMutation.mutateAsync({ ...task, status: "DONE" });
     // 진행률 · 지연 수는 프로젝트 쪽에서 다시 센다
     await queryClient.invalidateQueries({ queryKey: projectQueryKeys.all });
+    toast(TOAST_TEXT.taskCompleted, {
+      undo: () =>
+        void updateTaskMutation
+          .mutateAsync(task)
+          .then(() => queryClient.invalidateQueries({ queryKey: projectQueryKeys.all })),
+    });
   };
 
   return (
@@ -134,43 +142,16 @@ function NextTasksCard({
         <p className="mt-2 text-xs text-[var(--t3)]">남은 태스크가 없어요</p>
       ) : (
         <ul className="mt-2 max-lg:mt-0">
-          {next.map((task, index) => {
-            const late = getTaskLateDays(task, today);
-            const goal = goalName(task);
-
-            return (
-              <li
-                key={task.id}
-                className={cn(
-                  "flex min-h-10 items-center gap-2.5 text-sm max-lg:min-h-12 max-lg:border-t max-lg:border-[var(--divider)]",
-                  index > 0 && "border-t border-[var(--divider)]",
-                  // 태블릿 · 모바일은 2개 (보드 T · M 03)
-                  index > 1 && "max-lg:hidden",
-                )}
-              >
-                <Checkbox
-                  checked={task.status === "DONE"}
-                  onChange={() => void complete(task)}
-                  label={`‘${task.title}’ 완료`}
-                />
-                <span className="min-w-0 flex-1 truncate">{task.title}</span>
-                {goal ? (
-                  <span className="max-w-40 shrink-0 truncate text-xs text-[var(--t3)] max-lg:hidden">
-                    {goal}
-                  </span>
-                ) : null}
-                {late != null ? (
-                  <Badge tone="bad">
-                    {late}일<span className="max-lg:hidden"> 지연</span>
-                  </Badge>
-                ) : task.dueDate ? (
-                  <span className="shrink-0 text-xs text-[var(--t3)]">
-                    {formatMonthDot(task.dueDate)}
-                  </span>
-                ) : null}
-              </li>
-            );
-          })}
+          {next.map((task, index) => (
+            <NextTaskRow
+              key={task.id}
+              task={task}
+              goal={goalName(task)}
+              late={getTaskLateDays(task, today)}
+              index={index}
+              onComplete={() => void complete(task)}
+            />
+          ))}
         </ul>
       )}
     </section>
@@ -203,5 +184,59 @@ function RecentRecordsCard({ changes, href }: { changes: ProjectDeadlineChange[]
         </div>
       ))}
     </section>
+  );
+}
+
+/** 다음에 할 일 한 줄. 체크하면 1초 뒤 접히며 완료 (보드 S5) */
+function NextTaskRow({
+  task,
+  goal,
+  late,
+  index,
+  onComplete,
+}: {
+  task: Task;
+  goal?: string;
+  late: number | null;
+  index: number;
+  onComplete: () => void;
+}) {
+  const { stage, start } = useDelayedComplete(onComplete);
+  const looksDone = stage !== "idle";
+
+  return (
+    // 태블릿 · 모바일은 2개 (보드 T · M 03)
+    <li className={cn(collapseClassName(stage), index > 1 && "max-lg:hidden")}>
+      <div className="min-h-0 overflow-hidden">
+        <div
+          className={cn(
+            "flex min-h-10 items-center gap-2.5 text-sm max-lg:min-h-12 max-lg:border-t max-lg:border-[var(--divider)]",
+            index > 0 && "border-t border-[var(--divider)]",
+          )}
+        >
+          <Checkbox checked={looksDone} onChange={start} label={`‘${task.title}’ 완료`} />
+          <span
+            className={cn(
+              "min-w-0 flex-1 truncate transition-colors duration-150",
+              looksDone && "text-[var(--t3)] line-through",
+            )}
+          >
+            {task.title}
+          </span>
+          {goal ? (
+            <span className="max-w-40 shrink-0 truncate text-xs text-[var(--t3)] max-lg:hidden">
+              {goal}
+            </span>
+          ) : null}
+          {late != null ? (
+            <Badge tone="bad">{late}일 지남</Badge>
+          ) : task.dueDate ? (
+            <span className="shrink-0 text-xs text-[var(--t3)]">
+              {formatMonthDot(task.dueDate)}
+            </span>
+          ) : null}
+        </div>
+      </div>
+    </li>
   );
 }

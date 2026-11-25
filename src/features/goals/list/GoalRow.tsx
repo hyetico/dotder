@@ -66,7 +66,7 @@ export default function GoalRow({ goal, stats, onOpen, onComplete, onDelete }: G
           </Badge>
         </span>
         <span className="flex w-22 justify-end">
-          {stats.lateDays != null ? <Badge tone="bad">{stats.lateDays}일 지연</Badge> : null}
+          {stats.lateDays != null ? <Badge tone="bad">{stats.lateDays}일 지남</Badge> : null}
         </span>
         <span className="relative z-10">
           <MoreMenu label={`‘${goal.title}’ 메뉴`} title="목표" size="xs">
@@ -125,7 +125,7 @@ export default function GoalRow({ goal, stats, onOpen, onComplete, onDelete }: G
             <i className={fillClassName} style={{ width: `${stats.percent}%` }} />
           </span>
           <span className="tabular-nums">{stats.percent}%</span>
-          {stats.lateDays != null ? <Badge tone="bad">지연</Badge> : null}
+          {stats.lateDays != null ? <Badge tone="bad">마감 지남</Badge> : null}
         </span>
       </button>
     </li>

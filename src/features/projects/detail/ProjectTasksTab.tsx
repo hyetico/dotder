@@ -99,10 +99,20 @@ export default function ProjectTasksTab({ project, goals, tasks, today }: Projec
 
   const handlers: TaskViewHandlers = {
     onOpen: (task) => setOpenTaskId(task.id),
-    onToggleDone: (task) =>
+    onToggleDone: (task) => {
+      const isCompleting = task.status !== "DONE";
       void updateTaskMutation
-        .mutateAsync({ ...task, status: task.status === "DONE" ? "TODO" : "DONE" })
-        .then(refresh),
+        .mutateAsync({ ...task, status: isCompleting ? "DONE" : "TODO" })
+        .then(() => {
+          void refresh();
+          // 완료하면 되돌리기 토스트 (보드 S5 · 프로토타입 tcheck)
+          if (isCompleting) {
+            toast(TOAST_TEXT.taskCompleted, {
+              undo: () => void updateTaskMutation.mutateAsync(task).then(refresh),
+            });
+          }
+        });
+    },
     onMove: (task, status) =>
       void updateTaskMutation.mutateAsync({ ...task, status }).then(refresh),
     onDelete: (task) =>
@@ -263,7 +273,7 @@ export default function ProjectTasksTab({ project, goals, tasks, today }: Projec
                         </span>
                       ) : null}
                     </span>
-                    {late != null ? <Badge tone="bad">{late}일 지연</Badge> : null}
+                    {late != null ? <Badge tone="bad">{late}일 지남</Badge> : null}
                   </button>
                 </li>
               );
