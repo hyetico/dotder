@@ -154,7 +154,7 @@ export default function ProjectScheduleCard({
                   style={{ left: `${pos(today)}%` }}
                 />
                 <span
-                  className="absolute top-0.5 z-10 inline-flex h-5 -translate-x-1/2 items-center rounded-[var(--radius-xs)] bg-[var(--marker)] px-1.5 text-xs font-medium text-[var(--on-marker)]"
+                  className="absolute top-0.5 z-10 inline-flex h-5 -translate-x-1/2 items-center rounded-[var(--radius-xs)] bg-[var(--marker)] px-1.5 text-xs font-medium whitespace-nowrap text-[var(--on-marker)]"
                   style={{ left: `${pos(today)}%` }}
                 >
                   오늘

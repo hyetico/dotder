@@ -4,9 +4,11 @@ import { useRef, useState } from "react";
 
 import { useQueryClient } from "@tanstack/react-query";
 
+import Badge, { badgeDotClassName } from "@/components/kit/Badge";
 import Button from "@/components/kit/Button";
 import Checkbox from "@/components/kit/Checkbox";
 import { MenuHeader, MenuSeparator, PickRow } from "@/components/kit/Menu";
+import PillGroup from "@/components/kit/PillGroup";
 import Popover from "@/components/kit/Popover";
 import Segmented from "@/components/kit/Segmented";
 import { useToast } from "@/components/kit/Toast";
@@ -22,10 +24,17 @@ import {
 } from "@/components/ui/icon";
 
 import { TOAST_TEXT } from "@/content/ui";
+import { getTaskLateDays } from "@/features/projects/detail/projectOverviewModel";
 import TaskAddDrawer from "@/features/tasks/drawers/TaskAddDrawer";
 import TaskDetailDrawer from "@/features/tasks/drawers/TaskDetailDrawer";
 import { useTaskMutations } from "@/features/tasks/hooks/useTaskMutations";
-import { TASK_PRIORITY_LABEL, TASK_PRIORITY_ORDER } from "@/features/tasks/taskModel";
+import {
+  TASK_PRIORITY_LABEL,
+  TASK_PRIORITY_ORDER,
+  TASK_STATUS_LABEL,
+  TASK_STATUS_ORDER,
+  TASK_STATUS_TONE,
+} from "@/features/tasks/taskModel";
 import {
   TaskBoardView,
   TaskCalendarView,
@@ -34,6 +43,7 @@ import {
 } from "@/features/tasks/views/TaskViews";
 
 import { cn } from "@/lib/cn";
+import { projectColorVar } from "@/lib/projectPalette";
 import { projectQueryKeys } from "@/lib/queryKeys";
 
 import type { Goal } from "@/features/goals/types/goal";
@@ -66,6 +76,7 @@ export default function ProjectTasksTab({ project, goals, tasks, today }: Projec
   const goalRef = useRef<HTMLButtonElement>(null);
   const filterRef = useRef<HTMLButtonElement>(null);
   const [view, setView] = useState<TaskView>("board");
+  const [compactStatus, setCompactStatus] = useState<TaskStatus>("IN_PROGRESS");
   const [goalFilter, setGoalFilter] = useState<number | "all">("all");
   const [priorities, setPriorities] = useState<TaskPriority[]>([]);
   const [panel, setPanel] = useState<"goal" | "filter" | null>(null);
@@ -107,108 +118,158 @@ export default function ProjectTasksTab({ project, goals, tasks, today }: Projec
 
   return (
     <>
-      <div className="flex flex-wrap items-center gap-2">
-        <Segmented
-          label="보기"
-          value={view}
-          onChange={setView}
-          items={[
-            {
-              value: "board",
-              label: (
-                <>
-                  <LayoutGrid size={16} aria-hidden />
-                  보드
-                </>
-              ),
-            },
-            {
-              value: "list",
-              label: (
-                <>
-                  <List size={16} aria-hidden />
-                  목록
-                </>
-              ),
-            },
-            {
-              value: "calendar",
-              label: (
-                <>
-                  <Calendar size={16} aria-hidden />
-                  캘린더
-                </>
-              ),
-            },
-          ]}
-        />
-        {view === "calendar" ? (
-          <div className="flex items-center gap-2 md:ml-4">
-            <strong className="text-base">
-              {Number(month.slice(0, 4))}년 {Number(month.slice(5))}월
-            </strong>
-            <Button
-              variant="ghost"
-              size="sm"
-              iconOnly
-              aria-label="이전 달"
-              onClick={() => setMonth(shiftMonth(month, -1))}
+      {/* 웹 (보드 05 · 06) */}
+      <div className="flex flex-col gap-6 max-lg:hidden">
+        <div className="flex flex-wrap items-center gap-2">
+          <Segmented
+            label="보기"
+            value={view}
+            onChange={setView}
+            items={[
+              {
+                value: "board",
+                label: (
+                  <>
+                    <LayoutGrid size={16} aria-hidden />
+                    보드
+                  </>
+                ),
+              },
+              {
+                value: "list",
+                label: (
+                  <>
+                    <List size={16} aria-hidden />
+                    목록
+                  </>
+                ),
+              },
+              {
+                value: "calendar",
+                label: (
+                  <>
+                    <Calendar size={16} aria-hidden />
+                    캘린더
+                  </>
+                ),
+              },
+            ]}
+          />
+          {view === "calendar" ? (
+            <div className="flex items-center gap-2 md:ml-4">
+              <strong className="text-base">
+                {Number(month.slice(0, 4))}년 {Number(month.slice(5))}월
+              </strong>
+              <Button
+                variant="ghost"
+                size="sm"
+                iconOnly
+                aria-label="이전 달"
+                onClick={() => setMonth(shiftMonth(month, -1))}
+              >
+                <ChevronLeft size={16} aria-hidden />
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                iconOnly
+                aria-label="다음 달"
+                onClick={() => setMonth(shiftMonth(month, 1))}
+              >
+                <ChevronRight size={16} aria-hidden />
+              </Button>
+              <Button size="xs" onClick={() => setMonth(today.slice(0, 7))}>
+                오늘
+              </Button>
+            </div>
+          ) : (
+            <button
+              ref={goalRef}
+              type="button"
+              aria-haspopup="listbox"
+              aria-expanded={panel === "goal"}
+              onClick={() => setPanel(panel === "goal" ? null : "goal")}
+              className="kit-focus flex h-9 w-45 min-w-0 cursor-pointer items-center gap-2 rounded-[var(--radius-sm)] border border-[var(--input-line)] bg-[var(--surface)] px-3 text-left text-sm hover:border-[var(--input-line-h)]"
             >
-              <ChevronLeft size={16} aria-hidden />
-            </Button>
+              <span className="min-w-0 flex-1 truncate">목표: {goalLabel}</span>
+              <ChevronDown size={16} aria-hidden className="shrink-0 text-[var(--t3)]" />
+            </button>
+          )}
+          <span className="flex-1" />
+          {view === "calendar" ? null : (
             <Button
-              variant="ghost"
+              ref={filterRef}
               size="sm"
-              iconOnly
-              aria-label="다음 달"
-              onClick={() => setMonth(shiftMonth(month, 1))}
+              aria-haspopup="dialog"
+              aria-expanded={panel === "filter"}
+              onClick={() => setPanel(panel === "filter" ? null : "filter")}
+              className={cn(priorities.length > 0 && "border-[var(--primary)]")}
             >
-              <ChevronRight size={16} aria-hidden />
+              <Funnel size={16} aria-hidden />
+              필터{priorities.length ? ` ${priorities.length}` : ""}
             </Button>
-            <Button size="xs" onClick={() => setMonth(today.slice(0, 7))}>
-              오늘
-            </Button>
-          </div>
-        ) : (
-          <button
-            ref={goalRef}
-            type="button"
-            aria-haspopup="listbox"
-            aria-expanded={panel === "goal"}
-            onClick={() => setPanel(panel === "goal" ? null : "goal")}
-            className="kit-focus flex h-9 w-45 min-w-0 cursor-pointer items-center gap-2 rounded-[var(--radius-sm)] border border-[var(--input-line)] bg-[var(--surface)] px-3 text-left text-sm hover:border-[var(--input-line-h)]"
-          >
-            <span className="min-w-0 flex-1 truncate">목표: {goalLabel}</span>
-            <ChevronDown size={16} aria-hidden className="shrink-0 text-[var(--t3)]" />
-          </button>
-        )}
-        <span className="flex-1" />
-        {view === "calendar" ? null : (
-          <Button
-            ref={filterRef}
-            size="sm"
-            aria-haspopup="dialog"
-            aria-expanded={panel === "filter"}
-            onClick={() => setPanel(panel === "filter" ? null : "filter")}
-            className={cn(priorities.length > 0 && "border-[var(--primary)]")}
-          >
-            <Funnel size={16} aria-hidden />
-            필터{priorities.length ? ` ${priorities.length}` : ""}
+          )}
+          <Button size="sm" onClick={() => setAddPreset({})}>
+            <Plus size={16} aria-hidden />
+            추가
           </Button>
+        </div>
+
+        {view === "board" ? (
+          <TaskBoardView tasks={visible} goals={goals} today={today} {...handlers} />
+        ) : view === "list" ? (
+          <TaskListView tasks={visible} goals={goals} today={today} {...handlers} />
+        ) : (
+          <TaskCalendarView tasks={tasks} goals={goals} today={today} month={month} {...handlers} />
         )}
-        <Button size="sm" onClick={() => setAddPreset({})}>
-          <Plus size={16} aria-hidden />
-          추가
-        </Button>
       </div>
 
-      {view === "board" ? (
-        <TaskBoardView tasks={visible} goals={goals} today={today} {...handlers} />
-      ) : view === "list" ? (
-        <TaskListView tasks={visible} goals={goals} today={today} {...handlers} />
-      ) : (
-        <TaskCalendarView tasks={tasks} goals={goals} today={today} month={month} {...handlers} />
-      )}
+      {/* 태블릿 · 모바일 (보드 T · M 05): 상태 알약 → 태스크 줄 */}
+      <div className="flex flex-col gap-3 lg:hidden">
+        <PillGroup
+          label="태스크 상태"
+          value={compactStatus}
+          onChange={setCompactStatus}
+          items={TASK_STATUS_ORDER.map((status) => ({
+            value: status,
+            label: TASK_STATUS_LABEL[status],
+            dotClassName: badgeDotClassName[TASK_STATUS_TONE[status]],
+            count: tasks.filter((task) => task.status === status).length,
+          }))}
+        />
+        <ul>
+          {tasks
+            .filter((task) => task.status === compactStatus)
+            .map((task) => {
+              const late = getTaskLateDays(task, today);
+              const goal = goals.find((item) => item.id === task.goalId);
+              return (
+                <li key={task.id}>
+                  <button
+                    type="button"
+                    onClick={() => setOpenTaskId(task.id)}
+                    className="kit-focus flex min-h-14 w-full cursor-pointer items-center gap-3 border-t border-[var(--divider)] text-left transition-colors duration-120 hover:bg-[var(--s2)]"
+                  >
+                    <span className="flex min-w-0 flex-1 flex-col">
+                      <span className="truncate text-sm">{task.title}</span>
+                      {goal ? (
+                        <span className="flex items-center gap-1.5 text-xs text-[var(--t3)]">
+                          <span
+                            aria-hidden
+                            className="size-2 rounded-full"
+                            style={{ background: projectColorVar(project.color) }}
+                          />
+                          <span className="truncate">{goal.title}</span>
+                        </span>
+                      ) : null}
+                    </span>
+                    {late != null ? <Badge tone="bad">{late}일 지연</Badge> : null}
+                  </button>
+                </li>
+              );
+            })}
+        </ul>
+      </div>
 
       <Popover
         isOpen={panel === "goal"}

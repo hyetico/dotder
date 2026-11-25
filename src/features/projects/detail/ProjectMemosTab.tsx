@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
+import Button from "@/components/kit/Button";
 import Card from "@/components/kit/Card";
 import EmptyState from "@/components/kit/EmptyState";
 import { MenuItem, MenuSeparator, MoreMenu, PickRow } from "@/components/kit/Menu";
@@ -22,9 +23,10 @@ import {
   updateMemo,
 } from "@/features/memos/api/memos";
 import { getProjects } from "@/features/projects/api/projects";
+import { formatMonthDot } from "@/features/projects/detail/projectOverviewModel";
 import { useTaskMutations } from "@/features/tasks/hooks/useTaskMutations";
 
-import { formatDate } from "@/lib/date";
+import { formatDate, formatRelativeTime } from "@/lib/date";
 import { projectColorVar } from "@/lib/projectPalette";
 import { memoQueryKeys, projectQueryKeys } from "@/lib/queryKeys";
 
@@ -37,6 +39,47 @@ type ProjectMemosTabProps = {
   memos: Memo[];
   goals: Goal[];
 };
+
+// 이틀 안이면 「n시간 전 · 어제」, 그 뒤는 MM.DD (보드 T 07 「어제」 · 「11.18」)
+const memoWhen = (createdAt: string) => {
+  const text = formatRelativeTime(createdAt);
+  return /^\d{4}\./.test(text) ? formatMonthDot(createdAt.slice(0, 10)) : text;
+};
+
+function MemoComposer({ onSave }: { onSave: (title: string) => Promise<unknown> }) {
+  const [text, setText] = useState("");
+  const save = () => {
+    const title = text.trim();
+    if (!title) {
+      return;
+    }
+    void onSave(title).then(() => setText(""));
+  };
+
+  return (
+    <Card className="flex flex-col gap-2 px-3.5 py-3 lg:hidden">
+      <textarea
+        value={text}
+        rows={1}
+        aria-label="메모 적기"
+        placeholder="이 프로젝트에 대한 생각…"
+        onChange={(event) => setText(event.target.value)}
+        onKeyDown={(event) => {
+          if (event.key === "Enter" && (event.metaKey || event.ctrlKey)) {
+            event.preventDefault();
+            save();
+          }
+        }}
+        className="kit-input min-h-5.5 resize-none bg-transparent text-sm leading-5.5 outline-none placeholder:text-[var(--t3)]"
+      />
+      <div className="flex justify-end">
+        <Button variant="primary" size="xs" disabled={!text.trim()} onClick={save}>
+          {BUTTON_LABEL.save}
+        </Button>
+      </div>
+    </Card>
+  );
+}
 
 // 새 태스크 id (옛 화면 CreateTaskButton과 같은 방식, 목업 저장)
 const createTaskId = () => Date.now();
@@ -61,7 +104,8 @@ export default function ProjectMemosTab({ project, memos, goals }: ProjectMemosT
 
   return (
     <>
-      <div className="flex items-center rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface)] py-2 pr-2 pl-4">
+      {/* 웹 (보드 07): 「+ 생각 적기」 한 줄 */}
+      <div className="flex items-center rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface)] py-2 pr-2 pl-4 max-lg:hidden">
         <QuickAddInput
           variant="row"
           size="sm"
@@ -72,6 +116,10 @@ export default function ProjectMemosTab({ project, memos, goals }: ProjectMemosT
           }
         />
       </div>
+      {/* 태블릿 · 모바일 (보드 T · M 07): 쓰는 칸 + [저장] */}
+      <MemoComposer
+        onSave={(title) => create.mutateAsync(title).catch(() => toast(TOAST_TEXT.saveFailed))}
+      />
       {memos.length === 0 ? (
         <EmptyState
           icon={<Inbox size={24} />}
@@ -79,7 +127,7 @@ export default function ProjectMemosTab({ project, memos, goals }: ProjectMemosT
           text="위 입력칸에 메모를 추가해 보세요."
         />
       ) : (
-        <ul className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <ul className="grid gap-3 lg:grid-cols-3 lg:gap-4">
           {memos.map((memo) => (
             <MemoCard
               key={memo.id}
@@ -206,7 +254,8 @@ function MemoCard({
       ref={cardRef}
       interactive
       selected={isEditing}
-      className="flex min-h-32 flex-col gap-3 py-4 pr-12 pl-4"
+      // 웹 16/48/16/16 · 최소 128 · 사이 12, 태블릿 · 모바일 14 · 사이 6 (보드 07 · T 07)
+      className="flex flex-col gap-1.5 py-3.5 pr-10 pl-3.5 lg:min-h-32 lg:gap-3 lg:py-4 lg:pr-12 lg:pl-4"
     >
       {isEditing ? null : (
         <button
@@ -240,9 +289,12 @@ function MemoCard({
           </span>
         )}
         <span className="flex items-center gap-2 text-xs text-[var(--t3)]">
-          {formatDate(memo.createdAt.slice(0, 10))}
+          <span className="max-lg:hidden">{formatDate(memo.createdAt.slice(0, 10))}</span>
+          <span className="truncate lg:hidden">
+            {linkedGoal?.title ?? "연결 없음"} · {memoWhen(memo.createdAt)}
+          </span>
           {linkedGoal ? (
-            <span className="inline-flex h-5 min-w-0 items-center gap-1 truncate rounded-full border border-[var(--border)] px-2 text-[var(--t2)]">
+            <span className="inline-flex h-5 min-w-0 items-center gap-1 truncate rounded-full border border-[var(--border)] px-2 text-[var(--t2)] max-lg:hidden">
               <Target size={12} aria-hidden />
               {linkedGoal.title}
             </span>

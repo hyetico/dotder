@@ -12,6 +12,13 @@ export const TASK_STATUS_LABEL: Record<TaskStatus, string> = {
   DONE: "완료",
 };
 
+/** 상태 점 색 (보드 T 05: 할 일 회색 · 진행 중 파랑 · 완료 초록) */
+export const TASK_STATUS_TONE: Record<TaskStatus, BadgeTone> = {
+  TODO: "n",
+  IN_PROGRESS: "info",
+  DONE: "ok",
+};
+
 export const TASK_PRIORITY_ORDER: TaskPriority[] = ["HIGH", "MEDIUM", "LOW"];
 
 export const TASK_PRIORITY_LABEL: Record<TaskPriority, string> = {
