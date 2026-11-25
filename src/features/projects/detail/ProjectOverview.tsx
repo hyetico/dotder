@@ -9,6 +9,7 @@ import { useToast } from "@/components/kit/Toast";
 import { collapseClassName, useDelayedComplete } from "@/components/kit/useDelayedComplete";
 
 import { TOAST_TEXT } from "@/content/ui";
+import { historyWideText } from "@/features/projects/detail/projectHistoryModel";
 import {
   formatMonthDot,
   getNextTasks,
@@ -24,12 +25,14 @@ import { projectQueryKeys } from "@/lib/queryKeys";
 import type { Goal } from "@/features/goals/types/goal";
 import type { ProjectDeadlineChange, ProjectListItem } from "@/features/projects/types/project";
 import type { Task } from "@/features/tasks/types/task";
+import type { ProjectHistoryEntry } from "@/lib/mock/projectHistory";
 
 type ProjectOverviewProps = {
   project: ProjectListItem;
   goals: Goal[];
   tasks: Task[];
   deadlineChanges: ProjectDeadlineChange[];
+  history: ProjectHistoryEntry[];
   lateDays: number | null;
   today: string;
   /** 「태스크 보기」 · 「기록 보기」 주소 */
@@ -48,6 +51,7 @@ export default function ProjectOverview({
   goals,
   tasks,
   deadlineChanges,
+  history,
   lateDays,
   today,
   tabHref,
@@ -81,8 +85,8 @@ export default function ProjectOverview({
           today={today}
           href={tabHref("tasks")}
         />
-        {deadlineChanges.length > 0 ? (
-          <RecentRecordsCard changes={deadlineChanges} href={tabHref("history")} />
+        {history.length > 0 ? (
+          <RecentRecordsCard entries={history} href={tabHref("history")} />
         ) : null}
       </div>
     </>
@@ -158,7 +162,7 @@ function NextTasksCard({
   );
 }
 
-function RecentRecordsCard({ changes, href }: { changes: ProjectDeadlineChange[]; href: string }) {
+function RecentRecordsCard({ entries, href }: { entries: ProjectHistoryEntry[]; href: string }) {
   return (
     <section
       aria-labelledby="project-records-title"
@@ -172,17 +176,21 @@ function RecentRecordsCard({ changes, href }: { changes: ProjectDeadlineChange[]
           기록 보기
         </Button>
       </div>
-      {changes.slice(0, 3).map((change) => (
-        <div key={change.id} className="flex flex-col gap-0.5 text-sm">
-          <span>
-            마감일 {formatMonthDot(change.previousEndDate)} → {formatMonthDot(change.nextEndDate)}
-          </span>
-          <span className="text-xs text-[var(--t3)]">
-            {formatMonthDot(change.changedAt.slice(0, 10))}
-            {change.reason ? ` · 사유: ${change.reason}` : ""}
-          </span>
-        </div>
-      ))}
+      {entries.slice(0, 3).map((entry) => {
+        const { text, strong } = historyWideText(entry);
+        return (
+          <div key={entry.id} className="flex flex-col gap-0.5 text-sm">
+            <span className="truncate">
+              {text}
+              {strong}
+            </span>
+            <span className="text-xs text-[var(--t3)]">
+              {formatMonthDot(entry.at.slice(0, 10))}
+              {entry.reason ? ` · 사유: ${entry.reason}` : ""}
+            </span>
+          </div>
+        );
+      })}
     </section>
   );
 }

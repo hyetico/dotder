@@ -157,3 +157,27 @@ export async function restoreMemo(memo: Memo): Promise<Memo> {
 
   return copyMemo(memo);
 }
+
+/**
+ * 프로젝트를 지울 때 그 프로젝트에 연결된 메모를 함께 지운다 (REBUILD 6 버그 2).
+ *
+ * @returns 지운 메모 (되돌리기에 쓴다)
+ */
+export function removeMemosOfProject(projectId: number): Memo[] {
+  const removed = mockMemos.filter((memo) => memo.projectId === projectId).map(copyMemo);
+  for (let index = mockMemos.length - 1; index >= 0; index -= 1) {
+    if (mockMemos[index].projectId === projectId) {
+      mockMemos.splice(index, 1);
+    }
+  }
+  return removed;
+}
+
+/** 프로젝트 삭제 되돌리기 때 메모를 다시 넣는다 */
+export function restoreMemos(memos: Memo[]) {
+  memos.forEach((memo) => {
+    if (!mockMemos.some((item) => item.id === memo.id)) {
+      mockMemos.push(copyMemo(memo));
+    }
+  });
+}

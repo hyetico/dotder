@@ -1,4 +1,5 @@
-import { getGoals } from "@/features/goals/api/goals";
+import { getGoals, removeGoalsOfProject, restoreGoals } from "@/features/goals/api/goals";
+import { getMemos, removeMemosOfProject, restoreMemos } from "@/features/memos/api/memos";
 import { decodeActivityCounts, type ActivityDay } from "@/features/projects/utils/activityMosaic";
 import { getProjectInitial } from "@/features/projects/utils/projectDisplay";
 import {
@@ -6,7 +7,7 @@ import {
   getProjectDaysAfterEnd,
   resolveProjectStatus,
 } from "@/features/projects/utils/projectUtils";
-import { getTasks } from "@/features/tasks/api/tasks";
+import { getTasks, removeTasksOfProject, restoreTasks } from "@/features/tasks/api/tasks";
 
 import { MOCK_ACTIVITY_FROM, mockProjectActivity } from "@/lib/mock/projectActivity";
 import {
@@ -14,13 +15,22 @@ import {
   recordProjectDeadlineChange,
   removeProjectDeadlineChanges,
 } from "@/lib/mock/projectDeadlineChanges";
+import {
+  mockProjectHistory,
+  recordProjectHistory,
+  removeProjectHistory,
+  type ProjectHistoryEntry,
+} from "@/lib/mock/projectHistory";
 import { mockProjects } from "@/lib/mock/projects";
 
+import type { Goal } from "@/features/goals/types/goal";
+import type { Memo } from "@/features/memos/types/memo";
 import type {
   Project,
   ProjectDeadlineChange,
   ProjectListItem,
 } from "@/features/projects/types/project";
+import type { Task } from "@/features/tasks/types/task";
 
 export type CreateProjectInput = Omit<Project, "id" | "icon"> & {
   icon?: string;
@@ -185,6 +195,7 @@ export async function createProject(input: CreateProjectInput): Promise<Project>
   }
 
   mockProjects.push(newProject);
+  recordProjectHistory({ projectId: newProject.id, kind: "create", target: "project" });
 
   return newProject;
 }
@@ -235,9 +246,54 @@ export async function updateProject(
     });
   }
 
+  // 상태 · 마감 변경 기록 (보드 08)
+  if (currentProject.status !== updatedProject.status) {
+    recordProjectHistory({
+      projectId: updatedProject.id,
+      kind: "status",
+      target: "project",
+      from: currentProject.status,
+      to: updatedProject.status,
+    });
+  }
+
   mockProjects[projectIndex] = { ...updatedProject, updatedAt: new Date().toISOString() };
 
   return updatedProject;
+}
+
+const deletedSnapshots = new Map<number, { goals: Goal[]; tasks: Task[]; memos: Memo[] }>();
+
+/** 프로젝트에 딸린 목표 · 태스크 · 메모 수 (삭제 확인창 · 보드 03-f) */
+export async function getProjectChildCounts(projectId: number) {
+  const [goals, tasks, memos] = await Promise.all([
+    getGoals(projectId),
+    getTasks(projectId),
+    getMemos(),
+  ]);
+  return {
+    goals: goals.length,
+    tasks: tasks.length,
+    memos: memos.filter((memo) => memo.projectId === projectId).length,
+  };
+}
+
+/**
+ * 프로젝트 기록 (보드 08). 추가 · 삭제 · 상태 · 완료 기록 + 마감 변경 기록을 최근 순으로.
+ */
+export async function getProjectHistory(projectId: number): Promise<ProjectHistoryEntry[]> {
+  const recorded = mockProjectHistory.filter((entry) => entry.projectId === projectId);
+  const legacy: ProjectHistoryEntry[] = getProjectDeadlineChanges(projectId).map((change) => ({
+    id: -change.id,
+    projectId,
+    at: change.changedAt,
+    kind: "deadline",
+    target: "project",
+    from: change.previousEndDate,
+    to: change.nextEndDate,
+    reason: change.reason,
+  }));
+  return [...recorded, ...legacy].sort((a, b) => b.at.localeCompare(a.at));
 }
 
 export async function deleteProject(projectId: number): Promise<number> {
@@ -247,8 +303,15 @@ export async function deleteProject(projectId: number): Promise<number> {
     throw new Error("프로젝트를 찾을 수 없습니다.");
   }
 
+  // 목표 · 태스크 · 메모도 함께 지우고, 되돌리기를 위해 남겨 둔다 (REBUILD 6 버그 2)
+  deletedSnapshots.set(projectId, {
+    goals: removeGoalsOfProject(projectId),
+    tasks: removeTasksOfProject(projectId),
+    memos: removeMemosOfProject(projectId),
+  });
   mockProjects.splice(projectIndex, 1);
   removeProjectDeadlineChanges(projectId);
+  removeProjectHistory(projectId);
 
   return projectId;
 }
@@ -279,6 +342,13 @@ export async function clearMainProject(): Promise<void> {
 export async function restoreDeletedProject(project: Project): Promise<Project> {
   if (!mockProjects.some((item) => item.id === project.id)) {
     mockProjects.push({ ...project, tags: [...project.tags] });
+    const snapshot = deletedSnapshots.get(project.id);
+    if (snapshot) {
+      restoreGoals(snapshot.goals);
+      restoreTasks(snapshot.tasks);
+      restoreMemos(snapshot.memos);
+      deletedSnapshots.delete(project.id);
+    }
   }
 
   return project;

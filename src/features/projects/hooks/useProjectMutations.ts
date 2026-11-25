@@ -17,7 +17,7 @@ import {
 } from "@/features/projects/api/projects";
 
 import { getProjectDetailPath } from "@/lib/projectRoutes";
-import { projectQueryKeys } from "@/lib/queryKeys";
+import { goalQueryKeys, memoQueryKeys, projectQueryKeys, taskQueryKeys } from "@/lib/queryKeys";
 
 import type { Project } from "@/features/projects/types/project";
 
@@ -60,6 +60,12 @@ export function useProjectMutations() {
 
     onSuccess: async () => {
       await invalidateProjects();
+      // 목표 · 태스크 · 메모도 함께 지우거나 되살린다 (REBUILD 6 버그 2)
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: goalQueryKeys.all }),
+        queryClient.invalidateQueries({ queryKey: taskQueryKeys.all }),
+        queryClient.invalidateQueries({ queryKey: memoQueryKeys.all }),
+      ]);
     },
   });
 
@@ -99,6 +105,12 @@ export function useProjectMutations() {
 
     onSuccess: async () => {
       await invalidateProjects();
+      // 목표 · 태스크 · 메모도 함께 지우거나 되살린다 (REBUILD 6 버그 2)
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: goalQueryKeys.all }),
+        queryClient.invalidateQueries({ queryKey: taskQueryKeys.all }),
+        queryClient.invalidateQueries({ queryKey: memoQueryKeys.all }),
+      ]);
     },
   });
 

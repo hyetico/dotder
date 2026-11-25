@@ -22,6 +22,9 @@ export const projectQueryKeys = {
   /** 마감일 변경 기록 (보드 03). `all` 아래라 프로젝트를 고치면 같이 새로 읽는다 */
   deadlineChanges: (projectId: number) => ["projects", "deadline-changes", projectId] as const,
 
+  /** 기록 탭 · 최근 기록 (보드 08). `all` 아래라 프로젝트를 고치면 같이 새로 읽는다 */
+  history: (projectId: number) => ["projects", "history", projectId] as const,
+
   /** 보관함 (01-h) */
   archived: ["projects", "archived"] as const,
 };

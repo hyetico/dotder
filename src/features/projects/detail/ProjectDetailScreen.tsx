@@ -24,9 +24,14 @@ import {
   Target,
 } from "@/components/ui/icon";
 
+import { projectDeleteDetail } from "@/content/ui";
 import { getGoals } from "@/features/goals/api/goals";
 import { getMemos } from "@/features/memos/api/memos";
-import { getProjectDeadlineChangeList, getProjectListItem } from "@/features/projects/api/projects";
+import {
+  getProjectDeadlineChangeList,
+  getProjectHistory,
+  getProjectListItem,
+} from "@/features/projects/api/projects";
 import ProjectDeadlineDrawer from "@/features/projects/detail/ProjectDeadlineDrawer";
 import ProjectDetailMenu from "@/features/projects/detail/ProjectDetailMenu";
 import ProjectEditDrawer from "@/features/projects/detail/ProjectEditDrawer";
@@ -87,11 +92,11 @@ function DetailBody({ projectId }: { projectId: number }) {
     queryKey: projectQueryKeys.detail(projectId),
     queryFn: () => getProjectListItem(projectId),
   });
-  const { data: goals = [] } = useQuery({
+  const { data: goals = [], dataUpdatedAt: goalsUpdatedAt } = useQuery({
     queryKey: goalQueryKeys.list(projectId),
     queryFn: () => getGoals(projectId),
   });
-  const { data: tasks = [] } = useQuery({
+  const { data: tasks = [], dataUpdatedAt: tasksUpdatedAt } = useQuery({
     queryKey: taskQueryKeys.list(projectId),
     queryFn: () => getTasks(projectId),
   });
@@ -99,6 +104,11 @@ function DetailBody({ projectId }: { projectId: number }) {
   const { data: deadlineChanges = [] } = useQuery({
     queryKey: projectQueryKeys.deadlineChanges(projectId),
     queryFn: () => getProjectDeadlineChangeList(projectId),
+  });
+  // 목표 · 태스크를 고치면 기록도 다시 읽는다 (두 목록을 새로 읽은 시각을 키에 넣음)
+  const { data: history = [] } = useQuery({
+    queryKey: [...projectQueryKeys.history(projectId), goalsUpdatedAt, tasksUpdatedAt],
+    queryFn: () => getProjectHistory(projectId),
   });
 
   usePageMeta(project?.name ?? "", undefined, "/projects");
@@ -282,6 +292,7 @@ function DetailBody({ projectId }: { projectId: number }) {
           goals={goals}
           tasks={tasks}
           deadlineChanges={deadlineChanges}
+          history={history}
           lateDays={lateDays}
           today={today}
           tabHref={tabHref}
@@ -301,7 +312,7 @@ function DetailBody({ projectId }: { projectId: number }) {
           goals={goals}
         />
       ) : null}
-      {tab === "history" ? <ProjectHistoryTab changes={deadlineChanges} /> : null}
+      {tab === "history" ? <ProjectHistoryTab entries={history} /> : null}
 
       <ProjectEditDrawer
         project={project}
@@ -318,6 +329,11 @@ function DetailBody({ projectId }: { projectId: number }) {
       />
       <DeleteConfirmDialog
         target="프로젝트"
+        detail={projectDeleteDetail({
+          goals: goals.length,
+          tasks: tasks.length,
+          memos: counts.memos ?? 0,
+        })}
         isOpen={isDeleteOpen}
         onClose={() => setIsDeleteOpen(false)}
         onConfirm={() => {
