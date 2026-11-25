@@ -58,3 +58,5 @@ next-env.d.ts
 CLAUDE.md
 AGENTS.md
 CONTENT_TODO.md
+docs/guides/code-guide.md
+docs/guides/git-guide.md
