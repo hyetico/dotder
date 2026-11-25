@@ -364,6 +364,7 @@ function TasksBody() {
 
         {/* 빠른 입력: 웹은 목록 보기에서만, 태블릿 · 모바일은 늘 (보드 10 · T · M 10) */}
         <Card
+          data-tour="quick-add"
           className={cn(
             "flex items-center py-2 pr-2 pl-3.5 lg:pl-4",
             view !== "list" && "lg:hidden",

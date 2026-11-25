@@ -58,7 +58,7 @@ export default function ProjectProgressCard({
           </span>
         </div>
         <div className="flex min-w-0 flex-col gap-3.5">
-          <div role="img" aria-label={barLabel} className="flex gap-1">
+          <div role="img" aria-label={barLabel} data-tour="piece-bar" className="flex gap-1">
             {tasks.length === 0 ? (
               <span className="h-3 flex-1 rounded-[var(--radius-kbd)] bg-[var(--track)]" />
             ) : (
@@ -134,7 +134,7 @@ export default function ProjectProgressCard({
             태스크 {done} / {tasks.length} 완료
           </span>
         </div>
-        <div role="img" aria-label={barLabel} className="flex gap-0.75">
+        <div role="img" aria-label={barLabel} data-tour="piece-bar" className="flex gap-0.75">
           {tasks.length === 0 ? (
             <span className="h-3.5 flex-1 rounded-[var(--radius-bar)] bg-[var(--track)]" />
           ) : (

@@ -132,7 +132,7 @@ export default function CoverScreen() {
           <Button variant="primary" size="lg" href="/projects" className="h-13">
             시작하기
           </Button>
-          <Button size="lg" href="/projects" className="h-13">
+          <Button size="lg" href="/projects?demo=1" className="h-13">
             예시로 둘러보기
           </Button>
         </div>
@@ -170,7 +170,7 @@ export default function CoverScreen() {
                 시작하기
                 <ChevronRight size={18} aria-hidden />
               </Button>
-              <Button size="lg" href="/projects">
+              <Button size="lg" href="/projects?demo=1">
                 예시로 둘러보기
               </Button>
             </div>

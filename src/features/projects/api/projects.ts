@@ -1,5 +1,15 @@
-import { getGoals, removeGoalsOfProject, restoreGoals } from "@/features/goals/api/goals";
-import { getMemos, removeMemosOfProject, restoreMemos } from "@/features/memos/api/memos";
+import {
+  getGoals,
+  keepGoalsOf,
+  removeGoalsOfProject,
+  restoreGoals,
+} from "@/features/goals/api/goals";
+import {
+  getMemos,
+  keepMemosOf,
+  removeMemosOfProject,
+  restoreMemos,
+} from "@/features/memos/api/memos";
 import { decodeActivityCounts, type ActivityDay } from "@/features/projects/utils/activityMosaic";
 import { getProjectInitial } from "@/features/projects/utils/projectDisplay";
 import {
@@ -7,7 +17,12 @@ import {
   getProjectDaysAfterEnd,
   resolveProjectStatus,
 } from "@/features/projects/utils/projectUtils";
-import { getTasks, removeTasksOfProject, restoreTasks } from "@/features/tasks/api/tasks";
+import {
+  getTasks,
+  keepTasksOf,
+  removeTasksOfProject,
+  restoreTasks,
+} from "@/features/tasks/api/tasks";
 
 import { MOCK_ACTIVITY_FROM, mockProjectActivity } from "@/lib/mock/projectActivity";
 import {
@@ -352,4 +367,27 @@ export async function restoreDeletedProject(project: Project): Promise<Project> 
   }
 
   return project;
+}
+
+/**
+ * 예시 데이터를 지운다 (E01 4 / 4 시작 선택). 목업이라 새로고침하면 예시가 돌아온다.
+ *
+ * @param keepMain - true면 메인 프로젝트 하나와 그 목표 · 태스크 · 메모를 남긴다
+ */
+export async function clearExampleData(keepMain: boolean) {
+  const main = keepMain
+    ? (mockProjects.find((project) => project.isMain) ?? mockProjects[0])
+    : undefined;
+  const keep = main ? [main.id] : [];
+  keepGoalsOf(keep);
+  keepTasksOf(keep);
+  keepMemosOf(keep);
+  for (let index = mockProjects.length - 1; index >= 0; index -= 1) {
+    const project = mockProjects[index];
+    if (!keep.includes(project.id)) {
+      mockProjects.splice(index, 1);
+      removeProjectDeadlineChanges(project.id);
+      removeProjectHistory(project.id);
+    }
+  }
 }
