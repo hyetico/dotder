@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { getProjects } from "@/features/projects/api/projects";
 import CreateProjectPrompt from "@/features/projects/components/CreateProjectPrompt";
+import ProjectCreateRoute from "@/features/projects/list/ProjectCreateDrawer";
 
 import { isMemosListPath, isGoalsListPath, isProjectsListPath } from "@/lib/projectRoutes";
 import { projectQueryKeys } from "@/lib/queryKeys";
@@ -24,7 +25,15 @@ export default function LayoutShell({ children }: LayoutShellProps) {
 
   const showCreatePage = !isLoading && isProjectsListPath(pathname) && projects.length === 0;
 
-  const page = showCreatePage ? <CreateProjectPrompt /> : children;
+  // 0개 화면에도 만들기 드로어를 둔다 (?new=1). 만들면 목록(children)으로 바뀐다
+  const page = showCreatePage ? (
+    <>
+      <CreateProjectPrompt />
+      <ProjectCreateRoute />
+    </>
+  ) : (
+    children
+  );
 
   if (!isProjectsListPath(pathname) && !isGoalsListPath(pathname) && !isMemosListPath(pathname)) {
     return page;
