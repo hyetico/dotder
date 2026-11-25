@@ -85,8 +85,8 @@ export default function AppShell({ children }: { children: ReactNode }) {
               <div className="flex min-h-dvh bg-[var(--bg)] text-[var(--text)]">
                 <aside
                   className={cn(
-                    // 막대 툴팁이 본문 위에 뜨도록 헤더와 같은 층 (DOC4 --z-header)
-                    "sticky top-[var(--tour-bar-h)] z-[var(--z-header)] hidden h-[calc(100dvh-var(--tour-bar-h))] shrink-0 md:block",
+                    // 막대 툴팁 · 프로젝트 전환 팝오버가 헤더 위로 뜨도록 헤더보다 한 층 위 (DOC4 --z-sidebar)
+                    "sticky top-[var(--tour-bar-h)] z-[var(--z-sidebar)] hidden h-[calc(100dvh-var(--tour-bar-h))] shrink-0 md:block",
                     // 펼칠 때만 잘라 낸다 (막대 툴팁은 오른쪽 밖에 뜬다)
                     isCollapsed ? "w-16" : "w-61.25 overflow-hidden",
                     canAnimate &&
