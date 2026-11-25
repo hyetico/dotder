@@ -5,7 +5,7 @@
 
 **Live:** [https://dotder.vercel.app](https://dotder.vercel.app)
 
-> 지금은 서버 없이 예시 데이터로 동작합니다. 새로고침하면 처음 상태로 돌아갑니다.
+> 로그인 없이 예시 데이터로 바로 써 볼 수 있습니다. 데이터는 예시라서 새로고침하면 처음 상태로 돌아갑니다.
 
 ![프로젝트 목록 (라이트 모드)](docs/images/projects.webp)
 

@@ -137,7 +137,7 @@ export default function CoverScreen() {
           </Button>
         </div>
         <span className="mt-4 text-center text-xs text-[var(--t3)]">
-          로그인 없이 이 기기에 저장돼요
+          로그인 없이 예시 데이터로 바로 써 볼 수 있어요
         </span>
       </div>
       {/* 웹 (보드 00) */}
@@ -176,7 +176,7 @@ export default function CoverScreen() {
             </div>
             <span className="inline-flex items-center gap-1.5 text-xs text-[var(--t3)]">
               <Info size={14} aria-hidden />
-              로그인 없이 이 기기에 저장돼요
+              로그인 없이 예시 데이터로 바로 써 볼 수 있어요
             </span>
           </div>
           <div className="flex items-center justify-center">
