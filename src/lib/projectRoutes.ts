@@ -422,10 +422,6 @@ export function isStaticNavActive(href: string, pathname: string): boolean {
     return isProjectsSectionPath(pathname);
   }
 
-  if (href === "/playground") {
-    return pathname === "/playground";
-  }
-
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 

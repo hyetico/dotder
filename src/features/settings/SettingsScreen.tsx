@@ -188,7 +188,7 @@ export default function SettingsScreen() {
                       {tag}
                     </Tag>
                   ))}
-                  <Button variant="ghost" size="xs">
+                  <Button variant="ghost" size="xs" pending>
                     <Plus size={14} aria-hidden />
                     태그 추가
                   </Button>
@@ -233,7 +233,7 @@ export default function SettingsScreen() {
               text="원하는 프로젝트만 모아 보는 탭 · 프로젝트·목표·메모 화면에 같이 보여요 · 0 / 5"
             >
               <div className="py-3">
-                <Button size="sm">
+                <Button size="sm" pending>
                   <Plus size={16} aria-hidden />탭 만들기
                 </Button>
               </div>
@@ -241,17 +241,23 @@ export default function SettingsScreen() {
 
             <WideSection id="data" title="데이터" text="v1은 브라우저에 저장돼요">
               <WideRow label="내보내기" help="모든 프로젝트·목표·태스크·메모를 JSON 파일로">
-                <Button size="sm">내보내기</Button>
+                <Button size="sm" pending>
+                  내보내기
+                </Button>
               </WideRow>
               <WideRow label="가져오기" help="내보낸 파일로 되돌리기">
-                <Button size="sm">파일 선택</Button>
+                <Button size="sm" pending>
+                  파일 선택
+                </Button>
               </WideRow>
               <WideRow
                 label="모든 데이터 지우기"
                 help="삭제하면 되돌릴 수 없어요. 확인 창이 한 번 더 열려요."
                 danger
               >
-                <Button size="sm">지우기</Button>
+                <Button size="sm" pending>
+                  지우기
+                </Button>
               </WideRow>
             </WideSection>
 
