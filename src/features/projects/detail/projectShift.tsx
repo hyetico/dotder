@@ -25,12 +25,14 @@ export type ShiftItem =
  *
  * 목표 시작이 새 시작보다 이르면 새 시작으로, 목표 · 태스크 마감이 새 마감보다 늦으면 새 마감으로 옮긴다.
  * 옮긴 뒤 목표 시작이 마감을 넘으면 그 날짜도 같이 맞춘다.
+ * 완료된 목표 · 태스크는 날짜가 기록이라 옮기지 않는다 (DOC1 날짜 범위).
  *
  * @param range - 새 프로젝트 시작 · 마감. 바뀌지 않은 쪽은 빈 문자열
  */
 export function getShiftItems(goals: Goal[], tasks: Task[], range: { start: string; end: string }) {
   const items: ShiftItem[] = [];
   goals.forEach((goal) => {
+    if (goal.status === "COMPLETED") return;
     let start = goal.startDate;
     let end = goal.endDate;
     if (range.start && start && start < range.start) start = range.start;
@@ -61,7 +63,7 @@ export function getShiftItems(goals: Goal[], tasks: Task[], range: { start: stri
     }
   });
   tasks.forEach((task) => {
-    if (range.end && task.dueDate && task.dueDate > range.end) {
+    if (task.status !== "DONE" && range.end && task.dueDate && task.dueDate > range.end) {
       items.push({
         kind: "task",
         key: `t${task.id}`,
@@ -154,6 +156,113 @@ export function ShiftNotice({ items, reason, checked, onChange }: ShiftNoticePro
         {CHECK[reason]}
       </label>
       {checked ? null : <p className="text-xs text-[var(--bad)]">같이 옮겨야 저장할 수 있어요.</p>}
+    </div>
+  );
+}
+
+/**
+ * 마감을 늦출 때 같이 늦출 수 있는 항목: 마감이 지난(오늘 이전) 끝나지 않은 목표 · 태스크 (DOC1 날짜 범위).
+ *
+ * @param nextEnd - 새 프로젝트 마감
+ * @param today - `YYYY-MM-DD`
+ */
+export function getOverdueItems(goals: Goal[], tasks: Task[], nextEnd: string, today: string) {
+  const items: ShiftItem[] = [];
+  goals.forEach((goal) => {
+    if (goal.status !== "COMPLETED" && goal.endDate && goal.endDate < today) {
+      items.push({
+        kind: "goal",
+        key: `ge${goal.id}`,
+        name: goal.title,
+        field: "end",
+        from: goal.endDate,
+        to: nextEnd,
+        goal,
+      });
+    }
+  });
+  tasks.forEach((task) => {
+    if (task.status !== "DONE" && task.dueDate && task.dueDate < today) {
+      items.push({
+        kind: "task",
+        key: `t${task.id}`,
+        name: task.title,
+        field: "end",
+        from: task.dueDate,
+        to: nextEnd,
+        task,
+      });
+    }
+  });
+  return items;
+}
+
+type ExtendNoticeProps = {
+  items: ShiftItem[];
+  picked: Set<string>;
+  onChange: (picked: Set<string>) => void;
+};
+
+/**
+ * 마감을 늦출 때: 「마감이 지난 목표 · 태스크 N개」 + 「새 마감으로 같이 늦추기」(기본 꺼짐 · 항목별 선택) (DOC1 날짜 범위).
+ */
+export function ExtendNotice({ items, picked, onChange }: ExtendNoticeProps) {
+  if (items.length === 0) {
+    return null;
+  }
+  const isAll = items.every((item) => picked.has(item.key));
+  const toggle = (key: string) => {
+    const next = new Set(picked);
+    if (next.has(key)) {
+      next.delete(key);
+    } else {
+      next.add(key);
+    }
+    onChange(next);
+  };
+  return (
+    <div className="flex flex-col gap-2">
+      <strong className="text-sm">마감이 지난 목표 · 태스크 {items.length}개</strong>
+      <ul className="rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface)] px-4 py-1">
+        {items.map((item, index) => {
+          const isPicked = picked.has(item.key);
+          return (
+            <li
+              key={item.key}
+              className={
+                index > 0
+                  ? "flex min-h-10 items-center gap-2.5 border-t border-[var(--divider)] text-sm"
+                  : "flex min-h-10 items-center gap-2.5 text-sm"
+              }
+            >
+              <Checkbox
+                checked={isPicked}
+                onChange={() => toggle(item.key)}
+                label={`‘${item.name}’ 새 마감으로 같이 늦추기`}
+              />
+              <span className="flex min-w-0 flex-1 flex-col py-1.5">
+                <span className="truncate">{item.name}</span>
+                <span className="text-xs text-[var(--t3)]">
+                  {item.kind === "goal" ? "목표" : "태스크"}
+                </span>
+              </span>
+              <span className="shrink-0 text-xs text-[var(--t3)] tabular-nums">
+                {isPicked
+                  ? `${formatMonthDot(item.from)} → ${formatMonthDot(item.to)}`
+                  : `${formatMonthDot(item.from)} 그대로`}
+              </span>
+            </li>
+          );
+        })}
+      </ul>
+      {/* 전체 켜기 · 끄기. 기본 꺼짐, 위 목록에서 하나씩도 고른다 */}
+      <label className="flex min-h-10 cursor-pointer items-center gap-1.5 text-sm">
+        <Checkbox
+          checked={isAll}
+          onChange={() => onChange(isAll ? new Set() : new Set(items.map((item) => item.key)))}
+        />
+        새 마감으로 같이 늦추기
+      </label>
     </div>
   );
 }

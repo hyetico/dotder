@@ -19,11 +19,13 @@ import {
   getShiftItems,
   mergeGoalShifts,
   ShiftNotice,
+  ExtendNotice,
+  getOverdueItems,
 } from "@/features/projects/detail/projectShift";
 import { useProjectMutations } from "@/features/projects/hooks/useProjectMutations";
 import { useTaskMutations } from "@/features/tasks/hooks/useTaskMutations";
 
-import { getDayDelta } from "@/lib/date";
+import { getDayDelta, toDateKey } from "@/lib/date";
 import { projectQueryKeys } from "@/lib/queryKeys";
 
 import type { Goal } from "@/features/goals/types/goal";
@@ -40,8 +42,9 @@ type ProjectDeadlineDrawerProps = {
 
 /**
  * 마감일 변경 드로어 (보드 03-g · 프로토타입 dueChange). 「마감일 변경」 + 아래 프로젝트 이름.
- * 지금 마감일(못 바꿈) | 새 마감일 *(「N일 늦어져요 · 당겨져요」) → 당길 때만 새 마감보다 늦은 목표 · 태스크 목록 +
- * 「새 마감으로 같이 옮기기」(기본 켬 · 끄면 저장 불가 · DOC1 날짜 범위) → 바꾸는 이유 *(「기록 탭에 남아요」).
+ * 지금 마감일(못 바꿈) | 새 마감일 *(「N일 늦어져요 · 당겨져요」) → 당기면 새 마감보다 늦은 목표 · 태스크 목록 +
+ * 「새 마감으로 같이 옮기기」(기본 켬 · 끄면 저장 불가) · 늦추면 마감이 지난 목표 · 태스크 목록 + 「새 마감으로 같이 늦추기」
+ * (기본 꺼짐 · 항목별 선택) → 바꾸는 이유 *(「기록 탭에 남아요」). 완료 항목은 옮기지 않는다 (DOC1 날짜 범위).
  * 새 마감일과 이유가 있어야 [저장]. 옮긴 날짜는 기록에 남는다.
  */
 export default function ProjectDeadlineDrawer({
@@ -58,6 +61,7 @@ export default function ProjectDeadlineDrawer({
   const [nextDate, setNextDate] = useState("");
   const [reason, setReason] = useState("");
   const [moveAlong, setMoveAlong] = useState(true);
+  const [extendPicked, setExtendPicked] = useState<Set<string>>(new Set());
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [openedFor, setOpenedFor] = useState(isOpen);
   const { updateProjectAsync, isUpdating } = useProjectMutations();
@@ -70,11 +74,18 @@ export default function ProjectDeadlineDrawer({
       setNextDate("");
       setReason("");
       setMoveAlong(true);
+      setExtendPicked(new Set());
     }
   }
 
   // 마감을 당기면 새 마감보다 늦은 목표 · 태스크를 같이 옮겨야 저장할 수 있다 (DOC1 날짜 범위)
   const shiftItems = nextDate ? getShiftItems(goals, tasks, { start: "", end: nextDate }) : [];
+  // 늦추면 마감이 지난 목표 · 태스크를 골라 같이 늦출 수 있다 (기본 꺼짐)
+  const extendItems =
+    nextDate && project.endDate && nextDate > project.endDate
+      ? getOverdueItems(goals, tasks, nextDate, toDateKey(new Date()))
+      : [];
+  const movedItems = [...shiftItems, ...extendItems.filter((item) => extendPicked.has(item.key))];
   const isDirty = Boolean(nextDate || reason.trim());
   const canSave =
     Boolean(nextDate && reason.trim()) &&
@@ -95,10 +106,10 @@ export default function ProjectDeadlineDrawer({
         project: { ...project, endDate: nextDate },
         deadlineChangeReason: reason.trim(),
       });
-      if (shiftItems.length) {
+      if (movedItems.length) {
         await recordShiftedItems(
           project.id,
-          shiftItems.map((item) => ({
+          movedItems.map((item) => ({
             target: item.kind,
             field: item.field,
             name: item.name,
@@ -107,10 +118,10 @@ export default function ProjectDeadlineDrawer({
           })),
         );
         await Promise.all([
-          ...mergeGoalShifts(shiftItems).map((goal) =>
+          ...mergeGoalShifts(movedItems).map((goal) =>
             updateGoalAsync({ ...goal, teamId: project.teamId }),
           ),
-          ...shiftItems.flatMap((item) =>
+          ...movedItems.flatMap((item) =>
             item.kind === "task"
               ? [updateTaskMutation.mutateAsync({ ...item.task, dueDate: item.to })]
               : [],
@@ -172,6 +183,7 @@ export default function ProjectDeadlineDrawer({
         </div>
 
         <ShiftNotice items={shiftItems} reason="end" checked={moveAlong} onChange={setMoveAlong} />
+        <ExtendNotice items={extendItems} picked={extendPicked} onChange={setExtendPicked} />
 
         <Field label="바꾸는 이유" htmlFor={reasonId} required help="기록 탭에 남아요">
           <TextArea
