@@ -34,9 +34,10 @@ export default function GoalRow({ goal, stats, onOpen, onComplete, onDelete }: G
   return (
     <li className="relative">
       {/* 웹 */}
-      <Card interactive className="flex items-center gap-4 p-4 max-lg:hidden">
+      <Card interactive data-list-row className="flex items-center gap-4 p-4 max-lg:hidden">
         <button
           type="button"
+          data-list-open
           onClick={onOpen}
           aria-label={`‘${goal.title}’ 상세 열기`}
           className="kit-focus absolute inset-0 cursor-pointer rounded-[inherit]"
@@ -111,6 +112,8 @@ export default function GoalRow({ goal, stats, onOpen, onComplete, onDelete }: G
       {/* 태블릿 · 모바일 */}
       <button
         type="button"
+        data-list-row
+        data-list-open
         onClick={onOpen}
         className="kit-focus flex w-full cursor-pointer flex-col gap-1.5 border-t border-[var(--divider)] py-3 text-left transition-colors duration-120 hover:bg-[var(--s2)] lg:hidden"
       >

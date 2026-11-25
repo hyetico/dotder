@@ -8,11 +8,8 @@ import type { Project } from "@/features/projects/types/project";
 type ProjectDetailMenuProps = {
   project: Project;
   isFavorite: boolean;
-  /** 헤더에 [수정]이 없는 태블릿 · 모바일에서 맨 위에 「수정」 (프로토타입 pmenu detail) */
-  showEdit?: boolean;
   /** 웹 헤더 secondary · 태블릿 · 모바일 ghost (보드 03 · T · M 03) */
   variant: ButtonVariant;
-  onEdit: () => void;
   onToggleMain: () => void;
   onToggleFavorite: () => void;
   onDuplicate: () => void;
@@ -23,15 +20,13 @@ type ProjectDetailMenuProps = {
 
 /**
  * 상세 ⋯ 메뉴 (보드 03-e · 프로토타입 pmenu). 메뉴 280, 모바일은 아래 시트 「프로젝트」.
- * (수정) · 메인 프로젝트로 지정(설명 한 줄)/해제 · 즐겨찾기에 추가/빼기 · 복제 · 마감일 변경(03-g · 프로토타입) ·
- * ─ · 보관하기 · 삭제(빨강).
+ * 메인 프로젝트로 지정(설명 한 줄)/해제 · 즐겨찾기에 추가/빼기 · 복제 · 마감일 변경(03-g · 프로토타입) ·
+ * ─ · 보관하기 · 삭제(빨강). 「수정」은 메뉴에 두지 않는다 (11.25 요청).
  */
 export default function ProjectDetailMenu({
   project,
   isFavorite,
-  showEdit = false,
   variant,
-  onEdit,
   onToggleMain,
   onToggleFavorite,
   onDuplicate,
@@ -49,7 +44,6 @@ export default function ProjectDetailMenu({
 
         return (
           <>
-            {showEdit ? <MenuItem onSelect={run(onEdit)}>수정</MenuItem> : null}
             <MenuItem
               onSelect={run(onToggleMain)}
               help={

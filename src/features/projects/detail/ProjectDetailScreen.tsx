@@ -151,7 +151,6 @@ function DetailBody({ projectId }: { projectId: number }) {
   const menuProps = {
     project,
     isFavorite,
-    onEdit: () => setIsEditOpen(true),
     onToggleMain: () => void actions.toggleMain(project),
     onToggleFavorite: toggleFavorite,
     onDuplicate: () =>
@@ -206,7 +205,7 @@ function DetailBody({ projectId }: { projectId: number }) {
           >
             {starIcon}
           </Button>
-          <ProjectDetailMenu {...menuProps} variant="ghost" showEdit />
+          <ProjectDetailMenu {...menuProps} variant="ghost" />
         </div>
       </HeaderActions>
 

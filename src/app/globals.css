@@ -105,6 +105,7 @@
   /* 커버 큰 버튼 (보드 00: 48 · 좌우 24 · 16) */
   --btn-h-lg: 48px;
   --btn-px-lg: 24px;
+  --btn-px-lg-secondary: 20px;
   --line-dash: 1.5px;
   /* 보드 .kbd 모서리 */
   --radius-kbd: 4px;
@@ -1267,7 +1268,8 @@ textarea:-webkit-autofill:focus {
   pointer-events: none;
 }
 [data-tip]:hover::after,
-[data-tip]:focus-visible::after {
+[data-tip]:focus-visible::after,
+[data-tip]:has(> :focus-visible)::after {
   visibility: visible;
   opacity: 1;
 }

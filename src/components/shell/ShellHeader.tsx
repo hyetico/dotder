@@ -9,7 +9,7 @@ import { HeaderActionsSlot } from "@/components/layout/Header/HeaderActions";
 import { findNavItem } from "@/components/shell/navItems";
 import { usePageMetaValue } from "@/components/shell/PageMeta";
 import ShellSearch from "@/components/shell/ShellSearch";
-import { ChevronLeft, Menu } from "@/components/ui/icon";
+import { ChevronLeft, Menu, Settings } from "@/components/ui/icon";
 
 import { useIsClient } from "@/hooks/useIsClient";
 import { cn } from "@/lib/cn";
@@ -34,7 +34,8 @@ export default function ShellHeader({ onOpenMenu }: ShellHeaderProps) {
   const pageMeta = usePageMetaValue();
   const meta = isClient ? pageMeta : null;
   const label = nav?.label ?? (pathname.startsWith("/settings") ? "설정" : "");
-  const NavIcon = nav?.icon;
+  // 헤더 아이콘은 모든 화면에 같은 모양으로 (11.25 요청 · 보드 01 기준)
+  const NavIcon = nav?.icon ?? (pathname.startsWith("/settings") ? Settings : undefined);
   const back = meta?.back;
 
   return (
@@ -50,6 +51,7 @@ export default function ShellHeader({ onOpenMenu }: ShellHeaderProps) {
           aria-label="현재 위치"
           className="flex min-w-0 items-center gap-2 text-sm text-[var(--text)] max-lg:hidden"
         >
+          {NavIcon ? <NavIcon size={16} aria-hidden className="shrink-0" /> : null}
           {back && nav ? (
             <>
               <Link
@@ -66,11 +68,7 @@ export default function ShellHeader({ onOpenMenu }: ShellHeaderProps) {
               </span>
             </>
           ) : (
-            <>
-              {/* 아이콘은 프로젝트 목록 보드(01)에만 있다 (목표 · 태스크 · 메모 보드 09 · 10 · 11은 글자만) */}
-              {NavIcon && nav?.href === "/projects" ? <NavIcon size={16} aria-hidden /> : null}
-              {label}
-            </>
+            label
           )}
         </nav>
         {back ? (

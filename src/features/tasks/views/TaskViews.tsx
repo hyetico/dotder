@@ -280,9 +280,13 @@ function TaskRow({
   return (
     <li className={collapseClassName(stage)}>
       <div className="min-h-0 overflow-hidden">
-        <div className="relative isolate flex min-h-12 items-center gap-3 border-t border-[var(--divider)] transition-colors duration-120 hover:bg-[var(--s2)] max-lg:min-h-14 lg:px-3">
+        <div
+          data-list-row
+          className="relative isolate flex min-h-12 items-center gap-3 border-t border-[var(--divider)] transition-colors duration-120 hover:bg-[var(--s2)] max-lg:min-h-14 lg:px-3"
+        >
           <button
             type="button"
+            data-list-open
             onClick={() => handlers.onOpen(task)}
             aria-label={`‘${task.title}’ 열기`}
             className="kit-focus absolute inset-0 cursor-pointer"

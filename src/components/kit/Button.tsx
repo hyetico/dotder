@@ -23,9 +23,13 @@ type ButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "children"> & {
   href?: string;
   /** 시트 푸터처럼 남은 폭을 채운다 */
   grow?: boolean;
+  /** 아직 동작이 없는 버튼. 흐리게 막고 올리거나 초점이 가면 「준비 중」 툴팁 (11.25) */
+  pending?: boolean;
   ref?: Ref<HTMLButtonElement>;
   children?: ReactNode;
 };
+
+const PENDING_TIP = "준비 중";
 
 // 크기는 토큰만 쓴다 (globals.css `--btn-h-*` · `--btn-px-*`). 화면에서 높이 · 패딩을 덧대지 않는다.
 const sizeClassName: Record<ButtonSize, string> = {
@@ -35,6 +39,8 @@ const sizeClassName: Record<ButtonSize, string> = {
   sm: "h-[var(--btn-h-sm)] px-[var(--btn-px-sm)] rounded-[var(--radius-sm)] text-sm",
   xs: "h-[var(--btn-h-xs)] px-[var(--btn-px-xs)] rounded-[var(--radius-xs)] text-xs",
 };
+const lgSecondaryClassName =
+  "h-[var(--btn-h-lg)] px-[var(--btn-px-lg-secondary)] rounded-[var(--radius-sm)] text-base";
 const iconOnlyClassName: Record<ButtonSize, string> = {
   lg: "size-[var(--btn-h-lg)] rounded-[var(--radius-sm)]",
   md: "size-[var(--btn-h-md)] rounded-[var(--radius-sm)]",
@@ -71,7 +77,12 @@ export function buttonClassName({
 }: Pick<ButtonProps, "variant" | "size" | "iconOnly" | "grow">) {
   return cn(
     "kit-focus relative inline-flex shrink-0 cursor-pointer items-center justify-center gap-1.5 border font-medium whitespace-nowrap transition-[background-color,border-color,color,translate] duration-120 select-none active:translate-y-px disabled:pointer-events-none aria-disabled:pointer-events-none",
-    iconOnly ? iconOnlyClassName[size] : sizeClassName[size],
+    iconOnly
+      ? iconOnlyClassName[size]
+      : // 큰 보조 버튼은 좌우 20 (보드 00 [예시로 둘러보기])
+        size === "lg" && variant === "secondary"
+        ? lgSecondaryClassName
+        : sizeClassName[size],
     variantClassName[variant],
     grow && "flex-1",
   );
@@ -95,6 +106,7 @@ export default function Button({
   tipSide,
   href,
   grow = false,
+  pending = false,
   className,
   type = "button",
   ref,
@@ -102,6 +114,23 @@ export default function Button({
   ...props
 }: ButtonProps) {
   const classes = cn(buttonClassName({ variant, size, iconOnly, grow }), className);
+
+  if (pending) {
+    // 막힌 버튼은 호버를 받지 못해 툴팁은 감싼 칸이 띄운다
+    return (
+      <span data-tip={PENDING_TIP} className={cn("inline-flex", grow && "flex-1")}>
+        <button
+          ref={ref}
+          type="button"
+          aria-disabled="true"
+          className={classes}
+          aria-label={props["aria-label"]}
+        >
+          {children}
+        </button>
+      </span>
+    );
+  }
 
   if (href) {
     return (
