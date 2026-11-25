@@ -7,7 +7,6 @@ import { useMemo, useState, type ReactNode, type RefObject } from "react";
 import { useQuery } from "@tanstack/react-query";
 
 import Button from "@/components/kit/Button";
-import Kbd from "@/components/kit/Kbd";
 import { MenuHeader, MenuSeparator } from "@/components/kit/Menu";
 import Popover from "@/components/kit/Popover";
 import ProjectMarker from "@/components/kit/ProjectMarker";
@@ -178,7 +177,6 @@ export default function ProjectSwitcher({ isOpen, onClose, anchorRef }: ProjectS
         <button type="button" onClick={() => go(getNewProjectPath())} className={rowClassName}>
           <Plus size={16} aria-hidden className="shrink-0 text-[var(--t2)]" />
           <span className="flex-1">새 프로젝트</span>
-          <Kbd>N</Kbd>
         </button>
         <Link href="/projects" onClick={onClose} className={rowClassName}>
           <Folder size={16} aria-hidden className="shrink-0 text-[var(--t2)]" />

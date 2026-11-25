@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 
 import Button from "@/components/kit/Button";
-import Kbd from "@/components/kit/Kbd";
 import { Search } from "@/components/ui/icon";
 
 import { getGoals } from "@/features/goals/api/goals";
@@ -61,7 +60,6 @@ export default function ShellSearch() {
       >
         <Search size={16} aria-hidden />
         검색
-        <Kbd className="ml-auto">⌘K</Kbd>
       </button>
       <Button
         variant="ghost"

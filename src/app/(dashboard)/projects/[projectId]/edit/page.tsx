@@ -1,23 +1,14 @@
-import ProjectEditPageContent from "@/features/projects/content/ProjectEditPageContent";
+import { redirect } from "next/navigation";
 
-type ProjectEditPageProps = {
+type Props = {
   params: Promise<{
     projectId: string;
   }>;
-  searchParams: Promise<{
-    section?: string | string[];
-  }>;
 };
 
-export default async function ProjectEditPage({ params, searchParams }: ProjectEditPageProps) {
+// 수정은 상세의 수정 드로어 (보드 03-a)
+export default async function ProjectEditRedirect({ params }: Props) {
   const { projectId } = await params;
-  const { section } = await searchParams;
-  const sectionValue = Array.isArray(section) ? section[0] : section;
 
-  return (
-    <ProjectEditPageContent
-      projectId={Number(projectId)}
-      initialSection={sectionValue === "settings" ? "settings" : "basic"}
-    />
-  );
+  redirect(`/projects/${projectId}`);
 }

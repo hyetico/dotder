@@ -82,7 +82,7 @@ export default function ProjectListScreen({ scope }: { scope: ProjectListScope }
   usePageMeta("프로젝트", subtitle);
 
   return (
-    <div className="mx-auto w-full max-w-320 px-4 pt-4 pb-8 md:px-6 md:pt-6 lg:px-10 lg:pt-8 lg:pb-16">
+    <div className="mx-auto w-full max-w-320 px-4 pt-6 pb-8 md:px-6 md:pt-8 lg:px-10 lg:pt-10 lg:pb-16">
       <HeaderActions>
         <Button href={getNewProjectPath()} variant="primary" size="sm" className="max-lg:hidden">
           <Plus size={16} aria-hidden />

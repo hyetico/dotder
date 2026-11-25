@@ -1,3 +1,5 @@
+import { unlinkTasksFromGoal } from "@/features/tasks/api/tasks";
+
 import { mockGoals } from "@/lib/mock/goals";
 import { mockProjects } from "@/lib/mock/projects";
 import { mockTeamMembers } from "@/lib/mock/teamMembers";
@@ -87,6 +89,34 @@ export async function createGoal(input: CreateGoalInput): Promise<Goal> {
   mockGoals.push(newGoal);
 
   return newGoal;
+}
+
+/**
+ * 목표를 지운다. 목표 안 태스크는 남고 연결만 풀린다 (프로토타입 gmenu 삭제).
+ *
+ * @returns 지운 목표 (되돌리기에 쓴다)
+ * @throws 목표가 없으면
+ */
+export async function deleteGoal(goalId: number): Promise<Goal> {
+  const index = mockGoals.findIndex((goal) => goal.id === goalId);
+
+  if (index === -1) {
+    throw new Error("목표를 찾을 수 없습니다.");
+  }
+
+  const [removed] = mockGoals.splice(index, 1);
+  unlinkTasksFromGoal(goalId);
+
+  return removed;
+}
+
+/** 지운 목표를 같은 id로 다시 넣는다 (삭제 토스트 「되돌리기」). 풀린 태스크 연결은 돌아오지 않는다. */
+export async function restoreGoal(goal: Goal): Promise<Goal> {
+  if (!mockGoals.some((item) => item.id === goal.id)) {
+    mockGoals.push({ ...goal, tags: [...goal.tags] });
+  }
+
+  return goal;
 }
 
 export async function updateGoal(input: UpdateGoalInput): Promise<Goal> {

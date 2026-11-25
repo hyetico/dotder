@@ -2,21 +2,23 @@
 
 import { useRef, useState, type KeyboardEvent, type ReactNode } from "react";
 
-import Button, { type ButtonSize } from "@/components/kit/Button";
+import Button, { type ButtonSize, type ButtonVariant } from "@/components/kit/Button";
 import Popover from "@/components/kit/Popover";
 import { Check, MoreHorizontal } from "@/components/ui/icon";
 
 import { cn } from "@/lib/cn";
 
-// 보드 .mi: 최소 36 · 좌우 8 · 사이 8 · 모서리 8 · 14 --text, 호버 · 고름 --s3. 모바일(터치)은 최소 44.
+// 보드 .mi: 최소 36 · 모서리 8 · 14 --text (메뉴 줄 좌우 · 사이 10, 고르는 줄 8), 호버 · 고름 --s3. 모바일(터치)은 최소 52 (보드 M 03-e 시트).
 const rowClassName =
-  "kit-focus flex min-h-9 w-full cursor-pointer items-center gap-2 rounded-[var(--radius-sm)] px-2 text-left text-sm text-[var(--text)] transition-colors hover:bg-[var(--s3)] focus-visible:bg-[var(--s3)] max-md:min-h-11";
+  "kit-focus flex min-h-9 w-full cursor-pointer items-center rounded-[var(--radius-sm)] text-left text-sm transition-colors duration-120 hover:bg-[var(--s3)] focus-visible:bg-[var(--s3)] max-md:min-h-13";
 
 type MenuItemProps = {
   onSelect: () => void;
   icon?: ReactNode;
   /** 오른쪽 작은 글 (단축키 등, 12 --t3) */
   hint?: ReactNode;
+  /** 이름 아래 설명 (12/18 --t3 · 보드 03-e 「메인 프로젝트로 지정」) */
+  help?: ReactNode;
   /** 지우기 같은 위험한 일 (--bad) */
   danger?: boolean;
   disabled?: boolean;
@@ -24,7 +26,15 @@ type MenuItemProps = {
 };
 
 /** 메뉴 한 줄 (보드 .mi). 아이콘 16 · 오른쪽 작은 글. */
-export function MenuItem({ onSelect, icon, hint, danger, disabled, children }: MenuItemProps) {
+export function MenuItem({
+  onSelect,
+  icon,
+  hint,
+  help,
+  danger,
+  disabled,
+  children,
+}: MenuItemProps) {
   return (
     <button
       type="button"
@@ -33,12 +43,22 @@ export function MenuItem({ onSelect, icon, hint, danger, disabled, children }: M
       onClick={onSelect}
       className={cn(
         rowClassName,
-        danger && "text-[var(--bad)]",
+        // 메뉴 줄은 좌우 10 · 사이 10 (프로토타입 .it · 보드 03-e)
+        "gap-2.5 px-2.5",
+        // 글자색은 한 번만 준다 (둘 다 주면 빨강이 덮일 수 있다)
+        danger ? "text-[var(--bad)]" : "text-[var(--text)]",
         "disabled:cursor-not-allowed disabled:opacity-40",
       )}
     >
       {icon ? <span className="inline-flex shrink-0 [&_svg]:size-4">{icon}</span> : null}
-      <span className="min-w-0 flex-1">{children}</span>
+      {help ? (
+        <span className="flex min-w-0 flex-1 flex-col py-1.5">
+          {children}
+          <span className="text-xs text-[var(--t3)]">{help}</span>
+        </span>
+      ) : (
+        <span className="min-w-0 flex-1">{children}</span>
+      )}
       {hint ? <span className="ml-auto text-xs text-[var(--t3)]">{hint}</span> : null}
     </button>
   );
@@ -76,7 +96,11 @@ export function PickRow({ selected, onSelect, leading, children }: PickRowProps)
       role="option"
       aria-selected={selected}
       onClick={onSelect}
-      className={cn(rowClassName, leading != null && "items-start py-1.75 max-md:py-2.75")}
+      className={cn(
+        rowClassName,
+        "gap-2 px-2 text-[var(--text)]",
+        leading != null && "items-start py-1.75 max-md:py-2.75",
+      )}
     >
       {leading ? <span className="flex h-5.5 shrink-0 items-center">{leading}</span> : null}
       <span className="min-w-0 flex-1 leading-5.5 [overflow-wrap:anywhere] break-keep">
@@ -96,6 +120,12 @@ type MoreMenuProps = {
   size?: ButtonSize;
   /** 카드 제목 줄: 본문 글자색 · 투명도 0.7 (보드 01) */
   onCard?: boolean;
+  /** 버튼 모양. 상세 헤더(웹)는 secondary (보드 03) */
+  variant?: ButtonVariant;
+  /** 메뉴 너비. 기본 220, 설명 줄이 있는 상세 메뉴는 280 (보드 03-e) */
+  width?: 220 | 280;
+  /** 모바일 시트 제목. 없으면 `label` (보드 M 03-e 「프로젝트」) */
+  title?: string;
   /** 메뉴 내용. `close`를 불러 닫는다 */
   children: (close: () => void) => ReactNode;
 };
@@ -107,7 +137,15 @@ type MoreMenuProps = {
  * @example
  * <MoreMenu label="프로젝트 메뉴" size="xs">{(close) => <MenuItem onSelect={() => { open(); close(); }}>열기</MenuItem>}</MoreMenu>
  */
-export function MoreMenu({ label, size = "xs", onCard = false, children }: MoreMenuProps) {
+export function MoreMenu({
+  label,
+  size = "xs",
+  onCard = false,
+  variant = "ghost",
+  width = 220,
+  title,
+  children,
+}: MoreMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const close = () => setIsOpen(false);
@@ -130,7 +168,7 @@ export function MoreMenu({ label, size = "xs", onCard = false, children }: MoreM
     <>
       <Button
         ref={buttonRef}
-        variant={onCard ? "ghostText" : "ghost"}
+        variant={onCard ? "ghostText" : variant}
         size={size}
         className={onCard ? "opacity-70 hover:opacity-100" : undefined}
         iconOnly
@@ -150,9 +188,11 @@ export function MoreMenu({ label, size = "xs", onCard = false, children }: MoreM
         isOpen={isOpen}
         onClose={close}
         anchorRef={buttonRef}
-        title={label}
+        title={title ?? label}
         role="menu"
         align="end"
+        width={width}
+        sheetBleed={false}
       >
         {/* 팝오버는 body로 옮겨 그리지만 React 이벤트는 부모로 올라가서, 카드 링크가 눌리지 않게 막는다 */}
         <div

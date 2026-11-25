@@ -15,6 +15,8 @@ type ToastOptions = {
   undo?: () => void;
   /** 「다시 시도」를 붙인다 (오류 토스트, 6초) */
   retry?: () => void;
+  /** 「열기」를 붙인다 (복제 토스트 · 보드 03-h, 6초) */
+  open?: () => void;
 };
 type ToastItem = ToastOptions & { id: number; text: string; kind: ToastKind };
 type ShowToast = (text: string, options?: ToastOptions) => void;
@@ -33,6 +35,7 @@ const UNDO_DURATION_MS = 6000;
  * toast(TOAST_TEXT.saved);
  * toast(TOAST_TEXT.deleted, { undo: restore });
  * toast(TOAST_TEXT.saveFailed, { retry: save });
+ * toast(duplicatedToast(copy.name), { open: () => router.push(path) });
  */
 export function useToast(): ShowToast {
   const show = useContext(ToastContext);
@@ -79,6 +82,8 @@ export function ToastProvider({ children }: { children: ReactNode }) {
               if (item.undo) {
                 item.undo();
                 show(TOAST_TEXT.undone);
+              } else if (item.open) {
+                item.open();
               } else {
                 item.retry?.();
               }
@@ -100,7 +105,7 @@ function ToastRow({
   onAction: () => void;
 }) {
   const timer = useRef<number | null>(null);
-  const hasAction = Boolean(item.undo || item.retry);
+  const hasAction = Boolean(item.undo || item.retry || item.open);
   const left = useRef(hasAction ? UNDO_DURATION_MS : DURATION_MS);
   const startedAt = useRef(0);
 
@@ -138,7 +143,7 @@ function ToastRow({
       <span className="min-w-0 flex-1 truncate">{item.text}</span>
       {hasAction ? (
         <Button variant="onToast" size="xs" onClick={onAction}>
-          {item.undo ? BUTTON_LABEL.undo : BUTTON_LABEL.retry}
+          {item.undo ? BUTTON_LABEL.undo : item.open ? BUTTON_LABEL.open : BUTTON_LABEL.retry}
         </Button>
       ) : null}
     </div>

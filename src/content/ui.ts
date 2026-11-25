@@ -16,6 +16,8 @@ export const BUTTON_LABEL = {
   add: "추가",
   undo: "되돌리기",
   retry: "다시 시도",
+  /** 복제 토스트 (보드 03-h) */
+  open: "열기",
 } as const;
 
 /** 바꾼 채로 닫을 때 확인창 */
@@ -52,6 +54,14 @@ export const TOAST_TEXT = {
   favoriteAdded: "즐겨찾기에 추가했어요",
   favoriteRemoved: "즐겨찾기에서 뺐어요",
   favoriteFull: "즐겨찾기는 최대 3개까지 추가할 수 있어요.",
+  /** 마감일 변경 드로어 저장 (프로토타입 dueChange) */
+  deadlineChanged: "마감일을 변경했어요. 변경 내역은 기록 탭에서 볼 수 있어요.",
+  /** 목표 ⋯ 「완료」 (프로토타입 gmenu) */
+  goalCompleted: "목표를 완료했어요",
+  /** 메모 ⋯ (프로토타입 mmenu) */
+  memoToTask: "태스크로 등록했어요.",
+  memoToGoal: "목표로 등록했어요.",
+  memoRelinked: "연결을 변경했어요.",
 } as const;
 
 /** 복제 토스트 (프로토타입 pmenu) */
@@ -63,6 +73,12 @@ export function duplicatedToast(name: string) {
 export const QUICK_ADD_PLACEHOLDER = {
   task: "태스크 추가",
   memo: "생각 적기",
+} as const;
+
+/** 목표 태그 고르기 (프로토타입 goalTagField) */
+export const GOAL_TAG_TEXT = {
+  noProject: "프로젝트를 선택하면 태그를 지정할 수 있어요.",
+  noTags: "등록된 태그가 없어요. 프로젝트 수정에서 추가할 수 있어요.",
 } as const;
 
 /** 프로젝트 태그 칸 (보드 01-a2) */

@@ -5,7 +5,7 @@ import { createPortal } from "react-dom";
 
 import Button from "@/components/kit/Button";
 import { useLayer, usePresence } from "@/components/kit/useLayer";
-import { TriangleAlert, Trash2 } from "@/components/ui/icon";
+import { Trash2 } from "@/components/ui/icon";
 
 import {
   BUTTON_LABEL,
@@ -24,8 +24,11 @@ type ConfirmDialogProps = {
   text?: string;
   confirmLabel?: string;
   cancelLabel?: string;
-  /** 지우기 같은 되돌릴 수 없는 일 (빨간 아이콘 · danger 버튼) */
-  danger?: boolean;
+  /**
+   * default: 아이콘 없음 · 확인은 주 버튼(검정) — 닫기 확인 (보드 03-d).
+   * danger: 빨간 휴지통 상자 40 · 확인은 빨강 버튼 — 삭제 확인에만 (보드 03-f).
+   */
+  tone?: "default" | "danger";
   /** 이 요소(드로어 패널 등)의 가운데에 띄운다. 없으면 화면 가운데 */
   withinRef?: RefObject<HTMLElement | null>;
 };
@@ -33,11 +36,11 @@ type ConfirmDialogProps = {
 /**
  * 확인창 (프로토타입 confirmBox · Components 확인창 320). 모바일에서도 시트가 아니라 가운데 상자.
  *
- * 폭 320 · 안쪽 24 · 아이콘 상자 40(모서리 12) · 제목 18 · 설명 --t2 · 버튼 둘이 반반(취소 · 확인).
- * 열리면 「취소」에 초점이 간다.
+ * 폭 320 · 안쪽 24 · 제목 18 · 설명 --t2 · 위 16 · 버튼 둘이 반반(취소 · 확인). 열리면 「취소」에 초점이 간다.
+ * `tone="danger"`(삭제)만 빨간 휴지통 상자 40(모서리 12)과 빨강 버튼을 쓴다 (보드 03-d · 03-f · REBUILD 4-3).
  *
  * @example
- * <ConfirmDialog isOpen={open} title="수정을 취소할까요?" confirmLabel="취소하기" cancelLabel="계속 수정" danger withinRef={panelRef} onConfirm={discard} onClose={close} />
+ * <ConfirmDialog isOpen={open} title="프로젝트를 삭제할까요?" confirmLabel="삭제" tone="danger" onConfirm={remove} onClose={close} />
  */
 export default function ConfirmDialog({
   isOpen,
@@ -47,7 +50,7 @@ export default function ConfirmDialog({
   text,
   confirmLabel = "확인",
   cancelLabel = BUTTON_LABEL.cancel,
-  danger = false,
+  tone = "default",
   withinRef,
 }: ConfirmDialogProps) {
   const panelRef = useRef<HTMLDivElement>(null);
@@ -70,8 +73,6 @@ export default function ConfirmDialog({
     return null;
   }
 
-  const Icon = danger ? Trash2 : TriangleAlert;
-
   return createPortal(
     <div className="fixed inset-0 z-[var(--z-modal)]">
       <div
@@ -93,17 +94,14 @@ export default function ConfirmDialog({
         )}
         style={center ? { left: center.x, top: center.y } : { left: "50%", top: "50%" }}
       >
-        <span
-          aria-hidden
-          className={cn(
-            "mb-2 inline-flex size-10 items-center justify-center rounded-[var(--radius-md)]",
-            danger
-              ? "bg-[var(--bad-bg)] text-[var(--bad)]"
-              : "bg-[var(--warn-bg)] text-[var(--warn)]",
-          )}
-        >
-          <Icon size={20} />
-        </span>
+        {tone === "danger" ? (
+          <span
+            aria-hidden
+            className="mb-2 inline-flex size-10 items-center justify-center rounded-[var(--radius-md)] bg-[var(--badge-bad-bg)] text-[var(--bad)]"
+          >
+            <Trash2 size={20} />
+          </span>
+        ) : null}
         <h2 className="text-lg font-semibold">{title}</h2>
         {text ? <p className="text-sm text-[var(--t2)]">{text}</p> : null}
         <div className="mt-4 flex gap-2">
@@ -111,7 +109,7 @@ export default function ConfirmDialog({
             {cancelLabel}
           </Button>
           <Button
-            variant={danger ? "danger" : "primary"}
+            variant={tone === "danger" ? "danger" : "primary"}
             grow
             onClick={() => {
               onConfirm();
@@ -132,7 +130,7 @@ type PresetConfirmProps = Pick<
 >;
 
 /**
- * 바꾼 채로 닫을 때 확인창 (REBUILD 5-3). 「저장하지 않고 닫을까요?」 / 「수정한 내용이 사라져요.」 [취소] [닫기(빨강)].
+ * 바꾼 채로 닫을 때 확인창 (REBUILD 5-3). 「저장하지 않고 닫을까요?」 / 「수정한 내용이 사라져요.」 [취소] [닫기(주 버튼)], 아이콘 없음 (보드 03-d).
  *
  * @example
  * <DiscardConfirmDialog isOpen={open} withinRef={panelRef} onConfirm={closeDrawer} onClose={() => setOpen(false)} />
@@ -144,7 +142,6 @@ export function DiscardConfirmDialog(props: PresetConfirmProps) {
       title={DISCARD_CONFIRM.title}
       text={DISCARD_CONFIRM.text}
       confirmLabel={BUTTON_LABEL.close}
-      danger
     />
   );
 }
@@ -162,7 +159,7 @@ export function DeleteConfirmDialog({ target, ...props }: PresetConfirmProps & {
       title={deleteConfirmTitle(target)}
       text={DELETE_CONFIRM_TEXT}
       confirmLabel={BUTTON_LABEL.delete}
-      danger
+      tone="danger"
     />
   );
 }

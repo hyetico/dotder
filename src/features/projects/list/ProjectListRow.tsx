@@ -23,7 +23,7 @@ export default function ProjectListRow({ project }: { project: ProjectListItem }
   const lateDays = getLateDays(project);
 
   return (
-    <li className="relative flex min-h-12 items-center gap-4 rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface)] px-4 py-3.5 text-sm transition-colors hover:border-[var(--border-2)]">
+    <li className="relative flex min-h-12 items-center gap-4 rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface)] px-4 py-3.5 text-sm transition-colors duration-120 hover:border-[var(--border-2)] hover:bg-[var(--s2)]">
       <ProjectMarker color={project.color} isMain={project.isMain} />
       <Link
         href={getProjectDetailPath(project.id)}
