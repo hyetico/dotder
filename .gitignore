@@ -53,3 +53,8 @@ next-env.d.ts
 
 # iCloud가 만드는 사본 (예: Toast 2.tsx)
 * 2.*
+
+# 내부 작업 문서 (내 컴퓨터에만 둔다)
+CLAUDE.md
+AGENTS.md
+CONTENT_TODO.md
