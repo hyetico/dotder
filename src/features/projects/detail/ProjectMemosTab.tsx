@@ -67,7 +67,7 @@ export default function ProjectMemosTab({ project, memos, goals }: ProjectMemosT
           text="위 입력칸에 메모를 추가해 보세요."
         />
       ) : (
-        <ul className="grid gap-3 lg:grid-cols-3 lg:gap-4">
+        <ul className="grid grid-cols-1 gap-3 lg:grid-cols-3 lg:gap-4">
           {memos.map((memo) => (
             <MemoCard key={memo.id} memo={memo} goals={goals} link="goal" onChanged={refresh} />
           ))}

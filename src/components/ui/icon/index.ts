@@ -48,6 +48,7 @@ export {
   Gauge,
   GripVertical,
   History,
+  Home,
   Hourglass,
   Inbox,
   Info,

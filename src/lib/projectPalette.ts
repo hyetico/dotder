@@ -129,7 +129,7 @@ export function toOptionalProjectColorKey(
 /** 프로젝트 색 CSS 변수 이름. `part`가 없으면 색 자체(점 · 막대 · 모자이크 · 왕관). */
 export function projectColorVar(
   key: ProjectColorKey,
-  part?: "tint" | "line" | "ink" | "hover",
+  part?: "tint" | "line" | "ink" | "hover" | "fixed",
 ): string {
   return `var(--project-${key}${part ? `-${part}` : ""})`;
 }
@@ -161,6 +161,8 @@ export function buildProjectPaletteCss(): string {
         `--project-${key}-line: color-mix(in srgb, ${color} ${tint + 8}%, ${base});`,
         `--project-${key}-hover: color-mix(in srgb, ${color} ${tint + 4}%, ${base});`,
         `--project-${key}-ink: ${ink};`,
+        // 테마와 관계없이 늘 라이트 값 (커버 · 404 조각 · 보드 00 · 13)
+        mode === "light" ? `--project-${key}-fixed: ${color};` : "",
       ].join("");
     }).join("");
 

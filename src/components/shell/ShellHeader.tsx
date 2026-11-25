@@ -50,7 +50,7 @@ export default function ShellHeader({ onOpenMenu }: ShellHeaderProps) {
           aria-label="현재 위치"
           className="flex min-w-0 items-center gap-2 text-sm text-[var(--text)] max-lg:hidden"
         >
-          {back ? (
+          {back && nav ? (
             <>
               <Link
                 href={back}

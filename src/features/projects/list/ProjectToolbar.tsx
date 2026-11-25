@@ -16,7 +16,6 @@ import {
   ListChecks,
   Funnel,
   ListFilter,
-  SlidersHorizontal,
 } from "@/components/ui/icon";
 
 import {
