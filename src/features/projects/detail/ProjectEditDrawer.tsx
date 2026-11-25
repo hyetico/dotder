@@ -16,14 +16,24 @@ import { useToast } from "@/components/kit/Toast";
 import { CircleAlert, Trash2 } from "@/components/ui/icon";
 
 import { BUTTON_LABEL, TOAST_TEXT } from "@/content/ui";
+import { useGoalMutations } from "@/features/goals/hooks/useGoalMutations";
+import { recordShiftedItems } from "@/features/projects/api/projects";
+import {
+  getShiftItems,
+  mergeGoalShifts,
+  ShiftNotice,
+} from "@/features/projects/detail/projectShift";
 import { useProjectMutations } from "@/features/projects/hooks/useProjectMutations";
 import { PROJECT_STATUS_TONE } from "@/features/projects/list/ProjectCard";
 import { getProjectStatusLabel } from "@/features/projects/utils/projectUtils";
+import { useTaskMutations } from "@/features/tasks/hooks/useTaskMutations";
 
 import { cn } from "@/lib/cn";
 import { getDayDelta, toDateKey } from "@/lib/date";
 
+import type { Goal } from "@/features/goals/types/goal";
 import type { Project, ProjectListItem, ProjectStatus } from "@/features/projects/types/project";
+import type { Task } from "@/features/tasks/types/task";
 
 const NAME_MAX = 50;
 
@@ -46,6 +56,9 @@ const toForm = (project: Project): FormState => ({
 
 type ProjectEditDrawerProps = {
   project: ProjectListItem;
+  /** 기간을 줄일 때 같이 옮길 목표 · 태스크를 찾는다 (DOC1 날짜 범위) */
+  goals: Goal[];
+  tasks: Task[];
   isOpen: boolean;
   onClose: () => void;
   /** 삭제 확인 뒤 (상세에서 목록으로 옮긴다) */
@@ -60,6 +73,8 @@ type ProjectEditDrawerProps = {
  */
 export default function ProjectEditDrawer({
   project,
+  goals,
+  tasks,
   isOpen,
   onClose,
   onDelete,
@@ -76,8 +91,21 @@ export default function ProjectEditDrawer({
   const [confirm, setConfirm] = useState<"discard" | "delete" | null>(null);
   const [openedFor, setOpenedFor] = useState(isOpen);
   const { updateProjectAsync, isUpdating } = useProjectMutations();
+  const { updateGoalAsync } = useGoalMutations();
+  const { updateTaskMutation } = useTaskMutations(project.id);
   const today = toDateKey(new Date());
   const isDirty = JSON.stringify(form) !== JSON.stringify(initial);
+  const [moveAlong, setMoveAlong] = useState(true);
+  // 시작을 늦추거나 마감을 당기면 벗어나는 목표 · 태스크를 같이 옮겨야 저장할 수 있다 (DOC1 날짜 범위)
+  const shiftRange = {
+    start: form.startDate && form.startDate > initial.startDate ? form.startDate : "",
+    end: form.endDate && initial.endDate && form.endDate < initial.endDate ? form.endDate : "",
+  };
+  const shiftItems =
+    shiftRange.start || shiftRange.end ? getShiftItems(goals, tasks, shiftRange) : [];
+  const shiftReason =
+    shiftRange.start && shiftRange.end ? "both" : shiftRange.start ? "start" : "end";
+  const isShiftBlocked = shiftItems.length > 0 && !moveAlong;
 
   // 열 때마다 지금 프로젝트 값으로 다시 채운다
   if (isOpen !== openedFor) {
@@ -88,6 +116,7 @@ export default function ProjectEditDrawer({
       setForm(next);
       setStatusTouched(false);
       setShowNameError(false);
+      setMoveAlong(true);
     }
   }
 
@@ -107,7 +136,7 @@ export default function ProjectEditDrawer({
       return;
     }
 
-    if (!isDirty) {
+    if (!isDirty || isShiftBlocked) {
       return;
     }
 
@@ -123,6 +152,28 @@ export default function ProjectEditDrawer({
             form.status === "DONE" ? (project.completedAt ?? today) : project.completedAt,
         },
       });
+      if (shiftItems.length) {
+        await recordShiftedItems(
+          project.id,
+          shiftItems.map((item) => ({
+            target: item.kind,
+            field: item.field,
+            name: item.name,
+            from: item.from,
+            to: item.to,
+          })),
+        );
+        await Promise.all([
+          ...mergeGoalShifts(shiftItems).map((goal) =>
+            updateGoalAsync({ ...goal, teamId: project.teamId }),
+          ),
+          ...shiftItems.flatMap((item) =>
+            item.kind === "task"
+              ? [updateTaskMutation.mutateAsync({ ...item.task, dueDate: item.to })]
+              : [],
+          ),
+        ]);
+      }
       toast(TOAST_TEXT.saved);
       onClose();
     } catch {
@@ -162,7 +213,7 @@ export default function ProjectEditDrawer({
             <Button
               type="submit"
               variant="primary"
-              disabled={isUpdating || !isDirty || !form.name.trim()}
+              disabled={isUpdating || !isDirty || !form.name.trim() || isShiftBlocked}
             >
               {BUTTON_LABEL.save}
             </Button>
@@ -255,6 +306,12 @@ export default function ProjectEditDrawer({
             ) : null}
           </Field>
         </div>
+        <ShiftNotice
+          items={shiftItems}
+          reason={shiftReason}
+          checked={moveAlong}
+          onChange={setMoveAlong}
+        />
         <Field label="설명" htmlFor={descriptionId}>
           <TextArea
             id={descriptionId}

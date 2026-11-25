@@ -46,9 +46,14 @@ export function historyWideText(entry: ProjectHistoryEntry): { text: string; str
         text: `${name}상태 `,
         strong: `${historyStatusLabel(entry, entry.from)} → ${historyStatusLabel(entry, entry.to)}`,
       };
+    case "start":
+      return {
+        text: `${name}시작 `,
+        strong: `${formatMonthDot(entry.from ?? "")} → ${formatMonthDot(entry.to ?? "")}`,
+      };
     case "deadline":
       return {
-        text: "마감일 ",
+        text: entry.target === "project" ? "마감일 " : `${name}마감 `,
         strong: `${formatMonthDot(entry.from ?? "")} → ${formatMonthDot(entry.to ?? "")}`,
       };
   }
@@ -73,7 +78,11 @@ export function historyCompactText(entry: ProjectHistoryEntry) {
       const label = historyStatusLabel(entry, entry.to);
       return `${label}${toParticle(label)} 이동${tail}`;
     }
-    case "deadline":
-      return `마감일 변경 ${formatMonthDot(entry.from ?? "")} → ${formatMonthDot(entry.to ?? "")}`;
+    case "start":
+    case "deadline": {
+      const dates = `${formatMonthDot(entry.from ?? "")} → ${formatMonthDot(entry.to ?? "")}`;
+      if (entry.target === "project") return `마감일 변경 ${dates}`;
+      return `${target} ${entry.kind === "start" ? "시작" : "마감"} ${dates}${tail}`;
+    }
   }
 }

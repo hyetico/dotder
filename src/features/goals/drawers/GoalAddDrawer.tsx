@@ -190,8 +190,9 @@ export default function GoalAddDrawer({ isOpen, onClose, projectId }: GoalAddDra
                 <DateField
                   label="시작일"
                   value={form.startDate}
-                  min={today}
-                  max={project?.endDate || undefined}
+                  // 목표 시작은 프로젝트 시작 ~ 목표 마감 사이 · 새로 만들 때는 오늘부터 (REBUILD 6 날짜 범위)
+                  min={[today, project?.startDate ?? ""].sort().at(-1)}
+                  max={form.endDate || project?.endDate || undefined}
                   onChange={(startDate) =>
                     update({
                       startDate,

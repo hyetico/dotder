@@ -306,7 +306,9 @@ export default function GoalDetailDrawer({ goal, tasks, onClose }: GoalDetailDra
                     <DateField
                       label="시작일"
                       value={draft.startDate}
-                      max={project?.endDate || undefined}
+                      // 목표 시작은 프로젝트 시작 ~ 목표 마감 사이 (REBUILD 6 날짜 범위)
+                      min={project?.startDate || undefined}
+                      max={draft.endDate || project?.endDate || undefined}
                       onChange={(startDate) =>
                         update({
                           startDate,
