@@ -65,9 +65,14 @@ const FEATURES: { colors: ProjectColorKey[]; title: string; text: string }[] = [
   },
 ];
 
+/** 로그인 기능을 붙이면 true — 로그아웃이면 [로그인], 로그인 상태면 [이어서 하기]로 나눈다 (PRD F-02) */
+const SHOW_CONTINUE = false;
+/** 로그인 기능을 붙이면 true — 회원가입으로 연결 (PRD F-02). false면 「예시로 둘러보기」가 주 버튼이 된다. */
+const SHOW_START = false;
+
 /**
  * 커버 · 시작 화면 (REBUILD 3-8 · 보드 00). 앱 틀 없이 전체 화면 --cover-bg.
- * 머리 72(로고 · 「이어서 하기」) → 왼쪽 글(작은 머리 · 제목 56/68 · 설명 18/30 · [시작하기] [예시로 둘러보기] 48 · 안내)
+ * 머리 72(로고 · 「이어서 하기」(숨김)) → 왼쪽 글(작은 머리 · 제목 56/68 · 설명 18/30 · [시작하기](숨김) [예시로 둘러보기] 48 · 안내)
  * | 오른쪽 모여드는 조각 그림 → 아래 특징 3칸(선 위).
  */
 export default function CoverScreen() {
@@ -129,10 +134,17 @@ export default function CoverScreen() {
           따로 만들고, 필요할 때 이어 붙이세요.
         </p>
         <div className="flex flex-col gap-2.5">
-          <Button variant="primary" size="lg" href="/projects" className="h-13">
-            시작하기
-          </Button>
-          <Button size="lg" href="/projects?demo=1" className="h-13">
+          {SHOW_START && (
+            <Button variant="primary" size="lg" href="/projects" className="h-13">
+              시작하기
+            </Button>
+          )}
+          <Button
+            variant={SHOW_START ? undefined : "primary"}
+            size="lg"
+            href="/projects?demo=1"
+            className="h-13"
+          >
             예시로 둘러보기
           </Button>
         </div>
@@ -145,9 +157,11 @@ export default function CoverScreen() {
         <header className="flex h-18 items-center px-4 md:px-8 lg:px-16">
           <BrandLogo />
           <span className="flex-1" />
-          <Button variant="ghost" size="sm" href="/projects">
-            이어서 하기
-          </Button>
+          {SHOW_CONTINUE && (
+            <Button variant="ghost" size="sm" href="/projects">
+              이어서 하기
+            </Button>
+          )}
         </header>
 
         <main className="grid flex-1 items-center gap-10 px-4 py-10 md:px-8 lg:grid-cols-2 lg:pr-16 lg:pl-30">
@@ -166,11 +180,17 @@ export default function CoverScreen() {
               필요할 때 이어 붙이세요. 하루하루가 한 조각씩 쌓여요.
             </p>
             <div className="mt-1 flex flex-wrap gap-3">
-              <Button variant="primary" size="lg" href="/projects">
-                시작하기
-                <ChevronRight size={18} aria-hidden />
-              </Button>
-              <Button size="lg" href="/projects?demo=1">
+              {SHOW_START && (
+                <Button variant="primary" size="lg" href="/projects">
+                  시작하기
+                  <ChevronRight size={18} aria-hidden />
+                </Button>
+              )}
+              <Button
+                variant={SHOW_START ? undefined : "primary"}
+                size="lg"
+                href="/projects?demo=1"
+              >
                 예시로 둘러보기
               </Button>
             </div>

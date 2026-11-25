@@ -7,9 +7,9 @@
 
 > 로그인 없이 예시 데이터로 바로 써 볼 수 있습니다. 데이터는 예시라서 새로고침하면 처음 상태로 돌아갑니다.
 
-![프로젝트 목록 (라이트 모드)](docs/images/projects.webp)
+![프로젝트 목록 (라이트 모드)](.github/readme/projects.webp)
 
-![프로젝트 상세 개요 (다크 모드)](docs/images/project-detail.webp)
+![프로젝트 상세 개요 (다크 모드)](.github/readme/project-detail.webp)
 
 ## 주요 기능
 
