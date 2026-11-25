@@ -320,6 +320,8 @@ function DetailBody({ projectId }: { projectId: number }) {
 
       <ProjectEditDrawer
         project={project}
+        goals={goals}
+        tasks={tasks}
         isOpen={isEditOpen}
         onClose={() => setIsEditOpen(false)}
         onDelete={remove}
