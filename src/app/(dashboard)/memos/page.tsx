@@ -1,5 +1,5 @@
-import MemosPageContent from "@/features/memos/content/MemosPageContent";
+import MemosScreen from "@/features/memos/list/MemosScreen";
 
 export default function MemosPage() {
-  return <MemosPageContent />;
+  return <MemosScreen scope="all" />;
 }

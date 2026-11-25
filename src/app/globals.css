@@ -792,12 +792,6 @@
   font-weight: 400;
 }
 
-.text-label {
-  font-size: var(--type-sm);
-  line-height: var(--type-sm-line);
-  font-weight: 600;
-}
-
 .text-caption {
   font-size: var(--type-xs);
   line-height: var(--type-xs-line);
@@ -816,32 +810,11 @@
   font-weight: 500;
 }
 
-.text-badge-sm-mobile {
-  font-size: 10px;
-  line-height: 12px;
-  font-weight: 500;
-}
-
-@media (min-width: 1024px) {
-  .text-badge-sm-mobile {
-    font-size: 12px;
-    line-height: 18px;
-  }
-}
-
 /*
  * 라인탭 밑줄은 본문 전체로 잇고, 글자는 페이지 좌우 패딩에 맞춘다.
  * 탭 버튼 좌우 12px를 빼서 글자 시작이 본문과 같다. 1024–1279px는 32px다.
  * 1440px부터는 밑줄은 그대로 두고, 글자만 본문 1280px 칸에 맞춘다.
  */
-.project-board-tab-line {
-  width: 100%;
-  padding-inline: calc(var(--page-padding-x) - 12px);
-}
-
-.project-board-width {
-  width: 100%;
-}
 
 /*
  * 1440px부터 페이지 본문만 1280px로 맞춘다.
@@ -856,13 +829,6 @@
   .page-frame {
     max-width: var(--page-frame-max);
     margin-inline: auto;
-  }
-
-  .project-board-tab-line {
-    padding-inline: max(
-      calc(var(--page-padding-x) - 12px),
-      calc((100% - var(--page-frame-max)) / 2 - 12px)
-    );
   }
 }
 

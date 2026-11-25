@@ -1,9 +1,3 @@
-import LayoutShell from "@/features/projects/components/LayoutShell";
-
-type MemosLayoutProps = {
-  children: React.ReactNode;
-};
-
-export default function MemosLayout({ children }: MemosLayoutProps) {
-  return <LayoutShell>{children}</LayoutShell>;
+export default function MemosLayout({ children }: { children: React.ReactNode }) {
+  return children;
 }
