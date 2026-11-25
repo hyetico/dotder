@@ -153,6 +153,7 @@ export default function ProjectListScreen({ scope }: { scope: ProjectListScope }
                   <li
                     key={project.id}
                     className="min-w-0"
+                    data-list-row
                     data-tour={index === 0 ? "project-card" : undefined}
                   >
                     <ProjectCard project={project} activity={activity[project.id] ?? NO_ACTIVITY} />

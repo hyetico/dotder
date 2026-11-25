@@ -60,6 +60,7 @@ export function MemoComposer({
     <Card className="flex flex-col gap-2 px-3.5 py-3 lg:hidden">
       <textarea
         ref={inputRef}
+        data-quick-input="memo"
         value={text}
         rows={1}
         aria-label="메모 적기"

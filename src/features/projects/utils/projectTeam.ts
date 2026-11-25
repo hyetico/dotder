@@ -7,16 +7,6 @@ export type ProjectTeamOption = {
   icon: string;
 };
 
-export type ProjectTeamGuideItem = {
-  label: string;
-  description: string;
-  note?: string;
-  action?: {
-    href: string;
-    label: string;
-  };
-};
-
 export const PROJECT_TEAM_NONE = "none";
 
 export const PROJECT_TEAM_PERSONAL = "personal";
@@ -26,24 +16,6 @@ export const PROJECT_TEAM_NONE_LABEL = "없음";
 export const PROJECT_TEAM_PERSONAL_LABEL = "개인";
 
 const teamOptionDescription = "팀원 구성과 프로젝트 진행 상황을 함께 관리합니다.";
-
-const noneOptionDescription = "팀을 연결하지 않습니다. 만든 뒤에도 변경할 수 있습니다.";
-
-export const projectTeamGuideItems: ProjectTeamGuideItem[] = [
-  {
-    label: PROJECT_TEAM_NONE_LABEL,
-    description: noneOptionDescription,
-  },
-  {
-    label: "팀",
-    description: teamOptionDescription,
-    note: "아직 팀이 없다면 먼저 팀을 생성해 주세요. 팀을 만든 뒤 이 목록에서 프로젝트에 연결할 수 있습니다.",
-    action: {
-      href: "/teams",
-      label: "팀 페이지로 이동",
-    },
-  },
-];
 
 type ProjectTeamSource = {
   teamId: number | null;

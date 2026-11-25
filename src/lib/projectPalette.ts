@@ -46,6 +46,12 @@ export const PROJECT_PALETTE: Record<ProjectColorKey, ProjectPaletteEntry> = {
   brown: { label: "브라운", light: "#774c1f", dark: "#a08262", tint: { light: 18, dark: 20 } },
 };
 
+/** 다크 커버 조각에서만 바꾸는 색 (보드 PR-DW-00 · DM-00) */
+const COVER_DARK_COLORS: Partial<Record<ProjectColorKey, string>> = {
+  slate: "#597f82",
+  lime: "#5d6b2e",
+};
+
 /** 새 프로젝트의 기본 색, 알 수 없는 옛 값의 대체 색 */
 export const DEFAULT_PROJECT_COLOR: ProjectColorKey = "indigo";
 
@@ -142,6 +148,7 @@ export function projectColorVar(
  * - `--project-<키>-line`: 바탕 둘레 선 (바탕보다 8% 진하게)
  * - `--project-<키>-hover`: 작은 폴더 아이콘 호버 (바탕보다 4% 진하게)
  * - `--project-<키>-ink`: 바탕 위 아이콘 · 글자
+ * - `--project-<키>-fixed`: 커버 · 404 조각 (라이트 값, 다크는 두 색만 바꿈)
  */
 export function buildProjectPaletteCss(): string {
   const block = (mode: "light" | "dark") =>
@@ -161,8 +168,8 @@ export function buildProjectPaletteCss(): string {
         `--project-${key}-line: color-mix(in srgb, ${color} ${tint + 8}%, ${base});`,
         `--project-${key}-hover: color-mix(in srgb, ${color} ${tint + 4}%, ${base});`,
         `--project-${key}-ink: ${ink};`,
-        // 테마와 관계없이 늘 라이트 값 (커버 · 404 조각 · 보드 00 · 13)
-        mode === "light" ? `--project-${key}-fixed: ${color};` : "",
+        // 커버 · 404 조각 (보드 00 · 13): 늘 라이트 값, 다크에서는 어두운 바탕에 묻히는 두 색만 바꾼다
+        `--project-${key}-fixed: ${mode === "dark" ? (COVER_DARK_COLORS[key] ?? entry.light) : color};`,
       ].join("");
     }).join("");
 

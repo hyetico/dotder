@@ -166,6 +166,7 @@ export default function MemosScreen({ scope }: { scope: MemosScope }) {
         <Card className="flex flex-col gap-3 p-4 max-lg:hidden">
           <textarea
             ref={composerRef}
+            data-quick-input="memo"
             value={text}
             aria-label="메모 입력"
             placeholder="메모 입력"
