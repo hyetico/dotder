@@ -181,3 +181,13 @@ export function restoreMemos(memos: Memo[]) {
     }
   });
 }
+
+/** 예시 데이터 정리 (E01 시작 선택): 남길 프로젝트에 연결된 메모만 둔다 */
+export function keepMemosOf(projectIds: number[]) {
+  for (let index = mockMemos.length - 1; index >= 0; index -= 1) {
+    const projectId = mockMemos[index].projectId;
+    if (projectId == null || !projectIds.includes(projectId)) {
+      mockMemos.splice(index, 1);
+    }
+  }
+}

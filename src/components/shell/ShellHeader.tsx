@@ -39,7 +39,7 @@ export default function ShellHeader({ onOpenMenu }: ShellHeaderProps) {
 
   return (
     // 늘 보이게 위에 붙는다 · 드로어 아래 (REBUILD 6 · 11.25)
-    <header className="sticky top-0 z-[var(--z-header)] h-14 shrink-0 border-b border-[var(--border)] bg-[var(--surface)]">
+    <header className="sticky top-[var(--tour-bar-h)] z-[var(--z-header)] h-14 shrink-0 border-b border-[var(--border)] bg-[var(--surface)]">
       {/* 안쪽은 본문과 같은 틀: 최대 1280 · 좌우 40 · 가운데 (REBUILD 5 페이지 헤더) */}
       <div
         className={cn(
