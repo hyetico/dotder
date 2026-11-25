@@ -10,12 +10,17 @@ import { getTasks } from "@/features/tasks/api/tasks";
 
 import { MOCK_ACTIVITY_FROM, mockProjectActivity } from "@/lib/mock/projectActivity";
 import {
+  getProjectDeadlineChanges,
   recordProjectDeadlineChange,
   removeProjectDeadlineChanges,
 } from "@/lib/mock/projectDeadlineChanges";
 import { mockProjects } from "@/lib/mock/projects";
 
-import type { Project, ProjectListItem } from "@/features/projects/types/project";
+import type {
+  Project,
+  ProjectDeadlineChange,
+  ProjectListItem,
+} from "@/features/projects/types/project";
 
 export type CreateProjectInput = Omit<Project, "id" | "icon"> & {
   icon?: string;
@@ -122,6 +127,17 @@ export async function getProjectActivity(): Promise<Record<number, ActivityDay[]
       decodeActivityCounts(MOCK_ACTIVITY_FROM, item.counts),
     ]),
   );
+}
+
+/**
+ * 프로젝트 마감일 변경 기록을 읽는다 (보드 03 일정 ◇ · 최근 기록).
+ *
+ * @returns 최근에 바꾼 것이 앞
+ */
+export async function getProjectDeadlineChangeList(
+  projectId: number,
+): Promise<ProjectDeadlineChange[]> {
+  return getProjectDeadlineChanges(projectId).map((change) => ({ ...change }));
 }
 
 export function readProject(projectId: number): Project | undefined {

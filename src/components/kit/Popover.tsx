@@ -31,6 +31,8 @@ type PopoverProps = {
   align?: "start" | "end";
   /** 역할. 메뉴면 "menu" */
   role?: "menu" | "dialog" | "listbox";
+  /** 모바일 시트에서 줄을 좌우 8씩 넓힌다 (보드 M 01-j). ⋯ 메뉴 시트는 넓히지 않는다 (보드 M 03-e) */
+  sheetBleed?: boolean;
   children: ReactNode;
 };
 
@@ -59,6 +61,7 @@ export default function Popover({
   width = 220,
   align = "start",
   role = "dialog",
+  sheetBleed = true,
   children,
 }: PopoverProps) {
   const isMobile = useIsMobile();
@@ -66,7 +69,7 @@ export default function Popover({
   if (isMobile) {
     return (
       <Drawer isOpen={isOpen} onClose={onClose} title={title}>
-        <div role={role} aria-label={title} className="-mx-2 -mt-2 flex flex-col">
+        <div role={role} aria-label={title} className={cn("flex flex-col", sheetBleed && "-mx-2")}>
           {children}
         </div>
       </Drawer>

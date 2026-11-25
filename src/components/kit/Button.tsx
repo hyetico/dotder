@@ -17,6 +17,8 @@ type ButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "children"> & {
   iconOnly?: boolean;
   /** 툴팁 글. 호버 · 키보드 초점 때만 보이고 터치 기기에서는 숨긴다. 예: "닫기 · Esc" */
   tip?: string;
+  /** 툴팁 자리. `right`는 오른쪽 · 세로 가운데 (접힌 사이드바 · REBUILD 6) */
+  tipSide?: "right";
   /** 넘기면 `<a>`(next/link)로 그린다 */
   href?: string;
   /** 시트 푸터처럼 남은 폭을 채운다 */
@@ -41,10 +43,10 @@ const variantClassName: Record<ButtonVariant, string> = {
   primary:
     "border-[var(--btn-primary)] bg-[var(--btn-primary)] text-[var(--btn-primary-fg)] hover:border-[var(--btn-primary-h)] hover:bg-[var(--btn-primary-h)] disabled:border-[var(--s3)] disabled:bg-[var(--s3)] disabled:text-[var(--t4)] aria-disabled:border-[var(--s3)] aria-disabled:bg-[var(--s3)] aria-disabled:text-[var(--t4)]",
   secondary:
-    "border-[var(--border)] bg-[var(--surface)] text-[var(--text)] hover:border-[var(--btn-secondary-line-h)] hover:bg-[var(--s2)] disabled:opacity-40 aria-disabled:opacity-40",
+    "border-[var(--border)] bg-[var(--surface)] text-[var(--text)] hover:border-[var(--btn-secondary-line-h)] hover:bg-[var(--s2)] active:bg-[var(--s3)] disabled:opacity-40 aria-disabled:opacity-40",
   // 보조 버튼 모양 + 빨간 글자 (보드 02-c 「즐겨찾기에서 빼기」)
   secondaryDanger:
-    "border-[var(--border)] bg-[var(--surface)] text-[var(--bad)] hover:border-[var(--btn-secondary-line-h)] hover:bg-[var(--s2)] disabled:opacity-40 aria-disabled:opacity-40",
+    "border-[var(--border)] bg-[var(--surface)] text-[var(--bad)] hover:border-[var(--btn-secondary-line-h)] hover:bg-[var(--s2)] active:bg-[var(--s3)] disabled:opacity-40 aria-disabled:opacity-40",
   ghost:
     "border-transparent text-[var(--t2)] hover:bg-[var(--s3)] hover:text-[var(--text)] disabled:opacity-40 aria-disabled:opacity-40",
   // 본문 글자색 ghost (카드 ⋯ · 보드 01: --text + 투명도 0.7은 부르는 쪽)
@@ -65,7 +67,7 @@ export function buttonClassName({
   grow = false,
 }: Pick<ButtonProps, "variant" | "size" | "iconOnly" | "grow">) {
   return cn(
-    "kit-focus relative inline-flex shrink-0 cursor-pointer items-center justify-center gap-1.5 border font-medium whitespace-nowrap transition-[background-color,border-color,color] select-none active:translate-y-px disabled:pointer-events-none aria-disabled:pointer-events-none",
+    "kit-focus relative inline-flex shrink-0 cursor-pointer items-center justify-center gap-1.5 border font-medium whitespace-nowrap transition-[background-color,border-color,color,translate] duration-120 select-none active:translate-y-px disabled:pointer-events-none aria-disabled:pointer-events-none",
     iconOnly ? iconOnlyClassName[size] : sizeClassName[size],
     variantClassName[variant],
     grow && "flex-1",
@@ -87,6 +89,7 @@ export default function Button({
   size = "md",
   iconOnly = false,
   tip,
+  tipSide,
   href,
   grow = false,
   className,
@@ -103,6 +106,7 @@ export default function Button({
         href={href}
         className={classes}
         data-tip={tip}
+        data-tip-side={tipSide}
         aria-label={props["aria-label"]}
         onClick={props.onClick as never}
       >
@@ -112,7 +116,14 @@ export default function Button({
   }
 
   return (
-    <button ref={ref} type={type} className={classes} data-tip={tip} {...props}>
+    <button
+      ref={ref}
+      type={type}
+      className={classes}
+      data-tip={tip}
+      data-tip-side={tipSide}
+      {...props}
+    >
       {children}
     </button>
   );

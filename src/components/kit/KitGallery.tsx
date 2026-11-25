@@ -242,9 +242,9 @@ function Gallery() {
             )}
           </MoreMenu>
           <Button onClick={() => toast(TOAST_TEXT.saved)}>토스트</Button>
-          <Button variant="ghost">
-            검색 <Kbd>⌘K</Kbd>
-          </Button>
+          <span className="inline-flex items-center gap-2 text-sm">
+            빠른 입력 <Kbd>Enter ↵</Kbd>
+          </span>
           <Button onClick={() => toast(TOAST_TEXT.deleted, { undo: () => undefined })}>
             되돌리기 토스트
           </Button>

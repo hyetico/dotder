@@ -1,7 +1,7 @@
 # 코드 가이드
 
 > 상태: v0.1 · 2026-11-21
-> 코드를 어떻게 쓰는가를 다룹니다. UI 값은 [style-guide](style-guide.md), 컴포넌트 선택은 [component-guide](component-guide.md)를 봅니다.
+> 코드를 어떻게 쓰는가를 다룹니다. 화면 값 · 컴포넌트는 `design/_handoff/2026-11-24/REBUILD.md`와 보드(`boards/PR-*` · DOC1~5)를 봅니다.
 
 ## 1. 문서 주석 (JSDoc / TSDoc)
 
@@ -92,7 +92,7 @@ export function DrawerRow({ label, htmlFor, aside, children }: DrawerRowProps) {
   ```
 - 지금 코드에 남아 있는 학습용 긴 설명(예: `useTaskMutations.ts`의 useQuery 설명)은 `docs/`의 학습 노트로 옮기거나 줄인다.
 - 주석 처리한 옛 코드는 남기지 않는다. Git에 기록이 있다.
-- 나중에 할 일은 `// TODO(이름): 내용`으로 쓰고 `tech-debt.md`에도 적는다.
+- 나중에 할 일은 `// TODO(이름): 내용`으로 쓰고 보고에도 적는다.
 
 ## 2. 이름
 
@@ -111,7 +111,7 @@ export function DrawerRow({ label, htmlFor, aside, children }: DrawerRowProps) {
 
 ## 3. 폴더와 import
 
-- 폴더 구조는 [component-guide](component-guide.md) 1장.
+- 화면 컴포넌트는 `src/components/kit/`만 쓴다 (CLAUDE.md).
 - import는 `@/` 절대 경로를 쓴다. `../../` 금지.
 - import 순서 (빈 줄로 구분): ① react, next ② 외부 라이브러리 ③ `@/components` ④ `@/features` ⑤ `@/lib`, `@/hooks` ⑥ 타입 (`import type`)
   - ESLint `import/order`(`eslint.config.mjs`)가 검사한다. `npx eslint --fix`로 자동 정렬된다. 그룹 안에서는 알파벳순이다.
@@ -120,11 +120,11 @@ export function DrawerRow({ label, htmlFor, aside, children }: DrawerRowProps) {
 
 ## 4. 스타일 (Tailwind)
 
-- 값은 토큰으로만. ([style-guide](style-guide.md) 0장)
+- 값은 토큰으로만 (`src/app/globals.css`).
 - 클래스는 한 줄로 이어 쓴다. 길어지면 문자열을 쪼개지 말고 컴포넌트 위에 `const xxxClassName = "..."`로 뺀다.
 - 조건부 클래스는 `cn()`(`@/lib/cn`)으로 합친다. 예: `cn(base, isActive && activeClassName, className)`. 겹치는 Tailwind 클래스는 정리해 주지 않으니 같은 속성을 두 번 넘기지 않는다.
 - 클래스 순서는 `prettier-plugin-tailwindcss`가 자동으로 정렬한다.
-- 반응형은 Tailwind 이름(`md:`, `lg:`, `xl:`)만. ([layout-guide](layout-guide.md) 2장)
+- 반응형은 Tailwind 이름(`md:`, `lg:`, `xl:`)만.
 
 ## 5. 데이터
 

@@ -2,7 +2,7 @@ import { X } from "@/components/ui/icon";
 
 import { cn } from "@/lib/cn";
 
-import type { ButtonHTMLAttributes, ReactNode } from "react";
+import type { ButtonHTMLAttributes, ReactNode, Ref } from "react";
 
 type ChipProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "children"> & {
   /** 켜짐 (주 색 바탕). 토글이면 `aria-pressed`로 읽힌다 */
@@ -11,6 +11,7 @@ type ChipProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "children"> & {
   icon?: ReactNode;
   /** 오른쪽 숫자 (12 · 꺼짐 --t3) */
   count?: number;
+  ref?: Ref<HTMLButtonElement>;
   children: ReactNode;
 };
 

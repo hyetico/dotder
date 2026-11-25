@@ -14,8 +14,10 @@ type QuickAddInputProps = {
   placeholder: string;
   /** 읽는 이름 */
   ariaLabel: string;
-  /** 40(md) · 36(sm, 목표 상세 안) */
+  /** 40(md) · 36(sm) */
   size?: "md" | "sm";
+  /** field: 입력칸 모양 · row: 테두리 없는 줄(md 40 목표 상세 태스크 목록 · sm 24 메모 카드 · 보드 04-b · 07) */
+  variant?: "field" | "row";
   inputRef?: Ref<HTMLInputElement>;
   className?: string;
 };
@@ -32,6 +34,7 @@ export default function QuickAddInput({
   placeholder,
   ariaLabel,
   size = "md",
+  variant = "field",
   inputRef,
   className,
 }: QuickAddInputProps) {
@@ -40,8 +43,17 @@ export default function QuickAddInput({
   return (
     <label
       className={cn(
-        "flex w-full min-w-0 items-center gap-2 rounded-[var(--radius-sm)] border border-[var(--input-line)] bg-[var(--surface)] px-3 text-sm text-[var(--text)] transition-[border-color,box-shadow] focus-within:border-[var(--primary)] focus-within:shadow-[0_0_0_3px_var(--input-ring)] hover:border-[var(--input-line-h)]",
-        size === "md" ? "h-10" : "h-9",
+        "flex w-full min-w-0 items-center gap-2 text-sm text-[var(--text)]",
+        variant === "row"
+          ? cn(
+              "rounded-[var(--radius-xs)] focus-within:bg-[var(--s2)]",
+              // 목록 끝 줄 40 · 카드 안 한 줄 24 (보드 07 「생각 적기」)
+              size === "md" ? "h-10" : "h-6",
+            )
+          : cn(
+              "rounded-[var(--radius-sm)] border border-[var(--input-line)] bg-[var(--surface)] px-3 transition-[border-color,box-shadow] focus-within:border-[var(--primary)] focus-within:shadow-[0_0_0_3px_var(--input-ring)] hover:border-[var(--input-line-h)]",
+              size === "md" ? "h-10" : "h-9",
+            ),
         className,
       )}
     >
@@ -68,7 +80,7 @@ export default function QuickAddInput({
         }}
         className="kit-input h-full min-w-0 flex-1 bg-transparent outline-none placeholder:text-[var(--t3)]"
       />
-      {value.trim() ? <Kbd keep>Enter ↵</Kbd> : null}
+      {value.trim() ? <Kbd>Enter ↵</Kbd> : null}
     </label>
   );
 }

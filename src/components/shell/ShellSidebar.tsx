@@ -106,6 +106,7 @@ export default function ShellSidebar({
             iconOnly
             aria-label={toggleLabel}
             tip={toggleLabel}
+            tipSide="right"
             onClick={onToggle}
             className="mb-2"
           >
@@ -122,9 +123,11 @@ export default function ShellSidebar({
               href={item.href}
               aria-label={item.label}
               aria-current={isOn ? "page" : undefined}
+              data-tip={item.label}
+              data-tip-side="right"
               onClick={onNavigate}
               className={cn(
-                "kit-focus inline-flex size-9 items-center justify-center rounded-[var(--radius-sm)] transition-colors",
+                "kit-focus inline-flex size-9 items-center justify-center rounded-[var(--radius-sm)] transition-colors duration-120",
                 isOn
                   ? "bg-[var(--nav-on-bg)] text-[var(--nav-on-fg)]"
                   : "text-[var(--t2)] hover:bg-[var(--s3)]",
@@ -204,10 +207,11 @@ export default function ShellSidebar({
             aria-current={isOn ? "page" : undefined}
             onClick={onNavigate}
             className={cn(
-              "kit-focus flex h-9 items-center gap-2.5 rounded-[var(--radius-sm)] px-3 text-sm transition-colors",
+              // 사이드바 메뉴 호버 --s2 · 0.12초 (DOC3 14)
+              "kit-focus flex h-9 items-center gap-2.5 rounded-[var(--radius-sm)] px-3 text-sm transition-colors duration-120",
               isOn
                 ? "bg-[var(--nav-on-bg)] text-[var(--nav-on-fg)]"
-                : "text-[var(--text)] hover:bg-[var(--s3)]",
+                : "text-[var(--text)] hover:bg-[var(--s2)]",
             )}
           >
             <Icon size={18} aria-hidden className="shrink-0" />

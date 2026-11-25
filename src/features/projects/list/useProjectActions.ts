@@ -56,12 +56,13 @@ export function useProjectActions() {
     toast(isFavorite ? TOAST_TEXT.favoriteRemoved : TOAST_TEXT.favoriteAdded);
   };
 
-  const duplicate = async (project: Project) => {
+  /** `onOpen`을 넘기면 토스트에 「열기」가 붙는다 (상세 · 보드 03-h) */
+  const duplicate = async (project: Project, onOpen?: (copy: Project) => void) => {
     try {
       const copy = await duplicateProjectAsync(project.id);
-      toast(duplicatedToast(copy.name));
+      toast(duplicatedToast(copy.name), onOpen ? { open: () => onOpen(copy) } : undefined);
     } catch {
-      failed(() => void duplicate(project));
+      failed(() => void duplicate(project, onOpen));
     }
   };
 

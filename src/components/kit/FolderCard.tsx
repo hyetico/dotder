@@ -33,7 +33,8 @@ type FolderCardProps = {
 /**
  * 폴더 카드 (보드 01). 탭 SVG(180 × 31)를 몸통 위 −30에 1px 겹쳐 붙여 틈 · 선이 없다.
  * 몸통: 모서리 0 · 16 · 16 · 16 · 안쪽 20/22 · 사이 12 · 바탕 프로젝트 tint(탭과 같은 색), 테두리 없음.
- * 카드 그림자는 탭과 몸통을 한 덩어리로 감싸는 drop-shadow(0 2px 6px 6%).
+ * 카드 그림자는 탭과 몸통을 한 덩어리로 감싸는 drop-shadow(--shadow-card). 호버 · 키보드 초점은 위로 2 + 한 단계 진한
+ * 그림자(--shadow-card-hover) · 160ms ease-out, 키보드 초점은 카드 전체에 2 테두리(4 띄움), 움직임 줄이기면 그림자만 (보드 S5).
  *
  * @example
  * <FolderCard color="plum" isMain title="스토어 출시 준비" status={…} meta="~ 2026.08.20 · 진행률 50%" href="/projects/2"><Mosaic … /></FolderCard>
@@ -67,7 +68,7 @@ export default function FolderCard({
             // 이름 링크가 카드 전체를 덮는다 (⋯ 버튼은 그 위에 따로 눌린다)
             <Link
               href={href}
-              className="outline-none after:absolute after:inset-0 after:rounded-[var(--radius-lg)] after:rounded-tl-none after:content-[''] focus-visible:after:shadow-[0_0_0_2px_var(--ring-gap),0_0_0_4px_var(--primary)]"
+              className="outline-none after:absolute after:inset-0 after:rounded-[var(--radius-lg)] after:rounded-tl-none after:content-['']"
             >
               {title}
             </Link>
@@ -92,7 +93,7 @@ export default function FolderCard({
 
   return (
     <article
-      className="relative flex h-full min-w-0 flex-col pt-7.5 drop-shadow-[0_2px_6px_rgb(0_0_0/6%)]"
+      className="relative flex h-full min-w-0 cursor-pointer flex-col rounded-[var(--radius-lg)] pt-7.5 drop-shadow-[var(--shadow-card)] transition-[translate,filter] duration-160 ease-out hover:-translate-y-0.5 hover:drop-shadow-[var(--shadow-card-hover)] has-[a:focus-visible]:-translate-y-0.5 has-[a:focus-visible]:outline-2 has-[a:focus-visible]:outline-offset-4 has-[a:focus-visible]:outline-[var(--primary)] has-[a:focus-visible]:drop-shadow-[var(--shadow-card-hover)] motion-reduce:translate-y-0!"
       style={style}
     >
       <span aria-hidden className="pointer-events-none absolute top-0 left-0 z-10">
