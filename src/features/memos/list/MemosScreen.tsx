@@ -237,7 +237,7 @@ export default function MemosScreen({ scope }: { scope: MemosScope }) {
           />
         ) : (
           <>
-            <ul className="grid gap-3 lg:grid-cols-3 lg:gap-4">
+            <ul className="grid grid-cols-1 gap-3 lg:grid-cols-3 lg:gap-4">
               {shown.map((memo) => (
                 <MemoCard
                   key={memo.id}

@@ -1,6 +1,7 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense, useRef, useState } from "react";
 
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
@@ -78,6 +79,16 @@ const shiftMonth = (month: string, step: number) => {
  * 태블릿 · 모바일: 도구 줄 없이 빠른 입력 + 목록 (보드 T · M 10).
  */
 export default function TasksScreen() {
+  return (
+    <Suspense fallback={null}>
+      <TasksBody />
+    </Suspense>
+  );
+}
+
+function TasksBody() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const toast = useToast();
   const queryClient = useQueryClient();
   const projectRef = useRef<HTMLButtonElement>(null);
@@ -97,6 +108,24 @@ export default function TasksScreen() {
     null,
   );
   const [openTaskId, setOpenTaskId] = useState<number | null>(null);
+  // 통합 검색 · 단축키에서 온 주소: ?new=1 태스크 추가 · ?task=id 상세
+  const [handledQuery, setHandledQuery] = useState("");
+  const queryKey = searchParams.toString();
+  if (queryKey && queryKey !== handledQuery) {
+    setHandledQuery(queryKey);
+    if (searchParams.get("new") === "1") {
+      setAddPreset({});
+    }
+    const taskParam = Number(searchParams.get("task"));
+    if (taskParam) {
+      setOpenTaskId(taskParam);
+    }
+  }
+  const clearQuery = () => {
+    if (searchParams.toString()) {
+      router.replace("/tasks", { scroll: false });
+    }
+  };
 
   const { data: tasks = [] } = useQuery({
     queryKey: taskQueryKeys.list("all"),
@@ -490,7 +519,10 @@ export default function TasksScreen() {
           projectId={null}
           goals={goals}
           preset={addPreset}
-          onClose={() => setAddPreset(null)}
+          onClose={() => {
+            setAddPreset(null);
+            clearQuery();
+          }}
           count={tasks.length}
         />
         <TaskDetailDrawer
@@ -499,7 +531,10 @@ export default function TasksScreen() {
             projects.find((project) => project.id === openTask?.projectId)?.name ?? "프로젝트 없음"
           }
           goals={goals.filter((goal) => goal.projectId === openTask?.projectId)}
-          onClose={() => setOpenTaskId(null)}
+          onClose={() => {
+            setOpenTaskId(null);
+            clearQuery();
+          }}
           onToggleDone={handlers.onToggleDone}
           onDelete={handlers.onDelete}
         />
