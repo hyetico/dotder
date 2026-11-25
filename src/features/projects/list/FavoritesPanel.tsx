@@ -296,7 +296,7 @@ function AddFavoritePopover({
           />
         </div>
         <MenuHeader>{keyword ? `검색 결과 ${candidates.length}` : "최근 본 프로젝트"}</MenuHeader>
-        <div className="flex max-h-80 flex-col overflow-y-auto">
+        <div className="flex max-h-80 flex-col overflow-y-auto [&>*]:shrink-0">
           {candidates.map((project) => {
             const lateDays = getLateDays(project);
 

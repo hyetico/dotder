@@ -66,7 +66,7 @@ export default function GoalPicker({ goals, value, onChange, variant = "field" }
         width={variant === "field" ? "anchor" : 220}
         role="listbox"
       >
-        <div className="flex max-h-80 flex-col overflow-y-auto">
+        <div className="flex max-h-80 flex-col overflow-y-auto [&>*]:shrink-0">
           {goals.map((goal) => (
             <PickRow key={goal.id} selected={goal.id === value} onSelect={() => pick(goal.id)}>
               {goal.title}

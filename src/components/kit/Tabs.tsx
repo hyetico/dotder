@@ -10,6 +10,8 @@ import { cn } from "@/lib/cn";
 export type TabItem = {
   key: string;
   label: string;
+  /** 태블릿 · 모바일에서 대신 보일 짧은 이름 (보드 T 09 「메인」) */
+  shortLabel?: string;
   /** 링크 탭이면 주소 */
   href?: string;
   /** 앞 아이콘 16 (보드 03 상세 탭) */
@@ -36,7 +38,14 @@ function TabContent({ item, hideIcon }: { item: TabItem; hideIcon: boolean }) {
           {item.icon}
         </span>
       ) : null}
-      {item.label}
+      {item.shortLabel ? (
+        <>
+          <span className="max-lg:hidden">{item.label}</span>
+          <span className="lg:hidden">{item.shortLabel}</span>
+        </>
+      ) : (
+        item.label
+      )}
       {item.count != null ? (
         <span className="font-normal text-[var(--t3)] tabular-nums">{item.count}</span>
       ) : null}

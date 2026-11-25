@@ -67,7 +67,8 @@ export default function ShellHeader({ onOpenMenu }: ShellHeaderProps) {
             </>
           ) : (
             <>
-              {NavIcon ? <NavIcon size={16} aria-hidden /> : null}
+              {/* 아이콘은 프로젝트 목록 보드(01)에만 있다 (목표 · 태스크 · 메모 보드 09 · 10 · 11은 글자만) */}
+              {NavIcon && nav?.href === "/projects" ? <NavIcon size={16} aria-hidden /> : null}
               {label}
             </>
           )}
