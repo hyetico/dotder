@@ -1,7 +1,7 @@
 # Git 가이드
 
 > 상태: v0.1 · 2026-11-21
-> 브랜치, 커밋, push, PR 규칙을 다룹니다. 검사 명령은 [code-guide](code-guide.md) 7장, 단계와 브랜치 이름은 [roadmap](../roadmap.md)을 봅니다.
+> 브랜치, 커밋, push, PR 규칙을 다룹니다. 검사 명령은 [code-guide](code-guide.md) 7장, 만드는 순서는 `design/_handoff/2026-11-24/REBUILD.md` 0장을 봅니다.
 
 이 규칙은 Claude Code가 작업할 때 읽고 따르는 약속이다. Git에 자동으로 걸리는 설정이 아니므로, 직접 커밋할 때는 적용되지 않는다.
 
@@ -19,7 +19,7 @@
 ## 2. 브랜치
 
 - `main`(배포) · `develop`(개발 통합).
-- 작업 브랜치(`feat/` `refactor/` `fix/` `docs/` `chore/` + 짧은 영어 이름)는 `develop`에서 딴다. 이름은 [roadmap](../roadmap.md) 단계 표를 따른다.
+- 작업 브랜치(`feat/` `refactor/` `fix/` `docs/` `chore/` + 짧은 영어 이름)는 `develop`에서 딴다. 화면 다시 만들기는 `rebuild/<페이지>` (REBUILD 0장 순서).
 - `main`, `develop`에 직접 커밋하지 않는다.
 
 ## 3. 커밋
@@ -53,7 +53,7 @@
 1. [code-guide](code-guide.md) 7장의 "단계 끝" 검사 4가지(`tsc` · `lint` · `format:check` · `build`)를 돌린다. 하나라도 실패하면 멈추고 실패 내용부터 알린다.
 2. 보고한다: 검사 결과 · 바뀐 점 · PR 제목·본문(안).
 3. 사용자가 **"응"**이라고 답하면 push → PR 만들기(base `develop`) → `gh pr merge --squash --delete-branch`로 합친다. 오타처럼 보이는 답이면 다시 묻는다.
-4. `git switch develop && git pull` 뒤 roadmap의 다음 단계 브랜치를 만들어 바로 시작한다.
+4. `git switch develop && git pull` 뒤 REBUILD 0장의 다음 페이지 브랜치를 만들어 바로 시작한다.
 
 - PR은 `develop`으로만 보낸다. `develop` → `main`은 배포할 때만, 사용자가 따로 요청할 때 한다.
 - **합치는 방법은 브랜치마다 다르다** (GitHub ruleset `protect-develop` · `protect-main`이 강제한다).
