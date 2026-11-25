@@ -16,6 +16,7 @@ import { ChevronDown } from "@/components/ui/icon";
 
 import { BUTTON_LABEL, TOAST_TEXT } from "@/content/ui";
 import GoalPicker from "@/features/goals/pick/GoalPicker";
+import ProjectPicker from "@/features/projects/pick/ProjectPicker";
 import { useTaskMutations } from "@/features/tasks/hooks/useTaskMutations";
 import {
   TASK_PRIORITY_LABEL,
@@ -34,13 +35,16 @@ type FormState = {
   title: string;
   status: TaskStatus;
   goalId: number | null;
+  /** 전체 태스크에서 만들 때만 고른다 (상세에서는 그 프로젝트) */
+  projectId: number | null;
   dueDate: string;
   priority: TaskPriority;
   description: string;
 };
 
 type TaskAddDrawerProps = {
-  projectId: number;
+  /** 상세 태스크 탭이면 그 프로젝트. null이면 칸에서 고른다 (전체 태스크 · 프로토타입 taskForm) */
+  projectId: number | null;
   goals: Goal[];
   /** 열 때 미리 고른 값 (칸의 + · 캘린더 「이 날 추가」) */
   preset: { status?: TaskStatus; dueDate?: string } | null;
@@ -49,7 +53,7 @@ type TaskAddDrawerProps = {
   count: number;
 };
 
-// 새 태스크 id (옛 화면 CreateTaskButton과 같은 방식, 목업 저장)
+// 새 태스크 id (목업 저장: 만든 시각을 id로)
 const createTaskId = () => Date.now();
 
 /**
@@ -74,6 +78,7 @@ export default function TaskAddDrawer({
     title: "",
     status: preset?.status ?? "TODO",
     goalId: null,
+    projectId,
     dueDate: preset?.dueDate ?? "",
     priority: "MEDIUM",
     description: "",
@@ -82,7 +87,8 @@ export default function TaskAddDrawer({
   const [isMoreOpen, setIsMoreOpen] = useState(false);
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [openedFor, setOpenedFor] = useState(preset);
-  const { createTaskMutation } = useTaskMutations(projectId);
+  const { createTaskMutation } = useTaskMutations(projectId ?? "all");
+  const goalOptions = goals.filter((goal) => goal.projectId === form.projectId);
   const isDirty = JSON.stringify(form) !== JSON.stringify(initial());
 
   if (preset !== openedFor) {
@@ -105,7 +111,8 @@ export default function TaskAddDrawer({
 
     const task: Task = {
       id: createTaskId(),
-      projectId,
+      // 프로젝트 없이 만든 태스크는 0 (목업 저장 · 프로토타입 pid null)
+      projectId: form.projectId ?? 0,
       goalId: form.goalId ?? undefined,
       title,
       description: form.description.trim(),
@@ -199,10 +206,18 @@ export default function TaskAddDrawer({
             className="self-start"
           />
         </Field>
+        {projectId == null ? (
+          <Field label="프로젝트">
+            <ProjectPicker
+              value={form.projectId}
+              onChange={(next) => update({ projectId: next, goalId: null })}
+            />
+          </Field>
+        ) : null}
         <div className="grid grid-cols-2 items-start gap-4">
           <Field label="목표">
             <GoalPicker
-              goals={goals}
+              goals={goalOptions}
               value={form.goalId}
               onChange={(goalId) => update({ goalId })}
             />

@@ -81,7 +81,7 @@ function MemoComposer({ onSave }: { onSave: (title: string) => Promise<unknown> 
   );
 }
 
-// 새 태스크 id (옛 화면 CreateTaskButton과 같은 방식, 목업 저장)
+// 새 태스크 id (목업 저장: 만든 시각을 id로)
 const createTaskId = () => Date.now();
 
 /**
