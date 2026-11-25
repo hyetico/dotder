@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState, type ReactNode } from "react";
 
 import Button from "@/components/kit/Button";
 import Popover from "@/components/kit/Popover";
@@ -18,6 +18,12 @@ type DateFieldProps = {
   /** 이 날 이전은 고를 수 없다 (`YYYY-MM-DD`, 시작일은 오늘) */
   min?: string;
   invalid?: boolean;
+  /** 바꿀 수 없는 칸 (보드 03-g 「지금 마감일」) */
+  disabled?: boolean;
+  /** field: 입력칸 · row: 상세 드로어 속성 줄(테두리 없음 · 요일 붙임 · 보드 05-b) */
+  variant?: "field" | "row";
+  /** row 오른쪽 끝 작은 글 (「87일 지남」) */
+  trailing?: ReactNode;
   id?: string;
 };
 
@@ -37,6 +43,9 @@ export default function DateField({
   label,
   min,
   invalid = false,
+  disabled = false,
+  variant = "field",
+  trailing,
   id,
 }: DateFieldProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -76,25 +85,40 @@ export default function DateField({
         type="button"
         aria-haspopup="dialog"
         aria-expanded={isOpen}
+        disabled={disabled}
         aria-label={`${label} ${value ? formatDate(value) : "날짜 선택"}`}
         onClick={() => setIsOpen((open) => !open)}
         className={cn(
-          "kit-focus flex h-10 w-full min-w-0 cursor-pointer items-center gap-2 rounded-[var(--radius-sm)] border bg-[var(--surface)] px-3 text-left text-sm transition-[border-color]",
-          invalid
-            ? "border-[var(--bad)]"
-            : "border-[var(--input-line)] hover:border-[var(--input-line-h)]",
-          isOpen && "border-[var(--primary)] shadow-[0_0_0_3px_var(--input-ring)]",
+          "kit-focus flex w-full min-w-0 cursor-pointer items-center gap-2 rounded-[var(--radius-sm)] text-left text-sm",
+          variant === "row"
+            ? "-ml-2.5 min-h-9 px-2.5 hover:bg-[var(--s3)]"
+            : cn(
+                "h-10 border bg-[var(--surface)] px-3 transition-[border-color] max-md:h-12",
+                invalid
+                  ? "border-[var(--bad)]"
+                  : "border-[var(--input-line)] hover:border-[var(--input-line-h)]",
+                "disabled:cursor-not-allowed disabled:bg-[var(--s2)] disabled:text-[var(--t4)] disabled:hover:border-[var(--input-line)]",
+                isOpen && "border-[var(--primary)] shadow-[0_0_0_3px_var(--input-ring)]",
+              ),
         )}
       >
         <Calendar size={16} aria-hidden className="shrink-0 text-[var(--t3)]" />
         <span
           className={cn(
-            "min-w-0 flex-1 truncate",
+            "min-w-0 truncate",
+            variant === "field" && "flex-1",
             value ? "text-[var(--text)]" : "text-[var(--t3)]",
           )}
         >
-          {value ? formatDate(value) : "날짜 선택"}
+          {value
+            ? variant === "row"
+              ? `${formatDate(value)} (${WEEKDAYS[selected?.getDay() ?? 0]})`
+              : formatDate(value)
+            : "날짜 선택"}
         </span>
+        {variant === "row" && trailing ? (
+          <span className="ml-auto text-xs whitespace-nowrap">{trailing}</span>
+        ) : null}
       </button>
       <Popover
         isOpen={isOpen}

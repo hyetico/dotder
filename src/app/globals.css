@@ -80,6 +80,9 @@
   --input-ring-bad: rgb(220 38 38 / 0.14);
   /* 보드 값: 팝오버 · 드로어 그림자, 덮개 */
   --shadow-pop: 0 8px 24px rgb(0 0 0 / 0.12);
+  /* 폴더 카드 (drop-shadow 한 겹) · 호버 · 초점 한 단계 진하게 (프로토타입 .fold:hover · REBUILD 6) */
+  --shadow-card: 0 2px 6px rgb(0 0 0 / 0.06);
+  --shadow-card-hover: 0 6px 8px rgb(0 0 0 / 0.08);
   --shadow-drawer: -8px 0 24px rgb(0 0 0 / 0.12);
   --overlay-board: rgb(15 18 22 / 0.4);
   /* 프로토타입 값: 토스트 · 툴팁은 두 모드 모두 어두운 바탕 */
@@ -102,6 +105,8 @@
   --line-dash: 1.5px;
   /* 보드 .kbd 모서리 */
   --radius-kbd: 4px;
+  /* 보드 T · M 03 진행 막대 칸 */
+  --radius-bar: 3px;
   /* 보드 .badge (바탕 · 글자 · 점) · 지연 글자 (handoff CLAUDE 1장) */
   --badge-n-bg: #f1f1ef;
   --badge-n-fg: #475569;
@@ -127,6 +132,15 @@
   /* 보드 .sw 스위치 */
   --switch-off: #d1d5db;
   --switch-knob: #fff;
+  /* 보드 03 진행 · 일정: 남은 칸 · 막대 바탕 / 지연 선 / 마감 지남 빗금 / 오늘 선 · 프로젝트 막대 */
+  --track: #e9ebef;
+  --late-line: #ef4444;
+  --late-stripe: #fecaca;
+  --late-stripe-line: #fca5a5;
+  --marker: #343840;
+  --on-marker: #fff;
+  /* 진한 바탕(--marker) 위 작은 숫자 (보드 T 05 고른 상태 알약) */
+  --on-marker-muted: #cbd5e1;
 }
 
 :root[data-theme="dark"] {
@@ -199,6 +213,13 @@
   --star: #d9be70;
   --avatar-bg: #2e3339;
   --cb-line: #9aa2ab;
+  --track: #2e3339;
+  --late-line: #f25f5f;
+  --late-stripe: #5f5254;
+  --late-stripe-line: #fca5a5;
+  --marker: #e7e9ec;
+  --on-marker: #16181c;
+  --on-marker-muted: #50555b;
 }
 
 /*
@@ -230,6 +251,8 @@
   --text-3xl--line-height: var(--type-3xl-line);
   --text-4xl: var(--type-4xl);
   --text-4xl--line-height: var(--type-4xl-line);
+  --text-5xl: var(--type-5xl);
+  --text-5xl--line-height: var(--type-5xl-line);
 }
 
 /*
@@ -650,6 +673,9 @@
   --type-3xl-line: 36px;
   --type-4xl: 32px;
   --type-4xl-line: 40px;
+  /* 보드 03 진행률 큰 숫자 */
+  --type-5xl: 40px;
+  --type-5xl-line: 48px;
 }
 
 /* 로고는 테마마다 다른 파일 (handoff A5, design/svg/) */
@@ -1389,13 +1415,17 @@ textarea:-webkit-autofill:focus {
     0 0 0 4px var(--primary);
 }
 
-/* 툴팁 (프로토타입 [data-tip]): 호버 · 키보드 초점 때만, 터치 기기에서는 숨김 */
+/* 툴팁 (프로토타입 [data-tip]): 호버 · 키보드 초점 때만 · 0.12초 페이드 (DOC3 14), 터치 기기에서는 숨김 */
 [data-tip] {
   position: relative;
 }
-[data-tip]:hover::after,
-[data-tip]:focus-visible::after {
+[data-tip]::after {
   content: attr(data-tip);
+  visibility: hidden;
+  opacity: 0;
+  transition:
+    opacity 0.12s,
+    visibility 0.12s;
   position: absolute;
   top: calc(100% + 6px);
   right: 0;
@@ -1410,22 +1440,22 @@ textarea:-webkit-autofill:focus {
   white-space: nowrap;
   pointer-events: none;
 }
+[data-tip]:hover::after,
+[data-tip]:focus-visible::after {
+  visibility: visible;
+  opacity: 1;
+}
 @media (hover: none) {
   [data-tip]::after {
     display: none !important;
   }
 }
 
-/* 단축키 표시(kbd)는 평소 숨기고, 마우스를 올리거나 키보드 초점이 갈 때만 보인다 (REBUILD 5-3 · 보드 .kbd).
-   단축키 안내 창 목록처럼 늘 보여야 하면 .keep */
-.kit-kbd:not(.keep) {
-  opacity: 0;
-  transition: opacity 0.12s;
-}
-:hover > .kit-kbd,
-:focus-visible > .kit-kbd,
-:focus-within > .kit-kbd,
-:hover > * > .kit-kbd,
-:focus-visible > * > .kit-kbd {
-  opacity: 1;
+/* 접힌 사이드바(64 막대): 막대 오른쪽 · 세로 가운데 (REBUILD 6 · 11.25) */
+[data-tip][data-tip-side="right"]::after {
+  top: 50%;
+  right: auto;
+  left: calc(100% + 8px);
+  z-index: var(--z-popover);
+  transform: translateY(-50%);
 }

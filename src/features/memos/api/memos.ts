@@ -128,3 +128,32 @@ export async function registerMemo(id: number, registration: MemoRegistration): 
 
   return copyMemo(memo);
 }
+
+/**
+ * 메모 글 · 연결 프로젝트를 바꾼다 (보드 07-a 바로 고치기 · 07-b 연결 바꾸기).
+ *
+ * @throws 메모가 없으면
+ */
+export async function updateMemo(
+  id: number,
+  patch: Partial<Pick<Memo, "title" | "projectId">>,
+): Promise<Memo> {
+  const memo = mockMemos.find((item) => item.id === id);
+
+  if (!memo) {
+    throw new Error("메모를 찾을 수 없습니다.");
+  }
+
+  Object.assign(memo, patch);
+
+  return copyMemo(memo);
+}
+
+/** 지운 메모를 같은 id로 다시 넣는다 (삭제 토스트 「되돌리기」). */
+export async function restoreMemo(memo: Memo): Promise<Memo> {
+  if (!mockMemos.some((item) => item.id === memo.id)) {
+    mockMemos.unshift(copyMemo(memo));
+  }
+
+  return copyMemo(memo);
+}

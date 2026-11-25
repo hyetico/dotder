@@ -10,7 +10,7 @@ import DateField from "@/components/kit/DateField";
 import Drawer from "@/components/kit/Drawer";
 import Field from "@/components/kit/Field";
 import TagField from "@/components/kit/TagField";
-import { TextArea, TextInput } from "@/components/kit/TextInput";
+import { GrowingInput, TextArea } from "@/components/kit/TextInput";
 import { useToast } from "@/components/kit/Toast";
 import { ChevronDown } from "@/components/ui/icon";
 
@@ -19,6 +19,7 @@ import { PROJECT_TAG_PRESETS } from "@/features/projects/constants/projectTags";
 import { useProjectMutations } from "@/features/projects/hooks/useProjectMutations";
 import { getAutoProjectStatus } from "@/features/projects/utils/projectUtils";
 
+import { cn } from "@/lib/cn";
 import { toDateKey } from "@/lib/date";
 import { currentUser } from "@/lib/mock/users";
 import { DEFAULT_PROJECT_COLOR, type ProjectColorKey } from "@/lib/projectPalette";
@@ -157,7 +158,7 @@ function ProjectCreateDrawer({ isOpen, onClose }: { isOpen: boolean; onClose: ()
           required
           error={showNameError ? "이름을 입력해 주세요." : undefined}
         >
-          <TextInput
+          <GrowingInput
             id={nameId}
             value={form.name}
             maxLength={NAME_MAX}
@@ -177,6 +178,22 @@ function ProjectCreateDrawer({ isOpen, onClose }: { isOpen: boolean; onClose: ()
             labelledBy={colorLabelId}
           />
         </Field>
+        <Button
+          variant="ghost"
+          size="sm"
+          aria-expanded={isMoreOpen}
+          onClick={() => setIsMoreOpen((open) => !open)}
+          className="-ml-2 self-start"
+        >
+          {/* 펼쳐도 버튼은 남고 화살표만 위로 (REBUILD 6) */}
+          <ChevronDown
+            size={16}
+            aria-hidden
+            className={cn("transition-transform duration-150", isMoreOpen && "rotate-180")}
+          />
+          추가 설정
+          <span className="font-normal text-[var(--t3)]">· 기간, 설명, 태그</span>
+        </Button>
         {isMoreOpen ? (
           <>
             <div className="grid grid-cols-2 gap-3">
@@ -215,19 +232,7 @@ function ProjectCreateDrawer({ isOpen, onClose }: { isOpen: boolean; onClose: ()
             </Field>
             <TagField tags={form.tags} onChange={(tags) => update({ tags })} />
           </>
-        ) : (
-          <Button
-            variant="ghost"
-            size="sm"
-            aria-expanded={false}
-            onClick={() => setIsMoreOpen(true)}
-            className="-ml-2 self-start"
-          >
-            <ChevronDown size={16} aria-hidden />
-            추가 설정
-            <span className="font-normal text-[var(--t3)]">· 기간, 설명, 태그</span>
-          </Button>
-        )}
+        ) : null}
       </Drawer>
       <DiscardConfirmDialog
         isOpen={isConfirmOpen}

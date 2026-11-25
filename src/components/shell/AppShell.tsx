@@ -37,7 +37,8 @@ function writeCollapsed(value: boolean) {
 
 /**
  * 앱 틀 (REBUILD 3-1 · 보드 01 · T 01 · M 01).
- * 웹(1024 이상): 사이드바 245, 접으면 64 막대(브라우저에 기억). 태블릿(768–1023): 64 막대.
+ * 웹 · 태블릿(768 이상): 사이드바 245, 접으면 64 막대(브라우저에 기억 · REBUILD 6).
+ * 접고 펼 때 폭이 0.2초 동안 바뀌고, 글자는 접히는 동안 숨는다 (DOC3 14).
  * 모바일: 사이드바 없이 헤더 ☰로 왼쪽 300 시트(보드 M 01-g).
  * 옛 화면이 쓰는 헤더 버튼 자리 · 알림 창 · 상세 드로어 밀림(`--drawer-offset`)을 그대로 받는다.
  */
@@ -51,6 +52,13 @@ export default function AppShell({ children }: { children: ReactNode }) {
     () => false,
   );
   const [isSheetOpen, setIsSheetOpen] = useState(false);
+  // 처음 그릴 때(저장된 접힘 상태를 읽을 때)는 움직이지 않는다
+  const [canAnimate, setCanAnimate] = useState(false);
+
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => setCanAnimate(true));
+    return () => cancelAnimationFrame(frame);
+  }, []);
 
   return (
     <AlertProvider>
@@ -58,26 +66,31 @@ export default function AppShell({ children }: { children: ReactNode }) {
         <PageMetaProvider>
           <HeaderActionsProvider>
             <div className="flex min-h-dvh bg-[var(--bg)] text-[var(--text)]">
-              <aside className="sticky top-0 hidden h-dvh shrink-0 md:block">
+              <aside
+                className={cn(
+                  // 막대 툴팁이 본문 위에 뜨도록 헤더와 같은 층 (DOC4 --z-header)
+                  "sticky top-0 z-[var(--z-header)] hidden h-dvh shrink-0 md:block",
+                  // 펼칠 때만 잘라 낸다 (막대 툴팁은 오른쪽 밖에 뜬다)
+                  isCollapsed ? "w-16" : "w-61.25 overflow-hidden",
+                  canAnimate &&
+                    "transition-[width] duration-200 ease-in-out motion-reduce:duration-0",
+                )}
+              >
                 <Suspense fallback={null}>
-                  {/* 태블릿은 늘 막대, 웹은 접힘 상태를 따른다 */}
-                  <div className="h-full lg:hidden">
-                    <ShellSidebar isRail />
-                  </div>
-                  <div className="hidden h-full lg:block">
-                    <ShellSidebar
-                      isRail={isCollapsed}
-                      onToggle={() => writeCollapsed(!isCollapsed)}
-                      toggleLabel={isCollapsed ? "사이드바 펼치기" : "사이드바 접기"}
-                    />
-                  </div>
+                  {/* 태블릿도 웹처럼 245 + 접기, 접으면 64 막대 · 상태는 같이 기억 (REBUILD 6 · 11.25) */}
+                  <ShellSidebar
+                    isRail={isCollapsed}
+                    onToggle={() => writeCollapsed(!isCollapsed)}
+                    toggleLabel={isCollapsed ? "사이드바 펼치기" : "사이드바 접기"}
+                  />
                 </Suspense>
               </aside>
               <div className="relative flex min-w-0 flex-1 flex-col transition-[margin-right] duration-[400ms] ease-in-out motion-reduce:duration-0 lg:mr-[var(--drawer-offset)]">
                 <Suspense fallback={<div aria-hidden className="h-14 shrink-0" />}>
                   <ShellHeader onOpenMenu={() => setIsSheetOpen(true)} />
                 </Suspense>
-                <main className="page-content min-w-0 flex-1">{children}</main>
+                {/* 본문 안 z-index가 고정 헤더 위로 올라오지 않게 따로 쌓는다 */}
+                <main className="page-content isolate min-w-0 flex-1">{children}</main>
               </div>
             </div>
             <NavSheet isOpen={isSheetOpen} onClose={() => setIsSheetOpen(false)} />

@@ -1,13 +1,14 @@
 import { redirect } from "next/navigation";
 
-type ProjectBoardRedirectProps = {
+type Props = {
   params: Promise<{
     projectId: string;
   }>;
 };
 
-export default async function ProjectBoardRedirectPage({ params }: ProjectBoardRedirectProps) {
+// 보드 보기는 상세 태스크 탭의 보드 (보드 05)
+export default async function ProjectBoardRedirect({ params }: Props) {
   const { projectId } = await params;
 
-  redirect(`/projects/${projectId}/tasks`);
+  redirect(`/projects/${projectId}?tab=tasks`);
 }

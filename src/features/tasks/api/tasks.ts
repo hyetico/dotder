@@ -783,3 +783,14 @@ export async function deleteTask(taskId: number): Promise<number> {
 
   return taskId;
 }
+
+/**
+ * 목표를 지울 때 그 목표에 묶인 태스크의 연결만 푼다 (태스크는 남는다).
+ *
+ * @param goalId - 지운 목표 id
+ */
+export function unlinkTasksFromGoal(goalId: number) {
+  mockTasks = mockTasks.map((task) =>
+    task.goalId === goalId ? { ...task, goalId: undefined } : task,
+  );
+}

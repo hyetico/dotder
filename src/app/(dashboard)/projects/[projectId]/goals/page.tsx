@@ -1,16 +1,14 @@
 import { redirect } from "next/navigation";
 
-import { getProjectGoalsPath, parseProjectScope } from "@/lib/projectRoutes";
-
-type ProjectGoalsRedirectProps = {
+type Props = {
   params: Promise<{
     projectId: string;
   }>;
 };
 
-export default async function ProjectGoalsRedirect({ params }: ProjectGoalsRedirectProps) {
+// 목표는 상세의 목표 탭 (보드 04)
+export default async function ProjectGoalsRedirect({ params }: Props) {
   const { projectId } = await params;
-  const scope = parseProjectScope(projectId);
 
-  redirect(typeof scope === "number" ? getProjectGoalsPath(scope) : "/goals");
+  redirect(`/projects/${projectId}?tab=goals`);
 }

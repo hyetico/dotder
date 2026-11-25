@@ -16,8 +16,18 @@ type DrawerProps = {
   title: string;
   /** 제목 위 작은 글 (수정 드로어의 프로젝트 이름 등) */
   kicker?: string;
+  /** 제목 아래 작은 글 (마감일 변경 드로어의 프로젝트 이름 · 보드 03-g) */
+  subtitle?: string;
+  /** 닫기 앞 머리 버튼 (상세 드로어의 ⋯ · 넓게 보기 · 보드 04-b) */
+  headerActions?: ReactNode;
+  /** 넓게 보기: 웹 · 태블릿에서 화면 폭 − 64 (프로토타입 .drawer.wide) */
+  wide?: boolean;
+  /** 제목 크기. 상세 드로어는 xl 20 (보드 04-b), 기본 lg 18 */
+  titleSize?: "lg" | "xl";
   /** 푸터 버튼들. 왼쪽 → 오른쪽 순서(취소 → 주 버튼). 없으면 푸터를 그리지 않는다 */
   footer?: ReactNode;
+  /** 푸터 왼쪽 작은 글 (보드 05-a 「Enter로 추가하고 하나 더」). 모바일에서는 숨긴다 */
+  footerNote?: ReactNode;
   /** 처음 초점을 줄 요소. 없으면 첫 입력칸 */
   initialFocusRef?: RefObject<HTMLElement | null>;
   /** 패널 요소. 안에 띄우는 확인창 · 팝오버의 기준으로 쓴다 */
@@ -43,7 +53,12 @@ export default function Drawer({
   onClose,
   title,
   kicker,
+  subtitle,
+  headerActions,
+  wide = false,
+  titleSize = "lg",
   footer,
+  footerNote,
   initialFocusRef,
   panelRef: externalPanelRef,
   wrap,
@@ -62,10 +77,13 @@ export default function Drawer({
   const inner = (
     <>
       <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
-        <div className="flex flex-col gap-5 px-5 pt-2 pb-5 md:gap-6 md:p-6">{children}</div>
+        <div className="flex flex-col gap-4 px-5 pt-1 pb-4 md:gap-6 md:p-6">{children}</div>
       </div>
       {footer ? (
         <div className="flex shrink-0 items-center gap-2 border-t border-[var(--divider)] px-5 pt-3 pb-7 md:h-18 md:justify-end md:border-[var(--border)] md:px-6 md:py-0 max-md:[&>*]:h-[var(--btn-h-sheet)] max-md:[&>*:last-child]:flex-1">
+          {footerNote ? (
+            <span className="mr-auto text-xs text-[var(--t3)] max-md:hidden">{footerNote}</span>
+          ) : null}
           {footer}
         </div>
       ) : null}
@@ -91,7 +109,8 @@ export default function Drawer({
         className={cn(
           "absolute flex flex-col bg-[var(--surface)] text-[var(--text)] transition-transform duration-[180ms] ease-out outline-none motion-reduce:duration-0",
           // 웹 · 태블릿: 오른쪽 패널
-          "md:inset-y-0 md:right-0 md:w-[min(var(--drawer-w),100%)] md:shadow-[var(--shadow-drawer)]",
+          "md:inset-y-0 md:right-0 md:shadow-[var(--shadow-drawer)]",
+          wide ? "md:w-[calc(100%-var(--spacing)*16)]" : "md:w-[min(var(--drawer-w),100%)]",
           // 모바일: 아래 시트
           "max-md:inset-x-0 max-md:bottom-0 max-md:max-h-[88dvh] max-md:rounded-t-[var(--radius-sheet)] max-md:shadow-[0_-8px_24px_rgb(0_0_0/12%)]",
           isShown ? "translate-0" : "max-md:translate-y-full md:translate-x-full",
@@ -103,9 +122,23 @@ export default function Drawer({
         />
         <header className="flex h-13 shrink-0 items-center gap-1 pr-2 pl-5 md:h-14 md:border-b md:border-[var(--border)] md:pr-3 md:pl-6">
           <div className="flex min-w-0 flex-1 flex-col">
-            {kicker ? <span className="truncate text-xs text-[var(--t3)]">{kicker}</span> : null}
-            <h2 className="truncate text-lg font-semibold">{title}</h2>
+            {/* 모바일 시트는 제목만 (보드 M 03-a · 03-g) */}
+            {kicker ? (
+              <span className="truncate text-xs text-[var(--t3)] max-md:hidden">{kicker}</span>
+            ) : null}
+            <h2
+              className={cn(
+                "truncate font-semibold",
+                titleSize === "xl" ? "text-xl max-md:text-lg" : "text-lg",
+              )}
+            >
+              {title}
+            </h2>
+            {subtitle ? (
+              <span className="truncate text-xs text-[var(--t3)] max-md:hidden">{subtitle}</span>
+            ) : null}
           </div>
+          {headerActions}
           <Button
             variant="ghost"
             size="sm"

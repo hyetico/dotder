@@ -86,43 +86,42 @@ export default function ProjectToolbar({
         >
           지연만
         </Chip>
-        <span className="ml-auto flex flex-wrap items-center gap-2">
-          <div className="w-60">
-            <SearchField
-              value={query.keyword}
-              onChange={(keyword) => onChange({ keyword })}
-              placeholder="프로젝트 검색"
-              ariaLabel="프로젝트 검색"
-            />
-          </div>
-          <Button
-            ref={sortRef}
-            size="sm"
-            aria-haspopup="menu"
-            aria-expanded={isSortOpen}
-            onClick={() => setIsSortOpen((open) => !open)}
-          >
-            <ListFilter size={16} aria-hidden />
-            {PROJECT_SORT_LABEL[query.sort]}
-          </Button>
-          <Segmented
-            label="보기 방식"
-            value={view}
-            onChange={onViewChange}
-            items={[
-              {
-                value: "card",
-                label: <LayoutGrid size={16} aria-hidden />,
-                ariaLabel: "카드 보기",
-              },
-              {
-                value: "list",
-                label: <ListChecks size={16} aria-hidden />,
-                ariaLabel: "목록 보기",
-              },
-            ]}
+        {/* 모두 한 줄의 형제 칸: 좁으면 정렬 · 보기 전환이 다음 줄 왼쪽으로 (보드 01r 1024) */}
+        <div className="ml-auto w-60">
+          <SearchField
+            value={query.keyword}
+            onChange={(keyword) => onChange({ keyword })}
+            placeholder="프로젝트 검색"
+            ariaLabel="프로젝트 검색"
           />
-        </span>
+        </div>
+        <Button
+          ref={sortRef}
+          size="sm"
+          aria-haspopup="menu"
+          aria-expanded={isSortOpen}
+          onClick={() => setIsSortOpen((open) => !open)}
+        >
+          <ListFilter size={16} aria-hidden />
+          {PROJECT_SORT_LABEL[query.sort]}
+        </Button>
+        <Segmented
+          label="보기 방식"
+          value={view}
+          onChange={onViewChange}
+          items={[
+            {
+              value: "card",
+              label: <LayoutGrid size={16} aria-hidden />,
+              ariaLabel: "카드 보기",
+            },
+            {
+              value: "list",
+              label: <ListChecks size={16} aria-hidden />,
+              ariaLabel: "목록 보기",
+            },
+          ]}
+        />
       </div>
       <Popover
         isOpen={isSortOpen}

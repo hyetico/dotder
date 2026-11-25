@@ -1,13 +1,14 @@
-import MemosPageContent from "@/features/memos/content/MemosPageContent";
+import { redirect } from "next/navigation";
 
-type MemosPageProps = {
+type Props = {
   params: Promise<{
     projectId: string;
   }>;
 };
 
-export default async function ProjectMemosPage({ params }: MemosPageProps) {
+// 메모는 상세의 메모 탭 (보드 07)
+export default async function ProjectMemosRedirect({ params }: Props) {
   const { projectId } = await params;
 
-  return <MemosPageContent projectId={Number(projectId)} />;
+  redirect(`/projects/${projectId}?tab=memos`);
 }
