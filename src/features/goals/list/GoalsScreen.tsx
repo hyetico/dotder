@@ -87,7 +87,7 @@ function GoalsBody({ scope }: { scope: GoalsScope }) {
   const [tags, setTags] = useState<string[]>([]);
   const [group, setGroup] = useState<GoalGroup>("project");
   const [panel, setPanel] = useState<"group" | "filter" | "compact" | null>(null);
-  const [isAddOpen, setIsAddOpen] = useState(false);
+  const [isAddOpen, setIsAddOpen] = useState(searchParams.get("new") === "1");
   const [deleteTarget, setDeleteTarget] = useState<Goal | null>(null);
   const { updateGoalAsync, deleteGoalAsync, restoreGoalAsync } = useGoalMutations();
 
@@ -422,7 +422,17 @@ function GoalsBody({ scope }: { scope: GoalsScope }) {
         }
       />
 
-      <GoalAddDrawer isOpen={isAddOpen} onClose={() => setIsAddOpen(false)} projectId={null} />
+      <GoalAddDrawer
+        isOpen={isAddOpen}
+        onClose={() => {
+          setIsAddOpen(false);
+          // 단축키 · 통합 검색에서 온 ?new=1은 닫으면 지운다
+          if (searchParams.get("new")) {
+            router.replace("?", { scroll: false });
+          }
+        }}
+        projectId={null}
+      />
       <GoalDetailDrawer goal={openGoal} tasks={tasks} onClose={() => setOpenGoal(null)} />
       <DeleteConfirmDialog
         target="목표"

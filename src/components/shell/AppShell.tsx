@@ -10,6 +10,8 @@ import { HeaderActionsProvider } from "@/components/layout/Header/HeaderActions"
 import { PageMetaProvider } from "@/components/shell/PageMeta";
 import ShellHeader from "@/components/shell/ShellHeader";
 import ShellSidebar from "@/components/shell/ShellSidebar";
+import ShortcutsDialog from "@/components/shell/ShortcutsDialog";
+import { useGlobalShortcuts } from "@/components/shell/useGlobalShortcuts";
 import { AlertProvider } from "@/components/ui/modal/AlertModal";
 
 import { cn } from "@/lib/cn";
@@ -52,6 +54,12 @@ export default function AppShell({ children }: { children: ReactNode }) {
     () => false,
   );
   const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const [isHelpOpen, setIsHelpOpen] = useState(false);
+
+  useGlobalShortcuts({
+    onHelp: () => setIsHelpOpen(true),
+    onToggleSidebar: () => writeCollapsed(!readCollapsed()),
+  });
   // 처음 그릴 때(저장된 접힘 상태를 읽을 때)는 움직이지 않는다
   const [canAnimate, setCanAnimate] = useState(false);
 
@@ -94,6 +102,7 @@ export default function AppShell({ children }: { children: ReactNode }) {
               </div>
             </div>
             <NavSheet isOpen={isSheetOpen} onClose={() => setIsSheetOpen(false)} />
+            <ShortcutsDialog isOpen={isHelpOpen} onClose={() => setIsHelpOpen(false)} />
           </HeaderActionsProvider>
         </PageMetaProvider>
       </ToastProvider>

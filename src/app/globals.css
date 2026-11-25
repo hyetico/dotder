@@ -102,6 +102,9 @@
   --sheet-nav-w: 300px;
   --radius-sheet: 20px;
   --btn-h-sheet: 48px;
+  /* 커버 큰 버튼 (보드 00: 48 · 좌우 24 · 16) */
+  --btn-h-lg: 48px;
+  --btn-px-lg: 24px;
   --line-dash: 1.5px;
   /* 보드 .kbd 모서리 */
   --radius-kbd: 4px;
@@ -141,6 +144,20 @@
   --on-marker: #fff;
   /* 진한 바탕(--marker) 위 작은 숫자 (보드 T 05 고른 상태 알약) */
   --on-marker-muted: #cbd5e1;
+  /* 설정 테마 미리보기 (보드 12): 지금 테마와 관계없이 늘 같은 색 */
+  --preview-light-side: #f1f1ef;
+  --preview-light-body: #fff;
+  --preview-dark-side: #2a2f35;
+  --preview-dark-body: #1f2328;
+  --preview-bar: #d1d5db;
+  /* 고른 라디오 점의 굵은 테두리 (보드 12 .rd.on) */
+  --radio-on: 5.5px;
+  /* 커버 · 404 (보드 00 · 13) */
+  --cover-bg: #fbfaf8;
+  --cover-line: #ece9e4;
+  --tile-muted: #e7ddd0;
+  --tile-ink: #2a2430;
+  --tile-empty-line: #c8ccd0;
 }
 
 :root[data-theme="dark"] {
@@ -220,6 +237,11 @@
   --marker: #e7e9ec;
   --on-marker: #16181c;
   --on-marker-muted: #50555b;
+  --cover-bg: #16181c;
+  --cover-line: #2a2e34;
+  --tile-muted: #585756;
+  --tile-ink: #515059;
+  --tile-empty-line: #9aa2ab;
 }
 
 /*
@@ -253,6 +275,10 @@
   --text-4xl--line-height: var(--type-4xl-line);
   --text-5xl: var(--type-5xl);
   --text-5xl--line-height: var(--type-5xl-line);
+  --text-6xl: var(--type-6xl);
+  --text-6xl--line-height: var(--type-6xl-line);
+  --text-hero-m: var(--type-hero-m);
+  --text-hero-m--line-height: var(--type-hero-m-line);
 }
 
 /*
@@ -676,6 +702,12 @@
   /* 보드 03 진행률 큰 숫자 */
   --type-5xl: 40px;
   --type-5xl-line: 48px;
+  /* 커버 제목 (보드 00) */
+  --type-6xl: 56px;
+  --type-6xl-line: 68px;
+  /* 404 모바일 제목 (보드 M 13) */
+  --type-hero-m: 26px;
+  --type-hero-m-line: 34px;
 }
 
 /* 로고는 테마마다 다른 파일 (handoff A5, design/svg/) */
@@ -801,12 +833,6 @@
 .text-badge {
   font-size: 12px;
   line-height: 18px;
-  font-weight: 500;
-}
-
-.text-badge-sm {
-  font-size: 10px;
-  line-height: 12px;
   font-weight: 500;
 }
 
@@ -1172,9 +1198,6 @@ textarea:-webkit-autofill:focus {
 /* 토스트: 아래에서 위로 200ms. 움직임 줄이기면 제자리에서 보이기만 (handoff B5) */
 
 /* 고르는 목록의 프로젝트 점 · 왕관 (ProjectMark). 다크 값은 팔레트 변수가 준다 */
-.project-mark {
-  color: var(--project-mark-color, var(--color-neutral));
-}
 
 /*
  * 활동 모자이크 (Design Guide 11). 색은 프로젝트 색 한 가지(--mosaic-color = var(--project-<키>)).
@@ -1242,4 +1265,49 @@ textarea:-webkit-autofill:focus {
   left: calc(100% + 8px);
   z-index: var(--z-popover);
   transform: translateY(-50%);
+}
+
+/* 커버 조각이 모여드는 움직임 (보드 00 .tz). 움직임 줄이기면 멈춘다 */
+@keyframes cover-tile-in {
+  0% {
+    transform: translate(var(--x), var(--y)) rotate(var(--r)) scale(0.6);
+    opacity: 0;
+  }
+  4% {
+    opacity: 1;
+  }
+  18%,
+  86% {
+    transform: none;
+    opacity: 1;
+  }
+  96%,
+  100% {
+    transform: translate(calc(var(--x) * 0.5), calc(var(--y) * 0.5)) rotate(var(--r)) scale(0.8);
+    opacity: 0;
+  }
+}
+@keyframes cover-tile-float {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(0, -3px);
+  }
+}
+.cover-tile {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: cover-tile-in 7s cubic-bezier(0.2, 0.8, 0.2, 1) infinite both;
+  animation-delay: var(--d);
+}
+.cover-float {
+  animation: cover-tile-float 4s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cover-tile,
+  .cover-float {
+    animation: none;
+  }
 }

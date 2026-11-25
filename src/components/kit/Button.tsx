@@ -6,7 +6,7 @@ import type { ButtonHTMLAttributes, ReactNode, Ref } from "react";
 
 export type ButtonVariant =
   "primary" | "secondary" | "secondaryDanger" | "ghost" | "ghostText" | "danger" | "onToast";
-export type ButtonSize = "md" | "sm" | "xs";
+export type ButtonSize = "lg" | "md" | "sm" | "xs";
 
 type ButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "children"> & {
   /** 모양. 기본 secondary (보드 5-1). onToast는 토스트 안 「되돌리기」 전용 */
@@ -29,11 +29,14 @@ type ButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "children"> & {
 
 // 크기는 토큰만 쓴다 (globals.css `--btn-h-*` · `--btn-px-*`). 화면에서 높이 · 패딩을 덧대지 않는다.
 const sizeClassName: Record<ButtonSize, string> = {
+  // 커버 화면만 (보드 00)
+  lg: "h-[var(--btn-h-lg)] px-[var(--btn-px-lg)] rounded-[var(--radius-sm)] text-base",
   md: "h-[var(--btn-h-md)] px-[var(--btn-px-md)] rounded-[var(--radius-sm)] text-sm",
   sm: "h-[var(--btn-h-sm)] px-[var(--btn-px-sm)] rounded-[var(--radius-sm)] text-sm",
   xs: "h-[var(--btn-h-xs)] px-[var(--btn-px-xs)] rounded-[var(--radius-xs)] text-xs",
 };
 const iconOnlyClassName: Record<ButtonSize, string> = {
+  lg: "size-[var(--btn-h-lg)] rounded-[var(--radius-sm)]",
   md: "size-[var(--btn-h-md)] rounded-[var(--radius-sm)]",
   sm: "size-[var(--btn-h-sm)] rounded-[var(--radius-sm)]",
   xs: "size-[var(--btn-h-xs)] rounded-[var(--radius-xs)]",

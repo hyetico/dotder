@@ -13,8 +13,8 @@ type ModalProps = {
   isOpen: boolean;
   onClose: () => void;
   title: string;
-  /** 폭. 폼 480(기본) · 검색 600 (Components ② 관례) */
-  width?: "form" | "search";
+  /** 폭. 폼 480(기본) · 검색 600 · 단축키 560 (보드 01-e · 01-i) */
+  width?: "form" | "search" | "help";
   footer?: ReactNode;
   /** 헤더 아래 선 --border (보드 01-h 보관함) */
   headerDivider?: boolean;
@@ -23,6 +23,12 @@ type ModalProps = {
   /** 제목 옆 작은 숫자 (보드 01-h 「보관된 프로젝트 2」) */
   titleCount?: number;
   initialFocusRef?: RefObject<HTMLElement | null>;
+  /** 제목 대신 넣을 머리 (통합 검색 입력 줄 · 보드 01-e). 닫기 X는 직접 넣는다 */
+  header?: ReactNode;
+  /** 웹에서 위 88에 띄운다 (통합 검색 · 단축키, 보드 01-e · 01-i) */
+  placement?: "center" | "top";
+  /** 본문 여백 없이 (목록이 끝까지 차는 창) */
+  flush?: boolean;
   children: ReactNode;
 };
 
@@ -44,6 +50,9 @@ export default function Modal({
   footerNote = false,
   titleCount,
   initialFocusRef,
+  header,
+  placement = "center",
+  flush = false,
   children,
 }: ModalProps) {
   const panelRef = useRef<HTMLDivElement>(null);
@@ -56,7 +65,12 @@ export default function Modal({
   }
 
   return createPortal(
-    <div className="fixed inset-0 z-[var(--z-modal)] flex items-end justify-center md:items-center md:p-4">
+    <div
+      className={cn(
+        "fixed inset-0 z-[var(--z-modal)] flex items-end justify-center md:p-4",
+        placement === "top" ? "md:items-start md:pt-22" : "md:items-center",
+      )}
+    >
       <div
         aria-hidden
         onClick={onClose}
@@ -74,7 +88,7 @@ export default function Modal({
         className={cn(
           "relative flex max-h-[88dvh] w-full flex-col overflow-hidden bg-[var(--surface)] text-[var(--text)] shadow-[var(--shadow)] transition-[opacity,transform] duration-150 outline-none motion-reduce:duration-0",
           "max-md:rounded-t-[var(--radius-sheet)] md:rounded-[var(--radius-lg)]",
-          width === "form" ? "md:max-w-120" : "md:max-w-150",
+          width === "form" ? "md:max-w-120" : width === "help" ? "md:max-w-140" : "md:max-w-150",
           isShown ? "translate-y-0 opacity-100" : "max-md:translate-y-full md:opacity-0",
         )}
       >
@@ -82,35 +96,37 @@ export default function Modal({
           aria-hidden
           className="mx-auto mt-2 h-1 w-9 shrink-0 rounded-[var(--radius-full)] bg-[var(--border-2)] md:hidden"
         />
-        <header
-          className={cn(
-            "flex h-14 shrink-0 items-center gap-2 pr-3 pl-6",
-            headerDivider && "border-b border-[var(--border)]",
-          )}
-        >
-          <h2 className="min-w-0 flex-1 truncate text-lg font-semibold">
-            {title}
-            {titleCount != null ? (
-              <span className="ml-1.5 text-xs font-normal text-[var(--t3)] tabular-nums">
-                {titleCount}
-              </span>
-            ) : null}
-          </h2>
-          <Button
-            variant="ghost"
-            size="sm"
-            iconOnly
-            aria-label="닫기"
-            tip="닫기 · Esc"
-            onClick={onClose}
+        {header ?? (
+          <header
+            className={cn(
+              "flex h-14 shrink-0 items-center gap-2 pr-3 pl-6",
+              headerDivider && "border-b border-[var(--border)]",
+            )}
           >
-            <X size={18} aria-hidden />
-          </Button>
-        </header>
+            <h2 className="min-w-0 flex-1 truncate text-lg font-semibold">
+              {title}
+              {titleCount != null ? (
+                <span className="ml-1.5 text-xs font-normal text-[var(--t3)] tabular-nums">
+                  {titleCount}
+                </span>
+              ) : null}
+            </h2>
+            <Button
+              variant="ghost"
+              size="sm"
+              iconOnly
+              aria-label="닫기"
+              tip="닫기 · Esc"
+              onClick={onClose}
+            >
+              <X size={18} aria-hidden />
+            </Button>
+          </header>
+        )}
         <div
           className={cn(
-            "flex min-h-0 flex-col overflow-y-auto px-6",
-            headerDivider ? "pt-2 pb-4" : "gap-4 pb-6",
+            "flex min-h-0 flex-col overflow-y-auto",
+            flush ? "" : cn("px-6", headerDivider ? "pt-2 pb-4" : "gap-4 pb-6"),
           )}
         >
           {children}

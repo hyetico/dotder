@@ -1,5 +1,7 @@
 import "./globals.css";
 
+import { THEME_INIT_SCRIPT } from "@/components/shell/theme";
+
 import Providers from "@/app/providers";
 
 import { buildProjectPaletteCss } from "@/lib/projectPalette";
@@ -17,8 +19,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko">
+    // 테마는 첫 그림 전에 스크립트가 정하므로 html 속성 차이는 경고하지 않는다
+    <html lang="ko" suppressHydrationWarning>
       <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
         <link
           rel="stylesheet"
           href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"

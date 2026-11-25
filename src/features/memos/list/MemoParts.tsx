@@ -211,7 +211,7 @@ export function MemoCard({
       interactive
       selected={isEditing}
       // 웹 16/48/16/16 · 최소 128 · 사이 12, 태블릿 · 모바일 14 · 사이 6 (보드 07 · T 07)
-      className="flex flex-col gap-1.5 py-3.5 pr-10 pl-3.5 lg:min-h-32 lg:gap-3 lg:py-4 lg:pr-12 lg:pl-4"
+      className="flex min-w-0 flex-col gap-1.5 py-3.5 pr-10 pl-3.5 lg:min-h-32 lg:gap-3 lg:py-4 lg:pr-12 lg:pl-4"
     >
       {isEditing ? null : (
         <button

@@ -63,6 +63,7 @@ export {
   Clock,
   Clock3,
   History,
+  House as Home,
 
   // 프로젝트
   ClipboardList,
