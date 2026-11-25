@@ -205,7 +205,12 @@ function DetailBody({ projectId }: { projectId: number }) {
           >
             {starIcon}
           </Button>
-          <ProjectDetailMenu {...menuProps} variant="ghost" />
+          <ProjectDetailMenu
+            {...menuProps}
+            variant="ghost"
+            showEdit
+            onEdit={() => setIsEditOpen(true)}
+          />
         </div>
       </HeaderActions>
 
