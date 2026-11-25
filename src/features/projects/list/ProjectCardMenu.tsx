@@ -3,14 +3,19 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
+import { useQuery } from "@tanstack/react-query";
+
 import { DeleteConfirmDialog } from "@/components/kit/ConfirmDialog";
 import { MenuItem, MenuSeparator, MoreMenu } from "@/components/kit/Menu";
 import { useFavoriteProjectIds } from "@/components/shell/useFavoriteProjects";
 import { Archive, ChevronRight, Copy, Crown, Star, Trash2 } from "@/components/ui/icon";
 
+import { projectDeleteDetail } from "@/content/ui";
+import { getProjectChildCounts } from "@/features/projects/api/projects";
 import { useProjectActions } from "@/features/projects/list/useProjectActions";
 
 import { getProjectDetailPath } from "@/lib/projectRoutes";
+import { projectQueryKeys } from "@/lib/queryKeys";
 
 import type { Project } from "@/features/projects/types/project";
 
@@ -29,6 +34,11 @@ export default function ProjectCardMenu({ project, variant = "card" }: ProjectCa
   const actions = useProjectActions();
   const favoriteIds = useFavoriteProjectIds();
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const { data: childCounts } = useQuery({
+    queryKey: [...projectQueryKeys.detail(project.id), "children"],
+    queryFn: () => getProjectChildCounts(project.id),
+    enabled: isDeleteOpen,
+  });
   const isFavorite = favoriteIds.includes(project.id);
 
   return (
@@ -78,6 +88,7 @@ export default function ProjectCardMenu({ project, variant = "card" }: ProjectCa
       </MoreMenu>
       <DeleteConfirmDialog
         target="프로젝트"
+        detail={childCounts ? projectDeleteDetail(childCounts) : undefined}
         isOpen={isDeleteOpen}
         onClose={() => setIsDeleteOpen(false)}
         onConfirm={() => {

@@ -38,7 +38,7 @@ export type TaskBucket = "late" | "today" | "week" | "later" | "done";
 
 /** 목록 보기 묶음 (프로토타입 taskList) */
 export const TASK_BUCKETS: { key: TaskBucket; label: string; tone?: BadgeTone }[] = [
-  { key: "late", label: "지연", tone: "bad" },
+  { key: "late", label: "마감 지남", tone: "bad" },
   { key: "today", label: "오늘" },
   { key: "week", label: "이번 주" },
   { key: "later", label: "나중" },

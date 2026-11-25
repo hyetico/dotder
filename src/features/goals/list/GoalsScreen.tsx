@@ -270,7 +270,7 @@ function GoalsBody({ scope }: { scope: GoalsScope }) {
           icon={<CircleAlert size={16} aria-hidden />}
           onClick={() => setLateOnly((value) => !value)}
         >
-          지연만
+          마감 지남만
         </Chip>
         <span className="flex-1" />
         <Button
@@ -410,8 +410,8 @@ function GoalsBody({ scope }: { scope: GoalsScope }) {
         before={
           <>
             <label className="flex min-h-9 cursor-pointer items-center gap-2.5 rounded-[var(--radius-sm)] px-2.5 text-sm hover:bg-[var(--s3)] max-md:min-h-13">
-              <Checkbox checked={lateOnly} onChange={setLateOnly} label="지연만" />
-              <span className="flex-1">지연만</span>
+              <Checkbox checked={lateOnly} onChange={setLateOnly} label="마감 지남만" />
+              <span className="flex-1">마감 지남만</span>
               <span className="text-xs text-[var(--bad)] tabular-nums">{lateCount}</span>
             </label>
             <MenuSeparator />

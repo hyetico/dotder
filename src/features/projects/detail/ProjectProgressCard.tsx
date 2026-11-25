@@ -93,7 +93,7 @@ export default function ProjectProgressCard({
               swatch={
                 <span className="size-2 rounded-[var(--radius-tile)] bg-[var(--surface)] shadow-[inset_0_0_0_2px_var(--late-line)]" />
               }
-              label="지연"
+              label="마감 지남"
             >
               <span className={cn(late > 0 && "font-semibold text-[var(--bad)]")}>{late}</span>
             </LegendItem>
@@ -154,7 +154,7 @@ export default function ProjectProgressCard({
         </div>
         <div className="flex items-center gap-3 text-xs text-[var(--t3)]">
           <span>■ 완료 {done}</span>
-          {late > 0 ? <span className="text-[var(--bad)]">□ 지연 {late}</span> : null}
+          {late > 0 ? <span className="text-[var(--bad)]">□ 마감 지남 {late}</span> : null}
         </div>
       </div>
     </section>

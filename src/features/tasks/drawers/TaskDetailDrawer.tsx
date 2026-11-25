@@ -2,7 +2,7 @@
 
 import { useId, useRef, useState, type ReactNode } from "react";
 
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 import Badge from "@/components/kit/Badge";
 import Button from "@/components/kit/Button";
@@ -19,6 +19,7 @@ import { Check, ChevronDown, Maximize2, Minimize2, Trash2 } from "@/components/u
 
 import { BUTTON_LABEL, TOAST_TEXT } from "@/content/ui";
 import GoalPicker from "@/features/goals/pick/GoalPicker";
+import { getProjects } from "@/features/projects/api/projects";
 import { getTaskLateDays } from "@/features/projects/detail/projectOverviewModel";
 import { useTaskMutations } from "@/features/tasks/hooks/useTaskMutations";
 import {
@@ -85,6 +86,14 @@ export default function TaskDetailDrawer({
   }
 
   const today = toDateKey(new Date());
+  const { data: projects = [] } = useQuery({
+    queryKey: projectQueryKeys.all,
+    queryFn: getProjects,
+  });
+  const dueLimit =
+    goals.find((goal) => goal.id === draft?.goalId)?.endDate ||
+    projects.find((project) => project.id === task?.projectId)?.endDate ||
+    undefined;
   const isDirty = task && draft ? JSON.stringify(draft) !== JSON.stringify(toDraft(task)) : false;
   const late = draft ? getTaskLateDays(draft, today) : null;
   const update = (next: Partial<Draft>) =>
@@ -183,7 +192,7 @@ export default function TaskDetailDrawer({
                   label: TASK_STATUS_LABEL[status],
                 }))}
               />
-              {late != null ? <Badge tone="bad">{late}일 지연</Badge> : null}
+              {late != null ? <Badge tone="bad">{late}일 지남</Badge> : null}
             </div>
             <PropertyRow label="목표">
               <GoalPicker
@@ -198,6 +207,8 @@ export default function TaskDetailDrawer({
                 variant="row"
                 label="마감일"
                 value={draft.dueDate}
+                // 태스크 마감 ≤ 목표 마감 ≤ 프로젝트 마감 (REBUILD 6 날짜 범위)
+                max={dueLimit}
                 onChange={(dueDate) => update({ dueDate })}
                 trailing={
                   late != null ? <span className="text-[var(--bad)]">{late}일 지남</span> : null

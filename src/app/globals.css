@@ -145,6 +145,11 @@
   /* 진한 바탕(--marker) 위 작은 숫자 (보드 T 05 고른 상태 알약) */
   --on-marker-muted: #cbd5e1;
   /* 설정 테마 미리보기 (보드 12): 지금 테마와 관계없이 늘 같은 색 */
+  /* 디테일 일정 v5 (보드 03 · DOC2 06) */
+  --tl-grid: #eceef1;
+  --tl-axis: #9aa2ab;
+  --tl-today-band: rgb(59 130 246 / 0.06);
+  --late-chip-bg: #fef2f2;
   --preview-light-side: #f1f1ef;
   --preview-light-body: #fff;
   --preview-dark-side: #2a2f35;
@@ -237,6 +242,10 @@
   --marker: #e7e9ec;
   --on-marker: #16181c;
   --on-marker-muted: #50555b;
+  --tl-grid: #2a2e35;
+  --tl-axis: #7d858f;
+  --tl-today-band: rgb(59 130 246 / 0.06);
+  --late-chip-bg: #3d1c1e;
   --cover-bg: #16181c;
   --cover-line: #2a2e34;
   --tile-muted: #585756;

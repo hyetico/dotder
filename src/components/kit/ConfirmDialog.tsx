@@ -152,12 +152,20 @@ export function DiscardConfirmDialog(props: PresetConfirmProps) {
  * @example
  * <DeleteConfirmDialog target="프로젝트" isOpen={open} onConfirm={remove} onClose={() => setOpen(false)} />
  */
-export function DeleteConfirmDialog({ target, ...props }: PresetConfirmProps & { target: string }) {
+export function DeleteConfirmDialog({
+  target,
+  detail,
+  ...props
+}: PresetConfirmProps & {
+  target: string;
+  /** 「삭제하면 되돌릴 수 없어요.」 앞에 붙는 문장. 함께 지워지는 것 (보드 03-f) */
+  detail?: string;
+}) {
   return (
     <ConfirmDialog
       {...props}
       title={deleteConfirmTitle(target)}
-      text={DELETE_CONFIRM_TEXT}
+      text={detail ? `${detail} ${DELETE_CONFIRM_TEXT}` : DELETE_CONFIRM_TEXT}
       confirmLabel={BUTTON_LABEL.delete}
       tone="danger"
     />

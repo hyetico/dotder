@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { Suspense, useState } from "react";
+import { Suspense, useLayoutEffect, useRef, useState } from "react";
 
 import { useQuery } from "@tanstack/react-query";
 
@@ -24,11 +24,12 @@ import {
   Target,
 } from "@/components/ui/icon";
 
+import { projectDeleteDetail } from "@/content/ui";
 import { getGoals } from "@/features/goals/api/goals";
 import { getMemos } from "@/features/memos/api/memos";
 import {
-  getProjectActivity,
   getProjectDeadlineChangeList,
+  getProjectHistory,
   getProjectListItem,
 } from "@/features/projects/api/projects";
 import ProjectDeadlineDrawer from "@/features/projects/detail/ProjectDeadlineDrawer";
@@ -52,12 +53,9 @@ import { projectColorVar } from "@/lib/projectPalette";
 import { getProjectDetailPath } from "@/lib/projectRoutes";
 import { goalQueryKeys, memoQueryKeys, projectQueryKeys, taskQueryKeys } from "@/lib/queryKeys";
 
-import type { ActivityDay } from "@/features/projects/utils/activityMosaic";
-
 export type ProjectDetailTab = "overview" | "goals" | "tasks" | "memos" | "history";
 
 const DETAIL_TABS: ProjectDetailTab[] = ["overview", "goals", "tasks", "memos", "history"];
-const NO_ACTIVITY: ActivityDay[] = [];
 
 /**
  * 프로젝트 상세 (REBUILD 3-3 · 보드 03 ~ 08 · T · M 03).
@@ -87,7 +85,6 @@ function DetailBody({ projectId }: { projectId: number }) {
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [isDeadlineOpen, setIsDeadlineOpen] = useState(false);
-  const [isDescriptionOpen, setIsDescriptionOpen] = useState(false);
   const actions = useProjectActions();
   const favoriteIds = useFavoriteProjectIds();
 
@@ -95,22 +92,23 @@ function DetailBody({ projectId }: { projectId: number }) {
     queryKey: projectQueryKeys.detail(projectId),
     queryFn: () => getProjectListItem(projectId),
   });
-  const { data: goals = [] } = useQuery({
+  const { data: goals = [], dataUpdatedAt: goalsUpdatedAt } = useQuery({
     queryKey: goalQueryKeys.list(projectId),
     queryFn: () => getGoals(projectId),
   });
-  const { data: tasks = [] } = useQuery({
+  const { data: tasks = [], dataUpdatedAt: tasksUpdatedAt } = useQuery({
     queryKey: taskQueryKeys.list(projectId),
     queryFn: () => getTasks(projectId),
-  });
-  const { data: activity } = useQuery({
-    queryKey: projectQueryKeys.activity,
-    queryFn: getProjectActivity,
   });
   const { data: memos = [] } = useQuery({ queryKey: memoQueryKeys.all, queryFn: getMemos });
   const { data: deadlineChanges = [] } = useQuery({
     queryKey: projectQueryKeys.deadlineChanges(projectId),
     queryFn: () => getProjectDeadlineChangeList(projectId),
+  });
+  // 목표 · 태스크를 고치면 기록도 다시 읽는다 (두 목록을 새로 읽은 시각을 키에 넣음)
+  const { data: history = [] } = useQuery({
+    queryKey: [...projectQueryKeys.history(projectId), goalsUpdatedAt, tasksUpdatedAt],
+    queryFn: () => getProjectHistory(projectId),
   });
 
   usePageMeta(project?.name ?? "", undefined, "/projects");
@@ -232,19 +230,7 @@ function DetailBody({ projectId }: { projectId: number }) {
           {lateDays != null ? <Badge tone="bad">{lateDays}일 지연</Badge> : null}
         </div>
         <h1 className="text-2xl font-bold [overflow-wrap:anywhere]">{project.name}</h1>
-        {project.description ? (
-          <div className="flex items-start gap-1 text-sm text-[var(--t2)]">
-            <p className={cn("min-w-0", !isDescriptionOpen && "truncate")}>{project.description}</p>
-            <button
-              type="button"
-              aria-expanded={isDescriptionOpen}
-              onClick={() => setIsDescriptionOpen((open) => !open)}
-              className="kit-focus shrink-0 cursor-pointer rounded-[var(--radius-xs)] font-medium text-[var(--text)]"
-            >
-              {isDescriptionOpen ? "접기" : "더보기"}
-            </button>
-          </div>
-        ) : null}
+        {project.description ? <ProjectDescription text={project.description} /> : null}
         <div className="flex flex-wrap items-center gap-4 text-xs text-[var(--t3)]">
           {project.startDate || project.endDate ? (
             <span className="inline-flex items-center gap-1.5">
@@ -305,8 +291,8 @@ function DetailBody({ projectId }: { projectId: number }) {
           project={project}
           goals={goals}
           tasks={tasks}
-          activity={activity?.[project.id] ?? NO_ACTIVITY}
           deadlineChanges={deadlineChanges}
+          history={history}
           lateDays={lateDays}
           today={today}
           tabHref={tabHref}
@@ -326,7 +312,7 @@ function DetailBody({ projectId }: { projectId: number }) {
           goals={goals}
         />
       ) : null}
-      {tab === "history" ? <ProjectHistoryTab changes={deadlineChanges} /> : null}
+      {tab === "history" ? <ProjectHistoryTab entries={history} /> : null}
 
       <ProjectEditDrawer
         project={project}
@@ -343,6 +329,11 @@ function DetailBody({ projectId }: { projectId: number }) {
       />
       <DeleteConfirmDialog
         target="프로젝트"
+        detail={projectDeleteDetail({
+          goals: goals.length,
+          tasks: tasks.length,
+          memos: counts.memos ?? 0,
+        })}
         isOpen={isDeleteOpen}
         onClose={() => setIsDeleteOpen(false)}
         onConfirm={() => {
@@ -350,6 +341,57 @@ function DetailBody({ projectId }: { projectId: number }) {
           remove();
         }}
       />
+    </div>
+  );
+}
+
+/**
+ * 상세 설명 (REBUILD 6 · DOC2 06). 3줄 이하면 전부 보이고, 넘으면 3줄 + 아래 줄 「더보기」(ghost xs) → 「접기」.
+ */
+function ProjectDescription({ text }: { text: string }) {
+  const textRef = useRef<HTMLParagraphElement>(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isLong, setIsLong] = useState(false);
+
+  useLayoutEffect(() => {
+    const element = textRef.current;
+    if (!element) {
+      return;
+    }
+    const measure = () => {
+      // 접힌 상태에서만 잰다 (3줄을 넘는지)
+      if (!isOpen) {
+        setIsLong(element.scrollHeight > element.clientHeight + 1);
+      }
+    };
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, [isOpen, text]);
+
+  return (
+    <div className="flex flex-col items-start gap-1">
+      <p
+        ref={textRef}
+        className={cn(
+          "text-sm [overflow-wrap:anywhere] text-[var(--t2)]",
+          !isOpen && "line-clamp-3",
+        )}
+      >
+        {text}
+      </p>
+      {isLong || isOpen ? (
+        <Button
+          variant="ghost"
+          size="xs"
+          aria-expanded={isOpen}
+          onClick={() => setIsOpen((open) => !open)}
+          className="-ml-2"
+        >
+          {isOpen ? "접기" : "더보기"}
+        </Button>
+      ) : null}
     </div>
   );
 }

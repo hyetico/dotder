@@ -159,10 +159,20 @@ function TasksBody() {
 
   const handlers: TaskViewHandlers = {
     onOpen: (task) => setOpenTaskId(task.id),
-    onToggleDone: (task) =>
+    onToggleDone: (task) => {
+      const isCompleting = task.status !== "DONE";
       void updateTaskMutation
-        .mutateAsync({ ...task, status: task.status === "DONE" ? "TODO" : "DONE" })
-        .then(refresh),
+        .mutateAsync({ ...task, status: isCompleting ? "DONE" : "TODO" })
+        .then(() => {
+          void refresh();
+          // 완료하면 되돌리기 토스트 (보드 S5 · 프로토타입 tcheck)
+          if (isCompleting) {
+            toast(TOAST_TEXT.taskCompleted, {
+              undo: () => void updateTaskMutation.mutateAsync(task).then(refresh),
+            });
+          }
+        });
+    },
     onMove: (task, status) =>
       void updateTaskMutation.mutateAsync({ ...task, status }).then(refresh),
     onDelete: (task) =>
@@ -295,7 +305,7 @@ function TasksBody() {
             icon={<CircleAlert size={16} aria-hidden />}
             onClick={() => setLateOnly((value) => !value)}
           >
-            지연만
+            마감 지남만
           </Chip>
           {view === "calendar" ? (
             <div className="ml-2 flex items-center gap-2">

@@ -242,7 +242,7 @@ export default function GoalDetailDrawer({ goal, tasks, onClose }: GoalDetailDra
                 onChange={(status) => update({ status })}
                 items={STATUS_ITEMS}
               />
-              {stats.lateDays != null ? <Badge tone="bad">{stats.lateDays}일 지연</Badge> : null}
+              {stats.lateDays != null ? <Badge tone="bad">{stats.lateDays}일 지남</Badge> : null}
             </div>
 
             <div className="flex flex-col gap-1.5">
@@ -306,6 +306,7 @@ export default function GoalDetailDrawer({ goal, tasks, onClose }: GoalDetailDra
                     <DateField
                       label="시작일"
                       value={draft.startDate}
+                      max={project?.endDate || undefined}
                       onChange={(startDate) =>
                         update({
                           startDate,
@@ -322,6 +323,8 @@ export default function GoalDetailDrawer({ goal, tasks, onClose }: GoalDetailDra
                       label="마감일"
                       value={draft.endDate}
                       min={draft.startDate || undefined}
+                      // 목표 마감은 프로젝트 마감을 넘지 않는다 (REBUILD 6 날짜 범위)
+                      max={project?.endDate || undefined}
                       onChange={(endDate) => update({ endDate })}
                     />
                   </Field>
@@ -373,7 +376,7 @@ export default function GoalDetailDrawer({ goal, tasks, onClose }: GoalDetailDra
                       >
                         {task.title}
                       </span>
-                      {late != null ? <Badge tone="bad">{late}일 지연</Badge> : null}
+                      {late != null ? <Badge tone="bad">{late}일 지남</Badge> : null}
                     </li>
                   );
                 })}
