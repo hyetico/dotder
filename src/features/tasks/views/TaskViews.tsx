@@ -30,8 +30,10 @@ import {
 
 import { cn } from "@/lib/cn";
 import { parseDateKey, toDateKey } from "@/lib/date";
+import { projectColorVar } from "@/lib/projectPalette";
 
 import type { Goal } from "@/features/goals/types/goal";
+import type { Project } from "@/features/projects/types/project";
 import type { Task, TaskStatus } from "@/features/tasks/types/task";
 
 export type TaskViewHandlers = {
@@ -229,18 +231,50 @@ export function TaskBoardView({ tasks, goals, today, ...handlers }: TaskViewProp
   );
 }
 
+/** 마감 글 (보드 10): 오늘 · 이번 주는 「11.25 (수)」 · 그 뒤는 「12.20」 · 없으면 「마감 없음」 */
+function dueText(task: Task, today: string) {
+  if (!task.dueDate) {
+    return "마감 없음";
+  }
+  if (task.dueDate === today) {
+    return "오늘";
+  }
+  const bucket = getTaskBucket(task, today);
+  const date = parseDateKey(task.dueDate);
+  return bucket === "week" && date
+    ? `${formatMonthDot(task.dueDate)} (${WEEKDAYS[date.getDay()]})`
+    : formatMonthDot(task.dueDate);
+}
+
+type ListProject = { id: number; name: string; color: Project["color"] };
+
 function TaskRow({
   task,
   goals,
   today,
+  project,
+  showProject,
   ...handlers
-}: { task: Task; goals: Goal[]; today: string } & TaskViewHandlers) {
+}: {
+  task: Task;
+  goals: Goal[];
+  today: string;
+  project?: ListProject;
+  showProject: boolean;
+} & TaskViewHandlers) {
   const late = getTaskLateDays(task, today);
   const goal = goalName(goals, task);
   const isDone = task.status === "DONE";
+  const projectDot = project ? (
+    <span
+      aria-hidden
+      className="size-2 shrink-0 rounded-full"
+      style={{ background: projectColorVar(project.color) }}
+    />
+  ) : null;
 
   return (
-    <li className="relative flex min-h-12 items-center gap-3 border-t border-[var(--divider)] px-3 transition-colors duration-120 hover:bg-[var(--s2)] max-md:min-h-14">
+    <li className="relative isolate flex min-h-12 items-center gap-3 border-t border-[var(--divider)] transition-colors duration-120 hover:bg-[var(--s2)] max-lg:min-h-14 lg:px-3">
       <button
         type="button"
         onClick={() => handlers.onOpen(task)}
@@ -254,28 +288,56 @@ function TaskRow({
           label={`‘${task.title}’ 완료`}
         />
       </span>
-      <span
-        className={cn("min-w-0 flex-1 truncate text-sm", isDone && "text-[var(--t3)] line-through")}
-      >
-        {task.title}
+      <span className="flex min-w-0 flex-1 flex-col">
+        <span className={cn("truncate text-sm", isDone && "text-[var(--t3)] line-through")}>
+          {task.title}
+        </span>
+        {/* 태블릿 · 모바일은 이름 아래 프로젝트 (보드 T · M 10) */}
+        {showProject && project ? (
+          <span className="flex min-w-0 items-center gap-1.5 text-xs text-[var(--t3)] lg:hidden">
+            {projectDot}
+            <span className="truncate">{project.name}</span>
+          </span>
+        ) : null}
       </span>
-      <span className="w-32.5 truncate text-xs text-[var(--t3)] max-md:hidden">{goal ?? "—"}</span>
-      <span className="flex w-21 justify-end">
+      {showProject ? (
+        <span className="flex w-55 min-w-0 items-center gap-1.5 text-xs text-[var(--t2)] max-lg:hidden">
+          {project ? (
+            <>
+              {projectDot}
+              <span className="truncate">{project.name}</span>
+            </>
+          ) : (
+            "—"
+          )}
+        </span>
+      ) : null}
+      <span className="w-37.5 truncate text-xs text-[var(--t3)] max-lg:hidden">{goal ?? "—"}</span>
+      <span className="flex lg:w-25">
         {late != null ? (
           <Badge tone="bad">{late}일 지연</Badge>
         ) : (
-          <span className="text-xs text-[var(--t2)]">
-            {task.dueDate
-              ? task.dueDate === today
-                ? "오늘"
-                : formatMonthDot(task.dueDate)
-              : "마감 없음"}
-          </span>
+          <>
+            <span className="text-xs text-[var(--t2)] max-lg:hidden">{dueText(task, today)}</span>
+            {/* 태블릿 · 모바일은 요일 없이 (보드 T · M 10) */}
+            {task.dueDate && !isDone ? (
+              <span className="text-xs text-[var(--t2)] lg:hidden">
+                {task.dueDate === today ? "오늘" : formatMonthDot(task.dueDate)}
+              </span>
+            ) : null}
+          </>
         )}
       </span>
-      <span className="flex w-14 items-center gap-1 text-xs max-md:hidden">
-        <span aria-hidden className={cn("size-2 rounded-full", TASK_PRIORITY_DOT[task.priority])} />
-        {TASK_PRIORITY_LABEL[task.priority]}
+      <span className="flex w-15 items-center gap-1 text-xs max-lg:hidden">
+        {isDone ? null : (
+          <>
+            <span
+              aria-hidden
+              className={cn("size-2 rounded-full", TASK_PRIORITY_DOT[task.priority])}
+            />
+            {TASK_PRIORITY_LABEL[task.priority]}
+          </>
+        )}
       </span>
       <span className="relative z-10">
         <TaskMenu task={task} {...handlers} />
@@ -284,12 +346,30 @@ function TaskRow({
   );
 }
 
+export type TaskGroupBy = "due" | "project";
+
 /**
- * 목록 보기 (프로토타입 taskList). 지연 · 오늘 · 이번 주 · 나중 · 완료 묶음 카드, 완료는 접혀 있다.
- * 줄: 체크 · 이름 · 목표 130 · 마감 84 · 우선순위 56 · ⋯ (줄 48).
+ * 목록 보기 (보드 10 · T · M 10 · 프로토타입 taskList).
+ * 웹: 묶음 카드 — 머리 44 · --s2 바탕(펼침 화살표 · 이름 · 수 · +), 줄 48 = 체크 · 이름 · (프로젝트 220) · 목표 150 · 마감 100 · 우선 60 · ⋯.
+ * 태블릿 · 모바일: 묶음 머리 36(이름 · 수) → 줄 56 = 체크 · 이름 + 프로젝트 · 지연 배지 · ⋯.
+ * 마감일로 묶으면 지연 · 오늘 · 이번 주 · 나중 · 완료(접힘), 프로젝트로 묶을 수도 있다.
  */
-export function TaskListView({ tasks, goals, today, ...handlers }: TaskViewProps) {
-  const [isDoneOpen, setIsDoneOpen] = useState(false);
+export function TaskListView({
+  tasks,
+  goals,
+  today,
+  projects = [],
+  showProject = false,
+  groupBy = "due",
+  ...handlers
+}: TaskViewProps & {
+  /** 프로젝트 이름 · 색 (전체 태스크) */
+  projects?: ListProject[];
+  /** 프로젝트 칸을 보인다 (전체 태스크 보드 10) */
+  showProject?: boolean;
+  groupBy?: TaskGroupBy;
+}) {
+  const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({ done: false });
 
   if (tasks.length === 0) {
     return (
@@ -301,50 +381,100 @@ export function TaskListView({ tasks, goals, today, ...handlers }: TaskViewProps
     );
   }
 
+  const projectOf = (task: Task) => projects.find((project) => project.id === task.projectId);
+  const groups: { key: string; label: string; bad?: boolean; items: Task[]; canAdd: boolean }[] =
+    groupBy === "project"
+      ? [...new Set(tasks.map((task) => task.projectId))].map((projectId) => ({
+          key: `p${projectId}`,
+          label: projects.find((project) => project.id === projectId)?.name ?? "프로젝트 없음",
+          items: tasks.filter((task) => task.projectId === projectId),
+          canAdd: false,
+        }))
+      : TASK_BUCKETS.map((bucket) => ({
+          key: bucket.key,
+          label: bucket.label,
+          bad: bucket.tone === "bad",
+          items: tasks.filter((task) => getTaskBucket(task, today) === bucket.key),
+          canAdd: bucket.key !== "done",
+        }));
+
   return (
-    <div className="flex flex-col gap-3">
-      {TASK_BUCKETS.map((bucket) => {
-        const items = tasks.filter((task) => getTaskBucket(task, today) === bucket.key);
+    <div className="flex flex-col gap-3 lg:gap-6">
+      {showProject ? (
+        <div className="flex items-center gap-3 px-3 text-xs text-[var(--t3)] max-lg:hidden">
+          <span className="w-4.5" />
+          <span className="flex-1">태스크</span>
+          <span className="w-55">프로젝트</span>
+          <span className="w-37.5">목표</span>
+          <span className="w-25">마감</span>
+          <span className="w-15">우선</span>
+          <span className="w-7" />
+        </div>
+      ) : null}
+      {groups
+        .filter((group) => group.items.length > 0)
+        .map((group) => {
+          const isOpen = openGroups[group.key] ?? true;
+          const dueOf = (key: string) => (key === "today" ? today : undefined);
 
-        if (items.length === 0) {
-          return null;
-        }
-
-        const isFolded = bucket.key === "done" && !isDoneOpen;
-
-        return (
-          <section
-            key={bucket.key}
-            className="overflow-hidden rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface)]"
-          >
-            <button
-              type="button"
-              aria-expanded={!isFolded}
-              onClick={() => bucket.key === "done" && setIsDoneOpen((open) => !open)}
-              className={cn(
-                "kit-focus flex h-9 w-full items-center gap-2 px-3 text-left text-sm font-semibold",
-                bucket.key === "done" ? "cursor-pointer" : "cursor-default",
-                bucket.tone === "bad" && "text-[var(--bad)]",
-              )}
+          return (
+            <section
+              key={group.key}
+              className="lg:overflow-hidden lg:rounded-[var(--radius-md)] lg:border lg:border-[var(--border)] lg:bg-[var(--surface)]"
             >
-              {isFolded ? (
-                <ChevronRight size={16} aria-hidden />
-              ) : (
-                <ChevronDown size={16} aria-hidden />
-              )}
-              {bucket.label}
-              <span className="text-xs font-normal text-[var(--t3)]">{items.length}</span>
-            </button>
-            {isFolded ? null : (
-              <ul>
-                {items.map((task) => (
-                  <TaskRow key={task.id} task={task} goals={goals} today={today} {...handlers} />
-                ))}
-              </ul>
-            )}
-          </section>
-        );
-      })}
+              <div className="flex h-9 items-center gap-1.5 lg:h-11 lg:gap-2 lg:bg-[var(--s2)] lg:px-3">
+                <button
+                  type="button"
+                  aria-expanded={isOpen}
+                  onClick={() => setOpenGroups((current) => ({ ...current, [group.key]: !isOpen }))}
+                  className="kit-focus flex min-w-0 cursor-pointer items-center gap-1.5 rounded-[var(--radius-xs)] lg:gap-2"
+                >
+                  <span className="text-[var(--t3)] max-lg:hidden">
+                    {isOpen ? (
+                      <ChevronDown size={16} aria-hidden />
+                    ) : (
+                      <ChevronRight size={16} aria-hidden />
+                    )}
+                  </span>
+                  <strong className={cn("truncate text-sm", group.bad && "text-[var(--bad)]")}>
+                    {group.label}
+                  </strong>
+                  <span className="text-xs text-[var(--t3)] tabular-nums">
+                    {group.items.length}
+                  </span>
+                </button>
+                <span className="flex-1" />
+                {group.canAdd ? (
+                  <Button
+                    variant="ghost"
+                    size="xs"
+                    iconOnly
+                    aria-label="태스크 추가"
+                    className="max-lg:hidden"
+                    onClick={() => handlers.onAdd({ dueDate: dueOf(group.key) })}
+                  >
+                    <Plus size={16} aria-hidden />
+                  </Button>
+                ) : null}
+              </div>
+              {isOpen ? (
+                <ul>
+                  {group.items.map((task) => (
+                    <TaskRow
+                      key={task.id}
+                      task={task}
+                      goals={goals}
+                      today={today}
+                      project={projectOf(task)}
+                      showProject={showProject}
+                      {...handlers}
+                    />
+                  ))}
+                </ul>
+              ) : null}
+            </section>
+          );
+        })}
     </div>
   );
 }
@@ -470,7 +600,14 @@ export function TaskCalendarView({
           {selectedTasks.length ? (
             <ul>
               {selectedTasks.map((task) => (
-                <TaskRow key={task.id} task={task} goals={goals} today={today} {...handlers} />
+                <TaskRow
+                  showProject={false}
+                  key={task.id}
+                  task={task}
+                  goals={goals}
+                  today={today}
+                  {...handlers}
+                />
               ))}
             </ul>
           ) : (
