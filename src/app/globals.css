@@ -554,7 +554,6 @@
   --color-primary-mid: #484d56;
   --color-primary-hover: #2c3037;
   --color-primary-soft: #f4f5f7;
-  --color-primary-ring: #d1d5db;
 
   /*
    * 메인 버튼과 선택 메뉴.
@@ -575,24 +574,17 @@
 
   /* Background */
   --color-background: #ffffff;
-  --color-surface: #ffffff;
   /* 본문만. 헤더와 카드는 --color-surface */
   --color-page: #f4f5f4;
   /* 보조 표면. 설정 요약 박스, 칩 영역처럼 옅게 깔리는 배경에 쓴다. */
-  --color-muted: #f8f8f7;
   /* 리스트 행 호버·선택. */
   --color-hover: #f1f1ef;
   /* 리스트 호버(--color-hover)보다 한 단계 연한 호버·보조 배경. */
-  --color-hover-soft: #f7f7f5;
   --color-hover-strong: #e9ebef;
   /* 불러오는 중 자리 표시 (Skeleton, 원본 --skel) */
-  --color-skeleton: #eef0f2;
   /* 오류 상자 테두리 (ErrorState, 원본 .err-box). 두 토큰을 섞어 라이트 · 다크가 같이 바뀐다. */
-  --color-error-border: color-mix(in srgb, var(--color-danger) 40%, var(--color-border));
   /* 메뉴, 팝오버처럼 위에 뜨는 면 */
-  --color-surface-raised: #ffffff;
   /* 모달·드로어·바텀시트 뒤를 어둡게. 이것 하나만 쓴다. */
-  --color-overlay: rgb(15 18 22 / 35%);
 
   /* Text */
   /*
@@ -601,42 +593,28 @@
    * disabled: 비활성·구분 기호처럼 일부러 흐리게 보이는 글자
    */
   --color-text: #292d32;
-  --color-text-secondary: #475569;
-  --color-text-muted: #6b7280;
-  --color-text-disabled: #9ca3af;
   /* 큰 제목 입력칸 placeholder */
-  --color-text-placeholder: #c9c7c3;
   /* 주 버튼 위 글자 (text-white 대신) */
-  --color-text-inverse: #ffffff;
 
   /*
    * 입력폼 컬러
    * 활성 배경 / 비활성 배경 / 입력 텍스트 / 플레이스홀더 / 기본 테두리 / 호버 테두리 / 포커스 테두리 / 오류
    */
   --color-field: #ffffff;
-  --color-field-disabled: #f8f8f7;
   --color-field-text: #292d32;
-  --color-field-placeholder: #68717a;
   /* 입력칸 선은 바탕 대비 3:1 이상 (handoff A1). 장식 테두리 --color-border와 섞지 않는다. */
-  --color-field-border: #868c94;
   --color-field-focus: #343840;
-  --color-field-error: #ef4444;
   /* 입력칸 선 호버 */
-  --color-field-border-hover: #5f6670;
 
   /*
    * 선택 테두리.
    * 새 프로젝트 색상 칩과 같은 굵기, 포커스 색.
    */
   --selected-border-width: 2px;
-  --color-selected-border: var(--color-field-focus);
 
   /* Border */
-  --color-border: #e2e5e7;
   /* 체크박스, 장식 테두리 */
-  --color-border-strong: #d1d5db;
   /* 드로어 안 구분선 */
-  --color-border-subtle: #f0f0ee;
 
   /*
    * Semantic (style-guide 1-5)
@@ -646,23 +624,11 @@
   --color-warning: #f97316;
   --color-danger: #ef4444;
   --color-info: #3b82f6;
-  --color-neutral: #9ca3af;
-  --color-neutral-soft: #f1f1ef;
-  --color-info-soft: #eff6ff;
-  --color-warning-soft: #fff7ed;
-  --color-success-soft: #ecfdf3;
-  --color-danger-soft: #fef2f2;
-  --color-neutral-text: #475569;
-  --color-info-text: #1d4ed8;
-  --color-success-text: #15803d;
-  --color-warning-text: #c2410c;
-  --color-danger-text: #b91c1c;
 
   /*
    * 프로젝트 색 바탕을 섞는 밑색 (style-guide 1-8). 색 값 자체는 lib/projectPalette.ts 한 곳에 있고,
    * --project-<키> · -tint · -line · -ink 변수는 루트 레이아웃이 팔레트에서 만든다.
    */
-  --color-project-base: var(--color-surface);
 
   /*
    * 사이드 메뉴.
@@ -671,9 +637,7 @@
    */
   --color-nav-text: #000000;
   --color-nav-icon: #000000;
-  --color-nav-hover: #f4f5f7;
   --color-nav-hover-text: #000000;
-  --color-nav-disabled: #cbd5e1;
   /* 선택된 메뉴 (style-guide 1-7) */
   --color-nav-active: #343840;
   --color-nav-active-text: #ffffff;
@@ -755,60 +719,26 @@
   /* 기존 토큰의 다크 값 (style-guide 1장) */
   --color-page: #191b1e;
   --color-background: #16181c;
-  --color-surface: #1b1e22;
-  --color-muted: #2a2f35;
   --color-hover: #30353c;
-  --color-hover-soft: #2a2f35;
   --color-hover-strong: #3a4047;
-  --color-skeleton: #23272d;
-  --color-border: #30353b;
   --color-text: #e7e9ec;
-  --color-text-secondary: #aab2bb;
-  --color-text-muted: #8b949e;
-  --color-text-disabled: #6b737c;
   --color-primary: #d1d5db;
   --color-primary-hover: #e5e7eb;
   --color-primary-soft: #30353c;
-  --color-primary-ring: #5b636c;
   --color-primary-mid: #dfe2e6;
   --color-primary-hover-mid: #eef0f2;
   --color-field: #2a2f35;
-  --color-field-disabled: #22262b;
   --color-field-text: #e7e9ec;
-  --color-field-placeholder: #a8b0b8;
-  --color-field-border: #6b737c;
   --color-field-focus: #d1d5db;
-  --color-field-error: #f87171;
   --color-success: #4ade80;
   --color-warning: #fb923c;
   --color-danger: #f87171;
   --color-nav-text: #e7e9ec;
   --color-nav-icon: #e7e9ec;
-  --color-nav-hover: #30353c;
   --color-nav-hover-text: #e7e9ec;
-  --color-nav-disabled: #5b636c;
 
   /* 새 토큰의 다크 값 (style-guide 1장) */
-  --color-surface-raised: #2c3138;
-  --color-overlay: rgb(0 0 0 / 55%);
-  --color-border-strong: #3a4047;
-  --color-border-subtle: #30353c;
-  --color-text-placeholder: #5b636c;
-  --color-text-inverse: #16181c;
-  --color-field-border-hover: #9aa2ab;
   --color-info: #60a5fa;
-  --color-neutral: #6b737c;
-  --color-neutral-soft: #262a30;
-  --color-info-soft: #1c2a40;
-  --color-warning-soft: #3a2716;
-  --color-success-soft: #16301f;
-  --color-danger-soft: #3d1c1e;
-  --color-neutral-text: #aab2bb;
-  --color-info-text: #8ab4ff;
-  --color-success-text: #6fd69a;
-  --color-warning-text: #f5a66b;
-  --color-danger-text: #ff8a8a;
-  --color-project-base: #16181c;
   --color-nav-active: #2a2e35;
   --color-nav-active-text: #f3f4f6;
   --shadow-overlay: 0 12px 32px rgb(0 0 0 / 50%);
@@ -1055,7 +985,7 @@ button:not(:disabled) {
  * Link
  *
  * base 레이어에 둔다.
- * text-[var(--color-text-secondary)] 같은 유틸리티 색이 이 기본값보다 우선한다.
+ * text-[var(--t2)] 같은 유틸리티 색이 이 기본값보다 우선한다.
  * ---------------------------------------------------------
  */
 

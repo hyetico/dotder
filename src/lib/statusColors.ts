@@ -37,12 +37,21 @@ export function getStatusTone(status: ProjectStatusColorKey): StatusBadgeTone {
   return STATUS_TOKEN[status];
 }
 
-function statusVar(status: ProjectStatusColorKey, suffix = "") {
-  return `var(--color-${STATUS_TOKEN[status]}${suffix})`;
+// 상태 색 [진한 색, 글자 색]. 글자 색은 ui 토큰 · 진한 색은 값이 같은 ui 토큰이 없어 예전 토큰 (11.26 표)
+const STATUS_VARS: Record<StatusBadgeTone, [string, string]> = {
+  neutral: ["var(--t4)", "var(--t2)"],
+  info: ["var(--color-info)", "var(--info)"],
+  warning: ["var(--color-warning)", "var(--warn)"],
+  success: ["var(--color-success)", "var(--ok)"],
+  danger: ["var(--color-danger)", "var(--badge-bad-fg)"],
+};
+
+function statusVar(status: ProjectStatusColorKey, suffix: "" | "-text" = "") {
+  return STATUS_VARS[STATUS_TOKEN[status]][suffix ? 1 : 0];
 }
 
 function mixWithSurface(color: string, percent: number) {
-  return `color-mix(in srgb, ${color} ${percent}%, var(--color-surface))`;
+  return `color-mix(in srgb, ${color} ${percent}%, var(--surface))`;
 }
 
 function byStatus<T>(make: (status: ProjectStatusColorKey) => T) {
