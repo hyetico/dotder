@@ -1,15 +1,5 @@
-import {
-  getGoals,
-  keepGoalsOf,
-  removeGoalsOfProject,
-  restoreGoals,
-} from "@/features/goals/api/goals";
-import {
-  getMemos,
-  keepMemosOf,
-  removeMemosOfProject,
-  restoreMemos,
-} from "@/features/memos/api/memos";
+import { getGoals, removeGoalsOfProject, restoreGoals } from "@/features/goals/api/goals";
+import { getMemos, removeMemosOfProject, restoreMemos } from "@/features/memos/api/memos";
 import { decodeActivityCounts, type ActivityDay } from "@/features/projects/utils/activityMosaic";
 import { getProjectInitial } from "@/features/projects/utils/projectDisplay";
 import {
@@ -17,12 +7,7 @@ import {
   getProjectDaysAfterEnd,
   resolveProjectStatus,
 } from "@/features/projects/utils/projectUtils";
-import {
-  getTasks,
-  keepTasksOf,
-  removeTasksOfProject,
-  restoreTasks,
-} from "@/features/tasks/api/tasks";
+import { getTasks, removeTasksOfProject, restoreTasks } from "@/features/tasks/api/tasks";
 
 import { MOCK_ACTIVITY_FROM, mockProjectActivity } from "@/lib/mock/projectActivity";
 import {
@@ -37,7 +22,14 @@ import {
   type ProjectHistoryEntry,
 } from "@/lib/mock/projectHistory";
 import { mockProjects } from "@/lib/mock/projects";
-import { ensureDataLoaded, saveData } from "@/lib/storage/dotderData";
+import {
+  ensureDataLoaded,
+  hasSavedData,
+  readExampleData,
+  saveData,
+  startMineWith,
+} from "@/lib/storage/dotderData";
+import { setMode } from "@/lib/storage/dotderMode";
 
 import type { Goal } from "@/features/goals/types/goal";
 import type { Memo } from "@/features/memos/types/memo";
@@ -403,28 +395,27 @@ export async function restoreDeletedProject(project: Project): Promise<Project> 
 }
 
 /**
- * 예시 데이터를 지운다 (E01 4 / 4 시작 선택). 결과는 이 브라우저에 저장돼 새로고침해도 유지된다.
+ * 둘러보기를 마치고 내 기록을 시작한다 (E01 4 / 4 시작 선택). 내 기록 모드로 바꾸고, 부른 쪽은 쿼리를 다시 읽는다.
+ * 이미 저장된 내 기록이 있으면 덮어쓰지 않는다.
  *
- * @param keepMain - true면 메인 프로젝트 하나와 그 목표 · 태스크 · 메모를 남긴다
+ * @param keepExample - true면 예시의 메인 프로젝트 하나와 그 목표 · 태스크 · 메모 · 기록을 내 기록으로 복사해 저장한다
  */
-export async function clearExampleData(keepMain: boolean) {
-  await ensureDataLoaded();
-  const main = keepMain
-    ? (mockProjects.find((project) => project.isMain) ?? mockProjects[0])
-    : undefined;
-  const keep = main ? [main.id] : [];
-  keepGoalsOf(keep);
-  keepTasksOf(keep);
-  keepMemosOf(keep);
-  for (let index = mockProjects.length - 1; index >= 0; index -= 1) {
-    const project = mockProjects[index];
-    if (!keep.includes(project.id)) {
-      mockProjects.splice(index, 1);
-      removeProjectDeadlineChanges(project.id);
-      removeProjectHistory(project.id);
-    }
+export async function startMyRecords(keepExample: boolean) {
+  if (keepExample && !(await hasSavedData())) {
+    const example = readExampleData();
+    const main = example.projects.find((project) => project.isMain) ?? example.projects[0];
+    const id = main?.id;
+    await startMineWith({
+      version: 1,
+      projects: example.projects.filter((project) => project.id === id),
+      goals: example.goals.filter((goal) => goal.projectId === id),
+      tasks: example.tasks.filter((task) => task.projectId === id),
+      memos: example.memos.filter((memo) => memo.projectId === id),
+      history: example.history.filter((entry) => entry.projectId === id),
+      deadlineChanges: example.deadlineChanges.filter((change) => change.projectId === id),
+    });
   }
-  await saveData();
+  setMode("mine");
 }
 
 /**

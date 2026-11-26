@@ -11,8 +11,9 @@ import { useToast } from "@/components/kit/Toast";
 import { TOAST_TEXT } from "@/content/ui";
 
 import { toDateKey } from "@/lib/date";
-import { setFavoriteProjectIds } from "@/lib/projectSwitcherPreferences";
+import { clearProjectPreferences } from "@/lib/projectSwitcherPreferences";
 import { clearAllData, exportData } from "@/lib/storage/dotderData";
+import { setMode } from "@/lib/storage/dotderMode";
 
 type Counts = { projects: number; goals: number; tasks: number; memos: number };
 
@@ -51,8 +52,10 @@ export function useDataActions() {
 
   const confirmClear = async () => {
     setCounts(null);
+    // 지우는 것은 내 기록 (예시를 보던 중이어도 내 기록으로 돌아온다)
+    setMode("mine");
     await clearAllData();
-    setFavoriteProjectIds([]);
+    clearProjectPreferences();
     await queryClient.invalidateQueries();
     toast(TOAST_TEXT.allCleared);
     router.push("/projects");

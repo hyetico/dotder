@@ -114,11 +114,3 @@ export function restoreTasks(tasks: Task[]) {
   const ids = new Set(mockTasks.map((task) => task.id));
   replaceItems(mockTasks, [...mockTasks, ...tasks.filter((task) => !ids.has(task.id))]);
 }
-
-/** 예시 데이터 정리 (E01 시작 선택): 남길 프로젝트의 태스크만 둔다 */
-export function keepTasksOf(projectIds: number[]) {
-  replaceItems(
-    mockTasks,
-    mockTasks.filter((task) => projectIds.includes(task.projectId)),
-  );
-}

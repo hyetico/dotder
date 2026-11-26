@@ -4,6 +4,7 @@ import { mockProjectDeadlineChanges } from "@/lib/mock/projectDeadlineChanges";
 import { mockProjectHistory } from "@/lib/mock/projectHistory";
 import { mockProjects } from "@/lib/mock/projects";
 import { mockTasks } from "@/lib/mock/tasks";
+import { readMode, type DotderMode } from "@/lib/storage/dotderMode";
 import { dotderStore, type DotderData } from "@/lib/storage/dotderStore";
 
 /**
@@ -39,22 +40,53 @@ function applyData(data: DotderData) {
   replaceItems(mockProjectDeadlineChanges, data.deadlineChanges ?? []);
 }
 
+const EMPTY_DATA: DotderData = {
+  version: 1,
+  projects: [],
+  goals: [],
+  tasks: [],
+  memos: [],
+  history: [],
+  deadlineChanges: [],
+};
+
+// 예시 목업 원본. 데이터를 바꾸기 전(파일을 처음 읽을 때)에 떠 둔다
+const EXAMPLE_DATA = snapshotData();
+
+/** 예시 목업 원본을 새로 복사해 돌려준다 (예시 모드 · 「예시 1개 남기고 시작하기」). */
+export function readExampleData(): DotderData {
+  return structuredClone(EXAMPLE_DATA);
+}
+
+let loadedMode: DotderMode | null = null;
 let loading: Promise<void> | null = null;
 
 /**
- * 앱 시작 때 한 번 저장된 데이터를 불러온다. 저장된 것이 있으면 그것만 쓰고, 없으면 예시 데이터 그대로.
+ * 지금 모드의 데이터를 메모리에 불러온다. 모드가 바뀌었을 때만 다시 불러온다.
+ * - 예시(`demo`): 늘 예시 목업을 새로 불러온다. 저장하지 않는다.
+ * - 내 기록(`mine`): 저장된 것을 불러온다. 없으면 빈 상태 (예시를 섞지 않는다).
+ *
  * api 함수는 데이터를 읽거나 바꾸기 전에 이것을 기다린다. 서버에서 그릴 때는 바로 끝난다.
  */
 export function ensureDataLoaded(): Promise<void> {
   if (typeof window === "undefined") {
     return Promise.resolve();
   }
-  loading ??= dotderStore.load().then((data) => {
-    if (data) {
-      applyData(data);
-    }
-  });
+  const mode = readMode();
+  if (loading && loadedMode === mode) {
+    return loading;
+  }
+  loadedMode = mode;
+  loading =
+    mode === "demo"
+      ? Promise.resolve(applyData(readExampleData()))
+      : dotderStore.load().then((data) => applyData(data ?? EMPTY_DATA));
   return loading;
+}
+
+/** 이 브라우저에 저장된 내 기록이 있는지 (첫 화면 [시작하기] · [이어서 하기]). */
+export async function hasSavedData() {
+  return (await dotderStore.load()) != null;
 }
 
 type SaveErrorListener = () => void;
@@ -74,11 +106,12 @@ export function onSaveError(listener: SaveErrorListener) {
 }
 
 /**
- * 지금 데이터를 저장소에 저장한다. 만들기 · 수정 · 삭제 · 되돌리기 등 데이터를 바꾼 api 함수가 끝에 부른다.
+ * 지금 데이터를 저장소에 저장한다 (내 기록 모드만). 만들기 · 수정 · 삭제 · 되돌리기 등 데이터를 바꾼 api 함수가 끝에 부른다.
  * 실패해도(용량 초과 · 사생활 모드) 던지지 않고 앱은 메모리 데이터로 계속 동작한다. 알림은 처음 한 번만.
  */
 export async function saveData() {
-  if (typeof window === "undefined") {
+  // 예시 모드에서 바꾼 것은 저장하지 않는다 (내 기록을 건드리지 않음)
+  if (typeof window === "undefined" || readMode() === "demo") {
     return;
   }
   try {
@@ -92,25 +125,24 @@ export async function saveData() {
 }
 
 /**
- * 모든 데이터를 지운다 (설정 → 데이터 「모두 지우기」). 빈 상태를 저장해 새로고침해도 예시가 돌아오지 않는다.
+ * 내 기록을 모두 지운다 (설정 → 데이터 「모두 지우기」). 저장된 것이 없어지므로 첫 화면은 [시작하기]가 된다.
  */
 export async function clearAllData() {
-  await ensureDataLoaded();
   await dotderStore.clear();
-  applyData({
-    version: 1,
-    projects: [],
-    goals: [],
-    tasks: [],
-    memos: [],
-    history: [],
-    deadlineChanges: [],
-  });
-  await saveData();
+  if (readMode() === "mine") {
+    applyData(EMPTY_DATA);
+  }
 }
 
-/** 내보내기용 데이터 (설정 → 데이터 「내보내기」). 저장된 것과 같은 모양이다. */
+/**
+ * 내 기록을 이 데이터로 새로 시작한다 (둘러보기 4/4 「예시 1개 남기고 시작하기」). 저장 후 내 기록 모드로 읽는다.
+ */
+export async function startMineWith(data: DotderData) {
+  await dotderStore.save(data);
+  loadedMode = null;
+}
+
+/** 내보내기용 데이터 (설정 → 데이터 「내보내기」). 예시가 아닌 저장된 내 기록. 없으면 빈 데이터. */
 export async function exportData(): Promise<DotderData> {
-  await ensureDataLoaded();
-  return snapshotData();
+  return (await dotderStore.load()) ?? structuredClone(EMPTY_DATA);
 }

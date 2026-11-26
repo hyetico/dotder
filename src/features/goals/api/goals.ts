@@ -230,13 +230,3 @@ export function restoreGoals(goals: Goal[]) {
     }
   });
 }
-
-/** 예시 데이터 정리 (E01 시작 선택): 남길 프로젝트의 목표만 둔다 */
-export function keepGoalsOf(projectIds: number[]) {
-  for (let index = mockGoals.length - 1; index >= 0; index -= 1) {
-    const projectId = mockGoals[index].projectId;
-    if (projectId == null || !projectIds.includes(projectId)) {
-      mockGoals.splice(index, 1);
-    }
-  }
-}

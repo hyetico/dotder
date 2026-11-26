@@ -11,8 +11,11 @@ import Modal from "@/components/kit/Modal";
 import TourBanner from "@/components/kit/TourBanner";
 import { setDemoStep, useDemoStep, type DemoStep } from "@/components/shell/demoTourStore";
 
-import { clearExampleData } from "@/features/projects/api/projects";
+import { startMyRecords } from "@/features/projects/api/projects";
 import BrandLogo from "@/features/start/BrandLogo";
+
+import { clearProjectPreferences } from "@/lib/projectSwitcherPreferences";
+import { setMode, useMode } from "@/lib/storage/dotderMode";
 
 // 보드 E01 코치마크 3개 (4번째는 시작 선택 창). 글은 지금 앱이 하는 일만 남겼다 (보고에 적음)
 const STEPS: Record<1 | 2 | 3, { path: RegExp; target: string; title: string; text: string }> = {
@@ -39,7 +42,8 @@ const STEPS: Record<1 | 2 | 3, { path: RegExp; target: string; title: string; te
 /**
  * 예시로 둘러보기 (보드 E01). 커버 「예시로 둘러보기」 → `/projects?demo=1`.
  * 위 띠 44(끝내기 · 내 기록 시작하기) + 코치마크 3개(폴더 카드 → 조각 바 → 빠른 추가) → 시작 선택.
- * 예시는 목업 데이터를 그대로 쓰고, 시작 선택에서 지우거나 메인 프로젝트 하나만 남긴다.
+ * 둘러보는 동안은 예시 모드(`demo`)라 예시 목업을 새로 불러오고 저장하지 않는다. 띠는 예시 모드에서만 보인다.
+ * 시작 선택에서 빈 내 기록으로 가거나, 예시의 메인 프로젝트 하나를 내 기록으로 복사해 시작한다.
  */
 export default function DemoTour() {
   const router = useRouter();
@@ -47,15 +51,20 @@ export default function DemoTour() {
   const searchParams = useSearchParams();
   const queryClient = useQueryClient();
   const step = useDemoStep();
+  const isDemo = useMode() === "demo";
   const fromCover = searchParams.get("demo") === "1";
 
   // 주소의 ?demo=1은 시작 신호로만 쓰고 지운다 (보드 E01 주소)
   useEffect(() => {
     if (fromCover) {
+      // 예시는 늘 새로 시작한다 (예시 즐겨찾기 · 최근도 비움)
+      setMode("demo");
+      clearProjectPreferences();
       setDemoStep(1);
+      void queryClient.invalidateQueries();
       router.replace(pathname, { scroll: false });
     }
-  }, [fromCover, pathname, router]);
+  }, [fromCover, pathname, queryClient, router]);
 
   const go = (next: DemoStep, path: string) => {
     setDemoStep(next);
@@ -77,18 +86,25 @@ export default function DemoTour() {
     }
   };
 
-  const start = async (keepMain: boolean) => {
-    await clearExampleData(keepMain);
+  const start = async (keepExample: boolean) => {
+    await startMyRecords(keepExample);
     setDemoStep(null);
     await queryClient.invalidateQueries();
     router.push("/projects");
   };
 
-  if (step == null) {
+  const end = async () => {
+    setMode("mine");
+    setDemoStep(null);
+    await queryClient.invalidateQueries();
+    router.push("/projects");
+  };
+
+  if (!isDemo) {
     return null;
   }
 
-  const coach = step >= 1 && step <= 3 ? STEPS[step as 1 | 2 | 3] : null;
+  const coach = step != null && step >= 1 && step <= 3 ? STEPS[step as 1 | 2 | 3] : null;
 
   return (
     <>
@@ -96,11 +112,11 @@ export default function DemoTour() {
         text="예시 데이터로 둘러보는 중이에요"
         detail="바꿔도 내 기록에는 남지 않아요"
         secondaryLabel="둘러보기 끝내기"
-        onSecondary={() => setDemoStep(null)}
+        onSecondary={() => void end()}
         primaryLabel="내 기록 시작하기"
         onPrimary={() => go(4, pathname)}
       />
-      {coach && coach.path.test(pathname) ? (
+      {step != null && coach && coach.path.test(pathname) ? (
         <Coachmark
           key={step}
           target={coach.target}
