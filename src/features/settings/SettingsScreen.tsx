@@ -121,7 +121,11 @@ export default function SettingsScreen() {
             ))}
           </nav>
           <div className="flex flex-col gap-10">
-            <WideSection id="general" title="일반" text="보기와 언어">
+            <WideSection
+              id="general"
+              title="일반"
+              text={SHOW_UNFINISHED ? "보기와 언어" : "화면 테마"}
+            >
               <WideRow label="테마" help="라이트 · 다크 · 시스템 설정 따르기">
                 <div
                   role="radiogroup"
