@@ -24,7 +24,7 @@ export const PROJECT_STATUS_OPTIONS: { value: ProjectStatusFilter; label: string
 
 export type ProjectListQuery = {
   status: ProjectStatusFilter;
-  /** 「지연만」 */
+  /** 「마감 지남만」 */
   lateOnly: boolean;
   /** 검색어 (이름 · 설명) */
   keyword: string;
@@ -33,7 +33,7 @@ export type ProjectListQuery = {
   tags: string[];
 };
 
-/** 진행 중인데 마감이 지난 프로젝트 (보드 「마감 지남」 · 「지연만」 숫자) */
+/** 진행 중인데 마감이 지난 프로젝트 (보드 「마감 지남」 · 「마감 지남만」 숫자) */
 export function isLateProject(project: ProjectListItem) {
   return project.status === "IN_PROGRESS" && project.isDelayed;
 }
@@ -55,7 +55,7 @@ export function getProjectCounts(projects: ProjectListItem[]) {
 const byName = new Intl.Collator("ko");
 
 /**
- * 상태 · 지연만 · 검색어 · 태그로 거르고 정렬한다.
+ * 상태 · 마감 지남만 · 검색어 · 태그로 거르고 정렬한다.
  *
  * 메인은 늘 맨 앞. 최근 수정순은 `updatedAt`(없으면 id가 큰 것)이 앞, 마감 빠른순은 마감이 없으면 맨 뒤.
  */

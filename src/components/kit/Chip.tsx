@@ -16,10 +16,10 @@ type ChipProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "children"> & {
 };
 
 /**
- * 도구 줄 칩 (프로토타입 .chip, 예: 「지연만 3」). 36 · 좌우 12 · 모서리 8 · 테두리 --border.
+ * 도구 줄 칩 (프로토타입 .chip, 예: 「마감 지남만 3」). 36 · 좌우 12 · 모서리 8 · 테두리 --border.
  *
  * @example
- * <Chip selected={lateOnly} onClick={toggle} icon={<CircleAlert size={16} />} count={3}>지연만</Chip>
+ * <Chip selected={lateOnly} onClick={toggle} icon={<CircleAlert size={16} />} count={3}>마감 지남만</Chip>
  */
 export function Chip({ selected = false, icon, count, className, children, ...props }: ChipProps) {
   return (

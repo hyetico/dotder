@@ -39,7 +39,7 @@ const NO_ACTIVITY_MAP: Record<number, ActivityDay[]> = {};
 // 맞춤 탭(01-k)은 데이터가 없어 숨긴다 (tech-debt R-4). 탭 숫자는 넣지 않는다 (6-3).
 const SCOPE_TABS = [
   { key: "all", label: "전체", href: "/projects" },
-  { key: "main", label: "메인", href: "/projects/main" },
+  { key: "main", label: "메인 프로젝트", href: "/projects/main" },
   { key: "favorites", label: "즐겨찾기", href: "/projects/favorites" },
 ];
 
