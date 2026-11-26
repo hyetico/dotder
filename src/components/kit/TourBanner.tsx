@@ -1,4 +1,4 @@
-import { cn } from "@/lib/cn";
+import Button from "@/components/kit/Button";
 
 import type { ReactNode } from "react";
 
@@ -9,16 +9,13 @@ type TourBannerProps = {
   detail?: string;
   /** 왼쪽 작은 그림 */
   mark?: ReactNode;
-  /** 테두리 버튼 「둘러보기 끝내기」 */
+  /** 옅은 바탕 버튼 「둘러보기 끝내기」 */
   secondaryLabel: string;
   onSecondary: () => void;
   /** 채운 버튼 「내 기록 시작하기」 */
   primaryLabel: string;
   onPrimary: () => void;
 };
-
-const bannerButtonClassName =
-  "kit-focus inline-flex h-[var(--btn-h-xs)] shrink-0 cursor-pointer items-center rounded-[var(--radius-sm)] px-[var(--btn-px-xs)] text-xs whitespace-nowrap transition-colors duration-120";
 
 /**
  * 화면 맨 위 안내 띠 (보드 E01 「예시 데이터로 둘러보는 중이에요」). 높이 44 · 다크 · 좌우 24(모바일 16).
@@ -46,26 +43,12 @@ export default function TourBanner({
         {text}
         {detail ? <span className="max-md:hidden"> · {detail}</span> : null}
       </span>
-      <button
-        type="button"
-        onClick={onSecondary}
-        className={cn(
-          bannerButtonClassName,
-          "border border-[var(--tip-line)] hover:bg-[var(--tip-line)]",
-        )}
-      >
+      <Button size="xs" variant="onTip" onClick={onSecondary}>
         {secondaryLabel}
-      </button>
-      <button
-        type="button"
-        onClick={onPrimary}
-        className={cn(
-          bannerButtonClassName,
-          "bg-[var(--tip-fg)] font-semibold text-[var(--tip-bg)]",
-        )}
-      >
+      </Button>
+      <Button size="xs" variant="onTipPrimary" onClick={onPrimary}>
         {primaryLabel}
-      </button>
+      </Button>
     </div>
   );
 }
