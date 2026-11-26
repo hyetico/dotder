@@ -67,7 +67,7 @@ export function Avatar({ name }: { name: string }) {
 }
 
 /**
- * 사이드바 (보드 01 · T 01). 펼침 245: 로고 · 프로젝트 전환(44) · 메뉴(36) · 아래 설정(왼쪽).
+ * 사이드바 (보드 01 · T 01). 펼침 245: 로고 · 프로젝트 전환(44) · 메뉴(36) · 아래 설정(오른쪽 끝).
  * 막대 64: 로고 · 아이콘 메뉴(sm 36) · 아래 설정. 사람(아바타 · 이름)은 로그인 전까지 숨긴다. 「이번 주 진행률」은 없다(6-2).
  */
 export default function ShellSidebar({
@@ -230,8 +230,8 @@ export default function ShellSidebar({
         );
       })}
 
-      {/* 아래는 설정만 · 왼쪽 정렬 (가짜 사용자 아바타 · 이름은 숨김 · PRD 숨긴 기능) */}
-      <div className="mt-auto flex items-center gap-2 border-t border-[var(--border)] px-1.5 pt-2 text-sm text-[var(--text)]">
+      {/* 아래는 설정만 · 오른쪽 끝 (맨 위 접기 버튼과 같은 세로줄 · 가짜 사용자 아바타 · 이름은 숨김 · PRD 숨긴 기능) */}
+      <div className="mt-auto flex items-center justify-end gap-2 border-t border-[var(--border)] px-1.5 pt-2 text-sm text-[var(--text)]">
         <Button href="/settings" variant="ghost" size="xs" iconOnly aria-label="설정">
           <Settings size={16} aria-hidden />
         </Button>
