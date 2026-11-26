@@ -2,13 +2,11 @@
 
 import { useState, type DragEvent } from "react";
 
-import Badge from "@/components/kit/Badge";
-import Button from "@/components/kit/Button";
-import Card from "@/components/kit/Card";
-import Checkbox from "@/components/kit/Checkbox";
-import EmptyState from "@/components/kit/EmptyState";
-import { MenuItem, MenuSeparator, MoreMenu } from "@/components/kit/Menu";
-import { collapseClassName, useDelayedComplete } from "@/components/kit/useDelayedComplete";
+import Badge from "@/components/ui/Badge";
+import Button from "@/components/ui/Button";
+import Card from "@/components/ui/Card";
+import Checkbox from "@/components/ui/Checkbox";
+import EmptyState from "@/components/ui/EmptyState";
 import {
   Calendar,
   Check,
@@ -18,6 +16,8 @@ import {
   Plus,
   Trash2,
 } from "@/components/ui/icon";
+import { MenuItem, MenuSeparator, MoreMenu } from "@/components/ui/Menu";
+import { collapseClassName, useDelayedComplete } from "@/components/ui/useDelayedComplete";
 
 import { formatMonthDot, getTaskLateDays } from "@/features/projects/detail/projectOverviewModel";
 import {
@@ -381,6 +381,7 @@ export function TaskListView({
   today,
   projects = [],
   showProject = false,
+  isFiltered,
   groupBy = "due",
   ...handlers
 }: TaskViewProps & {
@@ -389,17 +390,22 @@ export function TaskListView({
   /** 프로젝트 칸을 보인다 (전체 태스크 보드 10) */
   showProject?: boolean;
   groupBy?: TaskGroupBy;
+  /**
+   * 빈 목록 문구를 고른다 (전체 태스크 화면). true: 「조건에 맞는 태스크가 없어요」,
+   * false: 「아직 태스크가 없어요」 + 위 입력칸 안내. 넘기지 않으면 예전 공통 문구
+   */
+  isFiltered?: boolean;
 }) {
   const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({ done: false });
 
   if (tasks.length === 0) {
-    return (
-      <EmptyState
-        icon={<ListChecks size={24} />}
-        title="태스크가 없어요"
-        text="조건을 바꾸거나 새 태스크를 추가해 보세요."
-      />
-    );
+    const empty =
+      isFiltered == null
+        ? { title: "태스크가 없어요", text: "조건을 바꾸거나 새 태스크를 추가해 보세요." }
+        : isFiltered
+          ? { title: "조건에 맞는 태스크가 없어요", text: "조건을 바꿔 보세요." }
+          : { title: "아직 태스크가 없어요", text: "위 입력칸에서 태스크를 추가해 보세요." };
+    return <EmptyState icon={<ListChecks size={24} />} title={empty.title} text={empty.text} />;
   }
 
   const projectOf = (task: Task) => projects.find((project) => project.id === task.projectId);

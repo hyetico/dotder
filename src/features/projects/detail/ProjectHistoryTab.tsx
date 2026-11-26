@@ -2,8 +2,7 @@
 
 import { useState } from "react";
 
-import EmptyState from "@/components/kit/EmptyState";
-import Segmented from "@/components/kit/Segmented";
+import EmptyState from "@/components/ui/EmptyState";
 import {
   CalendarSync,
   Check,
@@ -14,6 +13,7 @@ import {
   Trash2,
   ListTodo,
 } from "@/components/ui/icon";
+import Segmented from "@/components/ui/Segmented";
 
 import {
   historyCompactText,

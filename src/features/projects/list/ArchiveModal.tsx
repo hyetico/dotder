@@ -2,11 +2,11 @@
 
 import { useQuery } from "@tanstack/react-query";
 
-import Button from "@/components/kit/Button";
-import EmptyState from "@/components/kit/EmptyState";
-import Modal from "@/components/kit/Modal";
-import ProjectMarker from "@/components/kit/ProjectMarker";
+import Button from "@/components/ui/Button";
+import EmptyState from "@/components/ui/EmptyState";
 import { Archive } from "@/components/ui/icon";
+import Modal from "@/components/ui/Modal";
+import ProjectMarker from "@/components/ui/ProjectMarker";
 
 import { getArchivedProjectListItems } from "@/features/projects/api/projects";
 import ProjectCardMenu from "@/features/projects/list/ProjectCardMenu";

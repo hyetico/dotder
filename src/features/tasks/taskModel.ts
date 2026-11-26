@@ -1,6 +1,6 @@
 import { getDayDelta } from "@/lib/date";
 
-import type { BadgeTone } from "@/components/kit/Badge";
+import type { BadgeTone } from "@/components/ui/Badge";
 import type { Task, TaskPriority, TaskStatus } from "@/features/tasks/types/task";
 
 export const TASK_STATUS_ORDER: TaskStatus[] = ["TODO", "IN_PROGRESS", "DONE"];

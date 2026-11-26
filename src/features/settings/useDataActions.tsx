@@ -5,8 +5,8 @@ import { useState } from "react";
 
 import { useQueryClient } from "@tanstack/react-query";
 
-import ConfirmDialog from "@/components/kit/ConfirmDialog";
-import { useToast } from "@/components/kit/Toast";
+import ConfirmDialog from "@/components/ui/ConfirmDialog";
+import { useToast } from "@/components/ui/Toast";
 
 import { TOAST_TEXT } from "@/content/ui";
 

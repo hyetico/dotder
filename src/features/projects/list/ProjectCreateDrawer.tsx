@@ -3,16 +3,16 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useId, useRef, useState, type FormEvent, type ReactNode } from "react";
 
-import Button from "@/components/kit/Button";
-import ColorSwatches from "@/components/kit/ColorSwatches";
-import { DiscardConfirmDialog } from "@/components/kit/ConfirmDialog";
-import DateField from "@/components/kit/DateField";
-import Drawer from "@/components/kit/Drawer";
-import Field from "@/components/kit/Field";
-import TagField from "@/components/kit/TagField";
-import { GrowingInput, TextArea } from "@/components/kit/TextInput";
-import { useToast } from "@/components/kit/Toast";
+import Button from "@/components/ui/Button";
+import ColorSwatches from "@/components/ui/ColorSwatches";
+import { DiscardConfirmDialog } from "@/components/ui/ConfirmDialog";
+import DateField from "@/components/ui/DateField";
+import Drawer from "@/components/ui/Drawer";
+import Field from "@/components/ui/Field";
 import { ChevronDown } from "@/components/ui/icon";
+import TagField from "@/components/ui/TagField";
+import { GrowingInput, TextArea } from "@/components/ui/TextInput";
+import { useToast } from "@/components/ui/Toast";
 
 import { BUTTON_LABEL, TOAST_TEXT } from "@/content/ui";
 import { PROJECT_TAG_PRESETS } from "@/features/projects/constants/projectTags";

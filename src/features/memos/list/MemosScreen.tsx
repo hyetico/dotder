@@ -4,19 +4,19 @@ import { useRef, useState } from "react";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import Button from "@/components/kit/Button";
-import Card from "@/components/kit/Card";
-import EmptyState from "@/components/kit/EmptyState";
-import { MenuSeparator, PickRow } from "@/components/kit/Menu";
-import Popover from "@/components/kit/Popover";
-import SearchField from "@/components/kit/SearchField";
-import Segmented from "@/components/kit/Segmented";
-import Tabs from "@/components/kit/Tabs";
-import { useToast } from "@/components/kit/Toast";
-import { HeaderActions } from "@/components/layout/Header/HeaderActions";
+import { HeaderActions } from "@/components/shell/HeaderActions";
 import { usePageMeta } from "@/components/shell/PageMeta";
 import { useFavoriteProjectIds } from "@/components/shell/useFavoriteProjects";
+import Button from "@/components/ui/Button";
+import Card from "@/components/ui/Card";
+import EmptyState from "@/components/ui/EmptyState";
 import { Folder, Inbox, Plus } from "@/components/ui/icon";
+import { MenuSeparator, PickRow } from "@/components/ui/Menu";
+import Popover from "@/components/ui/Popover";
+import SearchField from "@/components/ui/SearchField";
+import Segmented from "@/components/ui/Segmented";
+import Tabs from "@/components/ui/Tabs";
+import { useToast } from "@/components/ui/Toast";
 
 import { BUTTON_LABEL, TOAST_TEXT } from "@/content/ui";
 import { getGoals } from "@/features/goals/api/goals";
@@ -231,7 +231,7 @@ export default function MemosScreen({ scope }: { scope: MemosScope }) {
         {visible.length === 0 ? (
           <EmptyState
             icon={<Inbox size={24} />}
-            title={scoped.length ? "검색 결과가 없어요." : "아직 메모가 없어요"}
+            title={scoped.length ? "조건에 맞는 메모가 없어요" : "아직 메모가 없어요"}
             text={
               scoped.length ? "다른 검색어를 입력해 보세요." : "위 입력칸에 메모를 추가해 보세요."
             }

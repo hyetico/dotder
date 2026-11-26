@@ -4,17 +4,15 @@ import { usePathname } from "next/navigation";
 import { Suspense, useEffect, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 
-import { ToastProvider } from "@/components/kit/Toast";
-import { useLayer, usePresence } from "@/components/kit/useLayer";
-import { HeaderActionsProvider } from "@/components/layout/Header/HeaderActions";
 import DemoTour from "@/components/shell/DemoTour";
+import { HeaderActionsProvider } from "@/components/shell/HeaderActions";
 import { PageMetaProvider } from "@/components/shell/PageMeta";
 import SaveErrorToast from "@/components/shell/SaveErrorToast";
 import ShellHeader from "@/components/shell/ShellHeader";
 import ShellSidebar from "@/components/shell/ShellSidebar";
 import ShortcutsDialog from "@/components/shell/ShortcutsDialog";
 import { useGlobalShortcuts } from "@/components/shell/useGlobalShortcuts";
-import { AlertProvider } from "@/components/ui/modal/AlertModal";
+import { useLayer, usePresence } from "@/components/ui/useLayer";
 
 import { cn } from "@/lib/cn";
 import { useMode } from "@/lib/storage/dotderMode";
@@ -74,51 +72,47 @@ export default function AppShell({ children }: { children: ReactNode }) {
   const isDemo = useMode() === "demo";
 
   return (
-    <AlertProvider>
-      <ToastProvider>
-        <PageMetaProvider>
-          <HeaderActionsProvider>
-            {/* 예시로 둘러보기 위 띠 44 (보드 E01): 헤더 · 사이드바가 그 아래에 붙는다 */}
-            <div className={cn(isDemo && "[--tour-bar-h:--spacing(11)]")}>
+    <PageMetaProvider>
+      <HeaderActionsProvider>
+        {/* 예시로 둘러보기 위 띠 44 (보드 E01): 헤더 · 사이드바가 그 아래에 붙는다 */}
+        <div className={cn(isDemo && "[--tour-bar-h:--spacing(11)]")}>
+          <Suspense fallback={null}>
+            <DemoTour />
+          </Suspense>
+          <SaveErrorToast />
+          <div className="flex min-h-dvh bg-[var(--bg)] text-[var(--text)]">
+            <aside
+              className={cn(
+                // 막대 툴팁 · 프로젝트 전환 팝오버가 헤더 위로 뜨도록 헤더보다 한 층 위 (DOC4 --z-sidebar)
+                "sticky top-[var(--tour-bar-h)] z-[var(--z-sidebar)] hidden h-[calc(100dvh-var(--tour-bar-h))] shrink-0 md:block",
+                // 펼칠 때만 잘라 낸다 (막대 툴팁은 오른쪽 밖에 뜬다)
+                isCollapsed ? "w-16" : "w-61.25 overflow-hidden",
+                canAnimate &&
+                  "transition-[width] duration-200 ease-in-out motion-reduce:duration-0",
+              )}
+            >
               <Suspense fallback={null}>
-                <DemoTour />
+                {/* 태블릿도 웹처럼 245 + 접기, 접으면 64 막대 · 상태는 같이 기억 (REBUILD 6 · 11.25) */}
+                <ShellSidebar
+                  isRail={isCollapsed}
+                  onToggle={() => writeCollapsed(!isCollapsed)}
+                  toggleLabel={isCollapsed ? "사이드바 펼치기" : "사이드바 접기"}
+                />
               </Suspense>
-              <SaveErrorToast />
-              <div className="flex min-h-dvh bg-[var(--bg)] text-[var(--text)]">
-                <aside
-                  className={cn(
-                    // 막대 툴팁 · 프로젝트 전환 팝오버가 헤더 위로 뜨도록 헤더보다 한 층 위 (DOC4 --z-sidebar)
-                    "sticky top-[var(--tour-bar-h)] z-[var(--z-sidebar)] hidden h-[calc(100dvh-var(--tour-bar-h))] shrink-0 md:block",
-                    // 펼칠 때만 잘라 낸다 (막대 툴팁은 오른쪽 밖에 뜬다)
-                    isCollapsed ? "w-16" : "w-61.25 overflow-hidden",
-                    canAnimate &&
-                      "transition-[width] duration-200 ease-in-out motion-reduce:duration-0",
-                  )}
-                >
-                  <Suspense fallback={null}>
-                    {/* 태블릿도 웹처럼 245 + 접기, 접으면 64 막대 · 상태는 같이 기억 (REBUILD 6 · 11.25) */}
-                    <ShellSidebar
-                      isRail={isCollapsed}
-                      onToggle={() => writeCollapsed(!isCollapsed)}
-                      toggleLabel={isCollapsed ? "사이드바 펼치기" : "사이드바 접기"}
-                    />
-                  </Suspense>
-                </aside>
-                <div className="relative flex min-w-0 flex-1 flex-col transition-[margin-right] duration-[400ms] ease-in-out motion-reduce:duration-0 lg:mr-[var(--drawer-offset)]">
-                  <Suspense fallback={<div aria-hidden className="h-14 shrink-0" />}>
-                    <ShellHeader onOpenMenu={() => setIsSheetOpen(true)} />
-                  </Suspense>
-                  {/* 본문 안 z-index가 고정 헤더 위로 올라오지 않게 따로 쌓는다 */}
-                  <main className="page-content isolate min-w-0 flex-1">{children}</main>
-                </div>
-              </div>
+            </aside>
+            <div className="relative flex min-w-0 flex-1 flex-col transition-[margin-right] duration-[400ms] ease-in-out motion-reduce:duration-0 lg:mr-[var(--drawer-offset)]">
+              <Suspense fallback={<div aria-hidden className="h-14 shrink-0" />}>
+                <ShellHeader onOpenMenu={() => setIsSheetOpen(true)} />
+              </Suspense>
+              {/* 본문 안 z-index가 고정 헤더 위로 올라오지 않게 따로 쌓는다 */}
+              <main className="page-content isolate min-w-0 flex-1">{children}</main>
             </div>
-            <NavSheet isOpen={isSheetOpen} onClose={() => setIsSheetOpen(false)} />
-            <ShortcutsDialog isOpen={isHelpOpen} onClose={() => setIsHelpOpen(false)} />
-          </HeaderActionsProvider>
-        </PageMetaProvider>
-      </ToastProvider>
-    </AlertProvider>
+          </div>
+        </div>
+        <NavSheet isOpen={isSheetOpen} onClose={() => setIsSheetOpen(false)} />
+        <ShortcutsDialog isOpen={isHelpOpen} onClose={() => setIsHelpOpen(false)} />
+      </HeaderActionsProvider>
+    </PageMetaProvider>
   );
 }
 

@@ -2,9 +2,9 @@
 
 import { useRef, useState } from "react";
 
-import { PickRow } from "@/components/kit/Menu";
-import Popover from "@/components/kit/Popover";
 import { ChevronDown, ChevronRight } from "@/components/ui/icon";
+import { PickRow } from "@/components/ui/Menu";
+import Popover from "@/components/ui/Popover";
 
 import { cn } from "@/lib/cn";
 

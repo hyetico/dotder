@@ -7,11 +7,11 @@ import { useRef, useState } from "react";
 
 import { useQuery } from "@tanstack/react-query";
 
-import Button from "@/components/kit/Button";
-import ProjectMarker from "@/components/kit/ProjectMarker";
 import { SHELL_NAV_ITEMS, findNavItem } from "@/components/shell/navItems";
 import ProjectSwitcher from "@/components/shell/ProjectSwitcher";
+import Button from "@/components/ui/Button";
 import { ChevronDown, PanelLeft, Settings } from "@/components/ui/icon";
+import ProjectMarker from "@/components/ui/ProjectMarker";
 
 import { getProjects } from "@/features/projects/api/projects";
 

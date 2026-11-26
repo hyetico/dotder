@@ -126,3 +126,6 @@ function objectParticle(word: string) {
 
   return (last.charCodeAt(0) - 0xac00) % 28 === 0 ? "를" : "을";
 }
+
+/** 없는 주소일 때 헤더 위치 · 제목 (「프로젝트 / 찾을 수 없음」 · 「목표 / 찾을 수 없음」) */
+export const NOT_FOUND_TITLE = "찾을 수 없음";

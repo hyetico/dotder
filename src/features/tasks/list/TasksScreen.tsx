@@ -5,18 +5,13 @@ import { Suspense, useRef, useState } from "react";
 
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
-import Button from "@/components/kit/Button";
-import Card from "@/components/kit/Card";
-import Checkbox from "@/components/kit/Checkbox";
-import { Chip } from "@/components/kit/Chip";
-import { MenuHeader, MenuSeparator, PickRow } from "@/components/kit/Menu";
-import Popover from "@/components/kit/Popover";
-import QuickAddInput from "@/components/kit/QuickAddInput";
-import SearchField from "@/components/kit/SearchField";
-import Segmented from "@/components/kit/Segmented";
-import { useToast } from "@/components/kit/Toast";
-import { HeaderActions } from "@/components/layout/Header/HeaderActions";
+import { HeaderActions } from "@/components/shell/HeaderActions";
 import { usePageMeta } from "@/components/shell/PageMeta";
+import Button from "@/components/ui/Button";
+import Card from "@/components/ui/Card";
+import Checkbox from "@/components/ui/Checkbox";
+import { Chip } from "@/components/ui/Chip";
+import EmptyState from "@/components/ui/EmptyState";
 import {
   Calendar,
   ChevronDown,
@@ -26,9 +21,16 @@ import {
   Funnel,
   LayoutGrid,
   List,
+  ListChecks,
   ListFilter,
   Plus,
 } from "@/components/ui/icon";
+import { MenuHeader, MenuSeparator, PickRow } from "@/components/ui/Menu";
+import Popover from "@/components/ui/Popover";
+import QuickAddInput from "@/components/ui/QuickAddInput";
+import SearchField from "@/components/ui/SearchField";
+import Segmented from "@/components/ui/Segmented";
+import { useToast } from "@/components/ui/Toast";
 
 import { QUICK_ADD_PLACEHOLDER, TOAST_TEXT } from "@/content/ui";
 import { getGoals } from "@/features/goals/api/goals";
@@ -55,6 +57,7 @@ import {
 import { cn } from "@/lib/cn";
 import { toDateKey } from "@/lib/date";
 import { projectColorVar } from "@/lib/projectPalette";
+import { getNewProjectPath } from "@/lib/projectRoutes";
 import { goalQueryKeys, projectQueryKeys, taskQueryKeys } from "@/lib/queryKeys";
 
 import type { Task, TaskPriority, TaskStatus } from "@/features/tasks/types/task";
@@ -74,7 +77,7 @@ const shiftMonth = (month: string, step: number) => {
 
 /**
  * 전체 태스크 (REBUILD 3-5 · 보드 10 ~ 10-f · T · M 10).
- * 웹: 제목 「태스크」 + 「오늘 할 일 N개 · 지연 N개」 → 도구 줄(보드 · 목록 · 캘린더 · 프로젝트 200 · 지연만 · ─ ·
+ * 웹: 제목 「태스크」 + 「오늘 할 일 N개 · 지연 N개」 → 도구 줄(보드 · 목록 · 캘린더 · 프로젝트 200 · 마감 지남만 · ─ ·
  * 묶기 · 필터) → 빠른 입력 → 목록(묶음 카드) / 보드 / 캘린더.
  * 태블릿 · 모바일: 도구 줄 없이 빠른 입력 + 목록 (보드 T · M 10).
  */
@@ -127,7 +130,7 @@ function TasksBody() {
     }
   };
 
-  const { data: tasks = [] } = useQuery({
+  const { data: tasks = [], isLoading } = useQuery({
     queryKey: taskQueryKeys.list("all"),
     queryFn: () => getTasks("all"),
   });
@@ -135,7 +138,7 @@ function TasksBody() {
     queryKey: goalQueryKeys.list("all"),
     queryFn: () => getGoals("all"),
   });
-  const { data: projects = [] } = useQuery({
+  const { data: projects = [], isLoading: isProjectsLoading } = useQuery({
     queryKey: projectQueryKeys.all,
     queryFn: getProjects,
   });
@@ -153,6 +156,10 @@ function TasksBody() {
   const currentProject = projects.find((project) => project.id === projectFilter);
   const openTask = tasks.find((task) => task.id === openTaskId) ?? null;
   const filterCount = statuses.length + priorities.length;
+  const isFiltered = projectFilter !== "all" || lateOnly || filterCount > 0;
+  // 프로젝트가 하나도 없으면 태스크를 만들 곳이 없다
+  const hasNoProjects =
+    !isLoading && !isProjectsLoading && projects.length === 0 && tasks.length === 0;
   const refresh = () => queryClient.invalidateQueries({ queryKey: projectQueryKeys.all });
 
   usePageMeta("태스크", `오늘 할 일 ${todayCount}개`);
@@ -379,24 +386,39 @@ function TasksBody() {
           />
         </Card>
 
-        {/* 태블릿 · 모바일은 늘 목록 (보드 T · M 10) */}
-        <div className={cn(view !== "list" && "lg:hidden")}>
-          <TaskListView
-            tasks={visible}
-            goals={goals}
-            today={today}
-            projects={projects}
-            showProject
-            groupBy={groupBy}
-            {...handlers}
+        {hasNoProjects ? (
+          <EmptyState
+            icon={<ListChecks size={24} />}
+            title="먼저 프로젝트를 추가해 주세요"
+            text="태스크는 프로젝트 안에 만들어요."
+            actions={
+              <Button href={getNewProjectPath()} variant="primary">
+                <Plus size={16} aria-hidden />
+                프로젝트 추가
+              </Button>
+            }
           />
-        </div>
-        {view === "board" ? (
+        ) : (
+          /* 태블릿 · 모바일은 늘 목록 (보드 T · M 10) */
+          <div className={cn(view !== "list" && "lg:hidden")}>
+            <TaskListView
+              tasks={visible}
+              goals={goals}
+              today={today}
+              projects={projects}
+              showProject
+              groupBy={groupBy}
+              isFiltered={isFiltered}
+              {...handlers}
+            />
+          </div>
+        )}
+        {hasNoProjects ? null : view === "board" ? (
           <div className="max-lg:hidden">
             <TaskBoardView tasks={visible} goals={goals} today={today} {...handlers} />
           </div>
         ) : null}
-        {view === "calendar" ? (
+        {!hasNoProjects && view === "calendar" ? (
           <div className="max-lg:hidden">
             <TaskCalendarView
               tasks={visible}

@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 
-import Badge from "@/components/kit/Badge";
-import ProjectMarker from "@/components/kit/ProjectMarker";
+import Badge from "@/components/ui/Badge";
+import ProjectMarker from "@/components/ui/ProjectMarker";
 
 import { PROJECT_STATUS_TONE, getLateDays } from "@/features/projects/list/ProjectCard";
 import ProjectCardMenu from "@/features/projects/list/ProjectCardMenu";

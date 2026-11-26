@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-import Button from "@/components/kit/Button";
+import Button from "@/components/ui/Button";
 import { ChevronRight } from "@/components/ui/icon";
 
 import { cn } from "@/lib/cn";

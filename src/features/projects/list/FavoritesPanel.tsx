@@ -2,15 +2,15 @@
 
 import { useRef, useState, type RefObject } from "react";
 
-import Button from "@/components/kit/Button";
-import Checkbox from "@/components/kit/Checkbox";
-import { MenuHeader, MenuSeparator } from "@/components/kit/Menu";
-import Popover from "@/components/kit/Popover";
-import ProjectMarker from "@/components/kit/ProjectMarker";
-import SearchField from "@/components/kit/SearchField";
-import { useToast } from "@/components/kit/Toast";
 import { useFavoriteProjectIds } from "@/components/shell/useFavoriteProjects";
+import Button from "@/components/ui/Button";
+import Checkbox from "@/components/ui/Checkbox";
 import { GripVertical, Plus, Star } from "@/components/ui/icon";
+import { MenuHeader, MenuSeparator } from "@/components/ui/Menu";
+import Popover from "@/components/ui/Popover";
+import ProjectMarker from "@/components/ui/ProjectMarker";
+import SearchField from "@/components/ui/SearchField";
+import { useToast } from "@/components/ui/Toast";
 
 import { TOAST_TEXT } from "@/content/ui";
 import ProjectCard, { getLateDays } from "@/features/projects/list/ProjectCard";

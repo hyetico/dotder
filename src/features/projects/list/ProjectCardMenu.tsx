@@ -5,10 +5,10 @@ import { useState } from "react";
 
 import { useQuery } from "@tanstack/react-query";
 
-import { DeleteConfirmDialog } from "@/components/kit/ConfirmDialog";
-import { MenuItem, MenuSeparator, MoreMenu } from "@/components/kit/Menu";
 import { useFavoriteProjectIds } from "@/components/shell/useFavoriteProjects";
+import { DeleteConfirmDialog } from "@/components/ui/ConfirmDialog";
 import { Archive, ChevronRight, Copy, Crown, Star, Trash2 } from "@/components/ui/icon";
+import { MenuItem, MenuSeparator, MoreMenu } from "@/components/ui/Menu";
 
 import { projectDeleteDetail } from "@/content/ui";
 import { getProjectChildCounts } from "@/features/projects/api/projects";

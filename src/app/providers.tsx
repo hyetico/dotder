@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
+import { ToastProvider } from "@/components/ui/Toast";
+
 import { subscribeMode } from "@/lib/storage/dotderMode";
 
 type ProvidersProps = {
@@ -25,5 +27,10 @@ export default function Providers({ children }: ProvidersProps) {
   // 내 기록 ↔ 예시 모드가 바뀌면 그 모드의 데이터로 다시 읽는다
   useEffect(() => subscribeMode(() => void queryClient.invalidateQueries()), [queryClient]);
 
-  return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
+  // 토스트는 앱 틀 밖(커버 화면)에서도 보이게 맨 위에 둔다 (「모두 지우기」 뒤 커버로 이동)
+  return (
+    <QueryClientProvider client={queryClient}>
+      <ToastProvider>{children}</ToastProvider>
+    </QueryClientProvider>
+  );
 }

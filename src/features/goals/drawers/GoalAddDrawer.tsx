@@ -4,15 +4,15 @@ import { useId, useRef, useState, type FormEvent, type ReactNode } from "react";
 
 import { useQuery } from "@tanstack/react-query";
 
-import Button from "@/components/kit/Button";
-import { DiscardConfirmDialog } from "@/components/kit/ConfirmDialog";
-import DateField from "@/components/kit/DateField";
-import Drawer from "@/components/kit/Drawer";
-import Field from "@/components/kit/Field";
-import TagPicker from "@/components/kit/TagPicker";
-import { TextArea, TextInput } from "@/components/kit/TextInput";
-import { useToast } from "@/components/kit/Toast";
+import Button from "@/components/ui/Button";
+import { DiscardConfirmDialog } from "@/components/ui/ConfirmDialog";
+import DateField from "@/components/ui/DateField";
+import Drawer from "@/components/ui/Drawer";
+import Field from "@/components/ui/Field";
 import { ChevronDown } from "@/components/ui/icon";
+import TagPicker from "@/components/ui/TagPicker";
+import { TextArea, TextInput } from "@/components/ui/TextInput";
+import { useToast } from "@/components/ui/Toast";
 
 import { BUTTON_LABEL, GOAL_TAG_TEXT, TOAST_TEXT } from "@/content/ui";
 import { useGoalMutations } from "@/features/goals/hooks/useGoalMutations";

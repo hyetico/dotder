@@ -1,9 +1,9 @@
 "use client";
 
-import Button from "@/components/kit/Button";
-import Checkbox from "@/components/kit/Checkbox";
-import { MenuHeader, MenuSeparator } from "@/components/kit/Menu";
-import Popover from "@/components/kit/Popover";
+import Button from "@/components/ui/Button";
+import Checkbox from "@/components/ui/Checkbox";
+import { MenuHeader, MenuSeparator } from "@/components/ui/Menu";
+import Popover from "@/components/ui/Popover";
 
 import type { Goal } from "@/features/goals/types/goal";
 import type { ReactNode, RefObject } from "react";
@@ -17,7 +17,7 @@ type GoalFilterPopoverProps = {
   onTagsChange: (tags: string[]) => void;
   /** 거른 뒤 남는 목표 수 (「결과 N개」) */
   resultCount: number;
-  /** 태그 위에 더 넣을 칸 (태블릿 · 모바일 필터 시트의 지연만 · 묶기) */
+  /** 태그 위에 더 넣을 칸 (태블릿 · 모바일 필터 시트의 마감 지남만 · 묶기) */
   before?: ReactNode;
   onReset?: () => void;
 };

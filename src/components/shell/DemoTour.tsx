@@ -5,11 +5,11 @@ import { useEffect } from "react";
 
 import { useQueryClient } from "@tanstack/react-query";
 
-import Button from "@/components/kit/Button";
-import Coachmark from "@/components/kit/Coachmark";
-import Modal from "@/components/kit/Modal";
-import TourBanner from "@/components/kit/TourBanner";
 import { setDemoStep, useDemoStep, type DemoStep } from "@/components/shell/demoTourStore";
+import Button from "@/components/ui/Button";
+import Coachmark from "@/components/ui/Coachmark";
+import Modal from "@/components/ui/Modal";
+import TourBanner from "@/components/ui/TourBanner";
 
 import { startMyRecords } from "@/features/projects/api/projects";
 import BrandLogo from "@/features/start/BrandLogo";
@@ -116,6 +116,7 @@ export default function DemoTour() {
       <TourBanner
         text="예시 데이터로 둘러보는 중이에요"
         detail="바꿔도 내 기록에는 남지 않아요"
+        shortText="예시 둘러보는 중"
         secondaryLabel="둘러보기 끝내기"
         onSecondary={() => void end()}
         primaryLabel="내 기록 시작하기"

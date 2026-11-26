@@ -5,16 +5,17 @@ import { Suspense, useLayoutEffect, useRef, useState } from "react";
 
 import { useQuery } from "@tanstack/react-query";
 
-import Badge from "@/components/kit/Badge";
-import Button from "@/components/kit/Button";
-import { DeleteConfirmDialog } from "@/components/kit/ConfirmDialog";
-import Tabs from "@/components/kit/Tabs";
-import { HeaderActions } from "@/components/layout/Header/HeaderActions";
+import { HeaderActions } from "@/components/shell/HeaderActions";
 import { usePageMeta } from "@/components/shell/PageMeta";
 import { useFavoriteProjectIds } from "@/components/shell/useFavoriteProjects";
+import Badge from "@/components/ui/Badge";
+import Button from "@/components/ui/Button";
+import { DeleteConfirmDialog } from "@/components/ui/ConfirmDialog";
+import EmptyState from "@/components/ui/EmptyState";
 import {
   Calendar,
   Crown,
+  Folder,
   History,
   Inbox,
   LayoutGrid,
@@ -23,8 +24,9 @@ import {
   Star,
   Target,
 } from "@/components/ui/icon";
+import Tabs from "@/components/ui/Tabs";
 
-import { projectDeleteDetail } from "@/content/ui";
+import { NOT_FOUND_TITLE, projectDeleteDetail } from "@/content/ui";
 import { getGoals } from "@/features/goals/api/goals";
 import { getMemos } from "@/features/memos/api/memos";
 import {
@@ -57,6 +59,10 @@ export type ProjectDetailTab = "overview" | "goals" | "tasks" | "memos" | "histo
 
 const DETAIL_TABS: ProjectDetailTab[] = ["overview", "goals", "tasks", "memos", "history"];
 
+// 찾을 수 없음 화면은 목록 화면과 같은 여백 (ProjectListScreen · GoalsScreen)
+const listPageClassName =
+  "mx-auto w-full max-w-320 px-4 pt-6 pb-8 md:px-6 md:pt-8 lg:px-10 lg:pt-10 lg:pb-16";
+
 /**
  * 프로젝트 상세 (REBUILD 3-3 · 보드 03 ~ 08 · T · M 03).
  * 웹: 본문 최대 1280 · 40/40/64 · 사이 24 (목록과 같은 틀 · 보드 03). 머리(색 점 · 메인 · 상태 · 지연 배지 → 이름 24/32 → 설명 + 더보기 →
@@ -66,7 +72,6 @@ const DETAIL_TABS: ProjectDetailTab[] = ["overview", "goals", "tasks", "memos", 
  */
 export default function ProjectDetailScreen({ projectId }: { projectId: number }) {
   return (
-    // 본문 바탕은 보드대로 --bg (옛 화면의 .page-content 회색을 덮는다)
     <div className="min-h-full bg-[var(--bg)]">
       <Suspense fallback={null}>
         <DetailBody projectId={projectId} />
@@ -111,7 +116,8 @@ function DetailBody({ projectId }: { projectId: number }) {
     queryFn: () => getProjectHistory(projectId),
   });
 
-  usePageMeta(project?.name ?? "", undefined, "/projects");
+  // 없는 프로젝트면 위치가 「프로젝트 /」로 끝나지 않게 「찾을 수 없음」
+  usePageMeta(project?.name ?? (isLoading ? "" : NOT_FOUND_TITLE), undefined, "/projects");
 
   if (isLoading) {
     return null;
@@ -119,9 +125,18 @@ function DetailBody({ projectId }: { projectId: number }) {
 
   if (!project) {
     return (
-      <p className="px-4 py-12 text-center text-sm text-[var(--t3)]">
-        프로젝트를 찾을 수 없습니다.
-      </p>
+      <div className={listPageClassName}>
+        <EmptyState
+          icon={<Folder size={24} />}
+          title="프로젝트를 찾을 수 없어요"
+          text="지워졌거나 주소가 바뀌었을 수 있어요."
+          actions={
+            <Button href="/projects" variant="primary">
+              프로젝트 목록으로
+            </Button>
+          }
+        />
+      </div>
     );
   }
 

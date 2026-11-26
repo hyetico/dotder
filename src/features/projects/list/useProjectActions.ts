@@ -1,6 +1,6 @@
 "use client";
 
-import { useToast } from "@/components/kit/Toast";
+import { useToast } from "@/components/ui/Toast";
 
 import { TOAST_TEXT, duplicatedToast } from "@/content/ui";
 import { useProjectMutations } from "@/features/projects/hooks/useProjectMutations";

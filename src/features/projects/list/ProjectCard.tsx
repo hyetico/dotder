@@ -1,8 +1,8 @@
 "use client";
 
-import { badgeDotClassName, type BadgeTone } from "@/components/kit/Badge";
-import FolderCard from "@/components/kit/FolderCard";
-import Mosaic from "@/components/kit/Mosaic";
+import { badgeDotClassName, type BadgeTone } from "@/components/ui/Badge";
+import FolderCard from "@/components/ui/FolderCard";
+import Mosaic from "@/components/ui/Mosaic";
 
 import ProjectCardMenu from "@/features/projects/list/ProjectCardMenu";
 import {
