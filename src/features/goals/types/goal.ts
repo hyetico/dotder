@@ -21,6 +21,7 @@ export type Goal = {
   completedTasks: number;
   totalTasks: number;
   progress: number;
-  assigneeIds: number[];
+  /** 예전 팀 협업 때 담당자. 새로 채우지 않고, 이미 저장된 값은 그대로 둔다 */
+  assigneeIds?: number[];
   updatedAt: string;
 };

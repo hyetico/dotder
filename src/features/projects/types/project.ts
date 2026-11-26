@@ -27,7 +27,8 @@ export type Project = {
 
   isMain: boolean;
 
-  creatorId: number;
+  /** 예전 팀 협업 때 만든 사람. 새로 채우지 않고, 이미 저장된 값은 그대로 둔다 */
+  creatorId?: number;
 
   tags: string[];
 
@@ -46,7 +47,6 @@ export type ProjectListItem = Project & {
   progress: number;
   isDelayed: boolean;
   teamName: string;
-  creatorName: string;
 };
 
 export type ProjectDeadlineChange = {
