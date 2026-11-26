@@ -2,7 +2,6 @@ import { computeProjectGoalStats } from "@/features/goals/utils/goalUtils";
 import { getProjectTeamLabel } from "@/features/projects/utils/projectTeam";
 
 import { getDayDelta, parseDateKey, toDateKey } from "@/lib/date";
-import { getUserName } from "@/lib/mock/users";
 
 import type { Goal } from "@/features/goals/types/goal";
 import type {
@@ -501,6 +500,5 @@ export function enrichProject(
     progress,
     isDelayed: isProjectDelayed(project),
     teamName: getProjectTeamLabel(project),
-    creatorName: getUserName(project.creatorId),
   };
 }

@@ -3,7 +3,6 @@ import { unlinkTasksFromGoal } from "@/features/tasks/api/tasks";
 import { mockGoals } from "@/lib/mock/goals";
 import { recordProjectHistory } from "@/lib/mock/projectHistory";
 import { mockProjects } from "@/lib/mock/projects";
-import { mockTeamMembers } from "@/lib/mock/teamMembers";
 import { ensureDataLoaded, saveData } from "@/lib/storage/dotderData";
 
 import type { Goal } from "@/features/goals/types/goal";
@@ -70,13 +69,6 @@ export async function createGoal(input: CreateGoalInput): Promise<Goal> {
 
   const nextId = mockGoals.reduce((maxId, goal) => Math.max(maxId, goal.id), 0) + 1;
 
-  const assigneeIds =
-    input.teamId == null
-      ? []
-      : mockTeamMembers
-          .filter((member) => member.teamId === input.teamId)
-          .map((member) => member.id);
-
   const { teamId, ...goalFields } = input;
 
   void teamId;
@@ -87,7 +79,6 @@ export async function createGoal(input: CreateGoalInput): Promise<Goal> {
     completedTasks: 0,
     totalTasks: 0,
     progress: 0,
-    assigneeIds,
     updatedAt: stampGoalUpdatedAt(),
   };
 
@@ -164,16 +155,6 @@ export async function updateGoal(input: UpdateGoalInput): Promise<Goal> {
     throw new Error("보류 중인 프로젝트에는 목표를 연결할 수 없습니다.");
   }
 
-  const projectChanged = currentGoal.projectId !== input.projectId;
-
-  const assigneeIds = projectChanged
-    ? input.teamId == null
-      ? []
-      : mockTeamMembers
-          .filter((member) => member.teamId === input.teamId)
-          .map((member) => member.id)
-    : currentGoal.assigneeIds;
-
   const { teamId, ...goalFields } = input;
 
   void teamId;
@@ -181,7 +162,6 @@ export async function updateGoal(input: UpdateGoalInput): Promise<Goal> {
   const updatedGoal: Goal = {
     ...currentGoal,
     ...goalFields,
-    assigneeIds,
     completedTasks: currentGoal.completedTasks,
     totalTasks: currentGoal.totalTasks,
     progress: currentGoal.progress,
