@@ -3,12 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "predev": "mkdir -p .next && xattr -w 'com.apple.fileprovider.ignore#P' 1 .next 2>/dev/null || true",
     "dev": "next dev",
+    "prebuild": "mkdir -p .next && xattr -w 'com.apple.fileprovider.ignore#P' 1 .next 2>/dev/null || true",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
     "format": "prettier --write src",
-    "format:check": "prettier --check src"
+    "format:check": "prettier --check src",
+    "setup": "mkdir -p node_modules && (xattr -w 'com.apple.fileprovider.ignore#P' 1 node_modules 2>/dev/null || true) && npm install",
+    "postinstall": "xattr -w 'com.apple.fileprovider.ignore#P' 1 node_modules 2>/dev/null || true"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.101.4",
