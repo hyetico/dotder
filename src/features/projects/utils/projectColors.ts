@@ -26,7 +26,7 @@ export const PROJECT_COLOR_OPTIONS = PROJECT_COLOR_KEYS.map((key) => ({
  * getProjectAccentColor("teal") // "var(--project-teal)"
  */
 export function getProjectAccentColor(color: ProjectColorKey | string | null | undefined) {
-  return color ? projectColorVar(toProjectColorKey(color)) : "var(--color-neutral)";
+  return color ? projectColorVar(toProjectColorKey(color)) : "var(--t4)";
 }
 
 /**
@@ -53,7 +53,7 @@ export function getProjectTintLineColor(color: ProjectColorKey | string | null |
  * @param color - 색 키. 비면 보조 글자색
  */
 export function getProjectTintInkColor(color: ProjectColorKey | string | null | undefined) {
-  return color ? projectColorVar(toProjectColorKey(color), "ink") : "var(--color-text-secondary)";
+  return color ? projectColorVar(toProjectColorKey(color), "ink") : "var(--t2)";
 }
 
 /**

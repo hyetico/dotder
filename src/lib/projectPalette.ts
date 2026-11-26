@@ -29,7 +29,7 @@ type ProjectPaletteEntry = {
   light: string;
   /** 다크 모드 색 (라이트 색에 흰색 30%를 섞은 값) */
   dark: string;
-  /** 폴더 카드 바탕 · 탭 진하기(%). 라이트는 `--color-surface`, 다크는 `--color-project-base` 위에 섞는다 */
+  /** 폴더 카드 바탕 · 탭 진하기(%). `--bg` 위에 섞는다 (라이트 #fff · 다크 #16181c) */
   tint: { light: number; dark: number };
 };
 
@@ -156,7 +156,7 @@ export function buildProjectPaletteCss(): string {
       const entry = PROJECT_PALETTE[key];
       const color = entry[mode];
       const tint = entry.tint[mode];
-      const base = "var(--color-project-base)";
+      const base = "var(--bg)";
       const ink =
         mode === "dark"
           ? color
