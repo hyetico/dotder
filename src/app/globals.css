@@ -49,6 +49,8 @@
   --primary-h: #2c3037;
   --s2: #f6f7f8;
   --s3: #f1f1ef;
+  /* 글자 선택 배경 */
+  --selection: #f4f5f7;
   --shadow: 0 12px 32px rgb(0 0 0 / 0.16);
   --skel: #eef0f2;
   --surface: #fff;
@@ -195,6 +197,7 @@
   --primary-h: #ffffff;
   --s2: #22262b;
   --s3: #262a30;
+  --selection: #30353c;
   --shadow: 0 12px 32px rgb(0 0 0 / 0.5);
   --skel: #23272d;
   --surface: #1b1e22;
@@ -540,90 +543,15 @@
 
   /*
    * ---------------------------------------------------------
-   * Colors
+   * Colors — 색 값은 위 ui 토큰에 있다
    * ---------------------------------------------------------
    */
-
-  /*
-   * Brand
-   * 로고, 주요 CTA.
-   * 상태 뱃지 컬러와는 분리한다.
-   * 기본은 그라데이션 시작색. 호버는 같은 축의 어두운 시작색.
-   */
-  --color-primary-mid: #484d56;
-  --color-primary-soft: #f4f5f7;
-
-  /*
-   * 메인 버튼과 선택 메뉴.
-   * 왼쪽 #343840에서 오른쪽 #484D56까지 대비를 작게 두어 차콜이 은은하게 보이게 한다.
-   * 호버는 같은 방향으로 한 단계만 어둡게 한다.
-   */
-  --color-primary-hover-mid: #3d424b;
-  --gradient-primary: linear-gradient(90deg, var(--btn-primary) 0%, var(--color-primary-mid) 100%);
-  --gradient-primary-hover: linear-gradient(
-    90deg,
-    var(--btn-primary-h) 0%,
-    var(--color-primary-hover-mid) 100%
-  );
-
-  /* Background */
-  /* 본문만. 헤더와 카드는 --color-surface */
-  --color-page: #f4f5f4;
-  /* 보조 표면. 설정 요약 박스, 칩 영역처럼 옅게 깔리는 배경에 쓴다. */
-  /* 리스트 행 호버·선택. */
-  --color-hover: #f1f1ef;
-  /* 리스트 호버(--color-hover)보다 한 단계 연한 호버·보조 배경. */
-  /* 불러오는 중 자리 표시 (Skeleton, 원본 --skel) */
-  /* 오류 상자 테두리 (ErrorState, 원본 .err-box). 두 토큰을 섞어 라이트 · 다크가 같이 바뀐다. */
-  /* 메뉴, 팝오버처럼 위에 뜨는 면 */
-  /* 모달·드로어·바텀시트 뒤를 어둡게. 이것 하나만 쓴다. */
-
-  /* Text */
-  /*
-   * 글자색은 이 4단계만 쓴다.
-   * text: 제목·본문·입력값 / secondary: 설명·날짜·메타 / muted: 보조 아이콘·안내
-   * disabled: 비활성·구분 기호처럼 일부러 흐리게 보이는 글자
-   */
-  /* 큰 제목 입력칸 placeholder */
-  /* 주 버튼 위 글자 (text-white 대신) */
-
-  /*
-   * 입력폼 컬러
-   * 활성 배경 / 비활성 배경 / 입력 텍스트 / 플레이스홀더 / 기본 테두리 / 호버 테두리 / 포커스 테두리 / 오류
-   */
-  --color-field: #ffffff;
-  /* 입력칸 선은 바탕 대비 3:1 이상 (handoff A1). 장식 테두리 --color-border와 섞지 않는다. */
-  /* 입력칸 선 호버 */
 
   /*
    * 선택 테두리.
    * 새 프로젝트 색상 칩과 같은 굵기, 포커스 색.
    */
   --selected-border-width: 2px;
-
-  /* Border */
-  /* 체크박스, 장식 테두리 */
-  /* 드로어 안 구분선 */
-
-  /*
-   * Semantic (style-guide 1-5)
-   * 기본 색은 막대·점·넓은 면에만. 글자와 작은 아이콘은 -text 토큰.
-   */
-
-  /*
-   * 프로젝트 색 바탕을 섞는 밑색 (style-guide 1-8). 색 값 자체는 lib/projectPalette.ts 한 곳에 있고,
-   * --project-<키> · -tint · -line · -ink 변수는 루트 레이아웃이 팔레트에서 만든다.
-   */
-
-  /*
-   * 사이드 메뉴.
-   * 기본·호버는 검정 글자.
-   * 선택 항목만 차콜 배경에 흰 글자.
-   */
-  --color-nav-text: #000000;
-  --color-nav-icon: #000000;
-  --color-nav-hover-text: #000000;
-  /* 선택된 메뉴 (style-guide 1-7) */
 
   /*
    * ---------------------------------------------------------
@@ -699,18 +627,7 @@
  * 컴포넌트에 직접 쓴 흰색(bg-white 등)은 따로 토큰으로 바꿔야 다크 모드에서 맞는다.
  */
 :root[data-theme="dark"] {
-  /* 기존 토큰의 다크 값 (style-guide 1장) */
-  --color-page: #191b1e;
-  --color-hover: #30353c;
-  --color-primary-soft: #30353c;
-  --color-primary-mid: #dfe2e6;
-  --color-primary-hover-mid: #eef0f2;
-  --color-field: #2a2f35;
-  --color-nav-text: #e7e9ec;
-  --color-nav-icon: #e7e9ec;
-  --color-nav-hover-text: #e7e9ec;
-
-  /* 새 토큰의 다크 값 (style-guide 1장) */
+  /* 다크 값 (style-guide 1장) */
   --shadow-overlay: 0 12px 32px rgb(0 0 0 / 50%);
 }
 
@@ -897,11 +814,9 @@ body {
 
 /*
  * 페이지 본문 배경.
- * 헤더와 카드는 흰색이다.
- * 이 배경만 빼면 본문이 다시 흰색이 된다.
  */
 .page-content {
-  background: var(--color-page);
+  background: var(--bg);
 }
 
 /*
@@ -967,52 +882,6 @@ button:not(:disabled) {
 }
 
 /*
- * 사이드 메뉴.
- * a { color: inherit }보다 우선한다.
- */
-a.sidebar-nav-link {
-  border-radius: 12px;
-  color: var(--color-nav-text);
-  font-size: var(--type-sm);
-  line-height: var(--type-sm-line);
-  font-weight: 400;
-  text-transform: uppercase;
-}
-
-a.sidebar-nav-link svg {
-  color: var(--color-nav-icon);
-}
-
-a.sidebar-nav-link:hover {
-  background-color: var(--color-hover);
-  color: var(--color-nav-hover-text);
-}
-
-a.sidebar-nav-link:hover svg {
-  color: var(--color-nav-hover-text);
-}
-
-/* 선택된 메뉴는 단색. 그라데이션은 주 버튼에만 쓴다 (style-guide 1-3, 1-7). */
-a.sidebar-nav-link[data-active="true"] {
-  background-color: var(--nav-on-bg);
-  color: var(--nav-on-fg);
-  font-weight: 400;
-}
-
-a.sidebar-nav-link[data-active="true"] svg {
-  color: var(--nav-on-fg);
-}
-
-a.sidebar-nav-link[data-active="true"]:hover {
-  background-color: var(--nav-on-bg);
-  color: var(--nav-on-fg);
-}
-
-a.sidebar-nav-link[data-active="true"]:hover svg {
-  color: var(--nav-on-fg);
-}
-
-/*
  * ---------------------------------------------------------
  * Image
  * ---------------------------------------------------------
@@ -1030,7 +899,7 @@ img {
  */
 
 ::selection {
-  background: var(--color-primary-soft);
+  background: var(--selection);
 
   color: var(--btn-primary);
 }
@@ -1054,61 +923,16 @@ input:-webkit-autofill,
 input:-webkit-autofill:hover,
 textarea:-webkit-autofill,
 textarea:-webkit-autofill:hover {
-  box-shadow: inset 0 0 0 1000px var(--color-field) !important;
+  box-shadow: inset 0 0 0 1000px var(--surface) !important;
 }
 
 input:-webkit-autofill:focus,
 textarea:-webkit-autofill:focus {
   border-color: var(--btn-primary);
   box-shadow:
-    inset 0 0 0 1000px var(--color-field),
+    inset 0 0 0 1000px var(--surface),
     0 0 0 1px var(--btn-primary) !important;
 }
-
-/*
- * ---------------------------------------------------------
- * Brand gradient
- * 로고, Primary 버튼
- * ---------------------------------------------------------
- */
-
-/* 메인 왕관 뱃지. 프로젝트 색(--accent-primary)이 있으면 그 색 한 가지, 다크는 팔레트 다크 값 */
-.bg-accent-gradient {
-  background-color: var(--accent-primary, var(--btn-primary));
-  background-image: var(--accent-gradient, var(--gradient-primary));
-}
-
-.bg-primary-gradient {
-  background-color: var(--btn-primary);
-  background-image: var(--gradient-primary);
-}
-
-/* 헤더 주 버튼은 lg 미만에서 테두리 없는 아이콘 (design/screens tablet-768 · mobile-390) */
-@media (width < 64rem) {
-  .bg-primary-gradient.header-action-primary,
-  .bg-primary-gradient.header-action-primary:hover:not(:disabled) {
-    background-color: transparent;
-    background-image: none;
-    color: var(--text);
-  }
-
-  .bg-primary-gradient.header-action-primary:hover:not(:disabled) {
-    background-color: var(--color-hover);
-  }
-}
-
-.bg-primary-gradient:hover:not(:disabled) {
-  background-color: var(--btn-primary-h);
-  background-image: var(--gradient-primary-hover);
-  box-shadow: 0 4px 12px rgba(52, 56, 64, 0.16);
-}
-
-.bg-primary-gradient:active:not(:disabled) {
-  background-color: #2c3037;
-  background-image: var(--gradient-primary-hover);
-  box-shadow: none;
-}
-
 /*
  * 모달 안 스크롤이 끝에 닿아도
  * 뒤 페이지로 스크롤이 넘어가지 않게 한다.
