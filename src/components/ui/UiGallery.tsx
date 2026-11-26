@@ -2,10 +2,16 @@
 
 import { useId, useRef, useState, type ReactNode } from "react";
 
+import Badge from "@/components/ui/Badge";
+import { badgeDotClassName } from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
+import Card from "@/components/ui/Card";
+import Checkbox from "@/components/ui/Checkbox";
 import { Chip, Tag } from "@/components/ui/Chip";
+import Coachmark from "@/components/ui/Coachmark";
 import ColorSwatches from "@/components/ui/ColorSwatches";
 import { DeleteConfirmDialog, DiscardConfirmDialog } from "@/components/ui/ConfirmDialog";
+import DateField from "@/components/ui/DateField";
 import Drawer from "@/components/ui/Drawer";
 import EmptyState from "@/components/ui/EmptyState";
 import Field from "@/components/ui/Field";
@@ -20,15 +26,23 @@ import {
 } from "@/components/ui/icon";
 import Kbd from "@/components/ui/Kbd";
 import { MenuItem, MenuSeparator, MoreMenu, PickRow } from "@/components/ui/Menu";
+import Modal from "@/components/ui/Modal";
 import Mosaic from "@/components/ui/Mosaic";
+import PillGroup from "@/components/ui/PillGroup";
 import Popover from "@/components/ui/Popover";
+import ProjectMarker from "@/components/ui/ProjectMarker";
 import QuickAddInput from "@/components/ui/QuickAddInput";
+import RadioDot from "@/components/ui/RadioDot";
 import SearchField from "@/components/ui/SearchField";
 import Segmented from "@/components/ui/Segmented";
+import Select from "@/components/ui/Select";
+import Switch from "@/components/ui/Switch";
 import Tabs from "@/components/ui/Tabs";
 import TagField from "@/components/ui/TagField";
+import TagPicker from "@/components/ui/TagPicker";
 import { TextArea, TextInput } from "@/components/ui/TextInput";
 import { ToastProvider, useToast } from "@/components/ui/Toast";
+import TourBanner from "@/components/ui/TourBanner";
 
 import { BUTTON_LABEL, QUICK_ADD_PLACEHOLDER, TOAST_TEXT } from "@/content/ui";
 
@@ -50,7 +64,7 @@ function Section({ id, title, children }: { id: string; title: string; children:
 }
 
 /**
- * 공통 컴포넌트 견본 (REBUILD 3-0 확인용, `/kit`). 라이트 · 다크를 오가며 보드 값과 잰다.
+ * 공통 컴포넌트 견본 (REBUILD 3-0 확인용, `/ui` · 개발 서버에서만). 라이트 · 다크를 오가며 보드 값과 잰다.
  */
 export default function UiGallery() {
   return (
@@ -298,6 +312,8 @@ function Gallery() {
           />
         </Section>
 
+        <MoreSections />
+
         <Section id="folder" title="폴더 카드 · 모자이크">
           <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
             <FolderCard
@@ -365,5 +381,220 @@ function Gallery() {
         }}
       />
     </main>
+  );
+}
+
+// 견본에 빠져 있던 13개 (11.26). 앱에서 쓰는 모양 · 상태(기본 · 선택 · 비활성 · 오류) 그대로
+function MoreSections() {
+  const [checks, setChecks] = useState({ a: false, b: true });
+  const [start, setStart] = useState("");
+  const [due, setDue] = useState("2026-11-30");
+  const [pill, setPill] = useState<"TODO" | "IN_PROGRESS" | "DONE">("TODO");
+  const [radio, setRadio] = useState<"light" | "dark">("light");
+  const [priority, setPriority] = useState<"HIGH" | "MEDIUM" | "LOW">("MEDIUM");
+  const [isOn, setIsOn] = useState(true);
+  const [isOff, setIsOff] = useState(false);
+  const [picked, setPicked] = useState<string[]>(["기획"]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isCoachOpen, setIsCoachOpen] = useState(false);
+  const priorities = [
+    { value: "HIGH" as const, label: "높음" },
+    { value: "MEDIUM" as const, label: "보통" },
+    { value: "LOW" as const, label: "낮음" },
+  ];
+
+  return (
+    <>
+      <Section id="badge" title="배지 · 24 · 작게 20 · 점 6">
+        <Badge tone="n" dot>
+          계획
+        </Badge>
+        <Badge tone="info" dot>
+          진행 중
+        </Badge>
+        <Badge tone="warn" dot>
+          보류
+        </Badge>
+        <Badge tone="ok" dot>
+          완료
+        </Badge>
+        <Badge tone="bad">3일 지남</Badge>
+        <Badge tone="info" dot small>
+          진행 중
+        </Badge>
+      </Section>
+
+      <Section id="card" title="카드 · 기본 · 누를 수 있음 · 고르는 중">
+        <Card className="w-60 p-4 text-sm">기본</Card>
+        <Card interactive className="w-60 p-4 text-sm">
+          누를 수 있음 (호버)
+        </Card>
+        <Card interactive selected className="w-60 p-4 text-sm">
+          고르는 중
+        </Card>
+      </Section>
+
+      <Section id="checkbox" title="체크박스 · 해제 · 선택 · 일부">
+        <label className="flex items-center gap-2 text-sm">
+          <Checkbox checked={checks.a} onChange={(a) => setChecks((v) => ({ ...v, a }))} />
+          해제
+        </label>
+        <label className="flex items-center gap-2 text-sm">
+          <Checkbox checked={checks.b} onChange={(b) => setChecks((v) => ({ ...v, b }))} />
+          선택
+        </label>
+        <label className="flex items-center gap-2 text-sm">
+          <Checkbox checked={false} indeterminate onChange={() => undefined} />
+          일부
+        </label>
+      </Section>
+
+      <Section id="radio" title="라디오 점 · 해제 · 선택">
+        {(["light", "dark"] as const).map((mode) => (
+          <button
+            key={mode}
+            type="button"
+            role="radio"
+            aria-checked={radio === mode}
+            onClick={() => setRadio(mode)}
+            className="kit-focus flex cursor-pointer items-center gap-2 rounded-[var(--radius-sm)] text-sm"
+          >
+            <RadioDot checked={radio === mode} />
+            {mode === "light" ? "라이트" : "다크"}
+          </button>
+        ))}
+      </Section>
+
+      <Section id="switch" title="스위치 · 켬 · 끔">
+        <Switch label="켬" checked={isOn} onChange={setIsOn} />
+        <Switch label="끔" checked={isOff} onChange={setIsOff} />
+      </Section>
+
+      <Section id="datefield" title="날짜 · 비어 있음 · 값 · 속성 줄 · 비활성 · 오류">
+        <div className="w-50">
+          <DateField label="시작일" value={start} onChange={setStart} />
+        </div>
+        <div className="w-50">
+          <DateField label="마감일" value={due} onChange={setDue} />
+        </div>
+        <div className="w-60">
+          <DateField variant="row" label="마감일" value={due} onChange={setDue} />
+        </div>
+        <div className="w-50">
+          <DateField label="지금 마감일" value="2026-09-01" onChange={() => undefined} disabled />
+        </div>
+        <div className="w-50">
+          <DateField label="마감일" value="" onChange={() => undefined} invalid />
+        </div>
+      </Section>
+
+      <Section id="select" title="선택 칸 · 입력칸 · 글자형">
+        <div className="w-50">
+          <Select label="우선순위" value={priority} onChange={setPriority} options={priorities} />
+        </div>
+        <Select
+          variant="text"
+          label="우선순위"
+          value={priority}
+          onChange={setPriority}
+          options={priorities}
+        />
+      </Section>
+
+      <Section id="pillgroup" title="알약 묶음 · 점 · 숫자 · 선택">
+        <PillGroup
+          label="태스크 상태"
+          value={pill}
+          onChange={setPill}
+          items={[
+            { value: "TODO", label: "할 일", dotClassName: badgeDotClassName.n, count: 3 },
+            {
+              value: "IN_PROGRESS",
+              label: "진행 중",
+              dotClassName: badgeDotClassName.info,
+              count: 2,
+            },
+            { value: "DONE", label: "완료", dotClassName: badgeDotClassName.ok, count: 4 },
+          ]}
+        />
+      </Section>
+
+      <Section id="tagpicker" title="태그 고르기 · 최대 2개 (다 고르면 나머지 비활성)">
+        <div className="w-80">
+          <TagPicker
+            label="태그"
+            options={["기획", "개발", "디자인"]}
+            value={picked}
+            onChange={setPicked}
+            max={2}
+          />
+        </div>
+      </Section>
+
+      <Section id="marker" title="프로젝트 표시 · 색 점 · 메인 왕관">
+        <span className="flex items-center gap-2 text-sm">
+          <ProjectMarker color="teal" />
+          스토어 출시 준비
+        </span>
+        <span className="flex items-center gap-2 text-sm">
+          <ProjectMarker color="indigo" isMain />
+          메인 프로젝트
+        </span>
+      </Section>
+
+      <Section id="modal" title="모달 · 폼 480">
+        <Button onClick={() => setIsModalOpen(true)}>모달 열기</Button>
+        <Modal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          title="즐겨찾기 추가"
+          footer={
+            <>
+              <Button onClick={() => setIsModalOpen(false)}>{BUTTON_LABEL.cancel}</Button>
+              <Button variant="primary" onClick={() => setIsModalOpen(false)}>
+                {BUTTON_LABEL.save}
+              </Button>
+            </>
+          }
+        >
+          <p className="text-sm text-[var(--t2)]">즐겨찾기는 최대 3개까지 추가할 수 있어요.</p>
+        </Modal>
+      </Section>
+
+      <Section id="coachmark" title="코치마크 · 어두운 말풍선 300 · n / 4">
+        <span
+          data-gallery-coach
+          className="rounded-[var(--radius-sm)] border border-[var(--border)] px-3 py-2 text-sm"
+        >
+          비출 곳
+        </span>
+        <Button onClick={() => setIsCoachOpen(true)}>코치마크 열기</Button>
+        {isCoachOpen ? (
+          <Coachmark
+            target="[data-gallery-coach]"
+            step={1}
+            total={4}
+            title="프로젝트는 폴더 카드예요"
+            text="색 · 상태 · 기간과 활동 모자이크가 한 장에 보여요. 조각이 클수록 그날 많이 했다는 뜻이에요."
+            onNext={() => setIsCoachOpen(false)}
+            onSkip={() => setIsCoachOpen(false)}
+          />
+        ) : null}
+      </Section>
+
+      <Section id="tourbanner" title="안내 띠 · 44 · 768 이상 / 767 이하 짧은 글">
+        <div className="w-full">
+          <TourBanner
+            text="예시 데이터로 둘러보는 중이에요"
+            detail="바꿔도 내 기록에는 남지 않아요"
+            shortText="예시 둘러보는 중"
+            secondaryLabel="둘러보기 끝내기"
+            onSecondary={() => undefined}
+            primaryLabel="내 기록 시작하기"
+            onPrimary={() => undefined}
+          />
+        </div>
+      </Section>
+    </>
   );
 }
