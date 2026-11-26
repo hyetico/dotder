@@ -8,7 +8,6 @@ import { ToastProvider } from "@/components/kit/Toast";
 import { useLayer, usePresence } from "@/components/kit/useLayer";
 import { HeaderActionsProvider } from "@/components/layout/Header/HeaderActions";
 import DemoTour from "@/components/shell/DemoTour";
-import { useDemoStep } from "@/components/shell/demoTourStore";
 import { PageMetaProvider } from "@/components/shell/PageMeta";
 import SaveErrorToast from "@/components/shell/SaveErrorToast";
 import ShellHeader from "@/components/shell/ShellHeader";
@@ -18,6 +17,7 @@ import { useGlobalShortcuts } from "@/components/shell/useGlobalShortcuts";
 import { AlertProvider } from "@/components/ui/modal/AlertModal";
 
 import { cn } from "@/lib/cn";
+import { useMode } from "@/lib/storage/dotderMode";
 
 const COLLAPSED_KEY = "dotder:sidebar-collapsed";
 const listeners = new Set<() => void>();
@@ -71,7 +71,7 @@ export default function AppShell({ children }: { children: ReactNode }) {
     return () => cancelAnimationFrame(frame);
   }, []);
 
-  const isDemo = useDemoStep() != null;
+  const isDemo = useMode() === "demo";
 
   return (
     <AlertProvider>

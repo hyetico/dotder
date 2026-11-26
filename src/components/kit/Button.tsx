@@ -5,19 +5,11 @@ import { cn } from "@/lib/cn";
 import type { ButtonHTMLAttributes, ReactNode, Ref } from "react";
 
 export type ButtonVariant =
-  | "primary"
-  | "secondary"
-  | "secondaryDanger"
-  | "ghost"
-  | "ghostText"
-  | "danger"
-  | "onToast"
-  | "onTip"
-  | "onTipPrimary";
+  "primary" | "secondary" | "secondaryDanger" | "ghost" | "ghostText" | "danger" | "onToast";
 export type ButtonSize = "lg" | "md" | "sm" | "xs";
 
 type ButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "children"> & {
-  /** 모양. 기본 secondary (보드 5-1). onToast는 토스트 안 「되돌리기」, onTip · onTipPrimary는 둘러보기 띠(--tip-bg 위) 전용 */
+  /** 모양. 기본 secondary (보드 5-1). onToast는 토스트 안 「되돌리기」 전용 */
   variant?: ButtonVariant;
   /** 크기 3종: md 40/16 · sm 36/12 · xs 28/8. 기본 md */
   size?: ButtonSize;
@@ -72,12 +64,6 @@ const variantClassName: Record<ButtonVariant, string> = {
   // 토스트(어두운 바탕) 안 글자 버튼 「되돌리기」
   onToast:
     "border-transparent text-[var(--toast-fg)] hover:bg-[var(--toast-hover)] disabled:opacity-40 aria-disabled:opacity-40",
-  // 둘러보기 띠(--tip-bg) 위 옅은 바탕 버튼 「둘러보기 끝내기」 (보드 E01)
-  onTip:
-    "border-transparent bg-[var(--tip-tone)] text-[var(--tip-fg)] hover:bg-[var(--tip-tone-h)] disabled:opacity-40 aria-disabled:opacity-40",
-  // 둘러보기 띠 위 채운 버튼 「내 기록 시작하기」
-  onTipPrimary:
-    "border-[var(--tip-fg)] bg-[var(--tip-fg)] font-semibold text-[var(--tip-bg)] disabled:opacity-40 aria-disabled:opacity-40",
   danger:
     "border-[var(--bad)] bg-[var(--bad)] text-[var(--btn-danger-fg)] hover:border-[var(--btn-danger-h)] hover:bg-[var(--btn-danger-h)] disabled:opacity-40 aria-disabled:opacity-40",
 };

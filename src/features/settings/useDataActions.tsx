@@ -11,8 +11,9 @@ import { useToast } from "@/components/kit/Toast";
 import { TOAST_TEXT } from "@/content/ui";
 
 import { toDateKey } from "@/lib/date";
-import { setFavoriteProjectIds } from "@/lib/projectSwitcherPreferences";
+import { clearProjectPreferences } from "@/lib/projectSwitcherPreferences";
 import { clearAllData, exportData } from "@/lib/storage/dotderData";
+import { setMode } from "@/lib/storage/dotderMode";
 
 type Counts = { projects: number; goals: number; tasks: number; memos: number };
 
@@ -51,11 +52,14 @@ export function useDataActions() {
 
   const confirmClear = async () => {
     setCounts(null);
+    // 지우는 것은 내 기록 (예시를 보던 중이어도 내 기록으로 돌아온다)
+    setMode("mine");
     await clearAllData();
-    setFavoriteProjectIds([]);
+    clearProjectPreferences();
     await queryClient.invalidateQueries();
     toast(TOAST_TEXT.allCleared);
-    router.push("/projects");
+    // 첫 화면으로 (저장된 내 기록이 없으니 [시작하기] · 예시로 둘러보기를 누르면 예시가 다시 보인다)
+    router.push("/");
   };
 
   // 문구는 프로토타입 wipe (설정 12)

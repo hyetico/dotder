@@ -1,8 +1,13 @@
-const FAVORITES_KEY = "projectflow:favorite-project-ids";
+import { readMode, subscribeMode } from "@/lib/storage/dotderMode";
+
+// 즐겨찾기 · 최근은 모드마다 따로 둔다 (예시에서 고른 것이 내 기록에 남지 않게). 내 기록 키는 예전 그대로
+const favoritesKey = () =>
+  readMode() === "demo" ? "dotder:demo:favorite-project-ids" : "projectflow:favorite-project-ids";
 
 const FAVORITES_CHANGED_EVENT = "projectflow:favorites-changed";
 
-const RECENT_KEY = "projectflow:recent-project-ids";
+const recentKey = () =>
+  readMode() === "demo" ? "dotder:demo:recent-project-ids" : "projectflow:recent-project-ids";
 
 export const MAX_FAVORITES = 3;
 
@@ -44,7 +49,7 @@ function writeIds(key: string, ids: number[]) {
 
   localStorage.setItem(key, JSON.stringify(ids));
 
-  if (key === FAVORITES_KEY) {
+  if (key === favoritesKey()) {
     window.dispatchEvent(new Event(FAVORITES_CHANGED_EVENT));
   }
 }
@@ -67,7 +72,7 @@ export function subscribeFavoriteProjectIds(onStoreChange: () => void) {
   }
 
   const handleStorage = (event: StorageEvent) => {
-    if (event.key != null && event.key !== FAVORITES_KEY) {
+    if (event.key != null && event.key !== favoritesKey()) {
       return;
     }
 
@@ -76,8 +81,10 @@ export function subscribeFavoriteProjectIds(onStoreChange: () => void) {
 
   window.addEventListener(FAVORITES_CHANGED_EVENT, onStoreChange);
   window.addEventListener("storage", handleStorage);
+  const unsubscribeMode = subscribeMode(onStoreChange);
 
   return () => {
+    unsubscribeMode();
     window.removeEventListener(FAVORITES_CHANGED_EVENT, onStoreChange);
     window.removeEventListener("storage", handleStorage);
   };
@@ -95,7 +102,7 @@ export function getFavoriteProjectIdsSnapshot(): number[] | null {
     return null;
   }
 
-  const raw = localStorage.getItem(FAVORITES_KEY);
+  const raw = `${favoritesKey()}=${localStorage.getItem(favoritesKey())}`;
 
   if (raw === favoriteSnapshotRaw) {
     return favoriteSnapshotIds;
@@ -130,7 +137,7 @@ function readRecentEntries(): RecentProjectEntry[] {
   }
 
   try {
-    const raw = localStorage.getItem(RECENT_KEY);
+    const raw = localStorage.getItem(recentKey());
 
     if (!raw) {
       return [];
@@ -178,11 +185,11 @@ function writeRecentEntries(entries: RecentProjectEntry[]) {
     return;
   }
 
-  localStorage.setItem(RECENT_KEY, JSON.stringify(entries.slice(0, MAX_RECENT)));
+  localStorage.setItem(recentKey(), JSON.stringify(entries.slice(0, MAX_RECENT)));
 }
 
 export function getFavoriteProjectIds() {
-  return readIds(FAVORITES_KEY).slice(0, MAX_FAVORITES);
+  return readIds(favoritesKey()).slice(0, MAX_FAVORITES);
 }
 
 /**
@@ -217,7 +224,7 @@ export function toggleFavoriteProjectId(projectId: number) {
 
   if (exists) {
     writeIds(
-      FAVORITES_KEY,
+      favoritesKey(),
       current.filter((id) => id !== projectId),
     );
 
@@ -228,7 +235,7 @@ export function toggleFavoriteProjectId(projectId: number) {
     return null;
   }
 
-  writeIds(FAVORITES_KEY, [...current, projectId]);
+  writeIds(favoritesKey(), [...current, projectId]);
 
   return true;
 }
@@ -242,7 +249,7 @@ export function toggleFavoriteProjectId(projectId: number) {
  * @param projectIds - 즐겨찾기로 남길 프로젝트 아이디
  */
 export function setFavoriteProjectIds(projectIds: number[]) {
-  writeIds(FAVORITES_KEY, [...new Set(projectIds)].slice(0, MAX_FAVORITES));
+  writeIds(favoritesKey(), [...new Set(projectIds)].slice(0, MAX_FAVORITES));
 }
 
 /**
@@ -273,4 +280,19 @@ export function recordRecentProjectId(projectId: number) {
  */
 export function removeRecentProjectId(projectId: number) {
   writeRecentEntries(getRecentProjectEntries().filter((entry) => entry.id !== projectId));
+}
+
+/**
+ * 지금 모드의 즐겨찾기 · 최근 목록을 비운다 (예시를 새로 시작할 때 · 내 기록 「모두 지우기」).
+ */
+export function clearProjectPreferences() {
+  if (typeof window === "undefined") {
+    return;
+  }
+  try {
+    localStorage.removeItem(recentKey());
+  } catch {
+    // 저장이 막힌 브라우저에서는 지울 것이 없다
+  }
+  writeIds(favoritesKey(), []);
 }

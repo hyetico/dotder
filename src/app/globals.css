@@ -151,9 +151,6 @@
   --tour-ring: #a78bfa;
   --tip-muted: #a8b0b8;
   --tip-body: #d1d5db;
-  /* 띠 버튼 옅은 바탕 (kit Button onTip) */
-  --tip-tone: #3c4046;
-  --tip-tone-h: #4b5158;
   /* 디테일 일정 v5 (보드 03 · DOC2 06) */
   --tl-grid: #eceef1;
   --tl-axis: #9aa2ab;
@@ -254,8 +251,6 @@
   --tour-ring: #a78bfa;
   --tip-muted: #5f6670;
   --tip-body: #2c3037;
-  --tip-tone: #d5d7db;
-  --tip-tone-h: #c7cacf;
   --tl-grid: #2a2e35;
   --tl-axis: #7d858f;
   --tl-today-band: rgb(59 130 246 / 0.06);
@@ -524,6 +519,8 @@
   /* 접힌 사이드바 툴팁 · 프로젝트 전환 팝오버가 헤더 위로 (DOC4 겹침 순서) */
   --z-sidebar: 20;
   --z-overlay: 50;
+  /* 둘러보기 띠: 코치마크 막(--z-overlay) 위 · 안내 중에도 「둘러보기 끝내기」를 누를 수 있게 */
+  --z-tour-banner: 60;
   --z-drawer: 60;
   --z-modal: 70;
   --z-popover: 80;

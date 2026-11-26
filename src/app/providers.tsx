@@ -1,8 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+import { subscribeMode } from "@/lib/storage/dotderMode";
 
 type ProvidersProps = {
   children: React.ReactNode;
@@ -19,6 +21,9 @@ type ProvidersProps = {
 export default function Providers({ children }: ProvidersProps) {
   // QueryClient: 서버 데이터를 캐시하고 관리하는 TanStack Query의 중앙 관리자
   const [queryClient] = useState(() => new QueryClient());
+
+  // 내 기록 ↔ 예시 모드가 바뀌면 그 모드의 데이터로 다시 읽는다
+  useEffect(() => subscribeMode(() => void queryClient.invalidateQueries()), [queryClient]);
 
   return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 }
