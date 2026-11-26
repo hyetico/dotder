@@ -13,8 +13,6 @@ const eslintConfig = defineConfig([
     "build/**",
     "next-env.d.ts",
     // iCloud 동기화 제외용 실제 폴더 (node_modules, .next는 이 폴더를 가리키는 링크)
-    "node_modules.nosync/**",
-    ".next.nosync/**",
     // 임시 파일·참고 자료 (git 제외)
     ".tmp/**",
     ".design-ref/**",
