@@ -53,8 +53,8 @@ const EMPTY_DATA: DotderData = {
 // 예시 목업 원본. 데이터를 바꾸기 전(파일을 처음 읽을 때)에 떠 둔다
 const EXAMPLE_DATA = snapshotData();
 
-/** 예시 목업 원본을 새로 복사해 돌려준다 (예시 모드 · 「예시 1개 남기고 시작하기」). */
-export function readExampleData(): DotderData {
+/** 예시 목업 원본을 새로 복사해 돌려준다 (예시 모드). */
+function readExampleData(): DotderData {
   return structuredClone(EXAMPLE_DATA);
 }
 
@@ -132,14 +132,6 @@ export async function clearAllData() {
   if (readMode() === "mine") {
     applyData(EMPTY_DATA);
   }
-}
-
-/**
- * 내 기록을 이 데이터로 새로 시작한다 (둘러보기 4/4 「예시 1개 남기고 시작하기」). 저장 후 내 기록 모드로 읽는다.
- */
-export async function startMineWith(data: DotderData) {
-  await dotderStore.save(data);
-  loadedMode = null;
 }
 
 /** 내보내기용 데이터 (설정 → 데이터 「내보내기」). 예시가 아닌 저장된 내 기록. 없으면 빈 데이터. */
