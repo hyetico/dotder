@@ -21,7 +21,6 @@ import { getAutoProjectStatus } from "@/features/projects/utils/projectUtils";
 
 import { cn } from "@/lib/cn";
 import { toDateKey } from "@/lib/date";
-import { currentUser } from "@/lib/mock/users";
 import { DEFAULT_PROJECT_COLOR, type ProjectColorKey } from "@/lib/projectPalette";
 import { NEW_PROJECT_PARAM } from "@/lib/projectRoutes";
 
@@ -108,7 +107,6 @@ function ProjectCreateDrawer({ isOpen, onClose }: { isOpen: boolean; onClose: ()
         isStatusManual: false,
         isMain: false,
         tags: form.tags,
-        creatorId: currentUser.id,
       });
       toast(TOAST_TEXT.saved);
       close();
