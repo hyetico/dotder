@@ -61,58 +61,6 @@ export function getProjectStatusLabel(status: ProjectStatusColorKey) {
   }
 }
 
-export function getProjectStatusStyles(status: ProjectStatusColorKey) {
-  switch (status) {
-    case "PLANNED":
-      return {
-        badge: "bg-[var(--badge-n-bg)] text-[var(--t2)]",
-        text: "text-[var(--t3)]",
-        dot: "bg-[var(--t4)]",
-        bar: "bg-[var(--t4)]",
-      };
-
-    case "IN_PROGRESS":
-      return {
-        badge: "bg-[var(--info-bg)] text-[var(--info)]",
-        text: "text-[var(--info)]",
-        dot: "bg-[var(--color-info)]",
-        bar: "bg-[var(--color-info)]",
-      };
-
-    case "ON_HOLD":
-      return {
-        badge: "bg-[var(--warn-bg)] text-[var(--warn)]",
-        text: "text-[var(--warn)]",
-        dot: "bg-[var(--color-warning)]",
-        bar: "bg-[var(--color-warning)]",
-      };
-
-    case "DONE":
-      return {
-        badge: "bg-[var(--ok-bg)] text-[var(--ok)]",
-        text: "text-[var(--ok)]",
-        dot: "bg-[var(--color-success)]",
-        bar: "bg-[var(--color-success)]",
-      };
-
-    case "DELAYED":
-      return {
-        badge: "bg-[var(--bad-bg)] text-[var(--badge-bad-fg)]",
-        text: "text-[var(--badge-bad-fg)]",
-        dot: "bg-[var(--color-danger)]",
-        bar: "bg-[var(--color-danger)]",
-      };
-
-    default:
-      return {
-        badge: "bg-[var(--color-hover)] text-[var(--text)]",
-        text: "text-[var(--t2)]",
-        dot: "bg-[var(--t4)]",
-        bar: "bg-[var(--t4)]",
-      };
-  }
-}
-
 export function isProjectDelayed(
   project: Pick<Project, "endDate" | "status">,
   today: Date = new Date(),
