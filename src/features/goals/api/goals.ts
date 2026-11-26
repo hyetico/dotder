@@ -4,6 +4,7 @@ import { mockGoals } from "@/lib/mock/goals";
 import { recordProjectHistory } from "@/lib/mock/projectHistory";
 import { mockProjects } from "@/lib/mock/projects";
 import { mockTeamMembers } from "@/lib/mock/teamMembers";
+import { ensureDataLoaded, saveData } from "@/lib/storage/dotderData";
 
 import type { Goal } from "@/features/goals/types/goal";
 import type { ProjectScope } from "@/lib/projectRoutes";
@@ -38,6 +39,7 @@ export function readGoalTitle(goalId: number): string | undefined {
 }
 
 export async function getGoals(scope: ProjectScope): Promise<Goal[]> {
+  await ensureDataLoaded();
   if (scope === "all") {
     return [...mockGoals];
   }
@@ -54,10 +56,12 @@ export async function getGoals(scope: ProjectScope): Promise<Goal[]> {
  * @returns 목표. 없으면 null
  */
 export async function getGoal(goalId: number): Promise<Goal | null> {
+  await ensureDataLoaded();
   return mockGoals.find((goal) => goal.id === goalId) ?? null;
 }
 
 export async function createGoal(input: CreateGoalInput): Promise<Goal> {
+  await ensureDataLoaded();
   const project = mockProjects.find((item) => item.id === input.projectId);
 
   if (project?.status === "ON_HOLD") {
@@ -97,6 +101,8 @@ export async function createGoal(input: CreateGoalInput): Promise<Goal> {
     });
   }
 
+  await saveData();
+
   return newGoal;
 }
 
@@ -107,6 +113,7 @@ export async function createGoal(input: CreateGoalInput): Promise<Goal> {
  * @throws 목표가 없으면
  */
 export async function deleteGoal(goalId: number): Promise<Goal> {
+  await ensureDataLoaded();
   const index = mockGoals.findIndex((goal) => goal.id === goalId);
 
   if (index === -1) {
@@ -124,19 +131,25 @@ export async function deleteGoal(goalId: number): Promise<Goal> {
     });
   }
 
+  await saveData();
+
   return removed;
 }
 
 /** 지운 목표를 같은 id로 다시 넣는다 (삭제 토스트 「되돌리기」). 풀린 태스크 연결은 돌아오지 않는다. */
 export async function restoreGoal(goal: Goal): Promise<Goal> {
+  await ensureDataLoaded();
   if (!mockGoals.some((item) => item.id === goal.id)) {
     mockGoals.push({ ...goal, tags: [...goal.tags] });
   }
+
+  await saveData();
 
   return goal;
 }
 
 export async function updateGoal(input: UpdateGoalInput): Promise<Goal> {
+  await ensureDataLoaded();
   const goalIndex = mockGoals.findIndex((goal) => goal.id === input.id);
 
   if (goalIndex === -1) {
@@ -188,6 +201,8 @@ export async function updateGoal(input: UpdateGoalInput): Promise<Goal> {
       to: updatedGoal.status,
     });
   }
+
+  await saveData();
 
   return updatedGoal;
 }

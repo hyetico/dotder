@@ -16,11 +16,12 @@ import { ChevronRight, Plus } from "@/components/ui/icon";
 
 import packageJson from "@/../package.json";
 import { PROJECT_TAG_PRESETS } from "@/features/projects/constants/projectTags";
+import { useDataActions } from "@/features/settings/useDataActions";
 
 import { cn } from "@/lib/cn";
 import { DEFAULT_PROJECT_COLOR, type ProjectColorKey } from "@/lib/projectPalette";
 
-// 테마만 실제로 저장 · 적용한다. 나머지 칸은 화면만 있고 값은 이번 화면 안에서만 바뀐다 (사용자 결정: 동작은 나중)
+// 테마와 데이터(내보내기 · 모두 지우기)만 실제로 동작한다. 나머지 칸은 화면만 있고 값은 이번 화면 안에서만 바뀐다 (사용자 결정: 동작은 나중)
 const themeListeners = new Set<() => void>();
 const useThemeMode = () =>
   useSyncExternalStore(
@@ -76,6 +77,8 @@ export default function SettingsScreen() {
     mosaic: true,
     hideDone: false,
   });
+
+  const dataActions = useDataActions();
 
   // 태블릿 · 모바일 헤더는 ← 뒤로 (보드 T · M 12)
   usePageMeta("설정", undefined, "/projects");
@@ -241,7 +244,7 @@ export default function SettingsScreen() {
 
             <WideSection id="data" title="데이터" text="v1은 브라우저에 저장돼요">
               <WideRow label="내보내기" help="모든 프로젝트·목표·태스크·메모를 JSON 파일로">
-                <Button size="sm" pending>
+                <Button size="sm" onClick={() => void dataActions.exportJson()}>
                   내보내기
                 </Button>
               </WideRow>
@@ -255,7 +258,7 @@ export default function SettingsScreen() {
                 help="삭제하면 되돌릴 수 없어요. 확인 창이 한 번 더 열려요."
                 danger
               >
-                <Button size="sm" pending>
+                <Button size="sm" onClick={() => void dataActions.requestClear()}>
                   지우기
                 </Button>
               </WideRow>
@@ -320,13 +323,18 @@ export default function SettingsScreen() {
             </CompactRow>
           </CompactGroup>
           <CompactGroup title="데이터">
-            <CompactRow label="내보내기">
+            <CompactRow label="내보내기" onClick={() => void dataActions.exportJson()}>
               <ChevronRight size={16} aria-hidden className="text-[var(--t3)]" />
             </CompactRow>
-            <CompactRow label="모두 지우기" danger />
+            <CompactRow
+              label="모두 지우기"
+              danger
+              onClick={() => void dataActions.requestClear()}
+            />
           </CompactGroup>
         </div>
       </div>
+      {dataActions.dialog}
     </div>
   );
 }
@@ -489,24 +497,42 @@ function CompactGroup({ title, children }: { title: string; children: ReactNode 
   );
 }
 
+const compactRowClassName =
+  "flex min-h-14 items-center gap-3 border-t border-[var(--divider)] first:border-t-0";
+
 function CompactRow({
   label,
   help,
   danger = false,
+  onClick,
   children,
 }: {
   label: string;
   help?: string;
   danger?: boolean;
+  /** 넘기면 줄 전체가 버튼 (데이터 「내보내기」 · 「모두 지우기」) */
+  onClick?: () => void;
   children?: ReactNode;
 }) {
-  return (
-    <div className="flex min-h-14 items-center gap-3 border-t border-[var(--divider)] first:border-t-0">
+  const content = (
+    <>
       <div className="flex min-w-0 flex-1 flex-col">
         <span className={cn("text-sm", danger && "text-[var(--bad)]")}>{label}</span>
         {help ? <span className="text-xs text-[var(--t3)]">{help}</span> : null}
       </div>
       {children}
-    </div>
+    </>
+  );
+
+  return onClick ? (
+    <button
+      type="button"
+      onClick={onClick}
+      className={cn(compactRowClassName, "kit-focus w-full cursor-pointer text-left")}
+    >
+      {content}
+    </button>
+  ) : (
+    <div className={compactRowClassName}>{content}</div>
   );
 }

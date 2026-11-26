@@ -10,6 +10,7 @@ import { HeaderActionsProvider } from "@/components/layout/Header/HeaderActions"
 import DemoTour from "@/components/shell/DemoTour";
 import { useDemoStep } from "@/components/shell/demoTourStore";
 import { PageMetaProvider } from "@/components/shell/PageMeta";
+import SaveErrorToast from "@/components/shell/SaveErrorToast";
 import ShellHeader from "@/components/shell/ShellHeader";
 import ShellSidebar from "@/components/shell/ShellSidebar";
 import ShortcutsDialog from "@/components/shell/ShortcutsDialog";
@@ -82,6 +83,7 @@ export default function AppShell({ children }: { children: ReactNode }) {
               <Suspense fallback={null}>
                 <DemoTour />
               </Suspense>
+              <SaveErrorToast />
               <div className="flex min-h-dvh bg-[var(--bg)] text-[var(--text)]">
                 <aside
                   className={cn(
