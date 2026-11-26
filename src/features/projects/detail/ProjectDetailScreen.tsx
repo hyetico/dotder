@@ -72,7 +72,6 @@ const listPageClassName =
  */
 export default function ProjectDetailScreen({ projectId }: { projectId: number }) {
   return (
-    // 본문 바탕은 보드대로 --bg (옛 화면의 .page-content 회색을 덮는다)
     <div className="min-h-full bg-[var(--bg)]">
       <Suspense fallback={null}>
         <DetailBody projectId={projectId} />
