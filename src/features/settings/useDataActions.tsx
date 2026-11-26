@@ -58,7 +58,8 @@ export function useDataActions() {
     clearProjectPreferences();
     await queryClient.invalidateQueries();
     toast(TOAST_TEXT.allCleared);
-    router.push("/projects");
+    // 첫 화면으로 (저장된 내 기록이 없으니 [시작하기] · 예시로 둘러보기를 누르면 예시가 다시 보인다)
+    router.push("/");
   };
 
   // 문구는 프로토타입 wipe (설정 12)
