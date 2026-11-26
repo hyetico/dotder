@@ -10,7 +10,7 @@ import EmptyState from "@/components/kit/EmptyState";
 import Tabs from "@/components/kit/Tabs";
 import { HeaderActions } from "@/components/layout/Header/HeaderActions";
 import { usePageMeta } from "@/components/shell/PageMeta";
-import { Archive, Plus, Search } from "@/components/ui/icon";
+import { Archive, Folder, Plus, Search } from "@/components/ui/icon";
 
 import { getProjectActivity, getProjectListItems } from "@/features/projects/api/projects";
 import ArchiveModal, { useArchivedProjects } from "@/features/projects/list/ArchiveModal";
@@ -141,7 +141,19 @@ export default function ProjectListScreen({ scope }: { scope: ProjectListScope }
               allTags={allTags}
               resultCount={visible.length}
             />
-            {!isLoading && visible.length === 0 ? (
+            {!isLoading && projects.length === 0 ? (
+              <EmptyState
+                icon={<Folder size={24} />}
+                title="아직 프로젝트가 없어요"
+                text="프로젝트를 추가하면 메인 프로젝트로 정할 수 있어요."
+                actions={
+                  <Button href={getNewProjectPath()} variant="primary">
+                    <Plus size={16} aria-hidden />
+                    프로젝트 추가
+                  </Button>
+                }
+              />
+            ) : !isLoading && visible.length === 0 ? (
               <EmptyState
                 icon={<Search size={24} />}
                 title="조건에 맞는 프로젝트가 없어요"

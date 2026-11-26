@@ -20,7 +20,7 @@ import { usePageMeta } from "@/components/shell/PageMeta";
 import { useFavoriteProjectIds } from "@/components/shell/useFavoriteProjects";
 import { CircleAlert, Funnel, ListFilter, Plus, Target } from "@/components/ui/icon";
 
-import { TOAST_TEXT } from "@/content/ui";
+import { NOT_FOUND_TITLE, TOAST_TEXT } from "@/content/ui";
 import { getGoals } from "@/features/goals/api/goals";
 import GoalAddDrawer from "@/features/goals/drawers/GoalAddDrawer";
 import GoalDetailDrawer from "@/features/goals/drawers/GoalDetailDrawer";
@@ -129,7 +129,14 @@ function GoalsBody({ scope }: { scope: GoalsScope }) {
   const openGoal = goals.find((goal) => goal.id === openGoalId) ?? null;
   const subtitle = `${scoped.length}개 중 ${count("IN_PROGRESS")}개 진행 중`;
 
-  usePageMeta("목표", subtitle);
+  // 없는 목표 주소(/goals/1/999 → ?goal=999)는 목록 대신 「찾을 수 없음」 (위치 「목표 / 찾을 수 없음」)
+  const isGoalMissing = !isLoading && openGoalId != null && !openGoal;
+
+  usePageMeta(
+    isGoalMissing ? NOT_FOUND_TITLE : "목표",
+    isGoalMissing ? undefined : subtitle,
+    isGoalMissing ? "/goals" : undefined,
+  );
 
   const setOpenGoal = (goalId: number | null) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -207,6 +214,23 @@ function GoalsBody({ scope }: { scope: GoalsScope }) {
         {GROUP_LABEL[key]}
       </PickRow>
     ));
+
+  if (isGoalMissing) {
+    return (
+      <div className="mx-auto flex w-full max-w-320 flex-col gap-3 px-4 pt-6 pb-8 md:px-6 md:pt-8 lg:gap-6 lg:px-10 lg:pt-10 lg:pb-16">
+        <EmptyState
+          icon={<Target size={24} />}
+          title="목표를 찾을 수 없어요"
+          text="지워졌거나 주소가 바뀌었을 수 있어요."
+          actions={
+            <Button href="/goals" variant="primary">
+              목표 목록으로
+            </Button>
+          }
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="mx-auto flex w-full max-w-320 flex-col gap-3 px-4 pt-6 pb-8 md:px-6 md:pt-8 lg:gap-6 lg:px-10 lg:pt-10 lg:pb-16">
