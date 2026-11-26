@@ -22,13 +22,7 @@ import {
   type ProjectHistoryEntry,
 } from "@/lib/mock/projectHistory";
 import { mockProjects } from "@/lib/mock/projects";
-import {
-  ensureDataLoaded,
-  hasSavedData,
-  readExampleData,
-  saveData,
-  startMineWith,
-} from "@/lib/storage/dotderData";
+import { ensureDataLoaded, saveData } from "@/lib/storage/dotderData";
 import { setMode } from "@/lib/storage/dotderMode";
 
 import type { Goal } from "@/features/goals/types/goal";
@@ -395,26 +389,10 @@ export async function restoreDeletedProject(project: Project): Promise<Project> 
 }
 
 /**
- * 둘러보기를 마치고 내 기록을 시작한다 (E01 4 / 4 시작 선택). 내 기록 모드로 바꾸고, 부른 쪽은 쿼리를 다시 읽는다.
- * 이미 저장된 내 기록이 있으면 덮어쓰지 않는다.
- *
- * @param keepExample - true면 예시의 메인 프로젝트 하나와 그 목표 · 태스크 · 메모 · 기록을 내 기록으로 복사해 저장한다
+ * 둘러보기를 마치고 내 기록으로 간다 (E01 4 / 4 [시작하기] · [내 기록으로 돌아가기]). 내 기록 모드로 바꾸기만 한다.
+ * 예시는 내 기록에 들어오지 않는다 (예시는 커버 [예시로 둘러보기]로 언제든 다시 볼 수 있다).
  */
-export async function startMyRecords(keepExample: boolean) {
-  if (keepExample && !(await hasSavedData())) {
-    const example = readExampleData();
-    const main = example.projects.find((project) => project.isMain) ?? example.projects[0];
-    const id = main?.id;
-    await startMineWith({
-      version: 1,
-      projects: example.projects.filter((project) => project.id === id),
-      goals: example.goals.filter((goal) => goal.projectId === id),
-      tasks: example.tasks.filter((task) => task.projectId === id),
-      memos: example.memos.filter((memo) => memo.projectId === id),
-      history: example.history.filter((entry) => entry.projectId === id),
-      deadlineChanges: example.deadlineChanges.filter((change) => change.projectId === id),
-    });
-  }
+export async function startMyRecords() {
   setMode("mine");
 }
 
