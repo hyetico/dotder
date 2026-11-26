@@ -82,109 +82,115 @@ export default function ProjectListScreen({ scope }: { scope: ProjectListScope }
   usePageMeta("프로젝트", subtitle);
 
   return (
-    <div className="mx-auto w-full max-w-320 px-4 pt-6 pb-8 md:px-6 md:pt-8 lg:px-10 lg:pt-10 lg:pb-16">
-      <HeaderActions>
-        <Button href={getNewProjectPath()} variant="primary" size="sm" className="max-lg:hidden">
-          <Plus size={16} aria-hidden />
-          추가
-        </Button>
-        <Button
-          href={getNewProjectPath()}
-          variant="ghost"
-          size="sm"
-          iconOnly
-          aria-label="새로 만들기"
-          className="lg:hidden"
-        >
-          <Plus size={18} aria-hidden />
-        </Button>
-      </HeaderActions>
-
-      <header className="flex items-end gap-4 max-lg:hidden">
-        <div className="flex min-w-0 flex-1 flex-col gap-1">
-          <h1 className="text-2xl font-bold">프로젝트</h1>
-          <p className="text-sm text-[var(--t2)]">
-            {subtitle}
-            {counts.late > 0 ? (
-              <>
-                {" · "}
-                <span className="text-[var(--bad)]">{counts.late}개 마감 지남</span>
-              </>
-            ) : null}
-          </p>
-        </div>
-        {archived.length > 0 ? (
-          <Button variant="ghost" size="sm" onClick={() => setIsArchiveOpen(true)}>
-            <Archive size={16} aria-hidden />
-            보관함 {archived.length}
+    // 루트 배경은 목표 · 메모 화면과 같은 --bg (11.26)
+    <div className="min-h-full bg-[var(--bg)]">
+      <div className="mx-auto w-full max-w-320 px-4 pt-6 pb-8 md:px-6 md:pt-8 lg:px-10 lg:pt-10 lg:pb-16">
+        <HeaderActions>
+          <Button href={getNewProjectPath()} variant="primary" size="sm" className="max-lg:hidden">
+            <Plus size={16} aria-hidden />
+            추가
           </Button>
-        ) : null}
-      </header>
+          <Button
+            href={getNewProjectPath()}
+            variant="ghost"
+            size="sm"
+            iconOnly
+            aria-label="새로 만들기"
+            className="lg:hidden"
+          >
+            <Plus size={18} aria-hidden />
+          </Button>
+        </HeaderActions>
 
-      <Tabs className="lg:mt-6" label="프로젝트 탭" value={scope} items={SCOPE_TABS} />
-
-      <div className="mt-3 lg:mt-6">
-        {scope === "favorites" ? (
-          <FavoritesPanel
-            projects={projects}
-            activity={activity}
-            onShowAll={() => router.push("/projects")}
-          />
-        ) : (
-          <div className="flex flex-col gap-6">
-            <ProjectToolbar
-              query={query}
-              onChange={(next) => setQuery((current) => ({ ...current, ...next }))}
-              counts={counts}
-              view={view}
-              onViewChange={setView}
-              allTags={allTags}
-              resultCount={visible.length}
-            />
-            {!isLoading && projects.length === 0 ? (
-              <EmptyState
-                icon={<Folder size={24} />}
-                title="아직 프로젝트가 없어요"
-                text="프로젝트를 추가하면 메인 프로젝트로 정할 수 있어요."
-                actions={
-                  <Button href={getNewProjectPath()} variant="primary">
-                    <Plus size={16} aria-hidden />
-                    프로젝트 추가
-                  </Button>
-                }
-              />
-            ) : !isLoading && visible.length === 0 ? (
-              <EmptyState
-                icon={<Search size={24} />}
-                title="조건에 맞는 프로젝트가 없어요"
-                text="필터를 바꾸거나 새 프로젝트를 추가해 보세요."
-              />
-            ) : view === "card" ? (
-              <ProjectCardGrid>
-                {visible.map((project, index) => (
-                  <li
-                    key={project.id}
-                    className="min-w-0"
-                    data-list-row
-                    data-tour={index === 0 ? "project-card" : undefined}
-                  >
-                    <ProjectCard project={project} activity={activity[project.id] ?? NO_ACTIVITY} />
-                  </li>
-                ))}
-              </ProjectCardGrid>
-            ) : (
-              <ul className="flex flex-col gap-2">
-                {visible.map((project) => (
-                  <ProjectListRow key={project.id} project={project} />
-                ))}
-              </ul>
-            )}
+        <header className="flex items-end gap-4 max-lg:hidden">
+          <div className="flex min-w-0 flex-1 flex-col gap-1">
+            <h1 className="text-2xl font-bold">프로젝트</h1>
+            <p className="text-sm text-[var(--t2)]">
+              {subtitle}
+              {counts.late > 0 ? (
+                <>
+                  {" · "}
+                  <span className="text-[var(--bad)]">{counts.late}개 마감 지남</span>
+                </>
+              ) : null}
+            </p>
           </div>
-        )}
-      </div>
+          {archived.length > 0 ? (
+            <Button variant="ghost" size="sm" onClick={() => setIsArchiveOpen(true)}>
+              <Archive size={16} aria-hidden />
+              보관함 {archived.length}
+            </Button>
+          ) : null}
+        </header>
 
-      <ArchiveModal isOpen={isArchiveOpen} onClose={() => setIsArchiveOpen(false)} />
-      <ProjectCreateRoute />
+        <Tabs className="lg:mt-6" label="프로젝트 탭" value={scope} items={SCOPE_TABS} />
+
+        <div className="mt-3 lg:mt-6">
+          {scope === "favorites" ? (
+            <FavoritesPanel
+              projects={projects}
+              activity={activity}
+              onShowAll={() => router.push("/projects")}
+            />
+          ) : (
+            <div className="flex flex-col gap-6">
+              <ProjectToolbar
+                query={query}
+                onChange={(next) => setQuery((current) => ({ ...current, ...next }))}
+                counts={counts}
+                view={view}
+                onViewChange={setView}
+                allTags={allTags}
+                resultCount={visible.length}
+              />
+              {!isLoading && projects.length === 0 ? (
+                <EmptyState
+                  icon={<Folder size={24} />}
+                  title="아직 프로젝트가 없어요"
+                  text="프로젝트를 추가하면 메인 프로젝트로 정할 수 있어요."
+                  actions={
+                    <Button href={getNewProjectPath()} variant="primary">
+                      <Plus size={16} aria-hidden />
+                      프로젝트 추가
+                    </Button>
+                  }
+                />
+              ) : !isLoading && visible.length === 0 ? (
+                <EmptyState
+                  icon={<Search size={24} />}
+                  title="조건에 맞는 프로젝트가 없어요"
+                  text="필터를 바꾸거나 새 프로젝트를 추가해 보세요."
+                />
+              ) : view === "card" ? (
+                <ProjectCardGrid>
+                  {visible.map((project, index) => (
+                    <li
+                      key={project.id}
+                      className="min-w-0"
+                      data-list-row
+                      data-tour={index === 0 ? "project-card" : undefined}
+                    >
+                      <ProjectCard
+                        project={project}
+                        activity={activity[project.id] ?? NO_ACTIVITY}
+                      />
+                    </li>
+                  ))}
+                </ProjectCardGrid>
+              ) : (
+                <ul className="flex flex-col gap-2">
+                  {visible.map((project) => (
+                    <ProjectListRow key={project.id} project={project} />
+                  ))}
+                </ul>
+              )}
+            </div>
+          )}
+        </div>
+
+        <ArchiveModal isOpen={isArchiveOpen} onClose={() => setIsArchiveOpen(false)} />
+        <ProjectCreateRoute />
+      </div>
     </div>
   );
 }
