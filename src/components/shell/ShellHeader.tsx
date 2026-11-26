@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import Button from "@/components/kit/Button";
-import { HeaderActionsSlot } from "@/components/layout/Header/HeaderActions";
+import { HeaderActionsSlot } from "@/components/shell/HeaderActions";
 import { findNavItem } from "@/components/shell/navItems";
 import { usePageMetaValue } from "@/components/shell/PageMeta";
 import ShellSearch from "@/components/shell/ShellSearch";

@@ -10,7 +10,7 @@ import Button from "@/components/kit/Button";
 import { DeleteConfirmDialog } from "@/components/kit/ConfirmDialog";
 import EmptyState from "@/components/kit/EmptyState";
 import Tabs from "@/components/kit/Tabs";
-import { HeaderActions } from "@/components/layout/Header/HeaderActions";
+import { HeaderActions } from "@/components/shell/HeaderActions";
 import { usePageMeta } from "@/components/shell/PageMeta";
 import { useFavoriteProjectIds } from "@/components/shell/useFavoriteProjects";
 import {

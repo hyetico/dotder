@@ -8,7 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 import Button from "@/components/kit/Button";
 import EmptyState from "@/components/kit/EmptyState";
 import Tabs from "@/components/kit/Tabs";
-import { HeaderActions } from "@/components/layout/Header/HeaderActions";
+import { HeaderActions } from "@/components/shell/HeaderActions";
 import { usePageMeta } from "@/components/shell/PageMeta";
 import { Archive, Folder, Plus, Search } from "@/components/ui/icon";
 

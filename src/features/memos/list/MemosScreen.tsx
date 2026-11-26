@@ -13,7 +13,7 @@ import SearchField from "@/components/kit/SearchField";
 import Segmented from "@/components/kit/Segmented";
 import Tabs from "@/components/kit/Tabs";
 import { useToast } from "@/components/kit/Toast";
-import { HeaderActions } from "@/components/layout/Header/HeaderActions";
+import { HeaderActions } from "@/components/shell/HeaderActions";
 import { usePageMeta } from "@/components/shell/PageMeta";
 import { useFavoriteProjectIds } from "@/components/shell/useFavoriteProjects";
 import { Folder, Inbox, Plus } from "@/components/ui/icon";

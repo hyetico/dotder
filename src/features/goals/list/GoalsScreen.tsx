@@ -15,7 +15,7 @@ import Popover from "@/components/kit/Popover";
 import Segmented from "@/components/kit/Segmented";
 import Tabs from "@/components/kit/Tabs";
 import { useToast } from "@/components/kit/Toast";
-import { HeaderActions } from "@/components/layout/Header/HeaderActions";
+import { HeaderActions } from "@/components/shell/HeaderActions";
 import { usePageMeta } from "@/components/shell/PageMeta";
 import { useFavoriteProjectIds } from "@/components/shell/useFavoriteProjects";
 import { CircleAlert, Funnel, ListFilter, Plus, Target } from "@/components/ui/icon";

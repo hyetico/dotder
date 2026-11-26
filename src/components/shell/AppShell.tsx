@@ -5,8 +5,8 @@ import { Suspense, useEffect, useRef, useState, useSyncExternalStore, type React
 import { createPortal } from "react-dom";
 
 import { useLayer, usePresence } from "@/components/kit/useLayer";
-import { HeaderActionsProvider } from "@/components/layout/Header/HeaderActions";
 import DemoTour from "@/components/shell/DemoTour";
+import { HeaderActionsProvider } from "@/components/shell/HeaderActions";
 import { PageMetaProvider } from "@/components/shell/PageMeta";
 import SaveErrorToast from "@/components/shell/SaveErrorToast";
 import ShellHeader from "@/components/shell/ShellHeader";
