@@ -1,7 +1,4 @@
-import { getProjectStatusColorScale } from "@/lib/statusColors";
-
 import type { Goal, GoalStatus } from "@/features/goals/types/goal";
-import type { Project } from "@/features/projects/types/project";
 
 export type GoalVisualStatus = GoalStatus | "DELAYED";
 
@@ -38,35 +35,6 @@ export function getGoalVisualStatus(status: GoalStatus, delayed = false): GoalVi
   }
 
   return status;
-}
-
-export function getGoalStatusColorKey(status: GoalStatus): Project["status"] {
-  switch (status) {
-    case "NOT_STARTED":
-      return "PLANNED";
-
-    case "IN_PROGRESS":
-      return "IN_PROGRESS";
-
-    case "COMPLETED":
-      return "DONE";
-
-    default:
-      return "PLANNED";
-  }
-}
-
-export function getGoalStatusMetricColors(
-  status: GoalStatus,
-  options?: {
-    delayed?: boolean;
-  },
-) {
-  return getProjectStatusColorScale(getGoalStatusColorKey(status), options);
-}
-
-export function getGoalStatusMarkColor(status: GoalStatus, delayed = false) {
-  return getGoalStatusMetricColors(status, { delayed }).progress;
 }
 
 export type GoalScheduleTone = "delayed" | "done" | "remaining";
@@ -144,45 +112,6 @@ export function getGoalScheduleMark(
     label: "D-Day",
     description: "마감 당일",
   };
-}
-
-export function getGoalStatusStyles(status: GoalVisualStatus) {
-  switch (status) {
-    case "NOT_STARTED":
-      return {
-        badge: "bg-[var(--color-hover)] text-[var(--t3)]",
-        dot: "bg-[var(--t4)]",
-        bar: "bg-[var(--t4)]",
-      };
-
-    case "IN_PROGRESS":
-      return {
-        badge: "bg-[var(--info-bg)] text-[var(--info)]",
-        dot: "bg-[var(--color-info)]",
-        bar: "bg-[var(--color-info)]",
-      };
-
-    case "COMPLETED":
-      return {
-        badge: "bg-[var(--ok-bg)] text-[var(--ok)]",
-        dot: "bg-[var(--color-success)]",
-        bar: "bg-[var(--color-success)]",
-      };
-
-    case "DELAYED":
-      return {
-        badge: "bg-[var(--bad-bg)] text-[var(--badge-bad-fg)]",
-        dot: "bg-[var(--color-danger)]",
-        bar: "bg-[var(--color-danger)]",
-      };
-
-    default:
-      return {
-        badge: "bg-[var(--color-hover)] text-[var(--t2)]",
-        dot: "bg-[var(--t4)]",
-        bar: "bg-[var(--border-2)]",
-      };
-  }
 }
 
 /**
