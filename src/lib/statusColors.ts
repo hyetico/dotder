@@ -1,5 +1,7 @@
-import type { StatusBadgeTone } from "@/components/ui/badge/StatusBadge";
 import type { ProjectStatus } from "@/features/projects/types/project";
+
+/** 상태 색 이름 (배지 · 글자 색에 쓴다) */
+export type StatusBadgeTone = "neutral" | "info" | "warning" | "success" | "danger";
 
 /**
  * 상태와 색의 연결은 이 파일에서만 정한다 (style-guide 1-5).
@@ -26,7 +28,7 @@ const STATUS_TOKEN: Record<ProjectStatusColorKey, StatusBadgeTone> = {
  * 상태 뱃지 · 상태 글자에 넘길 색 이름을 돌려준다.
  *
  * @param status - 프로젝트 상태. 목표 · 태스크는 `getGoalStatusColorKey` 등으로 바꿔서 넘긴다
- * @returns `StatusBadge` · `StatusText`의 `tone`
+ * @returns 상태 색 이름 (`tone`)
  *
  * @example
  * getStatusTone("IN_PROGRESS") // "info"

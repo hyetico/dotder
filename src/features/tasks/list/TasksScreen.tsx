@@ -16,7 +16,7 @@ import QuickAddInput from "@/components/kit/QuickAddInput";
 import SearchField from "@/components/kit/SearchField";
 import Segmented from "@/components/kit/Segmented";
 import { useToast } from "@/components/kit/Toast";
-import { HeaderActions } from "@/components/layout/Header/HeaderActions";
+import { HeaderActions } from "@/components/shell/HeaderActions";
 import { usePageMeta } from "@/components/shell/PageMeta";
 import {
   Calendar,
