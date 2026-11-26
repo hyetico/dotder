@@ -231,7 +231,7 @@ export default function MemosScreen({ scope }: { scope: MemosScope }) {
         {visible.length === 0 ? (
           <EmptyState
             icon={<Inbox size={24} />}
-            title={scoped.length ? "검색 결과가 없어요." : "아직 메모가 없어요"}
+            title={scoped.length ? "조건에 맞는 메모가 없어요" : "아직 메모가 없어요"}
             text={
               scoped.length ? "다른 검색어를 입력해 보세요." : "위 입력칸에 메모를 추가해 보세요."
             }

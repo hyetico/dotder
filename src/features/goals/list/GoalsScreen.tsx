@@ -35,6 +35,7 @@ import { getTasks } from "@/features/tasks/api/tasks";
 import { useIsClient } from "@/hooks/useIsClient";
 import { toDateKey } from "@/lib/date";
 import { projectColorVar } from "@/lib/projectPalette";
+import { getNewProjectPath } from "@/lib/projectRoutes";
 import { goalQueryKeys, projectQueryKeys, taskQueryKeys } from "@/lib/queryKeys";
 
 import type { Goal, GoalStatus } from "@/features/goals/types/goal";
@@ -59,8 +60,8 @@ const SCOPE_TABS = [
 /**
  * 전체 목표 (REBUILD 3-4 · 보드 09 ~ 09-g · T · M 09).
  * 웹: 본문 최대 1280 · 40/40/64 · 사이 24, 제목 「목표」 + 「N개 중 N개 진행 중 · N개 마감 지남」 →
- * 탭(전체 · 메인 프로젝트 · 즐겨찾기) → 도구 줄(상태 칸 · 지연만 · ─ · 묶기 · 필터) → 묶음(프로젝트 · 상태 · 없음)별 목표 줄.
- * 태블릿 · 모바일: 제목은 헤더로, 상태 칸(전체 · 진행 중 · 완료) + 필터 아이콘(지연만 · 묶기 · 태그).
+ * 탭(전체 · 메인 프로젝트 · 즐겨찾기) → 도구 줄(상태 칸 · 마감 지남만 · ─ · 묶기 · 필터) → 묶음(프로젝트 · 상태 · 없음)별 목표 줄.
+ * 태블릿 · 모바일: 제목은 헤더로, 상태 칸(전체 · 진행 중 · 완료) + 필터 아이콘(마감 지남만 · 묶기 · 태그).
  * 주소 `?goal=id`면 그 목표 상세를 연다.
  */
 export default function GoalsScreen({ scope }: { scope: GoalsScope }) {
@@ -99,7 +100,7 @@ function GoalsBody({ scope }: { scope: GoalsScope }) {
     queryKey: taskQueryKeys.list("all"),
     queryFn: () => getTasks("all"),
   });
-  const { data: projects = [] } = useQuery({
+  const { data: projects = [], isLoading: isProjectsLoading } = useQuery({
     queryKey: projectQueryKeys.all,
     queryFn: getProjects,
   });
@@ -131,6 +132,8 @@ function GoalsBody({ scope }: { scope: GoalsScope }) {
 
   // 없는 목표 주소(/goals/1/999 → ?goal=999)는 목록 대신 「찾을 수 없음」 (위치 「목표 / 찾을 수 없음」)
   const isGoalMissing = !isLoading && openGoalId != null && !openGoal;
+  // 프로젝트가 하나도 없으면 목표를 만들 곳이 없다
+  const hasNoProjects = !isLoading && !isProjectsLoading && projects.length === 0 && !scoped.length;
 
   usePageMeta(
     isGoalMissing ? NOT_FOUND_TITLE : "목표",
@@ -346,7 +349,19 @@ function GoalsBody({ scope }: { scope: GoalsScope }) {
         </Button>
       </div>
 
-      {isLoading ? null : visible.length === 0 ? (
+      {isLoading ? null : hasNoProjects ? (
+        <EmptyState
+          icon={<Target size={24} />}
+          title="먼저 프로젝트를 추가해 주세요"
+          text="목표는 프로젝트 안에 만들어요."
+          actions={
+            <Button href={getNewProjectPath()} variant="primary">
+              <Plus size={16} aria-hidden />
+              프로젝트 추가
+            </Button>
+          }
+        />
+      ) : visible.length === 0 ? (
         <EmptyState
           icon={<Target size={24} />}
           title={scoped.length ? "조건에 맞는 목표가 없어요" : "아직 목표가 없어요"}

@@ -172,7 +172,7 @@ function Gallery() {
             icon={<CircleAlert size={16} aria-hidden />}
             count={3}
           >
-            지연만
+            마감 지남만
           </Chip>
           <Segmented
             label="보기 방식"
@@ -208,7 +208,7 @@ function Gallery() {
             value="all"
             items={[
               { key: "all", label: "전체" },
-              { key: "main", label: "메인" },
+              { key: "main", label: "메인 프로젝트" },
               { key: "fav", label: "즐겨찾기" },
             ]}
           />

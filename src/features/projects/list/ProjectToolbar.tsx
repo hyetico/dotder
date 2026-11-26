@@ -45,7 +45,7 @@ const SORTS: ProjectSort[] = ["updated", "due", "name"];
 
 /**
  * 프로젝트 목록 도구 줄 (보드 01 · 01-j · M 01-d).
- * 웹: 상태 칸(숫자) · 「지연만 N」 · 오른쪽 검색 240 · 정렬(200 팝오버) · 보기 전환. 좁으면 줄바꿈.
+ * 웹: 상태 칸(숫자) · 「마감 지남만 N」 · 오른쪽 검색 240 · 정렬(200 팝오버) · 보기 전환. 좁으면 줄바꿈.
  * 태블릿 · 모바일: 상태 칸(가로 스크롤) + 필터 버튼 → 필터 시트(상태 · 마감 지난 것만 · 태그 · 정렬).
  */
 export default function ProjectToolbar({
@@ -83,7 +83,7 @@ export default function ProjectToolbar({
           icon={<CircleAlert size={16} aria-hidden />}
           count={counts.late}
         >
-          지연만
+          마감 지남만
         </Chip>
         {/* 모두 한 줄의 형제 칸: 좁으면 정렬 · 보기 전환이 다음 줄 왼쪽으로 (보드 01r 1024) */}
         <div className="ml-auto w-60">
