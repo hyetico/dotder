@@ -37,11 +37,17 @@ const setThemeMode = (mode: ThemeMode) => {
   themeListeners.forEach((listener) => listener());
 };
 
+/**
+ * 아직 동작하지 않는 설정(시작 화면 · 한 주 시작 · 날짜 형식 · 기본값 · 기능 · 맞춤 탭)을 보일지.
+ * 코드는 남기고 화면에서만 숨긴다. 다시 꺼낼 때 할 일은 PRD 「숨긴 기능」 표.
+ */
+const SHOW_UNFINISHED = false;
+
 const SECTIONS = [
   { id: "general", label: "일반" },
-  { id: "defaults", label: "기본값" },
-  { id: "features", label: "기능" },
-  { id: "tabs", label: "맞춤 탭" },
+  { id: "defaults", label: "기본값", unfinished: true },
+  { id: "features", label: "기능", unfinished: true },
+  { id: "tabs", label: "맞춤 탭", unfinished: true },
   { id: "data", label: "데이터" },
   { id: "about", label: "정보" },
 ];
@@ -99,7 +105,7 @@ export default function SettingsScreen() {
         {/* 웹 (보드 12) */}
         <div className="grid grid-cols-[--spacing(50)_minmax(0,1fr)] items-start gap-10 max-lg:hidden">
           <nav aria-label="설정 목차" className="sticky top-18 flex flex-col gap-0.5">
-            {SECTIONS.map((section) => (
+            {SECTIONS.filter((section) => SHOW_UNFINISHED || !section.unfinished).map((section) => (
               <a
                 key={section.id}
                 href={`#${section.id}`}
@@ -133,114 +139,126 @@ export default function SettingsScreen() {
                   ))}
                 </div>
               </WideRow>
-              <WideRow label="시작 화면" help="앱을 열면 처음 보일 화면">
-                <div className="w-50">
-                  <Select
-                    label="시작 화면"
-                    value={start}
-                    onChange={setStart}
-                    options={START_OPTIONS}
-                  />
-                </div>
-              </WideRow>
-              <WideRow label="한 주 시작" help="캘린더·'이번 주' 묶음 기준">
-                <Segmented
-                  label="한 주 시작"
-                  value={weekStart}
-                  onChange={setWeekStart}
-                  items={[
-                    { value: "sun", label: "일요일" },
-                    { value: "mon", label: "월요일" },
-                  ]}
-                />
-              </WideRow>
-              <WideRow label="날짜 형식" help="목록·카드에 보이는 날짜">
-                <div className="w-50">
-                  <Select
-                    label="날짜 형식"
-                    value={dateFormat}
-                    onChange={setDateFormat}
-                    options={DATE_OPTIONS}
-                  />
-                </div>
-              </WideRow>
+              {SHOW_UNFINISHED ? (
+                <>
+                  <WideRow label="시작 화면" help="앱을 열면 처음 보일 화면">
+                    <div className="w-50">
+                      <Select
+                        label="시작 화면"
+                        value={start}
+                        onChange={setStart}
+                        options={START_OPTIONS}
+                      />
+                    </div>
+                  </WideRow>
+                  <WideRow label="한 주 시작" help="캘린더·'이번 주' 묶음 기준">
+                    <Segmented
+                      label="한 주 시작"
+                      value={weekStart}
+                      onChange={setWeekStart}
+                      items={[
+                        { value: "sun", label: "일요일" },
+                        { value: "mon", label: "월요일" },
+                      ]}
+                    />
+                  </WideRow>
+                  <WideRow label="날짜 형식" help="목록·카드에 보이는 날짜">
+                    <div className="w-50">
+                      <Select
+                        label="날짜 형식"
+                        value={dateFormat}
+                        onChange={setDateFormat}
+                        options={DATE_OPTIONS}
+                      />
+                    </div>
+                  </WideRow>
+                </>
+              ) : null}
             </WideSection>
 
-            <WideSection id="defaults" title="기본값" text="새로 만들 때 미리 채워지는 값">
-              <WideRow
-                label="새 프로젝트 기본 색"
-                help="색을 고르지 않으면 이 색"
-                labelId="settings-color"
-              >
-                <ColorSwatches value={color} onChange={setColor} labelledBy="settings-color" />
-              </WideRow>
-              <div className="flex flex-col gap-3 border-t border-[var(--divider)] py-3 first:border-t-0">
-                <div className="flex flex-col">
-                  <span className="text-sm font-medium">기본 목표 태그</span>
-                  <span className="text-xs text-[var(--t3)]">
-                    새 프로젝트에 복사돼요 · {tags.length} / 10
-                  </span>
-                </div>
-                <div className="flex flex-wrap items-center gap-1.5">
-                  {tags.map((tag) => (
-                    <Tag
-                      key={tag}
-                      removeLabel={`‘${tag}’ 빼기`}
-                      onRemove={() => setTags(tags.filter((item) => item !== tag))}
-                    >
-                      {tag}
-                    </Tag>
-                  ))}
-                  <Button variant="ghost" size="xs" pending>
-                    <Plus size={14} aria-hidden />
-                    태그 추가
-                  </Button>
-                </div>
-              </div>
-              <WideRow label="새 태스크 기본 우선순위">
-                <div className="w-50">
-                  <Select
-                    label="새 태스크 기본 우선순위"
-                    value={priority}
-                    onChange={setPriority}
-                    options={PRIORITY_OPTIONS}
-                  />
-                </div>
-              </WideRow>
-            </WideSection>
+            {SHOW_UNFINISHED ? (
+              <>
+                <WideSection id="defaults" title="기본값" text="새로 만들 때 미리 채워지는 값">
+                  <WideRow
+                    label="새 프로젝트 기본 색"
+                    help="색을 고르지 않으면 이 색"
+                    labelId="settings-color"
+                  >
+                    <ColorSwatches value={color} onChange={setColor} labelledBy="settings-color" />
+                  </WideRow>
+                  <div className="flex flex-col gap-3 border-t border-[var(--divider)] py-3 first:border-t-0">
+                    <div className="flex flex-col">
+                      <span className="text-sm font-medium">기본 목표 태그</span>
+                      <span className="text-xs text-[var(--t3)]">
+                        새 프로젝트에 복사돼요 · {tags.length} / 10
+                      </span>
+                    </div>
+                    <div className="flex flex-wrap items-center gap-1.5">
+                      {tags.map((tag) => (
+                        <Tag
+                          key={tag}
+                          removeLabel={`‘${tag}’ 빼기`}
+                          onRemove={() => setTags(tags.filter((item) => item !== tag))}
+                        >
+                          {tag}
+                        </Tag>
+                      ))}
+                      <Button variant="ghost" size="xs" pending>
+                        <Plus size={14} aria-hidden />
+                        태그 추가
+                      </Button>
+                    </div>
+                  </div>
+                  <WideRow label="새 태스크 기본 우선순위">
+                    <div className="w-50">
+                      <Select
+                        label="새 태스크 기본 우선순위"
+                        value={priority}
+                        onChange={setPriority}
+                        options={PRIORITY_OPTIONS}
+                      />
+                    </div>
+                  </WideRow>
+                </WideSection>
 
-            <WideSection id="features" title="기능" text="쓰지 않는 기능은 꺼서 화면을 단순하게">
-              <WideRow label="목표 사용" help="끄면 목표 메뉴·탭이 숨겨지고 태스크만 써요">
-                <Switch label="목표 사용" {...feature("goals")} />
-              </WideRow>
-              <WideRow
-                label="메인 프로젝트 표시"
-                help="사이드바와 목록 맨 앞에 메인 프로젝트를 보여줘요"
-              >
-                <Switch label="메인 프로젝트 표시" {...feature("main")} />
-              </WideRow>
-              <WideRow label="프로젝트 색 사용" help="끄면 폴더 카드가 모두 회색">
-                <Switch label="프로젝트 색 사용" {...feature("color")} />
-              </WideRow>
-              <WideRow label="활동 잔디" help="프로젝트 카드에 최근 20주 활동 표시">
-                <Switch label="활동 잔디" {...feature("mosaic")} />
-              </WideRow>
-              <WideRow label="완료 항목 숨기기" help="목록에서 완료를 기본으로 접어 둬요">
-                <Switch label="완료 항목 숨기기" {...feature("hideDone")} />
-              </WideRow>
-            </WideSection>
+                <WideSection
+                  id="features"
+                  title="기능"
+                  text="쓰지 않는 기능은 꺼서 화면을 단순하게"
+                >
+                  <WideRow label="목표 사용" help="끄면 목표 메뉴·탭이 숨겨지고 태스크만 써요">
+                    <Switch label="목표 사용" {...feature("goals")} />
+                  </WideRow>
+                  <WideRow
+                    label="메인 프로젝트 표시"
+                    help="사이드바와 목록 맨 앞에 메인 프로젝트를 보여줘요"
+                  >
+                    <Switch label="메인 프로젝트 표시" {...feature("main")} />
+                  </WideRow>
+                  <WideRow label="프로젝트 색 사용" help="끄면 폴더 카드가 모두 회색">
+                    <Switch label="프로젝트 색 사용" {...feature("color")} />
+                  </WideRow>
+                  <WideRow label="활동 잔디" help="프로젝트 카드에 최근 20주 활동 표시">
+                    <Switch label="활동 잔디" {...feature("mosaic")} />
+                  </WideRow>
+                  <WideRow label="완료 항목 숨기기" help="목록에서 완료를 기본으로 접어 둬요">
+                    <Switch label="완료 항목 숨기기" {...feature("hideDone")} />
+                  </WideRow>
+                </WideSection>
 
-            <WideSection
-              id="tabs"
-              title="맞춤 탭"
-              text="원하는 프로젝트만 모아 보는 탭 · 프로젝트·목표·메모 화면에 같이 보여요 · 0 / 5"
-            >
-              <div className="py-3">
-                <Button size="sm" pending>
-                  <Plus size={16} aria-hidden />탭 만들기
-                </Button>
-              </div>
-            </WideSection>
+                <WideSection
+                  id="tabs"
+                  title="맞춤 탭"
+                  text="원하는 프로젝트만 모아 보는 탭 · 프로젝트·목표·메모 화면에 같이 보여요 · 0 / 5"
+                >
+                  <div className="py-3">
+                    <Button size="sm" pending>
+                      <Plus size={16} aria-hidden />탭 만들기
+                    </Button>
+                  </div>
+                </WideSection>
+              </>
+            ) : null}
 
             <WideSection id="data" title="데이터" text="v1은 브라우저에 저장돼요">
               <WideRow label="내보내기" help="모든 프로젝트·목표·태스크·메모를 JSON 파일로">
@@ -286,42 +304,50 @@ export default function SettingsScreen() {
             <CompactRow label="테마">
               <Segmented label="테마" value={theme} onChange={setThemeMode} items={THEME_ITEMS} />
             </CompactRow>
-            <CompactRow label="시작 화면">
-              <Select
-                variant="text"
-                label="시작 화면"
-                value={start}
-                onChange={setStart}
-                options={START_OPTIONS}
-              />
-            </CompactRow>
-            <CompactRow label="한 주 시작">
-              <Select
-                variant="text"
-                label="한 주 시작"
-                value={weekStart}
-                onChange={setWeekStart}
-                options={[
-                  { value: "sun", label: "일요일" },
-                  { value: "mon", label: "월요일" },
-                ]}
-              />
-            </CompactRow>
+            {SHOW_UNFINISHED ? (
+              <>
+                <CompactRow label="시작 화면">
+                  <Select
+                    variant="text"
+                    label="시작 화면"
+                    value={start}
+                    onChange={setStart}
+                    options={START_OPTIONS}
+                  />
+                </CompactRow>
+                <CompactRow label="한 주 시작">
+                  <Select
+                    variant="text"
+                    label="한 주 시작"
+                    value={weekStart}
+                    onChange={setWeekStart}
+                    options={[
+                      { value: "sun", label: "일요일" },
+                      { value: "mon", label: "월요일" },
+                    ]}
+                  />
+                </CompactRow>
+              </>
+            ) : null}
           </CompactGroup>
-          <CompactGroup title="기능">
-            <CompactRow label="목표 사용">
-              <Switch label="목표 사용" {...feature("goals")} />
-            </CompactRow>
-            <CompactRow label="메인 프로젝트">
-              <Switch label="메인 프로젝트" {...feature("main")} />
-            </CompactRow>
-            <CompactRow label="프로젝트 색" help="폴더 카드 · 점에 보여 줘요">
-              <Switch label="프로젝트 색" {...feature("color")} />
-            </CompactRow>
-            <CompactRow label="활동 모자이크" help="폴더 카드에 보여 줘요">
-              <Switch label="활동 모자이크" {...feature("mosaic")} />
-            </CompactRow>
-          </CompactGroup>
+          {SHOW_UNFINISHED ? (
+            <>
+              <CompactGroup title="기능">
+                <CompactRow label="목표 사용">
+                  <Switch label="목표 사용" {...feature("goals")} />
+                </CompactRow>
+                <CompactRow label="메인 프로젝트">
+                  <Switch label="메인 프로젝트" {...feature("main")} />
+                </CompactRow>
+                <CompactRow label="프로젝트 색" help="폴더 카드 · 점에 보여 줘요">
+                  <Switch label="프로젝트 색" {...feature("color")} />
+                </CompactRow>
+                <CompactRow label="활동 모자이크" help="폴더 카드에 보여 줘요">
+                  <Switch label="활동 모자이크" {...feature("mosaic")} />
+                </CompactRow>
+              </CompactGroup>
+            </>
+          ) : null}
           <CompactGroup title="데이터">
             <CompactRow label="내보내기" onClick={() => void dataActions.exportJson()}>
               <ChevronRight size={16} aria-hidden className="text-[var(--t3)]" />
