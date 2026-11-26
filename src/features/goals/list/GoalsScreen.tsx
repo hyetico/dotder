@@ -5,20 +5,20 @@ import { Suspense, useRef, useState, type ReactNode } from "react";
 
 import { useQuery } from "@tanstack/react-query";
 
-import Button from "@/components/kit/Button";
-import Checkbox from "@/components/kit/Checkbox";
-import { Chip } from "@/components/kit/Chip";
-import { DeleteConfirmDialog } from "@/components/kit/ConfirmDialog";
-import EmptyState from "@/components/kit/EmptyState";
-import { MenuHeader, MenuSeparator, PickRow } from "@/components/kit/Menu";
-import Popover from "@/components/kit/Popover";
-import Segmented from "@/components/kit/Segmented";
-import Tabs from "@/components/kit/Tabs";
-import { useToast } from "@/components/kit/Toast";
 import { HeaderActions } from "@/components/shell/HeaderActions";
 import { usePageMeta } from "@/components/shell/PageMeta";
 import { useFavoriteProjectIds } from "@/components/shell/useFavoriteProjects";
+import Button from "@/components/ui/Button";
+import Checkbox from "@/components/ui/Checkbox";
+import { Chip } from "@/components/ui/Chip";
+import { DeleteConfirmDialog } from "@/components/ui/ConfirmDialog";
+import EmptyState from "@/components/ui/EmptyState";
 import { CircleAlert, Funnel, ListFilter, Plus, Target } from "@/components/ui/icon";
+import { MenuHeader, MenuSeparator, PickRow } from "@/components/ui/Menu";
+import Popover from "@/components/ui/Popover";
+import Segmented from "@/components/ui/Segmented";
+import Tabs from "@/components/ui/Tabs";
+import { useToast } from "@/components/ui/Toast";
 
 import { NOT_FOUND_TITLE, TOAST_TEXT } from "@/content/ui";
 import { getGoals } from "@/features/goals/api/goals";

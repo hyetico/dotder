@@ -6,13 +6,13 @@ import { useMemo, useState, type ReactNode, type RefObject } from "react";
 
 import { useQuery } from "@tanstack/react-query";
 
-import Button from "@/components/kit/Button";
-import { MenuHeader, MenuSeparator } from "@/components/kit/Menu";
-import Popover from "@/components/kit/Popover";
-import ProjectMarker from "@/components/kit/ProjectMarker";
-import SearchField from "@/components/kit/SearchField";
 import { useFavoriteProjectIds } from "@/components/shell/useFavoriteProjects";
+import Button from "@/components/ui/Button";
 import { Folder, Plus, Star } from "@/components/ui/icon";
+import { MenuHeader, MenuSeparator } from "@/components/ui/Menu";
+import Popover from "@/components/ui/Popover";
+import ProjectMarker from "@/components/ui/ProjectMarker";
+import SearchField from "@/components/ui/SearchField";
 
 import { getProjects } from "@/features/projects/api/projects";
 

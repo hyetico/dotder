@@ -4,21 +4,21 @@ import { useId, useRef, useState, type ReactNode } from "react";
 
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
-import Badge from "@/components/kit/Badge";
-import Button from "@/components/kit/Button";
-import Checkbox from "@/components/kit/Checkbox";
-import { DeleteConfirmDialog, DiscardConfirmDialog } from "@/components/kit/ConfirmDialog";
-import DateField from "@/components/kit/DateField";
-import Drawer from "@/components/kit/Drawer";
-import Field from "@/components/kit/Field";
-import { MenuItem, MenuSeparator, MoreMenu } from "@/components/kit/Menu";
-import Popover from "@/components/kit/Popover";
-import QuickAddInput from "@/components/kit/QuickAddInput";
-import Segmented from "@/components/kit/Segmented";
-import TagPicker from "@/components/kit/TagPicker";
-import { TextArea } from "@/components/kit/TextInput";
-import { useToast } from "@/components/kit/Toast";
+import Badge from "@/components/ui/Badge";
+import Button from "@/components/ui/Button";
+import Checkbox from "@/components/ui/Checkbox";
+import { DeleteConfirmDialog, DiscardConfirmDialog } from "@/components/ui/ConfirmDialog";
+import DateField from "@/components/ui/DateField";
+import Drawer from "@/components/ui/Drawer";
+import Field from "@/components/ui/Field";
 import { Calendar, Check, Maximize2, Minimize2, Trash2 } from "@/components/ui/icon";
+import { MenuItem, MenuSeparator, MoreMenu } from "@/components/ui/Menu";
+import Popover from "@/components/ui/Popover";
+import QuickAddInput from "@/components/ui/QuickAddInput";
+import Segmented from "@/components/ui/Segmented";
+import TagPicker from "@/components/ui/TagPicker";
+import { TextArea } from "@/components/ui/TextInput";
+import { useToast } from "@/components/ui/Toast";
 
 import { BUTTON_LABEL, GOAL_TAG_TEXT, QUICK_ADD_PLACEHOLDER, TOAST_TEXT } from "@/content/ui";
 import { useGoalMutations } from "@/features/goals/hooks/useGoalMutations";

@@ -4,7 +4,6 @@ import { usePathname } from "next/navigation";
 import { Suspense, useEffect, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 
-import { useLayer, usePresence } from "@/components/kit/useLayer";
 import DemoTour from "@/components/shell/DemoTour";
 import { HeaderActionsProvider } from "@/components/shell/HeaderActions";
 import { PageMetaProvider } from "@/components/shell/PageMeta";
@@ -13,6 +12,7 @@ import ShellHeader from "@/components/shell/ShellHeader";
 import ShellSidebar from "@/components/shell/ShellSidebar";
 import ShortcutsDialog from "@/components/shell/ShortcutsDialog";
 import { useGlobalShortcuts } from "@/components/shell/useGlobalShortcuts";
+import { useLayer, usePresence } from "@/components/ui/useLayer";
 
 import { cn } from "@/lib/cn";
 import { useMode } from "@/lib/storage/dotderMode";

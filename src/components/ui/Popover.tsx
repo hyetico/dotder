@@ -10,8 +10,8 @@ import {
 } from "react";
 import { createPortal } from "react-dom";
 
-import Drawer from "@/components/kit/Drawer";
-import { useIsMobile, useLayer } from "@/components/kit/useLayer";
+import Drawer from "@/components/ui/Drawer";
+import { useIsMobile, useLayer } from "@/components/ui/useLayer";
 
 import { cn } from "@/lib/cn";
 

@@ -2,13 +2,9 @@
 
 import { useId, useRef, useState } from "react";
 
-import Button from "@/components/kit/Button";
-import { Chip } from "@/components/kit/Chip";
-import Drawer from "@/components/kit/Drawer";
-import Popover from "@/components/kit/Popover";
-import SearchField from "@/components/kit/SearchField";
-import Segmented from "@/components/kit/Segmented";
-import Switch from "@/components/kit/Switch";
+import Button from "@/components/ui/Button";
+import { Chip } from "@/components/ui/Chip";
+import Drawer from "@/components/ui/Drawer";
 import {
   Check,
   CircleAlert,
@@ -17,6 +13,10 @@ import {
   Funnel,
   ListFilter,
 } from "@/components/ui/icon";
+import Popover from "@/components/ui/Popover";
+import SearchField from "@/components/ui/SearchField";
+import Segmented from "@/components/ui/Segmented";
+import Switch from "@/components/ui/Switch";
 
 import {
   PROJECT_SORT_LABEL,

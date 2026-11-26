@@ -4,13 +4,13 @@ import { useId, useRef, useState, type FormEvent, type ReactNode } from "react";
 
 import { useQueryClient } from "@tanstack/react-query";
 
-import Button from "@/components/kit/Button";
-import { DiscardConfirmDialog } from "@/components/kit/ConfirmDialog";
-import DateField from "@/components/kit/DateField";
-import Drawer from "@/components/kit/Drawer";
-import Field from "@/components/kit/Field";
-import { TextArea } from "@/components/kit/TextInput";
-import { useToast } from "@/components/kit/Toast";
+import Button from "@/components/ui/Button";
+import { DiscardConfirmDialog } from "@/components/ui/ConfirmDialog";
+import DateField from "@/components/ui/DateField";
+import Drawer from "@/components/ui/Drawer";
+import Field from "@/components/ui/Field";
+import { TextArea } from "@/components/ui/TextInput";
+import { useToast } from "@/components/ui/Toast";
 
 import { BUTTON_LABEL, TOAST_TEXT } from "@/content/ui";
 import { useGoalMutations } from "@/features/goals/hooks/useGoalMutations";

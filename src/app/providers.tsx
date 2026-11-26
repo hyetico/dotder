@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-import { ToastProvider } from "@/components/kit/Toast";
+import { ToastProvider } from "@/components/ui/Toast";
 
 import { subscribeMode } from "@/lib/storage/dotderMode";
 

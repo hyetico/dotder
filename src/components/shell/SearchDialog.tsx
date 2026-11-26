@@ -5,13 +5,13 @@ import { useRef, useState, type KeyboardEvent, type ReactNode } from "react";
 
 import { useQuery } from "@tanstack/react-query";
 
-import Badge, { type BadgeTone } from "@/components/kit/Badge";
-import Button from "@/components/kit/Button";
-import Kbd from "@/components/kit/Kbd";
-import { MenuHeader } from "@/components/kit/Menu";
-import Modal from "@/components/kit/Modal";
-import Segmented from "@/components/kit/Segmented";
+import Badge, { type BadgeTone } from "@/components/ui/Badge";
+import Button from "@/components/ui/Button";
 import { Folder, Inbox, ListChecks, Plus, Search, Target, X } from "@/components/ui/icon";
+import Kbd from "@/components/ui/Kbd";
+import { MenuHeader } from "@/components/ui/Menu";
+import Modal from "@/components/ui/Modal";
+import Segmented from "@/components/ui/Segmented";
 
 import { getGoals } from "@/features/goals/api/goals";
 import { getMemos } from "@/features/memos/api/memos";

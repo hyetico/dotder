@@ -15,7 +15,7 @@
 
 /*
  * ---------------------------------------------------------
- * REBUILD 토큰 (2026-11-24). 새 공통 컴포넌트(`src/components/kit`)는 이 토큰만 쓴다.
+ * REBUILD 토큰 (2026-11-24). 새 공통 컴포넌트(`src/components/ui`)는 이 토큰만 쓴다.
  * 값의 원본: design/snippets/tokens.css + design/_handoff/2026-11-24/prototype (최신). 이름도 원본 그대로 둔다.
  * --c-project · --c-goal · --c-task · --c-memo는 최신 프로토타입에서 모두 --t2로 바뀌었다.
  * 「보드 값」 표시가 있는 것은 tokens.css에 없거나 다르고, 보드(1순위) CSS에서 옮긴 값이다.

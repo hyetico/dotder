@@ -3,8 +3,8 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import Button from "@/components/kit/Button";
 import SearchDialog from "@/components/shell/SearchDialog";
+import Button from "@/components/ui/Button";
 import { Search } from "@/components/ui/icon";
 
 /**

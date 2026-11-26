@@ -2,7 +2,7 @@
 
 import { useRef, type KeyboardEvent, type ReactNode } from "react";
 
-import { useSlidingIndicator } from "@/components/kit/useSlidingIndicator";
+import { useSlidingIndicator } from "@/components/ui/useSlidingIndicator";
 
 import { cn } from "@/lib/cn";
 

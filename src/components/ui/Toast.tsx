@@ -2,7 +2,7 @@
 
 import { createContext, useCallback, useContext, useRef, useState, type ReactNode } from "react";
 
-import Button from "@/components/kit/Button";
+import Button from "@/components/ui/Button";
 import { CircleAlert, Check } from "@/components/ui/icon";
 
 import { BUTTON_LABEL, TOAST_TEXT } from "@/content/ui";

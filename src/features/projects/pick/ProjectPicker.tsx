@@ -4,9 +4,9 @@ import { useRef, useState } from "react";
 
 import { useQuery } from "@tanstack/react-query";
 
-import { MenuSeparator, PickRow } from "@/components/kit/Menu";
-import Popover from "@/components/kit/Popover";
 import { ChevronDown } from "@/components/ui/icon";
+import { MenuSeparator, PickRow } from "@/components/ui/Menu";
+import Popover from "@/components/ui/Popover";
 
 import { getProjects } from "@/features/projects/api/projects";
 
