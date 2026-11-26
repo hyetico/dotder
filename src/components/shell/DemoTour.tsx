@@ -116,6 +116,7 @@ export default function DemoTour() {
       <TourBanner
         text="예시 데이터로 둘러보는 중이에요"
         detail="바꿔도 내 기록에는 남지 않아요"
+        shortText="예시 둘러보는 중"
         secondaryLabel="둘러보기 끝내기"
         onSecondary={() => void end()}
         primaryLabel="내 기록 시작하기"

@@ -1,10 +1,12 @@
 import Button from "@/components/kit/Button";
 
 type TourBannerProps = {
-  /** 왼쪽 안내 글. 모바일에서는 이 첫 문장만 보인다 */
+  /** 왼쪽 안내 글 (768 이상) */
   text: string;
-  /** 「 · 」 뒤 덧붙임 (md 이상) */
+  /** 「 · 」 뒤 덧붙임 (768 이상) */
   detail?: string;
+  /** 모바일(≤767)에서 대신 보일 짧은 글. 없으면 text */
+  shortText?: string;
   /** 보조 버튼 「둘러보기 끝내기」 */
   secondaryLabel: string;
   onSecondary: () => void;
@@ -27,6 +29,7 @@ const bannerButtonClassName = "min-w-26 pt-0! leading-none";
 export default function TourBanner({
   text,
   detail,
+  shortText,
   secondaryLabel,
   onSecondary,
   primaryLabel,
@@ -39,8 +42,11 @@ export default function TourBanner({
       className="sticky top-0 z-[var(--z-tour-banner)] flex h-11 items-center gap-3 border-b border-[var(--border)] bg-[var(--s2)] px-4 text-sm text-[var(--text)] md:px-6"
     >
       <span className="min-w-0 flex-1 truncate">
-        {text}
-        {detail ? <span className="max-md:hidden"> · {detail}</span> : null}
+        {shortText ? <span className="md:hidden">{shortText}</span> : null}
+        <span className={shortText ? "max-md:hidden" : undefined}>
+          {text}
+          {detail ? <span className="max-md:hidden"> · {detail}</span> : null}
+        </span>
       </span>
       <Button size="xs" variant="secondary" onClick={onSecondary} className={bannerButtonClassName}>
         {secondaryLabel}

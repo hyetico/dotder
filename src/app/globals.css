@@ -215,8 +215,9 @@
   --shadow-pop: 0 8px 24px rgb(0 0 0 / 0.5);
   --shadow-drawer: -8px 0 24px rgb(0 0 0 / 0.5);
   --overlay-board: rgb(0 0 0 / 0.6);
-  --tip-bg: #e7e9ec;
-  --tip-fg: #16181c;
+  /* 툴팁 · 코치마크는 두 모드 모두 어두운 바탕 (GitHub Primer · Atlassian · 대비 9.64:1) */
+  --tip-bg: #3a3f46;
+  --tip-fg: #f3f4f6;
   --mosaic-box: color-mix(in srgb, var(--bg) 60%, transparent);
   /* 프로토타입 .app.dark .fold .muted */
   --folder-ink: var(--t2);
@@ -249,8 +250,8 @@
   --on-marker: #16181c;
   --on-marker-muted: #50555b;
   --tour-ring: #a78bfa;
-  --tip-muted: #5f6670;
-  --tip-body: #2c3037;
+  --tip-muted: #a8b0b8;
+  --tip-body: #d1d5db;
   --tl-grid: #2a2e35;
   --tl-axis: #7d858f;
   --tl-today-band: rgb(59 130 246 / 0.06);
