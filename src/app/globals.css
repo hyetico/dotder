@@ -151,7 +151,9 @@
   --tour-ring: #a78bfa;
   --tip-muted: #a8b0b8;
   --tip-body: #d1d5db;
-  --tip-line: #4b5158;
+  /* 띠 버튼 옅은 바탕 (kit Button onTip) */
+  --tip-tone: #3c4046;
+  --tip-tone-h: #4b5158;
   /* 디테일 일정 v5 (보드 03 · DOC2 06) */
   --tl-grid: #eceef1;
   --tl-axis: #9aa2ab;
@@ -252,7 +254,8 @@
   --tour-ring: #a78bfa;
   --tip-muted: #5f6670;
   --tip-body: #2c3037;
-  --tip-line: #b7bcc3;
+  --tip-tone: #d5d7db;
+  --tip-tone-h: #c7cacf;
   --tl-grid: #2a2e35;
   --tl-axis: #7d858f;
   --tl-today-band: rgb(59 130 246 / 0.06);
