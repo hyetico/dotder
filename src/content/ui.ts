@@ -62,6 +62,10 @@ export const TOAST_TEXT = {
   deleted: "삭제했어요",
   undone: "되돌렸어요",
   saveFailed: "저장하지 못했어요. 다시 시도해 주세요.",
+  /** 이 브라우저에 저장 실패 (용량 초과 · 사생활 모드) — 한 번만 */
+  storageFailed: "이 브라우저에 저장하지 못했어요",
+  /** 설정 → 데이터 「모두 지우기」 (프로토타입 wipe) */
+  allCleared: "모든 데이터를 삭제했어요.",
   archived: "보관했어요",
   restored: "되돌렸어요",
   mainSet: "메인 프로젝트로 지정했어요",

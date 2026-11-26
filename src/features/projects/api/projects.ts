@@ -37,6 +37,7 @@ import {
   type ProjectHistoryEntry,
 } from "@/lib/mock/projectHistory";
 import { mockProjects } from "@/lib/mock/projects";
+import { ensureDataLoaded, saveData } from "@/lib/storage/dotderData";
 
 import type { Goal } from "@/features/goals/types/goal";
 import type { Memo } from "@/features/memos/types/memo";
@@ -55,6 +56,7 @@ export type CreateProjectInput = Omit<Project, "id" | "icon"> & {
 const isActiveProject = (project: Project) => !project.archivedAt;
 
 export async function getProjects(): Promise<Project[]> {
+  await ensureDataLoaded();
   return mockProjects.filter(isActiveProject).map((project) => ({
     ...project,
     status: resolveProjectStatus(project),
@@ -63,6 +65,7 @@ export async function getProjects(): Promise<Project[]> {
 }
 
 export async function getProjectListItems(): Promise<ProjectListItem[]> {
+  await ensureDataLoaded();
   const [tasks, goals] = await Promise.all([getTasks("all"), getGoals("all")]);
 
   return mockProjects
@@ -76,6 +79,7 @@ export async function getProjectListItems(): Promise<ProjectListItem[]> {
  * 보관함(01-h)에 보일 프로젝트. 최근에 보관한 것이 앞.
  */
 export async function getArchivedProjectListItems(): Promise<ProjectListItem[]> {
+  await ensureDataLoaded();
   const [tasks, goals] = await Promise.all([getTasks("all"), getGoals("all")]);
 
   return mockProjects
@@ -96,6 +100,7 @@ export async function setProjectArchived(
   projectId: number,
   archivedAt: string | null,
 ): Promise<Project> {
+  await ensureDataLoaded();
   const project = mockProjects.find((item) => item.id === projectId);
 
   if (!project) {
@@ -110,6 +115,8 @@ export async function setProjectArchived(
     project.isMain = false;
   }
 
+  await saveData();
+
   return project;
 }
 
@@ -118,6 +125,7 @@ export async function setProjectArchived(
  * 목표 · 태스크는 복제하지 않는다.
  */
 export async function duplicateProject(projectId: number): Promise<Project> {
+  await ensureDataLoaded();
   const source = mockProjects.find((item) => item.id === projectId);
 
   if (!source) {
@@ -137,6 +145,8 @@ export async function duplicateProject(projectId: number): Promise<Project> {
 
   mockProjects.splice(index + 1, 0, copy);
 
+  await saveData();
+
   return copy;
 }
 
@@ -146,6 +156,7 @@ export async function duplicateProject(projectId: number): Promise<Project> {
  * @returns 프로젝트 id → 기록이 있는 날 목록. 기록이 없는 프로젝트는 빠진다
  */
 export async function getProjectActivity(): Promise<Record<number, ActivityDay[]>> {
+  await ensureDataLoaded();
   return Object.fromEntries(
     mockProjectActivity.map((item) => [
       item.projectId,
@@ -162,6 +173,7 @@ export async function getProjectActivity(): Promise<Record<number, ActivityDay[]
 export async function getProjectDeadlineChangeList(
   projectId: number,
 ): Promise<ProjectDeadlineChange[]> {
+  await ensureDataLoaded();
   return getProjectDeadlineChanges(projectId).map((change) => ({ ...change }));
 }
 
@@ -178,10 +190,12 @@ export function readMainProjectId(): number | null {
 }
 
 export async function getProject(projectId: number): Promise<Project | undefined> {
+  await ensureDataLoaded();
   return mockProjects.find((project) => project.id === projectId);
 }
 
 export async function getProjectListItem(projectId: number): Promise<ProjectListItem | undefined> {
+  await ensureDataLoaded();
   const project = await getProject(projectId);
 
   if (!project) {
@@ -194,6 +208,7 @@ export async function getProjectListItem(projectId: number): Promise<ProjectList
 }
 
 export async function createProject(input: CreateProjectInput): Promise<Project> {
+  await ensureDataLoaded();
   const nextId = mockProjects.reduce((maxId, project) => Math.max(maxId, project.id), 0) + 1;
 
   const newProject: Project = {
@@ -212,6 +227,8 @@ export async function createProject(input: CreateProjectInput): Promise<Project>
   mockProjects.push(newProject);
   recordProjectHistory({ projectId: newProject.id, kind: "create", target: "project" });
 
+  await saveData();
+
   return newProject;
 }
 
@@ -219,6 +236,7 @@ export async function updateProject(
   updatedProject: Project,
   deadlineChangeReason?: string,
 ): Promise<Project> {
+  await ensureDataLoaded();
   const projectIndex = mockProjects.findIndex((project) => project.id === updatedProject.id);
 
   if (projectIndex === -1) {
@@ -274,6 +292,8 @@ export async function updateProject(
 
   mockProjects[projectIndex] = { ...updatedProject, updatedAt: new Date().toISOString() };
 
+  await saveData();
+
   return updatedProject;
 }
 
@@ -281,6 +301,7 @@ const deletedSnapshots = new Map<number, { goals: Goal[]; tasks: Task[]; memos: 
 
 /** 프로젝트에 딸린 목표 · 태스크 · 메모 수 (삭제 확인창 · 보드 03-f) */
 export async function getProjectChildCounts(projectId: number) {
+  await ensureDataLoaded();
   const [goals, tasks, memos] = await Promise.all([
     getGoals(projectId),
     getTasks(projectId),
@@ -297,6 +318,7 @@ export async function getProjectChildCounts(projectId: number) {
  * 프로젝트 기록 (보드 08). 추가 · 삭제 · 상태 · 완료 기록 + 마감 변경 기록을 최근 순으로.
  */
 export async function getProjectHistory(projectId: number): Promise<ProjectHistoryEntry[]> {
+  await ensureDataLoaded();
   const recorded = mockProjectHistory.filter((entry) => entry.projectId === projectId);
   const legacy: ProjectHistoryEntry[] = getProjectDeadlineChanges(projectId).map((change) => ({
     id: -change.id,
@@ -312,6 +334,7 @@ export async function getProjectHistory(projectId: number): Promise<ProjectHisto
 }
 
 export async function deleteProject(projectId: number): Promise<number> {
+  await ensureDataLoaded();
   const projectIndex = mockProjects.findIndex((project) => project.id === projectId);
 
   if (projectIndex === -1) {
@@ -328,10 +351,13 @@ export async function deleteProject(projectId: number): Promise<number> {
   removeProjectDeadlineChanges(projectId);
   removeProjectHistory(projectId);
 
+  await saveData();
+
   return projectId;
 }
 
 export async function setMainProject(projectId: number): Promise<Project> {
+  await ensureDataLoaded();
   const targetProject = mockProjects.find((project) => project.id === projectId);
 
   if (!targetProject) {
@@ -342,19 +368,24 @@ export async function setMainProject(projectId: number): Promise<Project> {
     project.isMain = project.id === projectId;
   });
 
+  await saveData();
+
   return targetProject;
 }
 
 export async function clearMainProject(): Promise<void> {
+  await ensureDataLoaded();
   mockProjects.forEach((project) => {
     project.isMain = false;
   });
+  await saveData();
 }
 
 /**
  * 지운 프로젝트를 같은 id로 다시 넣는다 (삭제 토스트 「되돌리기」). 마감 변경 기록은 돌아오지 않는다.
  */
 export async function restoreDeletedProject(project: Project): Promise<Project> {
+  await ensureDataLoaded();
   if (!mockProjects.some((item) => item.id === project.id)) {
     mockProjects.push({ ...project, tags: [...project.tags] });
     const snapshot = deletedSnapshots.get(project.id);
@@ -366,15 +397,18 @@ export async function restoreDeletedProject(project: Project): Promise<Project> 
     }
   }
 
+  await saveData();
+
   return project;
 }
 
 /**
- * 예시 데이터를 지운다 (E01 4 / 4 시작 선택). 목업이라 새로고침하면 예시가 돌아온다.
+ * 예시 데이터를 지운다 (E01 4 / 4 시작 선택). 결과는 이 브라우저에 저장돼 새로고침해도 유지된다.
  *
  * @param keepMain - true면 메인 프로젝트 하나와 그 목표 · 태스크 · 메모를 남긴다
  */
 export async function clearExampleData(keepMain: boolean) {
+  await ensureDataLoaded();
   const main = keepMain
     ? (mockProjects.find((project) => project.isMain) ?? mockProjects[0])
     : undefined;
@@ -390,6 +424,7 @@ export async function clearExampleData(keepMain: boolean) {
       removeProjectHistory(project.id);
     }
   }
+  await saveData();
 }
 
 /**
@@ -405,6 +440,7 @@ export async function recordShiftedItems(
     to: string;
   }[],
 ) {
+  await ensureDataLoaded();
   moves.forEach((move) =>
     recordProjectHistory({
       projectId,
@@ -415,4 +451,5 @@ export async function recordShiftedItems(
       to: move.to,
     }),
   );
+  await saveData();
 }
