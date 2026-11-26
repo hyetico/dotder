@@ -45,7 +45,7 @@ const STEPS: Record<1 | 2 | 3, { path: RegExp; target: string; title: string; te
  * 예시로 둘러보기 (보드 E01). 커버 「예시로 둘러보기」 → `/projects?demo=1`.
  * 위 띠 44(끝내기 · 내 기록 시작하기) + 코치마크 3개(폴더 카드 → 조각 바 → 빠른 추가) → 시작 선택.
  * 둘러보는 동안은 예시 모드(`demo`)라 예시 목업을 새로 불러오고 저장하지 않는다. 띠는 예시 모드에서만 보인다.
- * 시작 선택에서 빈 내 기록으로 가거나, 예시의 메인 프로젝트 하나를 내 기록으로 복사해 시작한다.
+ * 4 / 4에서 [시작하기]로 내 기록(비어 있으면 빈 상태)으로 간다. 예시는 내 기록에 들어오지 않는다.
  */
 export default function DemoTour() {
   const router = useRouter();
@@ -89,8 +89,8 @@ export default function DemoTour() {
     }
   };
 
-  const start = async (keepExample: boolean) => {
-    await startMyRecords(keepExample);
+  const start = async () => {
+    await startMyRecords();
     setDemoStep(null);
     await queryClient.invalidateQueries();
     router.push("/projects");
@@ -142,34 +142,18 @@ export default function DemoTour() {
         <div className="flex flex-col items-center gap-3 px-4 pt-6 text-center">
           <BrandLogo />
           <span className="text-xs font-semibold text-[var(--t3)]">4 / 4</span>
-          {hasSaved ? (
-            <h2 className="text-xl font-semibold">내 기록으로 돌아갈까요?</h2>
-          ) : (
-            <>
-              <h2 className="text-xl font-semibold">이제 내 기록을 시작해 볼까요?</h2>
-              <p className="text-sm text-[var(--t2)]">
-                예시는 지우고 빈 화면에서 시작하거나, 참고용으로 ‘예시’ 프로젝트 하나만 남길 수
-                있어요.
-              </p>
-            </>
+          <h2 className="text-xl font-semibold">
+            {hasSaved ? "내 기록으로 돌아갈까요?" : "이제 내 기록을 시작해 볼까요?"}
+          </h2>
+          {hasSaved ? null : (
+            <p className="text-sm text-[var(--t2)]">예시는 커버에서 언제든 다시 볼 수 있어요.</p>
           )}
         </div>
         <div className="flex flex-col gap-2 px-4 pt-4 pb-3">
-          {hasSaved ? (
-            // 이미 내 기록이 있으면 덮어쓰지 않고 돌아가기만
-            <Button variant="primary" size="lg" onClick={() => void start(false)}>
-              내 기록으로 돌아가기
-            </Button>
-          ) : (
-            <>
-              <Button variant="primary" size="lg" onClick={() => void start(false)}>
-                예시 지우고 시작하기
-              </Button>
-              <Button size="lg" onClick={() => void start(true)}>
-                예시 1개 남기고 시작하기
-              </Button>
-            </>
-          )}
+          {/* 예시는 내 기록에 넣지 않는다. 이미 내 기록이 있으면 덮어쓰지 않고 돌아가기만 */}
+          <Button variant="primary" size="lg" onClick={() => void start()}>
+            {hasSaved ? "내 기록으로 돌아가기" : "시작하기"}
+          </Button>
         </div>
       </Modal>
     </>
