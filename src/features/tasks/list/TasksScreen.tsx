@@ -5,19 +5,13 @@ import { Suspense, useRef, useState } from "react";
 
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
-import Button from "@/components/kit/Button";
-import Card from "@/components/kit/Card";
-import Checkbox from "@/components/kit/Checkbox";
-import { Chip } from "@/components/kit/Chip";
-import EmptyState from "@/components/kit/EmptyState";
-import { MenuHeader, MenuSeparator, PickRow } from "@/components/kit/Menu";
-import Popover from "@/components/kit/Popover";
-import QuickAddInput from "@/components/kit/QuickAddInput";
-import SearchField from "@/components/kit/SearchField";
-import Segmented from "@/components/kit/Segmented";
-import { useToast } from "@/components/kit/Toast";
 import { HeaderActions } from "@/components/shell/HeaderActions";
 import { usePageMeta } from "@/components/shell/PageMeta";
+import Button from "@/components/ui/Button";
+import Card from "@/components/ui/Card";
+import Checkbox from "@/components/ui/Checkbox";
+import { Chip } from "@/components/ui/Chip";
+import EmptyState from "@/components/ui/EmptyState";
 import {
   Calendar,
   ChevronDown,
@@ -31,6 +25,12 @@ import {
   ListFilter,
   Plus,
 } from "@/components/ui/icon";
+import { MenuHeader, MenuSeparator, PickRow } from "@/components/ui/Menu";
+import Popover from "@/components/ui/Popover";
+import QuickAddInput from "@/components/ui/QuickAddInput";
+import SearchField from "@/components/ui/SearchField";
+import Segmented from "@/components/ui/Segmented";
+import { useToast } from "@/components/ui/Toast";
 
 import { QUICK_ADD_PLACEHOLDER, TOAST_TEXT } from "@/content/ui";
 import { getGoals } from "@/features/goals/api/goals";

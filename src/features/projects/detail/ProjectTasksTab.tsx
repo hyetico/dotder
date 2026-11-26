@@ -4,14 +4,9 @@ import { useRef, useState } from "react";
 
 import { useQueryClient } from "@tanstack/react-query";
 
-import Badge, { badgeDotClassName } from "@/components/kit/Badge";
-import Button from "@/components/kit/Button";
-import Checkbox from "@/components/kit/Checkbox";
-import { MenuHeader, MenuSeparator, PickRow } from "@/components/kit/Menu";
-import PillGroup from "@/components/kit/PillGroup";
-import Popover from "@/components/kit/Popover";
-import Segmented from "@/components/kit/Segmented";
-import { useToast } from "@/components/kit/Toast";
+import Badge, { badgeDotClassName } from "@/components/ui/Badge";
+import Button from "@/components/ui/Button";
+import Checkbox from "@/components/ui/Checkbox";
 import {
   Calendar,
   ChevronDown,
@@ -22,6 +17,11 @@ import {
   List,
   Plus,
 } from "@/components/ui/icon";
+import { MenuHeader, MenuSeparator, PickRow } from "@/components/ui/Menu";
+import PillGroup from "@/components/ui/PillGroup";
+import Popover from "@/components/ui/Popover";
+import Segmented from "@/components/ui/Segmented";
+import { useToast } from "@/components/ui/Toast";
 
 import { TOAST_TEXT } from "@/content/ui";
 import { getTaskLateDays } from "@/features/projects/detail/projectOverviewModel";

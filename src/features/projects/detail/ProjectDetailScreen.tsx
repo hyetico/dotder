@@ -5,14 +5,13 @@ import { Suspense, useLayoutEffect, useRef, useState } from "react";
 
 import { useQuery } from "@tanstack/react-query";
 
-import Badge from "@/components/kit/Badge";
-import Button from "@/components/kit/Button";
-import { DeleteConfirmDialog } from "@/components/kit/ConfirmDialog";
-import EmptyState from "@/components/kit/EmptyState";
-import Tabs from "@/components/kit/Tabs";
 import { HeaderActions } from "@/components/shell/HeaderActions";
 import { usePageMeta } from "@/components/shell/PageMeta";
 import { useFavoriteProjectIds } from "@/components/shell/useFavoriteProjects";
+import Badge from "@/components/ui/Badge";
+import Button from "@/components/ui/Button";
+import { DeleteConfirmDialog } from "@/components/ui/ConfirmDialog";
+import EmptyState from "@/components/ui/EmptyState";
 import {
   Calendar,
   Crown,
@@ -25,6 +24,7 @@ import {
   Star,
   Target,
 } from "@/components/ui/icon";
+import Tabs from "@/components/ui/Tabs";
 
 import { NOT_FOUND_TITLE, projectDeleteDetail } from "@/content/ui";
 import { getGoals } from "@/features/goals/api/goals";

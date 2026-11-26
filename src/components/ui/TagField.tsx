@@ -2,8 +2,8 @@
 
 import { useRef, useState } from "react";
 
-import { Tag } from "@/components/kit/Chip";
-import Field from "@/components/kit/Field";
+import { Tag } from "@/components/ui/Chip";
+import Field from "@/components/ui/Field";
 
 import { TAG_FIELD_TEXT } from "@/content/ui";
 

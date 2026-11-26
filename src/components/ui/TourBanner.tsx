@@ -1,4 +1,4 @@
-import Button from "@/components/kit/Button";
+import Button from "@/components/ui/Button";
 
 type TourBannerProps = {
   /** 왼쪽 안내 글 (768 이상) */

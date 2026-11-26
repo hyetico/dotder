@@ -1,10 +1,10 @@
 "use client";
 
-import Badge from "@/components/kit/Badge";
-import Card from "@/components/kit/Card";
-import { Tag } from "@/components/kit/Chip";
-import { MenuItem, MenuSeparator, MoreMenu } from "@/components/kit/Menu";
+import Badge from "@/components/ui/Badge";
+import Card from "@/components/ui/Card";
+import { Tag } from "@/components/ui/Chip";
 import { Check, ChevronRight, Trash2 } from "@/components/ui/icon";
+import { MenuItem, MenuSeparator, MoreMenu } from "@/components/ui/Menu";
 
 import { formatMonthDot, GOAL_STATUS_BADGE } from "@/features/projects/detail/projectOverviewModel";
 

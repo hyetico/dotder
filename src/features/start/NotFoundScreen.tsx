@@ -1,4 +1,4 @@
-import Button from "@/components/kit/Button";
+import Button from "@/components/ui/Button";
 import { Home, Search } from "@/components/ui/icon";
 
 import BrandLogo from "@/features/start/BrandLogo";

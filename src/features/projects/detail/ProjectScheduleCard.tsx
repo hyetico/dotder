@@ -2,10 +2,10 @@
 
 import { useState, type CSSProperties, type ReactNode } from "react";
 
-import Badge, { badgeDotClassName } from "@/components/kit/Badge";
-import Button from "@/components/kit/Button";
-import Segmented from "@/components/kit/Segmented";
+import Badge, { badgeDotClassName } from "@/components/ui/Badge";
+import Button from "@/components/ui/Button";
 import { ChevronDown, ChevronRight, Flag } from "@/components/ui/icon";
+import Segmented from "@/components/ui/Segmented";
 
 import GoalDetailDrawer from "@/features/goals/drawers/GoalDetailDrawer";
 import { getGoalStats } from "@/features/goals/list/goalListModel";

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRef, type ReactNode } from "react";
 
-import { useSlidingIndicator } from "@/components/kit/useSlidingIndicator";
+import { useSlidingIndicator } from "@/components/ui/useSlidingIndicator";
 
 import { cn } from "@/lib/cn";
 

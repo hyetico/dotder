@@ -2,25 +2,14 @@
 
 import { useId, useRef, useState, type ReactNode } from "react";
 
-import Button from "@/components/kit/Button";
-import { Chip, Tag } from "@/components/kit/Chip";
-import ColorSwatches from "@/components/kit/ColorSwatches";
-import { DeleteConfirmDialog, DiscardConfirmDialog } from "@/components/kit/ConfirmDialog";
-import Drawer from "@/components/kit/Drawer";
-import EmptyState from "@/components/kit/EmptyState";
-import Field from "@/components/kit/Field";
-import FolderCard from "@/components/kit/FolderCard";
-import Kbd from "@/components/kit/Kbd";
-import { MenuItem, MenuSeparator, MoreMenu, PickRow } from "@/components/kit/Menu";
-import Mosaic from "@/components/kit/Mosaic";
-import Popover from "@/components/kit/Popover";
-import QuickAddInput from "@/components/kit/QuickAddInput";
-import SearchField from "@/components/kit/SearchField";
-import Segmented from "@/components/kit/Segmented";
-import Tabs from "@/components/kit/Tabs";
-import TagField from "@/components/kit/TagField";
-import { TextArea, TextInput } from "@/components/kit/TextInput";
-import { ToastProvider, useToast } from "@/components/kit/Toast";
+import Button from "@/components/ui/Button";
+import { Chip, Tag } from "@/components/ui/Chip";
+import ColorSwatches from "@/components/ui/ColorSwatches";
+import { DeleteConfirmDialog, DiscardConfirmDialog } from "@/components/ui/ConfirmDialog";
+import Drawer from "@/components/ui/Drawer";
+import EmptyState from "@/components/ui/EmptyState";
+import Field from "@/components/ui/Field";
+import FolderCard from "@/components/ui/FolderCard";
 import {
   CircleAlert,
   ChevronDown,
@@ -29,6 +18,17 @@ import {
   ListChecks,
   Plus,
 } from "@/components/ui/icon";
+import Kbd from "@/components/ui/Kbd";
+import { MenuItem, MenuSeparator, MoreMenu, PickRow } from "@/components/ui/Menu";
+import Mosaic from "@/components/ui/Mosaic";
+import Popover from "@/components/ui/Popover";
+import QuickAddInput from "@/components/ui/QuickAddInput";
+import SearchField from "@/components/ui/SearchField";
+import Segmented from "@/components/ui/Segmented";
+import Tabs from "@/components/ui/Tabs";
+import TagField from "@/components/ui/TagField";
+import { TextArea, TextInput } from "@/components/ui/TextInput";
+import { ToastProvider, useToast } from "@/components/ui/Toast";
 
 import { BUTTON_LABEL, QUICK_ADD_PLACEHOLDER, TOAST_TEXT } from "@/content/ui";
 
@@ -52,7 +52,7 @@ function Section({ id, title, children }: { id: string; title: string; children:
 /**
  * 공통 컴포넌트 견본 (REBUILD 3-0 확인용, `/kit`). 라이트 · 다크를 오가며 보드 값과 잰다.
  */
-export default function KitGallery() {
+export default function UiGallery() {
   return (
     <ToastProvider>
       <Gallery />

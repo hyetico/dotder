@@ -2,18 +2,18 @@
 
 import { useId, useRef, useState, type FormEvent, type ReactNode } from "react";
 
-import { badgeDotClassName } from "@/components/kit/Badge";
-import Button from "@/components/kit/Button";
-import ColorSwatches from "@/components/kit/ColorSwatches";
-import { DeleteConfirmDialog, DiscardConfirmDialog } from "@/components/kit/ConfirmDialog";
-import DateField from "@/components/kit/DateField";
-import Drawer from "@/components/kit/Drawer";
-import Field from "@/components/kit/Field";
-import Segmented from "@/components/kit/Segmented";
-import TagField from "@/components/kit/TagField";
-import { GrowingInput, TextArea } from "@/components/kit/TextInput";
-import { useToast } from "@/components/kit/Toast";
+import { badgeDotClassName } from "@/components/ui/Badge";
+import Button from "@/components/ui/Button";
+import ColorSwatches from "@/components/ui/ColorSwatches";
+import { DeleteConfirmDialog, DiscardConfirmDialog } from "@/components/ui/ConfirmDialog";
+import DateField from "@/components/ui/DateField";
+import Drawer from "@/components/ui/Drawer";
+import Field from "@/components/ui/Field";
 import { CircleAlert, Trash2 } from "@/components/ui/icon";
+import Segmented from "@/components/ui/Segmented";
+import TagField from "@/components/ui/TagField";
+import { GrowingInput, TextArea } from "@/components/ui/TextInput";
+import { useToast } from "@/components/ui/Toast";
 
 import { BUTTON_LABEL, TOAST_TEXT } from "@/content/ui";
 import { useGoalMutations } from "@/features/goals/hooks/useGoalMutations";

@@ -2,9 +2,9 @@
 
 import { useRef, useState, type KeyboardEvent, type ReactNode } from "react";
 
-import Button, { type ButtonSize, type ButtonVariant } from "@/components/kit/Button";
-import Popover from "@/components/kit/Popover";
+import Button, { type ButtonSize, type ButtonVariant } from "@/components/ui/Button";
 import { Check, MoreHorizontal } from "@/components/ui/icon";
+import Popover from "@/components/ui/Popover";
 
 import { cn } from "@/lib/cn";
 

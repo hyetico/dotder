@@ -2,13 +2,11 @@
 
 import { useState, type DragEvent } from "react";
 
-import Badge from "@/components/kit/Badge";
-import Button from "@/components/kit/Button";
-import Card from "@/components/kit/Card";
-import Checkbox from "@/components/kit/Checkbox";
-import EmptyState from "@/components/kit/EmptyState";
-import { MenuItem, MenuSeparator, MoreMenu } from "@/components/kit/Menu";
-import { collapseClassName, useDelayedComplete } from "@/components/kit/useDelayedComplete";
+import Badge from "@/components/ui/Badge";
+import Button from "@/components/ui/Button";
+import Card from "@/components/ui/Card";
+import Checkbox from "@/components/ui/Checkbox";
+import EmptyState from "@/components/ui/EmptyState";
 import {
   Calendar,
   Check,
@@ -18,6 +16,8 @@ import {
   Plus,
   Trash2,
 } from "@/components/ui/icon";
+import { MenuItem, MenuSeparator, MoreMenu } from "@/components/ui/Menu";
+import { collapseClassName, useDelayedComplete } from "@/components/ui/useDelayedComplete";
 
 import { formatMonthDot, getTaskLateDays } from "@/features/projects/detail/projectOverviewModel";
 import {

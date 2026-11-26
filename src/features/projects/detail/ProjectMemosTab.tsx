@@ -2,10 +2,10 @@
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import EmptyState from "@/components/kit/EmptyState";
-import QuickAddInput from "@/components/kit/QuickAddInput";
-import { useToast } from "@/components/kit/Toast";
+import EmptyState from "@/components/ui/EmptyState";
 import { Inbox } from "@/components/ui/icon";
+import QuickAddInput from "@/components/ui/QuickAddInput";
+import { useToast } from "@/components/ui/Toast";
 
 import { QUICK_ADD_PLACEHOLDER, TOAST_TEXT } from "@/content/ui";
 import { createMemo } from "@/features/memos/api/memos";

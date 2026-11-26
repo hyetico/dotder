@@ -1,7 +1,7 @@
 "use client";
 
-import Kbd from "@/components/kit/Kbd";
-import Modal from "@/components/kit/Modal";
+import Kbd from "@/components/ui/Kbd";
+import Modal from "@/components/ui/Modal";
 
 // 보드 01-i 목록 그대로 [이름, 키들]
 const GROUPS: { title: string; rows: [string, string[]][] }[] = [

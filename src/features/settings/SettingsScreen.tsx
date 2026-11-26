@@ -2,17 +2,17 @@
 
 import { useState, useSyncExternalStore, type ReactNode } from "react";
 
-import Button from "@/components/kit/Button";
-import Card from "@/components/kit/Card";
-import { Tag } from "@/components/kit/Chip";
-import ColorSwatches from "@/components/kit/ColorSwatches";
-import RadioDot from "@/components/kit/RadioDot";
-import Segmented from "@/components/kit/Segmented";
-import Select from "@/components/kit/Select";
-import Switch from "@/components/kit/Switch";
 import { usePageMeta } from "@/components/shell/PageMeta";
 import { applyThemeMode, readThemeMode, type ThemeMode } from "@/components/shell/theme";
+import Button from "@/components/ui/Button";
+import Card from "@/components/ui/Card";
+import { Tag } from "@/components/ui/Chip";
+import ColorSwatches from "@/components/ui/ColorSwatches";
 import { ChevronRight, Plus } from "@/components/ui/icon";
+import RadioDot from "@/components/ui/RadioDot";
+import Segmented from "@/components/ui/Segmented";
+import Select from "@/components/ui/Select";
+import Switch from "@/components/ui/Switch";
 
 import packageJson from "@/../package.json";
 import { PROJECT_TAG_PRESETS } from "@/features/projects/constants/projectTags";

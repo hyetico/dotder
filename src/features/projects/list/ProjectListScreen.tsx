@@ -5,12 +5,12 @@ import { useMemo, useState } from "react";
 
 import { useQuery } from "@tanstack/react-query";
 
-import Button from "@/components/kit/Button";
-import EmptyState from "@/components/kit/EmptyState";
-import Tabs from "@/components/kit/Tabs";
 import { HeaderActions } from "@/components/shell/HeaderActions";
 import { usePageMeta } from "@/components/shell/PageMeta";
+import Button from "@/components/ui/Button";
+import EmptyState from "@/components/ui/EmptyState";
 import { Archive, Folder, Plus, Search } from "@/components/ui/icon";
+import Tabs from "@/components/ui/Tabs";
 
 import { getProjectActivity, getProjectListItems } from "@/features/projects/api/projects";
 import ArchiveModal, { useArchivedProjects } from "@/features/projects/list/ArchiveModal";

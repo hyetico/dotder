@@ -1,8 +1,8 @@
 "use client";
 
-import { MenuItem, MenuSeparator, MoreMenu } from "@/components/kit/Menu";
+import { MenuItem, MenuSeparator, MoreMenu } from "@/components/ui/Menu";
 
-import type { ButtonVariant } from "@/components/kit/Button";
+import type { ButtonVariant } from "@/components/ui/Button";
 import type { Project } from "@/features/projects/types/project";
 
 type ProjectDetailMenuProps = {

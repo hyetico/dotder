@@ -1,6 +1,6 @@
 import { getDayDelta, parseDateKey, toDateKey } from "@/lib/date";
 
-import type { BadgeTone } from "@/components/kit/Badge";
+import type { BadgeTone } from "@/components/ui/Badge";
 import type { Goal, GoalStatus } from "@/features/goals/types/goal";
 import type { ActivityDay } from "@/features/projects/utils/activityMosaic";
 import type { Task } from "@/features/tasks/types/task";

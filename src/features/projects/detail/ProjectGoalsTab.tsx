@@ -2,15 +2,15 @@
 
 import { useRef, useState } from "react";
 
-import Button from "@/components/kit/Button";
-import { Chip } from "@/components/kit/Chip";
-import { DeleteConfirmDialog } from "@/components/kit/ConfirmDialog";
-import EmptyState from "@/components/kit/EmptyState";
-import { PickRow } from "@/components/kit/Menu";
-import Popover from "@/components/kit/Popover";
-import Segmented from "@/components/kit/Segmented";
-import { useToast } from "@/components/kit/Toast";
+import Button from "@/components/ui/Button";
+import { Chip } from "@/components/ui/Chip";
+import { DeleteConfirmDialog } from "@/components/ui/ConfirmDialog";
+import EmptyState from "@/components/ui/EmptyState";
 import { Funnel, ListFilter, Plus, Target } from "@/components/ui/icon";
+import { PickRow } from "@/components/ui/Menu";
+import Popover from "@/components/ui/Popover";
+import Segmented from "@/components/ui/Segmented";
+import { useToast } from "@/components/ui/Toast";
 
 import { TOAST_TEXT } from "@/content/ui";
 import GoalAddDrawer from "@/features/goals/drawers/GoalAddDrawer";

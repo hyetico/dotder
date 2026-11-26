@@ -3,9 +3,9 @@
 import { useLayoutEffect, useRef, useState, type RefObject } from "react";
 import { createPortal } from "react-dom";
 
-import Button from "@/components/kit/Button";
-import { useLayer, usePresence } from "@/components/kit/useLayer";
+import Button from "@/components/ui/Button";
 import { Trash2 } from "@/components/ui/icon";
+import { useLayer, usePresence } from "@/components/ui/useLayer";
 
 import {
   BUTTON_LABEL,

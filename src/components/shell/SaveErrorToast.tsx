@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 
-import { useToast } from "@/components/kit/Toast";
+import { useToast } from "@/components/ui/Toast";
 
 import { TOAST_TEXT } from "@/content/ui";
 

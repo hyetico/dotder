@@ -1,6 +1,6 @@
 "use client";
 
-import Checkbox from "@/components/kit/Checkbox";
+import Checkbox from "@/components/ui/Checkbox";
 
 import { formatMonthDot } from "@/features/projects/detail/projectOverviewModel";
 

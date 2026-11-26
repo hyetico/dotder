@@ -4,13 +4,13 @@ import { useRef, useState, type Ref } from "react";
 
 import { useQuery } from "@tanstack/react-query";
 
-import Button from "@/components/kit/Button";
-import Card from "@/components/kit/Card";
-import { MenuItem, MenuSeparator, MoreMenu, PickRow } from "@/components/kit/Menu";
-import Popover from "@/components/kit/Popover";
-import SearchField from "@/components/kit/SearchField";
-import { useToast } from "@/components/kit/Toast";
+import Button from "@/components/ui/Button";
+import Card from "@/components/ui/Card";
 import { Folder, ListChecks, Target, Trash2 } from "@/components/ui/icon";
+import { MenuItem, MenuSeparator, MoreMenu, PickRow } from "@/components/ui/Menu";
+import Popover from "@/components/ui/Popover";
+import SearchField from "@/components/ui/SearchField";
+import { useToast } from "@/components/ui/Toast";
 
 import { BUTTON_LABEL, INLINE_SAVE_TEXT, TOAST_TEXT } from "@/content/ui";
 import { useGoalMutations } from "@/features/goals/hooks/useGoalMutations";

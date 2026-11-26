@@ -2,8 +2,8 @@
 
 import { useState, type Ref } from "react";
 
-import Kbd from "@/components/kit/Kbd";
 import { Plus } from "@/components/ui/icon";
+import Kbd from "@/components/ui/Kbd";
 
 import { cn } from "@/lib/cn";
 

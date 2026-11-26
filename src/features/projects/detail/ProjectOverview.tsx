@@ -2,11 +2,11 @@
 
 import { useQueryClient } from "@tanstack/react-query";
 
-import Badge from "@/components/kit/Badge";
-import Button from "@/components/kit/Button";
-import Checkbox from "@/components/kit/Checkbox";
-import { useToast } from "@/components/kit/Toast";
-import { collapseClassName, useDelayedComplete } from "@/components/kit/useDelayedComplete";
+import Badge from "@/components/ui/Badge";
+import Button from "@/components/ui/Button";
+import Checkbox from "@/components/ui/Checkbox";
+import { useToast } from "@/components/ui/Toast";
+import { collapseClassName, useDelayedComplete } from "@/components/ui/useDelayedComplete";
 
 import { TOAST_TEXT } from "@/content/ui";
 import { historyWideText } from "@/features/projects/detail/projectHistoryModel";
