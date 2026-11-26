@@ -1,6 +1,6 @@
 /**
  * 프로젝트 기록 (보드 08 · REBUILD 6 버그 2). 추가 · 삭제 · 상태 · 완료 · 마감 변경 · 기간을 줄일 때 같이 옮긴 날짜를 저장한다.
- * 목업 저장이라 새로고침하면 처음 값으로 돌아간다 (실제 저장이 들어오면 서버로 옮김).
+ * 이 브라우저에 다른 데이터와 함께 저장된다 (lib/storage).
  */
 export type ProjectHistoryKind =
   "create" | "add" | "delete" | "status" | "done" | "deadline" | "start";

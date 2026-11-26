@@ -11,8 +11,13 @@ import Modal from "@/components/kit/Modal";
 import TourBanner from "@/components/kit/TourBanner";
 import { setDemoStep, useDemoStep, type DemoStep } from "@/components/shell/demoTourStore";
 
-import { clearExampleData } from "@/features/projects/api/projects";
+import { startMyRecords } from "@/features/projects/api/projects";
 import BrandLogo from "@/features/start/BrandLogo";
+import { useHasSavedData } from "@/features/start/CoverActions";
+
+import { clearProjectPreferences } from "@/lib/projectSwitcherPreferences";
+import { hasSavedData } from "@/lib/storage/dotderData";
+import { setMode, useMode } from "@/lib/storage/dotderMode";
 
 // 보드 E01 코치마크 3개 (4번째는 시작 선택 창). 글은 지금 앱이 하는 일만 남겼다 (보고에 적음)
 const STEPS: Record<1 | 2 | 3, { path: RegExp; target: string; title: string; text: string }> = {
@@ -39,7 +44,8 @@ const STEPS: Record<1 | 2 | 3, { path: RegExp; target: string; title: string; te
 /**
  * 예시로 둘러보기 (보드 E01). 커버 「예시로 둘러보기」 → `/projects?demo=1`.
  * 위 띠 44(끝내기 · 내 기록 시작하기) + 코치마크 3개(폴더 카드 → 조각 바 → 빠른 추가) → 시작 선택.
- * 예시는 목업 데이터를 그대로 쓰고, 시작 선택에서 지우거나 메인 프로젝트 하나만 남긴다.
+ * 둘러보는 동안은 예시 모드(`demo`)라 예시 목업을 새로 불러오고 저장하지 않는다. 띠는 예시 모드에서만 보인다.
+ * 시작 선택에서 빈 내 기록으로 가거나, 예시의 메인 프로젝트 하나를 내 기록으로 복사해 시작한다.
  */
 export default function DemoTour() {
   const router = useRouter();
@@ -47,15 +53,21 @@ export default function DemoTour() {
   const searchParams = useSearchParams();
   const queryClient = useQueryClient();
   const step = useDemoStep();
+  const isDemo = useMode() === "demo";
+  const hasSaved = useHasSavedData(step === 4);
   const fromCover = searchParams.get("demo") === "1";
 
   // 주소의 ?demo=1은 시작 신호로만 쓰고 지운다 (보드 E01 주소)
   useEffect(() => {
     if (fromCover) {
+      // 예시는 늘 새로 시작한다 (예시 즐겨찾기 · 최근도 비움)
+      setMode("demo");
+      clearProjectPreferences();
       setDemoStep(1);
+      void queryClient.invalidateQueries();
       router.replace(pathname, { scroll: false });
     }
-  }, [fromCover, pathname, router]);
+  }, [fromCover, pathname, queryClient, router]);
 
   const go = (next: DemoStep, path: string) => {
     setDemoStep(next);
@@ -77,18 +89,27 @@ export default function DemoTour() {
     }
   };
 
-  const start = async (keepMain: boolean) => {
-    await clearExampleData(keepMain);
+  const start = async (keepExample: boolean) => {
+    await startMyRecords(keepExample);
     setDemoStep(null);
     await queryClient.invalidateQueries();
     router.push("/projects");
   };
 
-  if (step == null) {
+  // 내 기록이 있으면 내 기록 목록으로, 없으면 첫 화면으로
+  const end = async () => {
+    const saved = await hasSavedData();
+    setMode("mine");
+    setDemoStep(null);
+    await queryClient.invalidateQueries();
+    router.push(saved ? "/projects" : "/");
+  };
+
+  if (!isDemo) {
     return null;
   }
 
-  const coach = step >= 1 && step <= 3 ? STEPS[step as 1 | 2 | 3] : null;
+  const coach = step != null && step >= 1 && step <= 3 ? STEPS[step as 1 | 2 | 3] : null;
 
   return (
     <>
@@ -96,11 +117,11 @@ export default function DemoTour() {
         text="예시 데이터로 둘러보는 중이에요"
         detail="바꿔도 내 기록에는 남지 않아요"
         secondaryLabel="둘러보기 끝내기"
-        onSecondary={() => setDemoStep(null)}
+        onSecondary={() => void end()}
         primaryLabel="내 기록 시작하기"
         onPrimary={() => go(4, pathname)}
       />
-      {coach && coach.path.test(pathname) ? (
+      {step != null && coach && coach.path.test(pathname) ? (
         <Coachmark
           key={step}
           target={coach.target}
@@ -115,24 +136,40 @@ export default function DemoTour() {
       <Modal
         isOpen={step === 4}
         onClose={() => setDemoStep(0)}
-        title="이제 내 기록을 시작해 볼까요?"
+        title={hasSaved ? "내 기록으로 돌아갈까요?" : "이제 내 기록을 시작해 볼까요?"}
         header={<span />}
       >
         <div className="flex flex-col items-center gap-3 px-4 pt-6 text-center">
           <BrandLogo />
           <span className="text-xs font-semibold text-[var(--t3)]">4 / 4</span>
-          <h2 className="text-xl font-semibold">이제 내 기록을 시작해 볼까요?</h2>
-          <p className="text-sm text-[var(--t2)]">
-            예시는 지우고 빈 화면에서 시작하거나, 참고용으로 ‘예시’ 프로젝트 하나만 남길 수 있어요.
-          </p>
+          {hasSaved ? (
+            <h2 className="text-xl font-semibold">내 기록으로 돌아갈까요?</h2>
+          ) : (
+            <>
+              <h2 className="text-xl font-semibold">이제 내 기록을 시작해 볼까요?</h2>
+              <p className="text-sm text-[var(--t2)]">
+                예시는 지우고 빈 화면에서 시작하거나, 참고용으로 ‘예시’ 프로젝트 하나만 남길 수
+                있어요.
+              </p>
+            </>
+          )}
         </div>
         <div className="flex flex-col gap-2 px-4 pt-4 pb-3">
-          <Button variant="primary" size="lg" onClick={() => void start(false)}>
-            예시 지우고 시작하기
-          </Button>
-          <Button size="lg" onClick={() => void start(true)}>
-            예시 1개 남기고 시작하기
-          </Button>
+          {hasSaved ? (
+            // 이미 내 기록이 있으면 덮어쓰지 않고 돌아가기만
+            <Button variant="primary" size="lg" onClick={() => void start(false)}>
+              내 기록으로 돌아가기
+            </Button>
+          ) : (
+            <>
+              <Button variant="primary" size="lg" onClick={() => void start(false)}>
+                예시 지우고 시작하기
+              </Button>
+              <Button size="lg" onClick={() => void start(true)}>
+                예시 1개 남기고 시작하기
+              </Button>
+            </>
+          )}
         </div>
       </Modal>
     </>

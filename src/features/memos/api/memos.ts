@@ -1,4 +1,5 @@
 import { mockMemos } from "@/lib/mock/memos";
+import { ensureDataLoaded, saveData } from "@/lib/storage/dotderData";
 
 import type { Memo, MemoRegistration } from "@/features/memos/types/memo";
 
@@ -56,6 +57,7 @@ export function readMemos(): Memo[] {
  * @returns 메모 목록
  */
 export async function getMemos(): Promise<Memo[]> {
+  await ensureDataLoaded();
   return readMemos();
 }
 
@@ -68,6 +70,7 @@ export async function getMemos(): Promise<Memo[]> {
  * @returns 추가한 메모
  */
 export async function createMemo(input: CreateMemoInput): Promise<Memo> {
+  await ensureDataLoaded();
   const nextId = mockMemos.reduce((maxId, memo) => Math.max(maxId, memo.id), 0) + 1;
   const nextRank = mockMemos.reduce((minRank, memo) => Math.min(minRank, memo.sortRank), 0) - 1;
   const memo: Memo = {
@@ -83,6 +86,8 @@ export async function createMemo(input: CreateMemoInput): Promise<Memo> {
 
   mockMemos.unshift(memo);
 
+  await saveData();
+
   return copyMemo(memo);
 }
 
@@ -94,6 +99,7 @@ export async function createMemo(input: CreateMemoInput): Promise<Memo> {
  * @param id - 지울 메모 번호
  */
 export async function deleteMemo(id: number): Promise<void> {
+  await ensureDataLoaded();
   const index = mockMemos.findIndex((memo) => memo.id === id);
 
   if (index < 0) {
@@ -101,6 +107,7 @@ export async function deleteMemo(id: number): Promise<void> {
   }
 
   mockMemos.splice(index, 1);
+  await saveData();
 }
 
 /**
@@ -114,6 +121,7 @@ export async function deleteMemo(id: number): Promise<void> {
  * @returns 연결을 저장한 메모
  */
 export async function registerMemo(id: number, registration: MemoRegistration): Promise<Memo> {
+  await ensureDataLoaded();
   const memo = mockMemos.find((item) => item.id === id);
 
   if (!memo) {
@@ -125,6 +133,8 @@ export async function registerMemo(id: number, registration: MemoRegistration): 
   }
 
   memo.registration = { ...registration };
+
+  await saveData();
 
   return copyMemo(memo);
 }
@@ -138,6 +148,7 @@ export async function updateMemo(
   id: number,
   patch: Partial<Pick<Memo, "title" | "projectId">>,
 ): Promise<Memo> {
+  await ensureDataLoaded();
   const memo = mockMemos.find((item) => item.id === id);
 
   if (!memo) {
@@ -146,14 +157,19 @@ export async function updateMemo(
 
   Object.assign(memo, patch);
 
+  await saveData();
+
   return copyMemo(memo);
 }
 
 /** 지운 메모를 같은 id로 다시 넣는다 (삭제 토스트 「되돌리기」). */
 export async function restoreMemo(memo: Memo): Promise<Memo> {
+  await ensureDataLoaded();
   if (!mockMemos.some((item) => item.id === memo.id)) {
     mockMemos.unshift(copyMemo(memo));
   }
+
+  await saveData();
 
   return copyMemo(memo);
 }
@@ -180,14 +196,4 @@ export function restoreMemos(memos: Memo[]) {
       mockMemos.push(copyMemo(memo));
     }
   });
-}
-
-/** 예시 데이터 정리 (E01 시작 선택): 남길 프로젝트에 연결된 메모만 둔다 */
-export function keepMemosOf(projectIds: number[]) {
-  for (let index = mockMemos.length - 1; index >= 0; index -= 1) {
-    const projectId = mockMemos[index].projectId;
-    if (projectId == null || !projectIds.includes(projectId)) {
-      mockMemos.splice(index, 1);
-    }
-  }
 }
