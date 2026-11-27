@@ -111,6 +111,7 @@ export default function ProjectDeadlineDrawer({
           project.id,
           movedItems.map((item) => ({
             target: item.kind,
+            id: item.kind === "task" ? item.task.id : item.goal.id,
             field: item.field,
             name: item.name,
             from: item.from,

@@ -45,7 +45,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { createTask, deleteTask, updateTask } from "@/features/tasks/api/tasks";
 
-import { taskQueryKeys } from "@/lib/queryKeys";
+import { projectQueryKeys, taskQueryKeys } from "@/lib/queryKeys";
 
 import type { Task } from "@/features/tasks/types/task";
 import type { ProjectScope } from "@/lib/projectRoutes";
@@ -86,6 +86,8 @@ export function useTaskMutations(projectScope: ProjectScope) {
       queryClient.invalidateQueries({
         queryKey: tasksQueryKey,
       });
+      // 저장하면 활동 표시가 남으니 활동 모자이크도 다시 읽는다
+      queryClient.invalidateQueries({ queryKey: projectQueryKeys.activity });
     },
   });
 
@@ -150,6 +152,8 @@ export function useTaskMutations(projectScope: ProjectScope) {
       queryClient.invalidateQueries({
         queryKey: tasksQueryKey,
       });
+      // 저장하면 활동 표시가 남으니 활동 모자이크도 다시 읽는다
+      queryClient.invalidateQueries({ queryKey: projectQueryKeys.activity });
     },
   });
 
@@ -168,6 +172,8 @@ export function useTaskMutations(projectScope: ProjectScope) {
       queryClient.invalidateQueries({
         queryKey: tasksQueryKey,
       });
+      // 저장하면 활동 표시가 남으니 활동 모자이크도 다시 읽는다
+      queryClient.invalidateQueries({ queryKey: projectQueryKeys.activity });
     },
   });
 

@@ -22,7 +22,14 @@ import {
   type ProjectHistoryEntry,
 } from "@/lib/mock/projectHistory";
 import { mockProjects } from "@/lib/mock/projects";
-import { activityMarks, countActivity } from "@/lib/storage/activity";
+import {
+  activityMarks,
+  countActivity,
+  recordActivity,
+  removeProjectActivity,
+  restoreActivity,
+  type ActivityMark,
+} from "@/lib/storage/activity";
 import { ensureDataLoaded, saveData } from "@/lib/storage/dotderData";
 import { readMode, setMode } from "@/lib/storage/dotderMode";
 
@@ -221,6 +228,12 @@ export async function createProject(input: CreateProjectInput): Promise<Project>
 
   mockProjects.push(newProject);
   recordProjectHistory({ projectId: newProject.id, kind: "create", target: "project" });
+  recordActivity({
+    projectId: newProject.id,
+    target: "project",
+    id: newProject.id,
+    action: "create",
+  });
 
   await saveData();
 
@@ -286,13 +299,23 @@ export async function updateProject(
   }
 
   mockProjects[projectIndex] = { ...updatedProject, updatedAt: new Date().toISOString() };
+  // 상태 · 마감 변경도 edit. 완료로 바꾼 저장만 done
+  recordActivity({
+    projectId: updatedProject.id,
+    target: "project",
+    id: updatedProject.id,
+    action: updatedProject.status === "DONE" && currentProject.status !== "DONE" ? "done" : "edit",
+  });
 
   await saveData();
 
   return updatedProject;
 }
 
-const deletedSnapshots = new Map<number, { goals: Goal[]; tasks: Task[]; memos: Memo[] }>();
+const deletedSnapshots = new Map<
+  number,
+  { goals: Goal[]; tasks: Task[]; memos: Memo[]; activity: ActivityMark[] }
+>();
 
 /** 프로젝트에 딸린 목표 · 태스크 · 메모 수 (삭제 확인창 · 보드 03-f) */
 export async function getProjectChildCounts(projectId: number) {
@@ -341,6 +364,7 @@ export async function deleteProject(projectId: number): Promise<number> {
     goals: removeGoalsOfProject(projectId),
     tasks: removeTasksOfProject(projectId),
     memos: removeMemosOfProject(projectId),
+    activity: removeProjectActivity(projectId),
   });
   mockProjects.splice(projectIndex, 1);
   removeProjectDeadlineChanges(projectId);
@@ -388,6 +412,7 @@ export async function restoreDeletedProject(project: Project): Promise<Project> 
       restoreGoals(snapshot.goals);
       restoreTasks(snapshot.tasks);
       restoreMemos(snapshot.memos);
+      restoreActivity(snapshot.activity);
       deletedSnapshots.delete(project.id);
     }
   }
@@ -412,6 +437,8 @@ export async function recordShiftedItems(
   projectId: number,
   moves: {
     target: "goal" | "task";
+    /** 옮긴 목표 · 태스크 id (활동 표시) */
+    id: number;
     field: "start" | "end";
     name: string;
     from: string;
@@ -428,6 +455,9 @@ export async function recordShiftedItems(
       from: move.from,
       to: move.to,
     }),
+  );
+  moves.forEach((move) =>
+    recordActivity({ projectId, target: move.target, id: move.id, action: "edit" }),
   );
   await saveData();
 }

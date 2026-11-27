@@ -157,6 +157,7 @@ export default function ProjectEditDrawer({
           project.id,
           shiftItems.map((item) => ({
             target: item.kind,
+            id: item.kind === "task" ? item.task.id : item.goal.id,
             field: item.field,
             name: item.name,
             from: item.from,
