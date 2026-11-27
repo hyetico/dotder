@@ -40,7 +40,7 @@ type FavoritesPanelProps = {
  * 즐겨찾기 탭 (보드 02 · 02-a · 02-b · 02-c · 02-d).
  * 안내 줄 「★ 즐겨찾기 n / 3 · 사이드바 프로젝트 전환 맨 위에도 보여요」 · [순서 바꾸기] · [선택].
  * 카드 + 점선 「즐겨찾기 추가」 카드(3개면 숨김) → 340 팝오버. 선택 모드는 체크 · 「즐겨찾기에서 빼기 (n)」 · [완료].
- * 비면 빈 상태 카드 (02-a).
+ * 비면 작은 빈 상태(회색 한 줄) + [즐겨찾기 추가] · [전체 프로젝트 보기].
  */
 export default function FavoritesPanel({ projects, activity, onShowAll }: FavoritesPanelProps) {
   const toast = useToast();
@@ -77,13 +77,13 @@ export default function FavoritesPanel({ projects, activity, onShowAll }: Favori
 
   if (favorites.length === 0) {
     return (
-      <section className="flex flex-col items-center gap-2 rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface)] p-12 text-center">
-        <Star size={24} aria-hidden className="text-[var(--t3)]" />
-        <strong className="text-lg font-bold">자주 보는 프로젝트를 즐겨찾기 해 보세요</strong>
-        <span className="text-sm text-[var(--t2)]">
-          최대 3개 · 사이드바 맨 위와 이 탭에서 바로 열 수 있어요.
-        </span>
-        <div className="mt-2 flex flex-wrap justify-center gap-2">
+      // 작은 빈 상태: 회색 한 줄 (ProjectOverview 「남은 태스크가 없어요」와 같은 모양) + 기존 버튼
+      <section className="flex flex-col items-start gap-3">
+        <p className="text-xs text-[var(--t3)]">
+          자주 보는 프로젝트를 즐겨찾기 해 보세요 · 최대 3개 · 사이드바 맨 위와 이 탭에서 바로 열 수
+          있어요.
+        </p>
+        <div className="flex flex-wrap gap-2">
           <Button ref={emptyAddRef} variant="primary" size="sm" onClick={() => setIsAddOpen(true)}>
             <Plus size={16} aria-hidden />
             즐겨찾기 추가
