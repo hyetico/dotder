@@ -3,6 +3,7 @@ import type { Memo } from "@/features/memos/types/memo";
 import type { Project, ProjectDeadlineChange } from "@/features/projects/types/project";
 import type { Task } from "@/features/tasks/types/task";
 import type { ProjectHistoryEntry } from "@/lib/mock/projectHistory";
+import type { ActivityMark } from "@/lib/storage/activity";
 
 /** 한 번에 저장 · 불러오는 앱 데이터 전체. 모양이 바뀌면 `version`을 올리고 옮기는 코드를 둔다. */
 export type DotderData = {
@@ -15,6 +16,11 @@ export type DotderData = {
   history: ProjectHistoryEntry[];
   /** 프로젝트 마감 변경 기록 */
   deadlineChanges: ProjectDeadlineChange[];
+  /**
+   * 활동 모자이크 표시 (내 기록만). 11.27에 더해서 예전 저장에는 없다 — 없으면 빈 목록으로 읽는다.
+   * 모양이 늘기만 해서 `version`은 1 그대로
+   */
+  activity?: ActivityMark[];
 };
 
 /**

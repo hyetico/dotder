@@ -22,8 +22,16 @@ import {
   type ProjectHistoryEntry,
 } from "@/lib/mock/projectHistory";
 import { mockProjects } from "@/lib/mock/projects";
+import {
+  activityMarks,
+  countActivity,
+  recordActivity,
+  removeProjectActivity,
+  restoreActivity,
+  type ActivityMark,
+} from "@/lib/storage/activity";
 import { ensureDataLoaded, saveData } from "@/lib/storage/dotderData";
-import { setMode } from "@/lib/storage/dotderMode";
+import { readMode, setMode } from "@/lib/storage/dotderMode";
 
 import type { Goal } from "@/features/goals/types/goal";
 import type { Memo } from "@/features/memos/types/memo";
@@ -139,10 +147,18 @@ export async function duplicateProject(projectId: number): Promise<Project> {
 /**
  * 프로젝트별 날짜별 활동 기록을 읽는다 (활동 모자이크).
  *
+ * 예시 모드는 예시 활동(목업 고정값), 내 기록은 저장 동작마다 남긴 활동 표시를 센다.
+ * 예시 활동은 내 기록 프로젝트에 붙지 않는다 (번호가 같아도).
+ *
  * @returns 프로젝트 id → 기록이 있는 날 목록. 기록이 없는 프로젝트는 빠진다
  */
 export async function getProjectActivity(): Promise<Record<number, ActivityDay[]>> {
   await ensureDataLoaded();
+
+  if (readMode() === "mine") {
+    return countActivity(activityMarks);
+  }
+
   return Object.fromEntries(
     mockProjectActivity.map((item) => [
       item.projectId,
@@ -212,6 +228,12 @@ export async function createProject(input: CreateProjectInput): Promise<Project>
 
   mockProjects.push(newProject);
   recordProjectHistory({ projectId: newProject.id, kind: "create", target: "project" });
+  recordActivity({
+    projectId: newProject.id,
+    target: "project",
+    id: newProject.id,
+    action: "create",
+  });
 
   await saveData();
 
@@ -277,13 +299,23 @@ export async function updateProject(
   }
 
   mockProjects[projectIndex] = { ...updatedProject, updatedAt: new Date().toISOString() };
+  // 상태 · 마감 변경도 edit. 완료로 바꾼 저장만 done
+  recordActivity({
+    projectId: updatedProject.id,
+    target: "project",
+    id: updatedProject.id,
+    action: updatedProject.status === "DONE" && currentProject.status !== "DONE" ? "done" : "edit",
+  });
 
   await saveData();
 
   return updatedProject;
 }
 
-const deletedSnapshots = new Map<number, { goals: Goal[]; tasks: Task[]; memos: Memo[] }>();
+const deletedSnapshots = new Map<
+  number,
+  { goals: Goal[]; tasks: Task[]; memos: Memo[]; activity: ActivityMark[] }
+>();
 
 /** 프로젝트에 딸린 목표 · 태스크 · 메모 수 (삭제 확인창 · 보드 03-f) */
 export async function getProjectChildCounts(projectId: number) {
@@ -332,6 +364,7 @@ export async function deleteProject(projectId: number): Promise<number> {
     goals: removeGoalsOfProject(projectId),
     tasks: removeTasksOfProject(projectId),
     memos: removeMemosOfProject(projectId),
+    activity: removeProjectActivity(projectId),
   });
   mockProjects.splice(projectIndex, 1);
   removeProjectDeadlineChanges(projectId);
@@ -379,6 +412,7 @@ export async function restoreDeletedProject(project: Project): Promise<Project> 
       restoreGoals(snapshot.goals);
       restoreTasks(snapshot.tasks);
       restoreMemos(snapshot.memos);
+      restoreActivity(snapshot.activity);
       deletedSnapshots.delete(project.id);
     }
   }
@@ -403,6 +437,8 @@ export async function recordShiftedItems(
   projectId: number,
   moves: {
     target: "goal" | "task";
+    /** 옮긴 목표 · 태스크 id (활동 표시) */
+    id: number;
     field: "start" | "end";
     name: string;
     from: string;
@@ -419,6 +455,9 @@ export async function recordShiftedItems(
       from: move.from,
       to: move.to,
     }),
+  );
+  moves.forEach((move) =>
+    recordActivity({ projectId, target: move.target, id: move.id, action: "edit" }),
   );
   await saveData();
 }

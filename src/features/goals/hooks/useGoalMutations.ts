@@ -26,10 +26,12 @@ export function useGoalMutations() {
 
   const projectScope = useCurrentProjectScope();
 
+  // 목표를 저장하면 활동 표시가 남으니 활동 모자이크도 다시 읽는다
   const invalidateGoals = async () => {
-    await queryClient.invalidateQueries({
-      queryKey: goalQueryKeys.all,
-    });
+    await Promise.all([
+      queryClient.invalidateQueries({ queryKey: goalQueryKeys.all }),
+      queryClient.invalidateQueries({ queryKey: projectQueryKeys.activity }),
+    ]);
   };
 
   const createGoalMutation = useMutation({

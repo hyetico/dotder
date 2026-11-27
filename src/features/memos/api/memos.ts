@@ -1,4 +1,5 @@
 import { mockMemos } from "@/lib/mock/memos";
+import { recordActivity } from "@/lib/storage/activity";
 import { ensureDataLoaded, saveData } from "@/lib/storage/dotderData";
 
 import type { Memo, MemoRegistration } from "@/features/memos/types/memo";
@@ -85,6 +86,8 @@ export async function createMemo(input: CreateMemoInput): Promise<Memo> {
   };
 
   mockMemos.unshift(memo);
+  // 프로젝트에 연결된 메모만 활동으로 센다
+  recordActivity({ projectId: memo.projectId, target: "memo", id: memo.id, action: "create" });
 
   await saveData();
 
@@ -106,7 +109,8 @@ export async function deleteMemo(id: number): Promise<void> {
     throw new Error("메모를 찾을 수 없습니다.");
   }
 
-  mockMemos.splice(index, 1);
+  const [removed] = mockMemos.splice(index, 1);
+  recordActivity({ projectId: removed.projectId, target: "memo", id, action: "delete" });
   await saveData();
 }
 
@@ -133,6 +137,7 @@ export async function registerMemo(id: number, registration: MemoRegistration): 
   }
 
   memo.registration = { ...registration };
+  recordActivity({ projectId: memo.projectId, target: "memo", id, action: "edit" });
 
   await saveData();
 
@@ -156,6 +161,8 @@ export async function updateMemo(
   }
 
   Object.assign(memo, patch);
+  // 연결을 바꾸면 새 프로젝트에 남는다 (연결을 풀면 남지 않음)
+  recordActivity({ projectId: memo.projectId, target: "memo", id, action: "edit" });
 
   await saveData();
 

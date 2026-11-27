@@ -141,15 +141,32 @@ const DOT_CLASS: Record<ProjectHistoryEntry["kind"], string> = {
 /** 태블릿 · 모바일 (보드 T · M 08): 종류 칸 → 「MM.DD (요일)」 → 점 10 + 세로 선 · 글 · 작은 글 */
 function CompactHistory({ entries }: { entries: ProjectHistoryEntry[] }) {
   const [kind, setKind] = useState<CompactKind>("all");
+  // 기록이 0개면 거를 것이 없다: 종류 칸을 못 누르게 하고 기본값(전체)으로
+  const isEmpty = entries.length === 0;
+  if (isEmpty && kind !== "all") {
+    setKind("all");
+  }
   const visible = entries.filter((entry) => matchesCompact(kind, entry));
   const days = [...new Set(visible.map((entry) => localDay(entry.at)))];
 
   return (
     <>
-      <div className="-mx-4 flex [scrollbar-width:none] overflow-x-auto px-4 [&::-webkit-scrollbar]:hidden">
-        <Segmented label="기록 종류" value={kind} onChange={setKind} items={COMPACT_KIND_ITEMS} />
+      {/* 칸이 모두 비활성이면 스크롤 칸 자체가 Tab 초점을 받지 않게 */}
+      <div
+        tabIndex={isEmpty ? -1 : undefined}
+        className="-mx-4 flex [scrollbar-width:none] overflow-x-auto px-4 [&::-webkit-scrollbar]:hidden"
+      >
+        <Segmented
+          label="기록 종류"
+          value={kind}
+          onChange={setKind}
+          items={COMPACT_KIND_ITEMS}
+          disabled={isEmpty}
+        />
       </div>
-      {visible.length === 0 ? (
+      {isEmpty ? (
+        <EmptyState icon={<History size={24} />} title="아직 기록이 없어요" />
+      ) : visible.length === 0 ? (
         <EmptyState
           icon={<History size={24} />}
           title="이 종류의 기록이 없어요"
@@ -194,15 +211,28 @@ function CompactHistory({ entries }: { entries: ProjectHistoryEntry[] }) {
 
 function WideHistory({ entries }: { entries: ProjectHistoryEntry[] }) {
   const [kind, setKind] = useState<HistoryKind>("all");
+  // 기록이 0개면 거를 것이 없다: 종류 칸을 못 누르게 하고 기본값(전체)으로
+  const isEmpty = entries.length === 0;
+  if (isEmpty && kind !== "all") {
+    setKind("all");
+  }
   const visible = entries.filter((entry) => matchesWide(kind, entry));
   const days = [...new Set(visible.map((entry) => localDay(entry.at)))];
 
   return (
     <>
       <div className="flex">
-        <Segmented label="기록 종류" value={kind} onChange={setKind} items={KIND_ITEMS} />
+        <Segmented
+          label="기록 종류"
+          value={kind}
+          onChange={setKind}
+          items={KIND_ITEMS}
+          disabled={isEmpty}
+        />
       </div>
-      {visible.length === 0 ? (
+      {isEmpty ? (
+        <EmptyState icon={<History size={24} />} title="아직 기록이 없어요" />
+      ) : visible.length === 0 ? (
         <EmptyState
           icon={<History size={24} />}
           title="이 종류의 기록이 없어요"
