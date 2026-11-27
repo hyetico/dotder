@@ -15,6 +15,8 @@ type SearchFieldProps = {
   className?: string;
   inputRef?: Ref<HTMLInputElement>;
   autoFocus?: boolean;
+  /** 못 씀 (데이터가 0개일 때 도구 줄). 입력칸 비활성과 같은 --s2 바탕 · --t4 글자, Tab으로 들어오지 않는다 */
+  disabled?: boolean;
 };
 
 /**
@@ -35,12 +37,15 @@ export default function SearchField({
   className,
   inputRef,
   autoFocus,
+  disabled = false,
 }: SearchFieldProps) {
   return (
     <label
       className={cn(
         "flex w-full min-w-0 items-center gap-2 rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface)] px-3 text-sm text-[var(--text)] transition-[border-color,box-shadow] focus-within:border-[var(--primary)] focus-within:shadow-[0_0_0_3px_var(--input-ring)] hover:border-[var(--border-2)]",
         size === "sm" ? "h-9" : "h-10",
+        disabled &&
+          "pointer-events-none bg-[var(--s2)] text-[var(--t4)] [&_input]:placeholder:text-[var(--t4)] [&_svg]:text-[var(--t4)]",
         className,
       )}
     >
@@ -50,6 +55,7 @@ export default function SearchField({
         type="search"
         value={value}
         autoFocus={autoFocus}
+        disabled={disabled}
         onChange={(event) => onChange(event.target.value)}
         placeholder={placeholder}
         aria-label={ariaLabel}

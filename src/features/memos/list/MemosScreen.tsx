@@ -70,7 +70,10 @@ export default function MemosScreen({ scope }: { scope: MemosScope }) {
   const [showAll, setShowAll] = useState(false);
   const today = toDateKey(new Date());
 
-  const { data: memos = [] } = useQuery({ queryKey: memoQueryKeys.all, queryFn: getMemos });
+  const { data: memos = [], isLoading } = useQuery({
+    queryKey: memoQueryKeys.all,
+    queryFn: getMemos,
+  });
   const { data: projects = [] } = useQuery({
     queryKey: projectQueryKeys.all,
     queryFn: getProjects,
@@ -91,6 +94,13 @@ export default function MemosScreen({ scope }: { scope: MemosScope }) {
   });
 
   usePageMeta("메모");
+
+  // 메모가 0개면 거를 것이 없다: 탭 · 칸 · 검색을 못 쓰게 하고 조건은 기본값으로 (첫 메모가 가려지지 않게)
+  const isEmpty = !isLoading && memos.length === 0;
+  if (isEmpty && (filter !== "all" || query !== "")) {
+    setFilter("all");
+    setQuery("");
+  }
 
   const scoped = memos.filter((memo) => {
     if (scope === "main") {
@@ -160,7 +170,13 @@ export default function MemosScreen({ scope }: { scope: MemosScope }) {
           </p>
         </header>
 
-        <Tabs label="메모 범위" value={scope} items={SCOPE_TABS} className="max-lg:hidden" />
+        <Tabs
+          label="메모 범위"
+          value={isEmpty ? "all" : scope}
+          items={SCOPE_TABS}
+          disabled={isEmpty}
+          className="max-lg:hidden"
+        />
 
         {/* 웹 쓰는 카드 (보드 11) */}
         <Card className="flex flex-col gap-3 p-4 max-lg:hidden">
@@ -211,6 +227,7 @@ export default function MemosScreen({ scope }: { scope: MemosScope }) {
             label="메모 보기"
             value={filter}
             onChange={setFilter}
+            disabled={isEmpty}
             items={[
               { value: "all", label: "전체", count: matches("all").length },
               { value: "none", label: "연결 없음", count: matches("none").length },
@@ -224,6 +241,7 @@ export default function MemosScreen({ scope }: { scope: MemosScope }) {
               onChange={setQuery}
               placeholder="메모 검색"
               ariaLabel="메모 검색"
+              disabled={isEmpty}
             />
           </div>
         </div>

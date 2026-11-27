@@ -157,6 +157,17 @@ function TasksBody() {
   const openTask = tasks.find((task) => task.id === openTaskId) ?? null;
   const filterCount = statuses.length + priorities.length;
   const isFiltered = projectFilter !== "all" || lateOnly || filterCount > 0;
+  // 태스크가 0개면 거를 것이 없다: 도구 줄을 못 누르게 하고 조건 · 보기는 기본값으로 (첫 태스크가 가려지지 않게)
+  const isEmpty = !isLoading && tasks.length === 0;
+  if (isEmpty && (isFiltered || view !== "list" || groupBy !== "due" || panel != null)) {
+    setProjectFilter("all");
+    setLateOnly(false);
+    setStatuses([]);
+    setPriorities([]);
+    setView("list");
+    setGroupBy("due");
+    setPanel(null);
+  }
   // 프로젝트가 하나도 없으면 태스크를 만들 곳이 없다
   const hasNoProjects =
     !isLoading && !isProjectsLoading && projects.length === 0 && tasks.length === 0;
@@ -264,6 +275,7 @@ function TasksBody() {
             label="보기"
             value={view}
             onChange={setView}
+            disabled={isEmpty}
             items={[
               {
                 value: "board",
@@ -299,8 +311,10 @@ function TasksBody() {
             type="button"
             aria-haspopup="listbox"
             aria-expanded={panel === "project"}
-            onClick={() => setPanel(panel === "project" ? null : "project")}
-            className="kit-focus flex h-9 w-50 min-w-0 cursor-pointer items-center gap-2 rounded-[var(--radius-sm)] border border-[var(--input-line)] bg-[var(--surface)] px-3 text-left text-sm hover:border-[var(--input-line-h)]"
+            aria-disabled={isEmpty || undefined}
+            tabIndex={isEmpty ? -1 : undefined}
+            onClick={isEmpty ? undefined : () => setPanel(panel === "project" ? null : "project")}
+            className="kit-focus flex h-9 w-50 min-w-0 cursor-pointer items-center gap-2 rounded-[var(--radius-sm)] border border-[var(--input-line)] bg-[var(--surface)] px-3 text-left text-sm hover:border-[var(--input-line-h)] aria-disabled:pointer-events-none aria-disabled:opacity-40"
           >
             <span className="min-w-0 flex-1 truncate">
               프로젝트: {currentProject?.name ?? "전체"}
@@ -311,6 +325,7 @@ function TasksBody() {
             selected={lateOnly}
             icon={<CircleAlert size={16} aria-hidden />}
             onClick={() => setLateOnly((value) => !value)}
+            disabled={isEmpty}
           >
             마감 지남만
           </Chip>
@@ -350,6 +365,7 @@ function TasksBody() {
               size="sm"
               aria-haspopup="listbox"
               aria-expanded={panel === "group"}
+              aria-disabled={isEmpty || undefined}
               onClick={() => setPanel(panel === "group" ? null : "group")}
             >
               <ListFilter size={16} aria-hidden />
@@ -361,6 +377,7 @@ function TasksBody() {
             size="sm"
             aria-haspopup="dialog"
             aria-expanded={panel === "filter"}
+            aria-disabled={isEmpty || undefined}
             onClick={() => setPanel(panel === "filter" ? null : "filter")}
             className={cn(filterCount > 0 && "border-[var(--primary)]")}
           >

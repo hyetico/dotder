@@ -116,6 +116,8 @@ export default function Button({
   ...props
 }: ButtonProps) {
   const classes = cn(buttonClassName({ variant, size, iconOnly, grow }), className);
+  // aria-disabled 버튼은 Tab으로 들어오지 않고 눌러도 아무 일 없다 (40%는 모양 클래스가 맡음)
+  const isAriaDisabled = props["aria-disabled"] === true || props["aria-disabled"] === "true";
 
   if (pending) {
     // 막힌 버튼은 호버를 받지 못해 툴팁은 감싼 칸이 띄운다
@@ -157,6 +159,8 @@ export default function Button({
       data-tip={tip}
       data-tip-side={tipSide}
       {...props}
+      tabIndex={isAriaDisabled ? -1 : props.tabIndex}
+      onClick={isAriaDisabled ? undefined : props.onClick}
     >
       {children}
     </button>
