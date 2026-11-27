@@ -22,8 +22,9 @@ import {
   type ProjectHistoryEntry,
 } from "@/lib/mock/projectHistory";
 import { mockProjects } from "@/lib/mock/projects";
+import { activityMarks, countActivity } from "@/lib/storage/activity";
 import { ensureDataLoaded, saveData } from "@/lib/storage/dotderData";
-import { setMode } from "@/lib/storage/dotderMode";
+import { readMode, setMode } from "@/lib/storage/dotderMode";
 
 import type { Goal } from "@/features/goals/types/goal";
 import type { Memo } from "@/features/memos/types/memo";
@@ -139,10 +140,18 @@ export async function duplicateProject(projectId: number): Promise<Project> {
 /**
  * 프로젝트별 날짜별 활동 기록을 읽는다 (활동 모자이크).
  *
+ * 예시 모드는 예시 활동(목업 고정값), 내 기록은 저장 동작마다 남긴 활동 표시를 센다.
+ * 예시 활동은 내 기록 프로젝트에 붙지 않는다 (번호가 같아도).
+ *
  * @returns 프로젝트 id → 기록이 있는 날 목록. 기록이 없는 프로젝트는 빠진다
  */
 export async function getProjectActivity(): Promise<Record<number, ActivityDay[]>> {
   await ensureDataLoaded();
+
+  if (readMode() === "mine") {
+    return countActivity(activityMarks);
+  }
+
   return Object.fromEntries(
     mockProjectActivity.map((item) => [
       item.projectId,
