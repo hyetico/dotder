@@ -538,7 +538,7 @@ function MoreSections() {
         />
       </Section>
 
-      <Section id="pillgroup" title="알약 묶음 · 점 · 숫자 · 선택">
+      <Section id="pillgroup" title="알약 묶음 · 점 · 숫자 · 선택 · 비활성">
         <PillGroup
           label="태스크 상태"
           value={pill}
@@ -552,6 +552,22 @@ function MoreSections() {
               count: 2,
             },
             { value: "DONE", label: "완료", dotClassName: badgeDotClassName.ok, count: 4 },
+          ]}
+        />
+        <PillGroup
+          label="태스크 상태 (비활성)"
+          value="IN_PROGRESS"
+          onChange={setPill}
+          disabled
+          items={[
+            { value: "TODO", label: "할 일", dotClassName: badgeDotClassName.n, count: 0 },
+            {
+              value: "IN_PROGRESS",
+              label: "진행 중",
+              dotClassName: badgeDotClassName.info,
+              count: 0,
+            },
+            { value: "DONE", label: "완료", dotClassName: badgeDotClassName.ok, count: 0 },
           ]}
         />
       </Section>

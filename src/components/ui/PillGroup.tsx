@@ -18,6 +18,8 @@ type PillGroupProps<T extends string> = {
   onChange: (value: T) => void;
   /** 묶음 읽는 이름 */
   label: string;
+  /** 못 누름 (데이터가 0개일 때). 40% · 알약마다 `aria-disabled` · Tab · ← →로 들어오지 않는다 */
+  disabled?: boolean;
 };
 
 /**
@@ -27,18 +29,20 @@ type PillGroupProps<T extends string> = {
  *
  * @example
  * <PillGroup label="상태" value={status} onChange={setStatus} items={[{ value: "TODO", label: "할 일", count: 1 }]} />
+ * <PillGroup disabled={isEmpty} … />
  */
 export default function PillGroup<T extends string>({
   items,
   value,
   onChange,
   label,
+  disabled = false,
 }: PillGroupProps<T>) {
   const refs = useRef<(HTMLButtonElement | null)[]>([]);
 
   const handleKeyDown = (event: KeyboardEvent, index: number) => {
     const step = event.key === "ArrowRight" ? 1 : event.key === "ArrowLeft" ? -1 : 0;
-    if (!step) {
+    if (!step || disabled) {
       return;
     }
     event.preventDefault();
@@ -51,7 +55,13 @@ export default function PillGroup<T extends string>({
     <div
       role="radiogroup"
       aria-label={label}
-      className="-mx-4 flex [scrollbar-width:none] gap-2 overflow-x-auto px-4 whitespace-nowrap [&::-webkit-scrollbar]:hidden"
+      aria-disabled={disabled || undefined}
+      // 안에 초점 받을 알약이 없으면 브라우저가 스크롤 칸 자체에 Tab 초점을 준다
+      tabIndex={disabled ? -1 : undefined}
+      className={cn(
+        "-mx-4 flex [scrollbar-width:none] gap-2 overflow-x-auto px-4 whitespace-nowrap [&::-webkit-scrollbar]:hidden",
+        disabled && "pointer-events-none opacity-40",
+      )}
     >
       {items.map((item, index) => {
         const isOn = item.value === value;
@@ -64,8 +74,9 @@ export default function PillGroup<T extends string>({
             type="button"
             role="radio"
             aria-checked={isOn}
-            tabIndex={isOn ? 0 : -1}
-            onClick={() => onChange(item.value)}
+            aria-disabled={disabled || undefined}
+            tabIndex={isOn && !disabled ? 0 : -1}
+            onClick={disabled ? undefined : () => onChange(item.value)}
             onKeyDown={(event) => handleKeyDown(event, index)}
             className={cn(
               "kit-focus inline-flex h-8 shrink-0 cursor-pointer items-center gap-1.5 rounded-full border px-3 text-sm transition-colors duration-120",

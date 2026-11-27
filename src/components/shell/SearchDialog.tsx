@@ -354,7 +354,12 @@ export default function SearchDialog({
       </div>
       <div className="flex max-h-105 flex-col overflow-y-auto px-1 pt-1 pb-2">
         {term && flat.length === 0 ? (
-          <p className="px-3 py-6 text-center text-sm text-[var(--t3)]">검색 결과가 없어요.</p>
+          <div className="flex flex-col gap-1 px-3 py-6 text-center">
+            <p className="text-sm [overflow-wrap:anywhere] text-[var(--t2)]">
+              ‘{term}’와 맞는 결과가 없어요
+            </p>
+            <p className="text-xs text-[var(--t3)]">다른 단어로 검색해 보세요.</p>
+          </div>
         ) : null}
         {groups.map((group) => (
           <div key={group.key} className="flex flex-col">

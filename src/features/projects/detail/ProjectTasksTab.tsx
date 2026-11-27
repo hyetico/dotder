@@ -95,6 +95,22 @@ export default function ProjectTasksTab({ project, goals, tasks, today }: Projec
   const goalLabel =
     goalFilter === "all" ? "전체" : (goals.find((goal) => goal.id === goalFilter)?.title ?? "전체");
   const openTask = tasks.find((task) => task.id === openTaskId) ?? null;
+  // 이 프로젝트에 태스크가 0개면 거를 것이 없다: 도구 줄을 못 누르게 하고 조건 · 보기는 기본값으로 ([+ 추가]는 살아 있음)
+  const isEmpty = tasks.length === 0;
+  if (
+    isEmpty &&
+    (view !== "board" ||
+      goalFilter !== "all" ||
+      priorities.length > 0 ||
+      compactStatus !== "IN_PROGRESS" ||
+      panel != null)
+  ) {
+    setView("board");
+    setGoalFilter("all");
+    setPriorities([]);
+    setCompactStatus("IN_PROGRESS");
+    setPanel(null);
+  }
   const refresh = () => queryClient.invalidateQueries({ queryKey: projectQueryKeys.all });
 
   const handlers: TaskViewHandlers = {
@@ -135,6 +151,7 @@ export default function ProjectTasksTab({ project, goals, tasks, today }: Projec
             label="보기"
             value={view}
             onChange={setView}
+            disabled={isEmpty}
             items={[
               {
                 value: "board",
@@ -198,8 +215,10 @@ export default function ProjectTasksTab({ project, goals, tasks, today }: Projec
               type="button"
               aria-haspopup="listbox"
               aria-expanded={panel === "goal"}
-              onClick={() => setPanel(panel === "goal" ? null : "goal")}
-              className="kit-focus flex h-9 w-45 min-w-0 cursor-pointer items-center gap-2 rounded-[var(--radius-sm)] border border-[var(--input-line)] bg-[var(--surface)] px-3 text-left text-sm hover:border-[var(--input-line-h)]"
+              aria-disabled={isEmpty || undefined}
+              tabIndex={isEmpty ? -1 : undefined}
+              onClick={isEmpty ? undefined : () => setPanel(panel === "goal" ? null : "goal")}
+              className="kit-focus flex h-9 w-45 min-w-0 cursor-pointer items-center gap-2 rounded-[var(--radius-sm)] border border-[var(--input-line)] bg-[var(--surface)] px-3 text-left text-sm hover:border-[var(--input-line-h)] aria-disabled:pointer-events-none aria-disabled:opacity-40"
             >
               <span className="min-w-0 flex-1 truncate">목표: {goalLabel}</span>
               <ChevronDown size={16} aria-hidden className="shrink-0 text-[var(--t3)]" />
@@ -212,6 +231,7 @@ export default function ProjectTasksTab({ project, goals, tasks, today }: Projec
               size="sm"
               aria-haspopup="dialog"
               aria-expanded={panel === "filter"}
+              aria-disabled={isEmpty || undefined}
               onClick={() => setPanel(panel === "filter" ? null : "filter")}
               className={cn(priorities.length > 0 && "border-[var(--primary)]")}
             >
@@ -240,6 +260,7 @@ export default function ProjectTasksTab({ project, goals, tasks, today }: Projec
           label="태스크 상태"
           value={compactStatus}
           onChange={setCompactStatus}
+          disabled={isEmpty}
           items={TASK_STATUS_ORDER.map((status) => ({
             value: status,
             label: TASK_STATUS_LABEL[status],

@@ -40,3 +40,8 @@ export const goalQueryKeys = {
 export const memoQueryKeys = {
   all: ["memos"] as const,
 };
+
+export const dataQueryKeys = {
+  /** 이 브라우저에 저장된 내 기록의 개수 (설정 → 데이터). 모두 지우기 뒤 전체를 새로 읽을 때 같이 바뀐다 */
+  saved: ["saved-data"] as const,
+};
