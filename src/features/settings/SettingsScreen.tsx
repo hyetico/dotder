@@ -58,6 +58,9 @@ const THEME_ITEMS: { value: ThemeMode; label: string }[] = [
   { value: "system", label: "시스템" },
 ];
 
+// 저장된 내 기록이 없을 때 데이터 카드 아래 도움말 (내보내기 · 지우기 비활성 이유)
+const NO_SAVED_DATA = "아직 저장된 데이터가 없어요";
+
 // 정보 칸 링크 (사용자가 준 주소)
 const PORTFOLIO_URL = "https://hyetico-portfolio-sigma.vercel.app/";
 
@@ -264,9 +267,18 @@ export default function SettingsScreen() {
               </>
             ) : null}
 
-            <WideSection id="data" title="데이터" text="v1은 브라우저에 저장돼요">
+            <WideSection
+              id="data"
+              title="데이터"
+              text="v1은 브라우저에 저장돼요"
+              note={dataActions.isEmpty ? NO_SAVED_DATA : undefined}
+            >
               <WideRow label="내보내기" help="모든 프로젝트·목표·태스크·메모를 JSON 파일로">
-                <Button size="sm" onClick={() => void dataActions.exportJson()}>
+                <Button
+                  size="sm"
+                  aria-disabled={dataActions.isEmpty || undefined}
+                  onClick={() => void dataActions.exportJson()}
+                >
                   내보내기
                 </Button>
               </WideRow>
@@ -280,7 +292,11 @@ export default function SettingsScreen() {
                 help="삭제하면 되돌릴 수 없어요. 확인 창이 한 번 더 열려요."
                 danger
               >
-                <Button size="sm" onClick={() => void dataActions.requestClear()}>
+                <Button
+                  size="sm"
+                  aria-disabled={dataActions.isEmpty || undefined}
+                  onClick={() => void dataActions.requestClear()}
+                >
                   지우기
                 </Button>
               </WideRow>
@@ -352,13 +368,18 @@ export default function SettingsScreen() {
               </CompactGroup>
             </>
           ) : null}
-          <CompactGroup title="데이터">
-            <CompactRow label="내보내기" onClick={() => void dataActions.exportJson()}>
+          <CompactGroup title="데이터" note={dataActions.isEmpty ? NO_SAVED_DATA : undefined}>
+            <CompactRow
+              label="내보내기"
+              disabled={dataActions.isEmpty}
+              onClick={() => void dataActions.exportJson()}
+            >
               <ChevronRight size={16} aria-hidden className="text-[var(--t3)]" />
             </CompactRow>
             <CompactRow
               label="모두 지우기"
               danger
+              disabled={dataActions.isEmpty}
               onClick={() => void dataActions.requestClear()}
             />
           </CompactGroup>
@@ -391,11 +412,14 @@ function WideSection({
   id,
   title,
   text,
+  note,
   children,
 }: {
   id: string;
   title: string;
   text?: string;
+  /** 카드 아래 도움말 한 줄 (12 · --t3) */
+  note?: string;
   children: ReactNode;
 }) {
   return (
@@ -407,6 +431,7 @@ function WideSection({
         {text ? <span className="text-xs text-[var(--t3)]">{text}</span> : null}
       </div>
       <Card className="px-5 py-1">{children}</Card>
+      {note ? <p className="text-xs text-[var(--t3)]">{note}</p> : null}
     </section>
   );
 }
@@ -518,11 +543,21 @@ function ThemeCard({
   );
 }
 
-function CompactGroup({ title, children }: { title: string; children: ReactNode }) {
+function CompactGroup({
+  title,
+  note,
+  children,
+}: {
+  title: string;
+  /** 카드 아래 도움말 한 줄 (12 · --t3) */
+  note?: string;
+  children: ReactNode;
+}) {
   return (
     <section className="flex flex-col gap-2 [&+&]:mt-2">
       <h2 className="text-xs font-semibold text-[var(--t3)]">{title}</h2>
       <Card className="px-4">{children}</Card>
+      {note ? <p className="text-xs text-[var(--t3)]">{note}</p> : null}
     </section>
   );
 }
@@ -535,6 +570,7 @@ function CompactRow({
   help,
   danger = false,
   onClick,
+  disabled = false,
   children,
 }: {
   label: string;
@@ -542,6 +578,8 @@ function CompactRow({
   danger?: boolean;
   /** 넘기면 줄 전체가 버튼 (데이터 「내보내기」 · 「모두 지우기」) */
   onClick?: () => void;
+  /** 못 누름: 40% · `aria-disabled` · Tab 건너뜀 */
+  disabled?: boolean;
   children?: ReactNode;
 }) {
   const content = (
@@ -557,8 +595,14 @@ function CompactRow({
   return onClick ? (
     <button
       type="button"
-      onClick={onClick}
-      className={cn(compactRowClassName, "kit-focus w-full cursor-pointer text-left")}
+      aria-disabled={disabled || undefined}
+      tabIndex={disabled ? -1 : undefined}
+      onClick={disabled ? undefined : onClick}
+      className={cn(
+        compactRowClassName,
+        "kit-focus w-full cursor-pointer text-left",
+        disabled && "pointer-events-none opacity-40",
+      )}
     >
       {content}
     </button>

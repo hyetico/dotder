@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
 import { useToast } from "@/components/ui/Toast";
@@ -12,6 +12,7 @@ import { TOAST_TEXT } from "@/content/ui";
 
 import { toDateKey } from "@/lib/date";
 import { clearProjectPreferences } from "@/lib/projectSwitcherPreferences";
+import { dataQueryKeys } from "@/lib/queryKeys";
 import { clearAllData, exportData } from "@/lib/storage/dotderData";
 import { setMode } from "@/lib/storage/dotderMode";
 
@@ -20,13 +21,23 @@ type Counts = { projects: number; goals: number; tasks: number; memos: number };
 /**
  * 설정 → 데이터의 「내보내기」 · 「모두 지우기」 동작과 지우기 확인창.
  *
- * @returns `exportJson` · `requestClear`와 화면에 함께 그릴 `dialog`
+ * @returns `exportJson` · `requestClear`와 화면에 함께 그릴 `dialog`,
+ * 저장된 내 기록이 없으면 `isEmpty` true (불러오는 중에는 false)
  */
 export function useDataActions() {
   const router = useRouter();
   const toast = useToast();
   const queryClient = useQueryClient();
   const [counts, setCounts] = useState<Counts | null>(null);
+  // 내보내기 · 지우기는 예시 모드여도 저장된 내 기록을 다루므로, 그 개수로 비어 있는지 본다
+  const { data: savedTotal } = useQuery({
+    queryKey: dataQueryKeys.saved,
+    queryFn: async () => {
+      const data = await exportData();
+      return data.projects.length + data.goals.length + data.tasks.length + data.memos.length;
+    },
+  });
+  const isEmpty = savedTotal === 0;
 
   const exportJson = async () => {
     const data = await exportData();
@@ -79,5 +90,5 @@ export function useDataActions() {
     />
   );
 
-  return { exportJson, requestClear, dialog };
+  return { exportJson, requestClear, dialog, isEmpty };
 }

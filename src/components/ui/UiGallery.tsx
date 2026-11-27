@@ -169,7 +169,7 @@ function Gallery() {
           </div>
         </Section>
 
-        <Section id="chip" title="칩 · 태그 · 세그먼트 · 탭">
+        <Section id="chip" title="칩 · 태그 · 세그먼트 · 탭 · 데이터 없음이면 비활성">
           <Segmented
             label="프로젝트 상태"
             value={seg}
@@ -220,6 +220,43 @@ function Gallery() {
             className="w-full"
             label="프로젝트 범위"
             value="all"
+            items={[
+              { key: "all", label: "전체" },
+              { key: "main", label: "메인 프로젝트" },
+              { key: "fav", label: "즐겨찾기" },
+            ]}
+          />
+          {/* 데이터가 0개일 때 도구 줄: 모두 비활성 · 기본값만 선택 표시 */}
+          <div className="flex w-full flex-wrap items-center gap-2">
+            <Segmented
+              label="프로젝트 상태 (비활성)"
+              value="all"
+              onChange={setSeg}
+              disabled
+              items={[
+                { value: "all", label: "전체", count: 0 },
+                { value: "plan", label: "계획", count: 0 },
+                { value: "active", label: "진행 중", count: 0 },
+              ]}
+            />
+            <Chip disabled icon={<CircleAlert size={16} aria-hidden />} count={0}>
+              마감 지남만
+            </Chip>
+            <div className="w-60 max-w-full">
+              <SearchField
+                value=""
+                onChange={setQuery}
+                placeholder="프로젝트 검색"
+                ariaLabel="프로젝트 검색 (비활성)"
+                disabled
+              />
+            </div>
+          </div>
+          <Tabs
+            className="w-full"
+            label="프로젝트 범위 (비활성)"
+            value="all"
+            disabled
             items={[
               { key: "all", label: "전체" },
               { key: "main", label: "메인 프로젝트" },
@@ -501,7 +538,7 @@ function MoreSections() {
         />
       </Section>
 
-      <Section id="pillgroup" title="알약 묶음 · 점 · 숫자 · 선택">
+      <Section id="pillgroup" title="알약 묶음 · 점 · 숫자 · 선택 · 비활성">
         <PillGroup
           label="태스크 상태"
           value={pill}
@@ -515,6 +552,22 @@ function MoreSections() {
               count: 2,
             },
             { value: "DONE", label: "완료", dotClassName: badgeDotClassName.ok, count: 4 },
+          ]}
+        />
+        <PillGroup
+          label="태스크 상태 (비활성)"
+          value="IN_PROGRESS"
+          onChange={setPill}
+          disabled
+          items={[
+            { value: "TODO", label: "할 일", dotClassName: badgeDotClassName.n, count: 0 },
+            {
+              value: "IN_PROGRESS",
+              label: "진행 중",
+              dotClassName: badgeDotClassName.info,
+              count: 0,
+            },
+            { value: "DONE", label: "완료", dotClassName: badgeDotClassName.ok, count: 0 },
           ]}
         />
       </Section>

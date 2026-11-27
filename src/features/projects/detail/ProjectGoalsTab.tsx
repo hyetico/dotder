@@ -62,6 +62,14 @@ export default function ProjectGoalsTab({ project, goals, tasks, today }: Projec
   const visible = selectGoals(goals, { status, tags, sort });
   const openGoal = goals.find((goal) => goal.id === openGoalId) ?? null;
   const isFiltered = status !== "all" || tags.length > 0;
+  // 이 프로젝트에 목표가 0개면 거를 것이 없다: 도구 줄을 못 누르게 하고 조건은 기본값으로 ([+ 추가]는 살아 있음)
+  const isEmpty = goals.length === 0;
+  if (isEmpty && (isFiltered || sort !== "due" || panel != null)) {
+    setStatus("all");
+    setTags([]);
+    setSort("due");
+    setPanel(null);
+  }
 
   const complete = async (goal: Goal) => {
     await updateGoalAsync({ ...goal, status: "COMPLETED", teamId: project.teamId });
@@ -82,6 +90,7 @@ export default function ProjectGoalsTab({ project, goals, tasks, today }: Projec
           label="목표 상태"
           value={status}
           onChange={setStatus}
+          disabled={isEmpty}
           items={[
             { value: "all", label: "전체", count: count("all") },
             { value: "IN_PROGRESS", label: "진행 중", count: count("IN_PROGRESS") },
@@ -97,6 +106,7 @@ export default function ProjectGoalsTab({ project, goals, tasks, today }: Projec
           aria-haspopup="dialog"
           aria-expanded={panel === "filter"}
           onClick={() => setPanel(panel === "filter" ? null : "filter")}
+          disabled={isEmpty}
         >
           필터
         </Chip>
@@ -107,6 +117,7 @@ export default function ProjectGoalsTab({ project, goals, tasks, today }: Projec
           size="sm"
           aria-haspopup="listbox"
           aria-expanded={panel === "sort"}
+          aria-disabled={isEmpty || undefined}
           onClick={() => setPanel(panel === "sort" ? null : "sort")}
         >
           <ListFilter size={16} aria-hidden />

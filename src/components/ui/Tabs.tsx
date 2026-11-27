@@ -27,6 +27,11 @@ type TabsProps = {
   label: string;
   /** 태블릿 · 모바일에서 아이콘을 숨긴다 (보드 T · M 03 상세 탭) */
   hideIconsBelowLg?: boolean;
+  /**
+   * 못 누름 (데이터가 0개일 때 목록 탭). 탭 글 · 밑줄 40% · `aria-disabled` · 링크로 가지 않고 Tab으로 들어오지 않는다.
+   * 고른 탭 표시는 부른 쪽이 기본 탭(`value`)으로 넘긴다
+   */
+  disabled?: boolean;
   className?: string;
 };
 
@@ -63,6 +68,7 @@ const tabClassName =
  *
  * @example
  * <Tabs label="프로젝트 범위" value="all" items={[{ key: "all", label: "전체", href: "/projects" }]} />
+ * <Tabs disabled={isEmpty} value={isEmpty ? "all" : scope} … />
  */
 export default function Tabs({
   items,
@@ -70,6 +76,7 @@ export default function Tabs({
   onChange,
   label,
   hideIconsBelowLg = false,
+  disabled = false,
   className,
 }: TabsProps) {
   const listRef = useRef<HTMLDivElement>(null);
@@ -80,6 +87,9 @@ export default function Tabs({
       ref={listRef}
       role="tablist"
       aria-label={label}
+      aria-disabled={disabled || undefined}
+      // 안에 초점 받을 탭이 없으면 브라우저가 스크롤 칸 자체에 Tab 초점을 준다
+      tabIndex={disabled ? -1 : undefined}
       className={cn(
         "relative flex [scrollbar-width:none] gap-6 overflow-x-auto border-b border-[var(--border)] [&::-webkit-scrollbar]:hidden",
         className,
@@ -89,6 +99,7 @@ export default function Tabs({
         const isOn = item.key === value;
         const classes = cn(
           tabClassName,
+          disabled && "pointer-events-none opacity-40",
           // 잰 뒤에는 움직이는 밑줄이 대신 그린다
           isOn
             ? cn(
@@ -98,7 +109,7 @@ export default function Tabs({
             : "border-transparent text-[var(--t3)] hover:text-[var(--text)]",
         );
 
-        return item.href ? (
+        return item.href && !disabled ? (
           <Link key={item.key} href={item.href} role="tab" aria-selected={isOn} className={classes}>
             <TabContent item={item} hideIcon={hideIconsBelowLg} />
           </Link>
@@ -108,7 +119,9 @@ export default function Tabs({
             type="button"
             role="tab"
             aria-selected={isOn}
-            onClick={() => onChange?.(item.key)}
+            aria-disabled={disabled || undefined}
+            tabIndex={disabled ? -1 : undefined}
+            onClick={disabled ? undefined : () => onChange?.(item.key)}
             className={classes}
           >
             <TabContent item={item} hideIcon={hideIconsBelowLg} />
@@ -118,7 +131,10 @@ export default function Tabs({
       {place ? (
         <span
           aria-hidden
-          className="pointer-events-none absolute bottom-0 h-0.5 bg-[var(--text)] transition-[left,width] duration-150 ease-out motion-reduce:duration-0"
+          className={cn(
+            "pointer-events-none absolute bottom-0 h-0.5 bg-[var(--text)] transition-[left,width] duration-150 ease-out motion-reduce:duration-0",
+            disabled && "opacity-40",
+          )}
           style={{ left: place.left, width: place.width }}
         />
       ) : null}

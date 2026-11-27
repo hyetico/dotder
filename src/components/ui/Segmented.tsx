@@ -23,6 +23,8 @@ type SegmentedProps<T extends string> = {
   label: string;
   /** 칸을 같은 너비로 늘려 줄을 채운다 (보드 03-a 상태) */
   fill?: boolean;
+  /** 못 누름 (데이터가 0개일 때 도구 줄). 40% · 칸마다 `aria-disabled` · Tab · ← →로 들어오지 않는다 */
+  disabled?: boolean;
   className?: string;
 };
 
@@ -35,6 +37,7 @@ const segmentOnClassName =
  *
  * @example
  * <Segmented label="보기" value={view} onChange={setView} items={[{ value: "card", label: <LayoutGrid size={16} />, ariaLabel: "카드 보기" }]} />
+ * <Segmented disabled={isEmpty} … />
  */
 export default function Segmented<T extends string>({
   items,
@@ -42,6 +45,7 @@ export default function Segmented<T extends string>({
   onChange,
   label,
   fill = false,
+  disabled = false,
   className,
 }: SegmentedProps<T>) {
   const refs = useRef<(HTMLButtonElement | null)[]>([]);
@@ -49,7 +53,7 @@ export default function Segmented<T extends string>({
   const handleKeyDown = (event: KeyboardEvent, index: number) => {
     const step = event.key === "ArrowRight" ? 1 : event.key === "ArrowLeft" ? -1 : 0;
 
-    if (!step) {
+    if (!step || disabled) {
       return;
     }
 
@@ -67,7 +71,9 @@ export default function Segmented<T extends string>({
       ref={groupRef}
       role="radiogroup"
       aria-label={label}
+      aria-disabled={disabled || undefined}
       className={cn(
+        disabled && "pointer-events-none opacity-40",
         "relative h-9 shrink-0 gap-0.5 rounded-[var(--radius-sm)] bg-[var(--s3)] p-0.5",
         fill ? "flex w-full" : "inline-flex",
         className,
@@ -86,8 +92,9 @@ export default function Segmented<T extends string>({
             role="radio"
             aria-checked={isOn}
             aria-label={item.ariaLabel}
-            tabIndex={isOn ? 0 : -1}
-            onClick={() => onChange(item.value)}
+            aria-disabled={disabled || undefined}
+            tabIndex={isOn && !disabled ? 0 : -1}
+            onClick={disabled ? undefined : () => onChange(item.value)}
             onKeyDown={(event) => handleKeyDown(event, index)}
             className={cn(
               "kit-focus relative z-10 inline-flex h-8 cursor-pointer items-center justify-center gap-1 rounded-[var(--radius-xs)] text-sm whitespace-nowrap transition-colors",

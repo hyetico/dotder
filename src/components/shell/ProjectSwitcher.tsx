@@ -47,7 +47,7 @@ export default function ProjectSwitcher({ isOpen, onClose, anchorRef }: ProjectS
   const router = useRouter();
   const [query, setQuery] = useState("");
   const favoriteIds = useFavoriteProjectIds();
-  const { data: projects = [] } = useQuery({
+  const { data: projects = [], isLoading } = useQuery({
     queryKey: projectQueryKeys.all,
     queryFn: getProjects,
   });
@@ -146,6 +146,10 @@ export default function ProjectSwitcher({ isOpen, onClose, anchorRef }: ProjectS
           </>
         ) : (
           <>
+            {/* 작은 빈 상태: 회색 한 줄, 아래 「새 프로젝트」는 그대로 */}
+            {!isLoading && projects.length === 0 ? (
+              <p className="px-2 py-2 text-xs text-[var(--t3)]">아직 프로젝트가 없어요</p>
+            ) : null}
             {main ? (
               <>
                 <MenuHeader>메인</MenuHeader>
