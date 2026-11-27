@@ -11,6 +11,11 @@ type ChipProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "children"> & {
   icon?: ReactNode;
   /** 오른쪽 숫자 (12 · 꺼짐 --t3) */
   count?: number;
+  /**
+   * 못 누름 (데이터가 0개일 때 도구 줄). 40% · `aria-disabled` · 누르거나 Tab으로 들어오지 않는다.
+   * 선택 표시는 끈다
+   */
+  disabled?: boolean;
   ref?: Ref<HTMLButtonElement>;
   children: ReactNode;
 };
@@ -20,20 +25,36 @@ type ChipProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "children"> & {
  *
  * @example
  * <Chip selected={lateOnly} onClick={toggle} icon={<CircleAlert size={16} />} count={3}>마감 지남만</Chip>
+ * <Chip disabled={isEmpty} …>마감 지남만</Chip>
  */
-export function Chip({ selected = false, icon, count, className, children, ...props }: ChipProps) {
+export function Chip({
+  selected: isSelected = false,
+  icon,
+  count,
+  disabled = false,
+  className,
+  children,
+  onClick,
+  ...props
+}: ChipProps) {
+  const selected = isSelected && !disabled;
+
   return (
     <button
       type="button"
       aria-pressed={selected}
+      aria-disabled={disabled || undefined}
+      onClick={disabled ? undefined : onClick}
       className={cn(
         "kit-focus inline-flex h-9 shrink-0 cursor-pointer items-center gap-1.5 rounded-[var(--radius-sm)] border px-3 text-sm whitespace-nowrap transition-colors",
+        disabled && "pointer-events-none opacity-40",
         selected
           ? "border-[var(--primary)] bg-[var(--primary)] text-[var(--on-primary)]"
           : "border-[var(--border)] bg-[var(--surface)] text-[var(--t2)] hover:border-[var(--border-2)] hover:text-[var(--text)]",
         className,
       )}
       {...props}
+      tabIndex={disabled ? -1 : props.tabIndex}
     >
       {icon}
       {children}

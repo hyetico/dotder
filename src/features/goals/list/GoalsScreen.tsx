@@ -126,6 +126,15 @@ function GoalsBody({ scope }: { scope: GoalsScope }) {
     .filter((goal) => tags.length === 0 || goal.tags.some((tag) => tags.includes(tag)))
     .sort((a, b) => (a.endDate || "9").localeCompare(b.endDate || "9"));
   const isFiltered = status !== "all" || lateOnly || tags.length > 0;
+  // 목표가 0개면 거를 것이 없다: 도구 줄 · 탭을 못 누르게 하고 조건은 기본값으로 (첫 목표가 가려지지 않게)
+  const isEmpty = !isLoading && goals.length === 0;
+  if (isEmpty && (isFiltered || group !== "project" || panel != null)) {
+    setStatus("all");
+    setLateOnly(false);
+    setTags([]);
+    setGroup("project");
+    setPanel(null);
+  }
   const openGoalId = Number(searchParams.get("goal")) || null;
   const openGoal = goals.find((goal) => goal.id === openGoalId) ?? null;
   const subtitle = `${scoped.length}개 중 ${count("IN_PROGRESS")}개 진행 중`;
@@ -274,8 +283,9 @@ function GoalsBody({ scope }: { scope: GoalsScope }) {
 
       <Tabs
         label="목표 범위"
-        value={scope}
+        value={isEmpty ? "all" : scope}
         items={SCOPE_TABS}
+        disabled={isEmpty}
         className="max-lg:-mx-4 max-lg:px-4"
       />
 
@@ -285,6 +295,7 @@ function GoalsBody({ scope }: { scope: GoalsScope }) {
           label="목표 상태"
           value={status}
           onChange={setStatus}
+          disabled={isEmpty}
           items={[
             { value: "all", label: "전체", count: count("all") },
             { value: "IN_PROGRESS", label: "진행 중", count: count("IN_PROGRESS") },
@@ -296,6 +307,7 @@ function GoalsBody({ scope }: { scope: GoalsScope }) {
           selected={lateOnly}
           icon={<CircleAlert size={16} aria-hidden />}
           onClick={() => setLateOnly((value) => !value)}
+          disabled={isEmpty}
         >
           마감 지남만
         </Chip>
@@ -306,6 +318,7 @@ function GoalsBody({ scope }: { scope: GoalsScope }) {
           size="sm"
           aria-haspopup="listbox"
           aria-expanded={panel === "group"}
+          aria-disabled={isEmpty || undefined}
           onClick={() => setPanel(panel === "group" ? null : "group")}
         >
           <ListFilter size={16} aria-hidden />
@@ -316,6 +329,7 @@ function GoalsBody({ scope }: { scope: GoalsScope }) {
           size="sm"
           aria-haspopup="dialog"
           aria-expanded={panel === "filter"}
+          aria-disabled={isEmpty || undefined}
           onClick={() => setPanel(panel === "filter" ? null : "filter")}
         >
           <Funnel size={16} aria-hidden />
@@ -329,6 +343,7 @@ function GoalsBody({ scope }: { scope: GoalsScope }) {
           label="목표 상태"
           value={status}
           onChange={setStatus}
+          disabled={isEmpty}
           items={[
             { value: "all", label: "전체", count: count("all") },
             { value: "IN_PROGRESS", label: "진행 중", count: count("IN_PROGRESS") },
@@ -343,6 +358,7 @@ function GoalsBody({ scope }: { scope: GoalsScope }) {
           aria-label="필터"
           aria-haspopup="dialog"
           aria-expanded={panel === "compact"}
+          aria-disabled={isEmpty || undefined}
           onClick={() => setPanel(panel === "compact" ? null : "compact")}
         >
           <Funnel size={16} aria-hidden />

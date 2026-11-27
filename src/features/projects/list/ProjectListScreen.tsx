@@ -34,6 +34,13 @@ import type { ActivityDay } from "@/features/projects/utils/activityMosaic";
 export type ProjectListScope = "all" | "main" | "favorites";
 
 const NO_ACTIVITY: ActivityDay[] = [];
+const DEFAULT_QUERY: ProjectListQuery = {
+  status: "all",
+  lateOnly: false,
+  keyword: "",
+  sort: "updated",
+  tags: [],
+};
 const NO_ACTIVITY_MAP: Record<number, ActivityDay[]> = {};
 
 // 맞춤 탭(01-k)은 데이터가 없어 숨긴다 (tech-debt R-4). 탭 숫자는 넣지 않는다 (6-3).
@@ -51,13 +58,7 @@ const SCOPE_TABS = [
  */
 export default function ProjectListScreen({ scope }: { scope: ProjectListScope }) {
   const router = useRouter();
-  const [query, setQuery] = useState<ProjectListQuery>({
-    status: "all",
-    lateOnly: false,
-    keyword: "",
-    sort: "updated",
-    tags: [],
-  });
+  const [query, setQuery] = useState<ProjectListQuery>(DEFAULT_QUERY);
   const [view, setView] = useState<ProjectViewMode>("card");
   const [isArchiveOpen, setIsArchiveOpen] = useState(false);
   const { data: projects = [], isLoading } = useQuery({
@@ -69,6 +70,13 @@ export default function ProjectListScreen({ scope }: { scope: ProjectListScope }
     queryFn: getProjectActivity,
   });
   const { data: archived = [] } = useArchivedProjects();
+
+  // 프로젝트가 0개면 거를 것이 없다: 도구 줄 · 탭을 못 누르게 하고 조건은 기본값으로 (첫 프로젝트가 가려지지 않게)
+  const isEmpty = !isLoading && projects.length === 0;
+  if (isEmpty && (query !== DEFAULT_QUERY || view !== "card")) {
+    setQuery(DEFAULT_QUERY);
+    setView("card");
+  }
 
   const counts = useMemo(() => getProjectCounts(projects), [projects]);
   const scoped = scope === "main" ? projects.filter((project) => project.isMain) : projects;
@@ -123,7 +131,13 @@ export default function ProjectListScreen({ scope }: { scope: ProjectListScope }
           ) : null}
         </header>
 
-        <Tabs className="lg:mt-6" label="프로젝트 탭" value={scope} items={SCOPE_TABS} />
+        <Tabs
+          className="lg:mt-6"
+          label="프로젝트 탭"
+          value={isEmpty ? "all" : scope}
+          items={SCOPE_TABS}
+          disabled={isEmpty}
+        />
 
         <div className="mt-3 lg:mt-6">
           {scope === "favorites" ? (
@@ -142,6 +156,7 @@ export default function ProjectListScreen({ scope }: { scope: ProjectListScope }
                 onViewChange={setView}
                 allTags={allTags}
                 resultCount={visible.length}
+                disabled={isEmpty}
               />
               {!isLoading && projects.length === 0 ? (
                 <EmptyState

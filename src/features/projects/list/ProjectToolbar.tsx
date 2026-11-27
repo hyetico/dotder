@@ -39,6 +39,8 @@ type ProjectToolbarProps = {
   allTags: string[];
   /** 지금 조건으로 보이는 개수 (시트 「프로젝트 N개 보기」) */
   resultCount: number;
+  /** 프로젝트가 0개라 거를 것이 없다. 모든 칸을 못 누르게 한다 (자리 · 높이는 그대로) */
+  disabled?: boolean;
 };
 
 const SORTS: ProjectSort[] = ["updated", "due", "name"];
@@ -56,6 +58,7 @@ export default function ProjectToolbar({
   onViewChange,
   allTags,
   resultCount,
+  disabled = false,
 }: ProjectToolbarProps) {
   const sortRef = useRef<HTMLButtonElement>(null);
   const [isSortOpen, setIsSortOpen] = useState(false);
@@ -76,12 +79,14 @@ export default function ProjectToolbar({
           value={query.status}
           onChange={(status) => onChange({ status })}
           items={statusItems}
+          disabled={disabled}
         />
         <Chip
           selected={query.lateOnly}
           onClick={() => onChange({ lateOnly: !query.lateOnly })}
           icon={<CircleAlert size={16} aria-hidden />}
           count={counts.late}
+          disabled={disabled}
         >
           마감 지남만
         </Chip>
@@ -92,6 +97,7 @@ export default function ProjectToolbar({
             onChange={(keyword) => onChange({ keyword })}
             placeholder="프로젝트 검색"
             ariaLabel="프로젝트 검색"
+            disabled={disabled}
           />
         </div>
         <Button
@@ -99,6 +105,7 @@ export default function ProjectToolbar({
           size="sm"
           aria-haspopup="menu"
           aria-expanded={isSortOpen}
+          aria-disabled={disabled || undefined}
           onClick={() => setIsSortOpen((open) => !open)}
         >
           <ListFilter size={16} aria-hidden />
@@ -108,6 +115,7 @@ export default function ProjectToolbar({
           label="보기 방식"
           value={view}
           onChange={onViewChange}
+          disabled={disabled}
           items={[
             {
               value: "card",
@@ -155,15 +163,26 @@ export default function ProjectToolbar({
       </Popover>
 
       <div className="flex items-center gap-2 lg:hidden">
-        <div className="-mx-4 min-w-0 flex-1 [scrollbar-width:none] overflow-x-auto px-4 md:-mx-6 md:px-6 [&::-webkit-scrollbar]:hidden">
+        {/* 칸이 모두 비활성이면 스크롤 칸 자체가 Tab 초점을 받지 않게 */}
+        <div
+          tabIndex={disabled ? -1 : undefined}
+          className="-mx-4 min-w-0 flex-1 [scrollbar-width:none] overflow-x-auto px-4 md:-mx-6 md:px-6 [&::-webkit-scrollbar]:hidden"
+        >
           <Segmented
             label="상태"
             value={query.status}
             onChange={(status) => onChange({ status })}
             items={statusItems}
+            disabled={disabled}
           />
         </div>
-        <Button size="sm" iconOnly aria-label="필터" onClick={() => setIsSheetOpen(true)}>
+        <Button
+          size="sm"
+          iconOnly
+          aria-label="필터"
+          aria-disabled={disabled || undefined}
+          onClick={() => setIsSheetOpen(true)}
+        >
           <Funnel size={16} aria-hidden />
         </Button>
       </div>
