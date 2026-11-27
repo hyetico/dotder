@@ -3,6 +3,7 @@ import { unlinkTasksFromGoal } from "@/features/tasks/api/tasks";
 import { mockGoals } from "@/lib/mock/goals";
 import { recordProjectHistory } from "@/lib/mock/projectHistory";
 import { mockProjects } from "@/lib/mock/projects";
+import { recordActivity } from "@/lib/storage/activity";
 import { ensureDataLoaded, saveData } from "@/lib/storage/dotderData";
 
 import type { Goal } from "@/features/goals/types/goal";
@@ -83,6 +84,12 @@ export async function createGoal(input: CreateGoalInput): Promise<Goal> {
   };
 
   mockGoals.push(newGoal);
+  recordActivity({
+    projectId: newGoal.projectId,
+    target: "goal",
+    id: newGoal.id,
+    action: "create",
+  });
   if (newGoal.projectId) {
     recordProjectHistory({
       projectId: newGoal.projectId,
@@ -113,6 +120,7 @@ export async function deleteGoal(goalId: number): Promise<Goal> {
 
   const [removed] = mockGoals.splice(index, 1);
   unlinkTasksFromGoal(goalId);
+  recordActivity({ projectId: removed.projectId, target: "goal", id: goalId, action: "delete" });
   if (removed.projectId) {
     recordProjectHistory({
       projectId: removed.projectId,
@@ -169,6 +177,13 @@ export async function updateGoal(input: UpdateGoalInput): Promise<Goal> {
   };
 
   mockGoals[goalIndex] = updatedGoal;
+  recordActivity({
+    projectId: updatedGoal.projectId,
+    target: "goal",
+    id: updatedGoal.id,
+    action:
+      updatedGoal.status === "COMPLETED" && currentGoal.status !== "COMPLETED" ? "done" : "edit",
+  });
 
   // 상태가 바뀌면 기록 (완료는 따로 · 보드 08)
   if (currentGoal.status !== updatedGoal.status && updatedGoal.projectId) {

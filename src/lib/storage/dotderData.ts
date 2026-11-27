@@ -4,6 +4,7 @@ import { mockProjectDeadlineChanges } from "@/lib/mock/projectDeadlineChanges";
 import { mockProjectHistory } from "@/lib/mock/projectHistory";
 import { mockProjects } from "@/lib/mock/projects";
 import { mockTasks } from "@/lib/mock/tasks";
+import { activityMarks, keepRecentActivity } from "@/lib/storage/activity";
 import { readMode, type DotderMode } from "@/lib/storage/dotderMode";
 import { dotderStore, type DotderData } from "@/lib/storage/dotderStore";
 
@@ -28,6 +29,8 @@ export function snapshotData(): DotderData {
     memos: mockMemos,
     history: mockProjectHistory,
     deadlineChanges: mockProjectDeadlineChanges,
+    // 26주보다 오래된 표시는 저장하지 않는다
+    activity: keepRecentActivity(activityMarks),
   });
 }
 
@@ -38,6 +41,7 @@ function applyData(data: DotderData) {
   replaceItems(mockMemos, data.memos ?? []);
   replaceItems(mockProjectHistory, data.history ?? []);
   replaceItems(mockProjectDeadlineChanges, data.deadlineChanges ?? []);
+  replaceItems(activityMarks, data.activity ?? []);
 }
 
 const EMPTY_DATA: DotderData = {
@@ -48,6 +52,7 @@ const EMPTY_DATA: DotderData = {
   memos: [],
   history: [],
   deadlineChanges: [],
+  activity: [],
 };
 
 // 예시 목업 원본. 데이터를 바꾸기 전(파일을 처음 읽을 때)에 떠 둔다

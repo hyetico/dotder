@@ -7,6 +7,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import Badge, { badgeDotClassName } from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
 import Checkbox from "@/components/ui/Checkbox";
+import EmptyState from "@/components/ui/EmptyState";
 import {
   Calendar,
   ChevronDown,
@@ -15,6 +16,7 @@ import {
   Funnel,
   LayoutGrid,
   List,
+  ListChecks,
   Plus,
 } from "@/components/ui/icon";
 import { MenuHeader, MenuSeparator, PickRow } from "@/components/ui/Menu";
@@ -268,6 +270,18 @@ export default function ProjectTasksTab({ project, goals, tasks, today }: Projec
             count: tasks.filter((task) => task.status === status).length,
           }))}
         />
+        {isEmpty ? (
+          <EmptyState
+            icon={<ListChecks size={24} />}
+            title="아직 태스크가 없어요"
+            actions={
+              <Button variant="primary" onClick={() => setAddPreset({})}>
+                <Plus size={16} aria-hidden />
+                태스크 추가
+              </Button>
+            }
+          />
+        ) : null}
         <ul>
           {tasks
             .filter((task) => task.status === compactStatus)

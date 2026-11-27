@@ -1,6 +1,7 @@
 import { recordProjectHistory } from "@/lib/mock/projectHistory";
 import { mockProjects } from "@/lib/mock/projects";
 import { mockTasks } from "@/lib/mock/tasks";
+import { recordActivity } from "@/lib/storage/activity";
 import { ensureDataLoaded, replaceItems, saveData } from "@/lib/storage/dotderData";
 
 import type { Task } from "@/features/tasks/types/task";
@@ -23,6 +24,13 @@ export async function createTask(newTask: Task): Promise<Task> {
   }
 
   replaceItems(mockTasks, [...mockTasks, newTask]);
+  // 프로젝트 없는 태스크는 projectId 0
+  recordActivity({
+    projectId: newTask.projectId || null,
+    target: "task",
+    id: newTask.id,
+    action: "create",
+  });
   if (newTask.projectId) {
     recordProjectHistory({
       projectId: newTask.projectId,
@@ -44,6 +52,12 @@ export async function updateTask(updatedTask: Task): Promise<Task> {
     mockTasks,
     mockTasks.map((task) => (task.id === updatedTask.id ? updatedTask : task)),
   );
+  recordActivity({
+    projectId: updatedTask.projectId || null,
+    target: "task",
+    id: updatedTask.id,
+    action: updatedTask.status === "DONE" && previous?.status !== "DONE" ? "done" : "edit",
+  });
 
   // 상태가 바뀌면 기록 (완료는 따로 · 보드 08)
   if (previous && previous.status !== updatedTask.status && updatedTask.projectId) {
@@ -69,6 +83,12 @@ export async function deleteTask(taskId: number): Promise<number> {
     mockTasks,
     mockTasks.filter((task) => task.id !== taskId),
   );
+  recordActivity({
+    projectId: removed?.projectId || null,
+    target: "task",
+    id: taskId,
+    action: "delete",
+  });
   if (removed?.projectId) {
     recordProjectHistory({
       projectId: removed.projectId,
