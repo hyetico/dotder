@@ -9,6 +9,7 @@ import Card from "@/components/ui/Card";
 import { Tag } from "@/components/ui/Chip";
 import ColorSwatches from "@/components/ui/ColorSwatches";
 import { ChevronRight, Plus } from "@/components/ui/icon";
+import PageTitle from "@/components/ui/PageTitle";
 import RadioDot from "@/components/ui/RadioDot";
 import Segmented from "@/components/ui/Segmented";
 import Select from "@/components/ui/Select";
@@ -100,10 +101,9 @@ export default function SettingsScreen() {
   return (
     <div className="min-h-full bg-[var(--bg)]">
       <div className="mx-auto flex w-full max-w-320 flex-col gap-3 px-4 pt-6 pb-8 md:px-6 md:pt-8 lg:gap-6 lg:px-10 lg:pt-10 lg:pb-16">
-        <header className="flex flex-col gap-1 max-lg:hidden">
-          <h1 className="text-2xl font-bold">설정</h1>
-          <p className="text-sm text-[var(--t2)]">이 기기에만 저장돼요 (v1 · 로그인 없음)</p>
-        </header>
+        <PageTitle summary="이 기기에만 저장돼요 (v1 · 로그인 없음)" className="max-lg:hidden">
+          설정
+        </PageTitle>
 
         {/* 웹 (보드 12) */}
         <div className="grid grid-cols-[--spacing(50)_minmax(0,1fr)] items-start gap-10 max-lg:hidden">

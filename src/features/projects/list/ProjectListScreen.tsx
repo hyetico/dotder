@@ -10,6 +10,7 @@ import { usePageMeta } from "@/components/shell/PageMeta";
 import Button from "@/components/ui/Button";
 import EmptyState from "@/components/ui/EmptyState";
 import { Archive, Folder, Plus, Search } from "@/components/ui/icon";
+import PageTitle from "@/components/ui/PageTitle";
 import Tabs from "@/components/ui/Tabs";
 
 import { getProjectActivity, getProjectListItems } from "@/features/projects/api/projects";
@@ -138,10 +139,10 @@ export default function ProjectListScreen({ scope }: { scope: ProjectListScope }
           </Button>
         </HeaderActions>
 
-        <header className="flex items-end gap-4 max-lg:hidden">
-          <div className="flex min-w-0 flex-1 flex-col gap-1">
-            <h1 className="text-2xl font-bold">프로젝트</h1>
-            <p className="text-sm text-[var(--t2)]">
+        <PageTitle
+          className="max-lg:hidden"
+          summary={
+            <>
               {subtitle}
               {counts.late > 0 ? (
                 <>
@@ -149,15 +150,19 @@ export default function ProjectListScreen({ scope }: { scope: ProjectListScope }
                   <span className="text-[var(--bad)]">{counts.late}개 마감 지남</span>
                 </>
               ) : null}
-            </p>
-          </div>
-          {archived.length > 0 ? (
-            <Button variant="ghost" size="sm" onClick={() => setIsArchiveOpen(true)}>
-              <Archive size={16} aria-hidden />
-              보관함 {archived.length}
-            </Button>
-          ) : null}
-        </header>
+            </>
+          }
+          aside={
+            archived.length > 0 ? (
+              <Button variant="ghost" size="sm" onClick={() => setIsArchiveOpen(true)}>
+                <Archive size={16} aria-hidden />
+                보관함 {archived.length}
+              </Button>
+            ) : undefined
+          }
+        >
+          프로젝트
+        </PageTitle>
 
         <Tabs
           className="lg:mt-6"

@@ -12,6 +12,7 @@ import Card from "@/components/ui/Card";
 import EmptyState from "@/components/ui/EmptyState";
 import { Folder, Inbox, Plus } from "@/components/ui/icon";
 import { MenuSeparator, PickRow } from "@/components/ui/Menu";
+import PageTitle from "@/components/ui/PageTitle";
 import Popover from "@/components/ui/Popover";
 import SearchField from "@/components/ui/SearchField";
 import Segmented from "@/components/ui/Segmented";
@@ -163,12 +164,12 @@ export default function MemosScreen({ scope }: { scope: MemosScope }) {
           </Button>
         </HeaderActions>
 
-        <header className="flex flex-col gap-1 max-lg:hidden">
-          <h1 className="text-2xl font-bold">메모</h1>
-          <p className="text-sm text-[var(--t2)]">
-            정리 안 된 생각을 모아 두는 곳이에요. 필요하면 태스크나 목표로 바꿔요.
-          </p>
-        </header>
+        <PageTitle
+          className="max-lg:hidden"
+          summary="정리 안 된 생각을 모아 두는 곳이에요. 필요하면 태스크나 목표로 바꿔요."
+        >
+          메모
+        </PageTitle>
 
         <Tabs
           label="메모 범위"

@@ -26,6 +26,7 @@ import {
   Plus,
 } from "@/components/ui/icon";
 import { MenuHeader, MenuSeparator, PickRow } from "@/components/ui/Menu";
+import PageTitle from "@/components/ui/PageTitle";
 import Popover from "@/components/ui/Popover";
 import QuickAddInput from "@/components/ui/QuickAddInput";
 import SearchField from "@/components/ui/SearchField";
@@ -257,18 +258,22 @@ function TasksBody() {
           </Button>
         </HeaderActions>
 
-        <header className="flex flex-col gap-1 max-lg:hidden">
-          <h1 className="text-2xl font-bold">태스크</h1>
-          <p className="text-sm text-[var(--t2)]">
-            오늘 할 일 {todayCount}개
-            {lateCount > 0 ? (
-              <>
-                {" · "}
-                <span className="text-[var(--bad)]">지연 {lateCount}개</span>
-              </>
-            ) : null}
-          </p>
-        </header>
+        <PageTitle
+          className="max-lg:hidden"
+          summary={
+            <>
+              오늘 할 일 {todayCount}개
+              {lateCount > 0 ? (
+                <>
+                  {" · "}
+                  <span className="text-[var(--bad)]">지연 {lateCount}개</span>
+                </>
+              ) : null}
+            </>
+          }
+        >
+          태스크
+        </PageTitle>
 
         {/* 웹 도구 줄 (보드 10) */}
         <div className="flex flex-wrap items-center gap-2 max-lg:hidden">

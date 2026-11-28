@@ -17,6 +17,7 @@ import EmptyState from "@/components/ui/EmptyState";
 import Field from "@/components/ui/Field";
 import FolderCard, { FolderAddCard } from "@/components/ui/FolderCard";
 import {
+  Archive,
   CircleAlert,
   ChevronDown,
   Folder,
@@ -28,6 +29,7 @@ import Kbd from "@/components/ui/Kbd";
 import { MenuItem, MenuSeparator, MoreMenu, PickRow } from "@/components/ui/Menu";
 import Modal from "@/components/ui/Modal";
 import Mosaic from "@/components/ui/Mosaic";
+import PageTitle from "@/components/ui/PageTitle";
 import PillGroup from "@/components/ui/PillGroup";
 import Popover from "@/components/ui/Popover";
 import ProjectMarker from "@/components/ui/ProjectMarker";
@@ -119,6 +121,33 @@ function Gallery() {
             ]}
           />
         </header>
+
+        <Section
+          id="pagetitle"
+          title="페이지 제목 · page 24 굵게 + 요약 14 --t2 · 오른쪽 끝 · display(시작 화면 · 404)"
+        >
+          <div className="flex w-full flex-col gap-6">
+            <PageTitle summary="이 기기에만 저장돼요 (v1 · 로그인 없음)">설정</PageTitle>
+            <PageTitle summary="정리 안 된 생각을 모아 두는 곳이에요. 필요하면 태스크나 목표로 바꿔요.">
+              메모
+            </PageTitle>
+            <PageTitle
+              aside={
+                <Button variant="ghost" size="sm">
+                  <Archive size={16} aria-hidden />
+                  보관함
+                </Button>
+              }
+            >
+              프로젝트
+            </PageTitle>
+            <PageTitle size="display" titleClassName="text-4xl tracking-[-0.035em] md:text-6xl">
+              조각을 이어,
+              <br />
+              나의 기록으로
+            </PageTitle>
+          </div>
+        </Section>
 
         <Section id="button" title="버튼 · lg 48/20 · md 40/16 · sm 36/12 · xs 28/8">
           {(["lg", "md", "sm", "xs"] as const).map((size) => (

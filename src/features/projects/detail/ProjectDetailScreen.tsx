@@ -24,6 +24,7 @@ import {
   Star,
   Target,
 } from "@/components/ui/icon";
+import PageTitle from "@/components/ui/PageTitle";
 import Tabs from "@/components/ui/Tabs";
 
 import { NOT_FOUND_TITLE, projectDeleteDetail } from "@/content/ui";
@@ -257,7 +258,7 @@ function DetailBody({ projectId }: { projectId: number }) {
           </Badge>
           {lateDays != null ? <Badge tone="bad">{lateDays}일 지연</Badge> : null}
         </div>
-        <h1 className="text-2xl font-bold [overflow-wrap:anywhere]">{project.name}</h1>
+        <PageTitle>{project.name}</PageTitle>
         {project.description ? <ProjectDescription text={project.description} /> : null}
         <div className="flex flex-wrap items-center gap-4 text-xs text-[var(--t3)]">
           {project.startDate || project.endDate ? (
@@ -285,7 +286,7 @@ function DetailBody({ projectId }: { projectId: number }) {
       </header>
 
       {/* 태블릿 · 모바일 머리 (보드 T · M 03): 이름은 헤더에 */}
-      <h1 className="sr-only lg:hidden">{project.name}</h1>
+      <PageTitle className="sr-only lg:hidden">{project.name}</PageTitle>
       {/* 다른 탭에서는 배지 · 기간 줄 없이 탭부터 (보드 T · M 04) */}
       <div className={cn("flex flex-col gap-3 lg:hidden", tab !== "overview" && "hidden")}>
         <div className="flex items-center gap-1.5">
