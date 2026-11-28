@@ -5,7 +5,7 @@ import { cn } from "@/lib/cn";
 import type { ButtonHTMLAttributes, ReactNode, Ref } from "react";
 
 type ChipProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "children"> & {
-  /** 켜짐 (주 색 바탕). 토글이면 `aria-pressed`로 읽힌다 */
+  /** 켜짐 (진한 선 + 진한 글자 600, --chip-on-*). 토글이면 `aria-pressed`로 읽힌다 */
   selected?: boolean;
   /** 왼쪽 아이콘 16 */
   icon?: ReactNode;
@@ -49,7 +49,7 @@ export function Chip({
         "kit-focus inline-flex h-9 shrink-0 cursor-pointer items-center gap-1.5 rounded-[var(--radius-sm)] border px-3 text-sm whitespace-nowrap transition-colors",
         disabled && "pointer-events-none opacity-40",
         selected
-          ? "border-[var(--primary)] bg-[var(--primary)] text-[var(--on-primary)]"
+          ? "border-[var(--chip-on-line)] bg-[var(--chip-on-bg)] font-semibold text-[var(--chip-on-fg)]"
           : "border-[var(--border)] bg-[var(--surface)] text-[var(--t2)] hover:border-[var(--border-2)] hover:text-[var(--text)]",
         className,
       )}
@@ -62,7 +62,8 @@ export function Chip({
         <span
           className={cn(
             "text-xs tabular-nums",
-            selected ? "text-[var(--on-primary)]" : "text-[var(--bad)]",
+            // 선택 바탕이 없어(라이트 transparent) 흰 글자는 안 보인다 → 칩 글자색을 따른다
+            selected ? "text-[var(--chip-on-fg)]" : "text-[var(--bad)]",
           )}
         >
           {count}

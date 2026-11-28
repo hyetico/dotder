@@ -46,7 +46,12 @@ import TourBanner from "@/components/ui/TourBanner";
 
 import { BUTTON_LABEL, QUICK_ADD_PLACEHOLDER, TOAST_TEXT } from "@/content/ui";
 
-import { DEFAULT_PROJECT_COLOR, type ProjectColorKey } from "@/lib/projectPalette";
+import {
+  DEFAULT_PROJECT_COLOR,
+  PROJECT_COLOR_KEYS,
+  PROJECT_PALETTE,
+  type ProjectColorKey,
+} from "@/lib/projectPalette";
 
 // 견본에 쓰는 글은 프로토타입 문구 그대로 (projectForm · pmenu · toast)
 const SAMPLE_DAYS = Array.from({ length: 140 }, (_, index) => ({
@@ -370,6 +375,18 @@ function Gallery() {
             <FolderCard color="teal" title="스토어 출시 준비" meta="~ 2026.08.20 · 진행률 50%">
               <Mosaic days={SAMPLE_DAYS.slice(40)} color="teal" />
             </FolderCard>
+          </div>
+          {/* 10색 메인 라벨 · 메타 글자(--project-*-ink) 대비 확인용 */}
+          <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-5">
+            {PROJECT_COLOR_KEYS.map((key) => (
+              <FolderCard
+                key={key}
+                color={key}
+                isMain
+                title={PROJECT_PALETTE[key].label}
+                meta="~ 2026.08.20 · 진행률 50%"
+              />
+            ))}
           </div>
         </Section>
       </div>
