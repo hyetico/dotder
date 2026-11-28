@@ -139,6 +139,13 @@ export default function ProjectSwitcher({ isOpen, onClose, anchorRef }: ProjectS
     )
     .filter((item) => !item.project.isMain && !favoriteIds.includes(item.project.id))
     .slice(0, 5);
+  // 메인 · 즐겨찾기 · 최근이 모두 비면 최근 수정한 5개를 대신 보인다 (빈 팝오버 방지)
+  const latest =
+    !main && favorites.length === 0 && recents.length === 0
+      ? [...projects]
+          .sort((a, b) => (b.updatedAt ?? "").localeCompare(a.updatedAt ?? "") || b.id - a.id)
+          .slice(0, 5)
+      : [];
 
   return (
     <Popover
@@ -190,6 +197,17 @@ export default function ProjectSwitcher({ isOpen, onClose, anchorRef }: ProjectS
                 <MenuHeader>최근</MenuHeader>
                 {recents.map(({ entry, project }) =>
                   row(project, formatRelativeTime(entry.openedAt)),
+                )}
+              </>
+            ) : null}
+            {latest.length > 0 ? (
+              <>
+                <MenuHeader>최근 수정</MenuHeader>
+                {latest.map((project) =>
+                  row(
+                    project,
+                    project.updatedAt ? formatRelativeTime(project.updatedAt) : undefined,
+                  ),
                 )}
               </>
             ) : null}

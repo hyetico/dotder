@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { Suspense, useLayoutEffect, useRef, useState } from "react";
+import { Suspense, useEffect, useLayoutEffect, useRef, useState } from "react";
 
 import { useQuery } from "@tanstack/react-query";
 
@@ -53,6 +53,7 @@ import { cn } from "@/lib/cn";
 import { formatDate, toDateKey } from "@/lib/date";
 import { projectColorVar } from "@/lib/projectPalette";
 import { getProjectDetailPath } from "@/lib/projectRoutes";
+import { recordRecentProjectId } from "@/lib/projectSwitcherPreferences";
 import { goalQueryKeys, memoQueryKeys, projectQueryKeys, taskQueryKeys } from "@/lib/queryKeys";
 
 export type ProjectDetailTab = "overview" | "goals" | "tasks" | "memos" | "history";
@@ -118,6 +119,14 @@ function DetailBody({ projectId }: { projectId: number }) {
 
   // 없는 프로젝트면 위치가 「프로젝트 /」로 끝나지 않게 「찾을 수 없음」
   usePageMeta(project?.name ?? (isLoading ? "" : NOT_FOUND_TITLE), undefined, "/projects");
+
+  // 연 프로젝트를 프로젝트 전환 「최근」에 넣는다 (없는 프로젝트는 넣지 않음)
+  const openedId = project?.id;
+  useEffect(() => {
+    if (openedId != null) {
+      recordRecentProjectId(openedId);
+    }
+  }, [openedId]);
 
   if (isLoading) {
     return null;
