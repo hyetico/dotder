@@ -1,7 +1,7 @@
 import { recordProjectHistory } from "@/lib/mock/projectHistory";
 import { mockProjects } from "@/lib/mock/projects";
 import { mockTasks } from "@/lib/mock/tasks";
-import { recordActivity } from "@/lib/storage/activity";
+import { forgetActivity, recordActivity } from "@/lib/storage/activity";
 import { ensureDataLoaded, replaceItems, saveData } from "@/lib/storage/dotderData";
 
 import type { Task } from "@/features/tasks/types/task";
@@ -101,6 +101,28 @@ export async function deleteTask(taskId: number): Promise<number> {
   await saveData();
 
   return taskId;
+}
+
+/**
+ * 지운 태스크를 같은 id로 다시 넣는다 (삭제 토스트 「되돌리기」).
+ *
+ * 되돌리기는 활동으로 세지 않는다: 만들기 표시를 남기지 않고, 삭제 때 남긴 표시를 지운다.
+ */
+export async function restoreTask(task: Task): Promise<Task> {
+  await ensureDataLoaded();
+  if (!mockTasks.some((item) => item.id === task.id)) {
+    replaceItems(mockTasks, [...mockTasks, task]);
+  }
+  forgetActivity({
+    projectId: task.projectId || null,
+    target: "task",
+    id: task.id,
+    action: "delete",
+  });
+
+  await saveData();
+
+  return task;
 }
 
 /**

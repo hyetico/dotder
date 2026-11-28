@@ -1,5 +1,5 @@
 import { mockMemos } from "@/lib/mock/memos";
-import { recordActivity } from "@/lib/storage/activity";
+import { forgetActivity, recordActivity } from "@/lib/storage/activity";
 import { ensureDataLoaded, saveData } from "@/lib/storage/dotderData";
 
 import type { Memo, MemoRegistration } from "@/features/memos/types/memo";
@@ -169,12 +169,13 @@ export async function updateMemo(
   return copyMemo(memo);
 }
 
-/** 지운 메모를 같은 id로 다시 넣는다 (삭제 토스트 「되돌리기」). */
+/** 지운 메모를 같은 id로 다시 넣는다 (삭제 토스트 「되돌리기」). 되돌리기는 활동으로 세지 않는다 (삭제 표시를 지운다). */
 export async function restoreMemo(memo: Memo): Promise<Memo> {
   await ensureDataLoaded();
   if (!mockMemos.some((item) => item.id === memo.id)) {
     mockMemos.unshift(copyMemo(memo));
   }
+  forgetActivity({ projectId: memo.projectId, target: "memo", id: memo.id, action: "delete" });
 
   await saveData();
 

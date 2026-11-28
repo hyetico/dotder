@@ -54,6 +54,31 @@ export function recordActivity({ projectId, target, id, action, at }: RecordActi
 }
 
 /**
+ * 오늘 남긴 활동 표시 하나를 지운다 (삭제 되돌리기). 되돌린 삭제는 활동으로 세지 않는다.
+ *
+ * 내 기록 모드에서만 지운다. 표시가 없으면 아무것도 하지 않는다.
+ *
+ * @example
+ * forgetActivity({ projectId: 3, target: "task", id: 12, action: "delete" });
+ */
+export function forgetActivity({ projectId, target, id, action, at }: RecordActivityInput) {
+  if (projectId == null || readMode() !== "mine") {
+    return;
+  }
+
+  const mark: ActivityMark = {
+    projectId,
+    date: toDateKey(at ?? new Date()),
+    key: `${target}:${id}:${action}`,
+  };
+  const index = activityMarks.findIndex((item) => isSameMark(item, mark));
+
+  if (index >= 0) {
+    activityMarks.splice(index, 1);
+  }
+}
+
+/**
  * 활동 표시를 프로젝트별 날짜별 수로 센다 (활동 모자이크).
  *
  * @returns 프로젝트 id → 표시가 있는 날 목록. 표시가 없는 프로젝트는 빠진다
