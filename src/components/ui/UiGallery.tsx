@@ -15,7 +15,7 @@ import DateField from "@/components/ui/DateField";
 import Drawer from "@/components/ui/Drawer";
 import EmptyState from "@/components/ui/EmptyState";
 import Field from "@/components/ui/Field";
-import FolderCard from "@/components/ui/FolderCard";
+import FolderCard, { FolderAddCard } from "@/components/ui/FolderCard";
 import {
   CircleAlert,
   ChevronDown,
@@ -133,6 +133,10 @@ function Gallery() {
               </Button>
               <Button variant="danger" size={size}>
                 삭제
+              </Button>
+              {/* 보조 위험: 되돌릴 수 있는 가벼운 삭제 (즐겨찾기에서 빼기) */}
+              <Button variant="secondaryDanger" size={size}>
+                빼기
               </Button>
               <Button variant="secondary" size={size} iconOnly aria-label="추가">
                 <Plus size={16} aria-hidden />
@@ -375,6 +379,15 @@ function Gallery() {
             <FolderCard color="teal" title="스토어 출시 준비" meta="~ 2026.08.20 · 진행률 50%">
               <Mosaic days={SAMPLE_DAYS.slice(40)} color="teal" />
             </FolderCard>
+          </div>
+          {/* 추가 카드: 보통 · 비활성(선택 모드) — 같은 줄 카드 높이를 채운다 */}
+          <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+            <FolderAddCard title="즐겨찾기 추가" description="1개 더 추가할 수 있어요" />
+            <FolderAddCard
+              title="즐겨찾기 추가"
+              description="선택 중에는 추가할 수 없어요"
+              disabled
+            />
           </div>
           {/* 10색 메인 라벨 · 메타 글자(--project-*-ink) 대비 확인용 */}
           <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-5">

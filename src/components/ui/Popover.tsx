@@ -27,8 +27,8 @@ type PopoverProps = {
   title: string;
   /** 폭: 메뉴 220(기본) · 정렬 · 묶기 200 · 필터 280 · 달력 282 · 프로젝트 고르기 300(보드 10-d) · 프로젝트 전환 320 · "anchor"는 기준 요소 폭 */
   width?: 200 | 220 | 280 | 282 | 300 | 320 | 340 | "anchor";
-  /** 기준 요소의 왼쪽(기본) · 오른쪽 끝에 맞춘다 */
-  align?: "start" | "end";
+  /** 기준 요소의 왼쪽(기본) · 오른쪽 끝 · 가운데에 맞춘다 (가운데: 즐겨찾기 추가 카드의 + 아이콘 아래) */
+  align?: "start" | "end" | "center";
   /** 역할. 메뉴면 "menu" */
   role?: "menu" | "dialog" | "listbox";
   /** 모바일 시트에서 줄을 좌우 8씩 넓힌다 (보드 M 01-j). ⋯ 메뉴 시트는 넓히지 않는다 (보드 M 03-e) */
@@ -130,7 +130,12 @@ function FloatingPanel({
 
       const panelWidth = width === "anchor" ? anchor.width : panel.offsetWidth;
       const panelHeight = panel.offsetHeight;
-      let left = align === "end" ? anchor.right - panelWidth : anchor.left;
+      let left =
+        align === "end"
+          ? anchor.right - panelWidth
+          : align === "center"
+            ? anchor.left + anchor.width / 2 - panelWidth / 2
+            : anchor.left;
       left = Math.max(EDGE, Math.min(left, window.innerWidth - panelWidth - EDGE));
       let top = anchor.bottom + GAP;
 
