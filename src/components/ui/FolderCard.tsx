@@ -1,10 +1,11 @@
 import Link from "next/link";
 
-import { Crown } from "@/components/ui/icon";
+import { Crown, Plus } from "@/components/ui/icon";
 
+import { cn } from "@/lib/cn";
 import { projectColorVar, type ProjectColorKey } from "@/lib/projectPalette";
 
-import type { CSSProperties, ReactNode } from "react";
+import type { CSSProperties, ReactNode, Ref } from "react";
 
 // 보드 01 탭 경로 그대로 (180 × 31). 직접 그리거나 clip-path로 흉내 내지 않는다 (REBUILD 5)
 const FOLDER_TAB_PATH =
@@ -109,6 +110,75 @@ export default function FolderCard({
       </span>
       {isMain ? <span className="sr-only">메인 프로젝트</span> : null}
       <div className={bodyClassName}>{body}</div>
+    </article>
+  );
+}
+
+type FolderAddCardProps = {
+  /** 굵은 글. 예: 「즐겨찾기 추가」 */
+  title: string;
+  /** 아래 작은 글 (12 · --t3). 비활성이면 그 이유 */
+  description: string;
+  /** 못 누름 (선택 모드). 모양은 그대로, 제목만 --folder-add-off-fg · Tab으로 들어오지 않는다 (보드 02-c) */
+  disabled?: boolean;
+  /** + 아이콘 원. 팝오버 기준점으로 쓴다 */
+  iconRef?: Ref<HTMLSpanElement>;
+  /** 연 팝오버가 열려 있는지 (`aria-expanded`) */
+  expanded?: boolean;
+  onClick?: () => void;
+};
+
+/**
+ * 폴더 모양 「추가」 카드 (보드 02 · 02-c). FolderCard와 같은 탭(180 × 31) + 몸통(모서리 0 · 16 · 16 · 16 · 안쪽 20/22 · 사이 6),
+ * 면 --folder-add-bg(라이트 --s3 · 다크 --s2) · 점선 · 그림자 없음. + 원 40(--folder-add-icon-bg · 아이콘 20 --t2) · 제목 --text · 설명 12 --t3.
+ * 같은 줄 카드 높이를 채우고, 혼자면 --folder-card-min-h.
+ *
+ * @example
+ * <FolderAddCard title="즐겨찾기 추가" description="1개 더 추가할 수 있어요" iconRef={plusRef} onClick={open} />
+ */
+export function FolderAddCard({
+  title,
+  description,
+  disabled = false,
+  iconRef,
+  expanded,
+  onClick,
+}: FolderAddCardProps) {
+  return (
+    <article className="relative flex h-full min-h-[var(--folder-card-min-h)] min-w-0 flex-col pt-7.5">
+      <span aria-hidden className="pointer-events-none absolute top-0 left-0">
+        <svg width="180" height="31" viewBox="0 0 180 31" className="block">
+          <path d={FOLDER_TAB_PATH} fill="var(--folder-add-bg)" />
+        </svg>
+      </span>
+      <button
+        type="button"
+        aria-haspopup="dialog"
+        aria-expanded={expanded}
+        aria-disabled={disabled || undefined}
+        tabIndex={disabled ? -1 : undefined}
+        onClick={disabled ? undefined : onClick}
+        className={cn(
+          "kit-focus relative flex flex-1 flex-col items-center justify-center gap-1.5 rounded-[var(--radius-lg)] rounded-tl-none bg-[var(--folder-add-bg)] px-5.5 py-5 text-sm text-[var(--t3)]",
+          disabled ? "cursor-not-allowed" : "cursor-pointer",
+        )}
+      >
+        <span
+          ref={iconRef}
+          className="inline-flex size-10 items-center justify-center rounded-full bg-[var(--folder-add-icon-bg)] text-[var(--t2)]"
+        >
+          <Plus size={20} aria-hidden />
+        </span>
+        <strong
+          className={cn(
+            "font-semibold",
+            disabled ? "text-[var(--folder-add-off-fg)]" : "text-[var(--text)]",
+          )}
+        >
+          {title}
+        </strong>
+        <span className="text-xs text-[var(--t3)]">{description}</span>
+      </button>
     </article>
   );
 }

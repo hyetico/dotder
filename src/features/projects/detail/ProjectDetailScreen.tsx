@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { Suspense, useLayoutEffect, useRef, useState } from "react";
+import { Suspense, useEffect, useLayoutEffect, useRef, useState } from "react";
 
 import { useQuery } from "@tanstack/react-query";
 
@@ -24,6 +24,7 @@ import {
   Star,
   Target,
 } from "@/components/ui/icon";
+import PageTitle from "@/components/ui/PageTitle";
 import Tabs from "@/components/ui/Tabs";
 
 import { NOT_FOUND_TITLE, projectDeleteDetail } from "@/content/ui";
@@ -53,6 +54,7 @@ import { cn } from "@/lib/cn";
 import { formatDate, toDateKey } from "@/lib/date";
 import { projectColorVar } from "@/lib/projectPalette";
 import { getProjectDetailPath } from "@/lib/projectRoutes";
+import { recordRecentProjectId } from "@/lib/projectSwitcherPreferences";
 import { goalQueryKeys, memoQueryKeys, projectQueryKeys, taskQueryKeys } from "@/lib/queryKeys";
 
 export type ProjectDetailTab = "overview" | "goals" | "tasks" | "memos" | "history";
@@ -118,6 +120,14 @@ function DetailBody({ projectId }: { projectId: number }) {
 
   // 없는 프로젝트면 위치가 「프로젝트 /」로 끝나지 않게 「찾을 수 없음」
   usePageMeta(project?.name ?? (isLoading ? "" : NOT_FOUND_TITLE), undefined, "/projects");
+
+  // 연 프로젝트를 프로젝트 전환 「최근」에 넣는다 (없는 프로젝트는 넣지 않음)
+  const openedId = project?.id;
+  useEffect(() => {
+    if (openedId != null) {
+      recordRecentProjectId(openedId);
+    }
+  }, [openedId]);
 
   if (isLoading) {
     return null;
@@ -248,7 +258,7 @@ function DetailBody({ projectId }: { projectId: number }) {
           </Badge>
           {lateDays != null ? <Badge tone="bad">{lateDays}일 지연</Badge> : null}
         </div>
-        <h1 className="text-2xl font-bold [overflow-wrap:anywhere]">{project.name}</h1>
+        <PageTitle>{project.name}</PageTitle>
         {project.description ? <ProjectDescription text={project.description} /> : null}
         <div className="flex flex-wrap items-center gap-4 text-xs text-[var(--t3)]">
           {project.startDate || project.endDate ? (
@@ -276,7 +286,7 @@ function DetailBody({ projectId }: { projectId: number }) {
       </header>
 
       {/* 태블릿 · 모바일 머리 (보드 T · M 03): 이름은 헤더에 */}
-      <h1 className="sr-only lg:hidden">{project.name}</h1>
+      <PageTitle className="sr-only lg:hidden">{project.name}</PageTitle>
       {/* 다른 탭에서는 배지 · 기간 줄 없이 탭부터 (보드 T · M 04) */}
       <div className={cn("flex flex-col gap-3 lg:hidden", tab !== "overview" && "hidden")}>
         <div className="flex items-center gap-1.5">

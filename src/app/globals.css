@@ -98,6 +98,13 @@
   /* 보드 01: 모자이크 상자 · 폴더 카드 보조 글(기간 줄 · 탭 글 · 모자이크 아래 줄) */
   --mosaic-box: rgb(255 255 255 / 0.45);
   --folder-ink: #5e5459;
+  /* 즐겨찾기 「추가 카드」 면 (보드 02 · 02-c): 라이트 --s3 · 다크 --s2, 점선 없음 */
+  --folder-add-bg: var(--s3);
+  /* 추가 카드 + 원 바탕 · 비활성(선택 모드) 제목 (보드 02 · 02-c) */
+  --folder-add-icon-bg: var(--surface);
+  --folder-add-off-fg: var(--t4);
+  /* 폴더 카드 기본 높이 (탭 30 + 몸통 305). 추가 카드가 줄에 혼자 있을 때 프로젝트 카드와 맞춘다 */
+  --folder-card-min-h: 335px;
   /* 보드 크기: 드로어 폭 · 모바일 시트 모서리 · 시트 푸터 버튼(보드 M 01-a 48) · 빈 상태 점선 */
   --drawer-w: 400px;
   /* 모바일 ☰ 시트 폭 (보드 M 01-g) */
@@ -230,6 +237,9 @@
   --mosaic-box: color-mix(in srgb, var(--bg) 60%, transparent);
   /* 프로토타입 .app.dark .fold .muted */
   --folder-ink: var(--t2);
+  --folder-add-bg: var(--s2);
+  --folder-add-icon-bg: #30353c;
+  --folder-add-off-fg: #9aa2ab;
   --badge-n-bg: #262a30;
   --badge-n-fg: #aab2bb;
   --badge-n-dot: #9aa2ab;

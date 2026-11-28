@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import { useQuery } from "@tanstack/react-query";
 
@@ -10,6 +10,7 @@ import { usePageMeta } from "@/components/shell/PageMeta";
 import Button from "@/components/ui/Button";
 import EmptyState from "@/components/ui/EmptyState";
 import { Archive, Folder, Plus, Search } from "@/components/ui/icon";
+import PageTitle from "@/components/ui/PageTitle";
 import Tabs from "@/components/ui/Tabs";
 
 import { getProjectActivity, getProjectListItems } from "@/features/projects/api/projects";
@@ -34,6 +35,8 @@ import type { ActivityDay } from "@/features/projects/utils/activityMosaic";
 export type ProjectListScope = "all" | "main" | "favorites";
 
 const NO_ACTIVITY: ActivityDay[] = [];
+// 처음에 그리는 카드 수 · [더 보기] 한 번에 더하는 수 (보드 01-m)
+const PAGE_SIZE = 24;
 const DEFAULT_QUERY: ProjectListQuery = {
   status: "all",
   lateOnly: false,
@@ -61,6 +64,10 @@ export default function ProjectListScreen({ scope }: { scope: ProjectListScope }
   const [query, setQuery] = useState<ProjectListQuery>(DEFAULT_QUERY);
   const [view, setView] = useState<ProjectViewMode>("card");
   const [isArchiveOpen, setIsArchiveOpen] = useState(false);
+  const [limit, setLimit] = useState(PAGE_SIZE);
+  // [더 보기]를 누른 뒤 초점을 줄 새 첫 줄의 순번
+  const focusIndexRef = useRef<number | null>(null);
+  const listRef = useRef<HTMLDivElement>(null);
   const { data: projects = [], isLoading } = useQuery({
     queryKey: [...projectQueryKeys.all, "list"],
     queryFn: getProjectListItems,
@@ -81,6 +88,28 @@ export default function ProjectListScreen({ scope }: { scope: ProjectListScope }
   const counts = useMemo(() => getProjectCounts(projects), [projects]);
   const scoped = scope === "main" ? projects.filter((project) => project.isMain) : projects;
   const visible = useMemo(() => selectProjects(scoped, query), [scoped, query]);
+  // 탭 · 필터 · 정렬 · 검색이 바뀌면 다시 24개부터
+  const listKey = `${scope}|${JSON.stringify(query)}`;
+  const [shownKey, setShownKey] = useState(listKey);
+  if (shownKey !== listKey) {
+    setShownKey(listKey);
+    setLimit(PAGE_SIZE);
+  }
+  const shown = visible.slice(0, limit);
+  const showMore = () => {
+    focusIndexRef.current = shown.length;
+    setLimit((current) => current + PAGE_SIZE);
+  };
+
+  useEffect(() => {
+    const index = focusIndexRef.current;
+    if (index == null) {
+      return;
+    }
+    focusIndexRef.current = null;
+    const row = listRef.current?.querySelectorAll<HTMLElement>("[data-list-row]")[index];
+    row?.querySelector<HTMLElement>("a, button")?.focus();
+  }, [limit]);
   const allTags = useMemo(
     () => [...new Set(projects.flatMap((project) => project.tags))],
     [projects],
@@ -110,10 +139,10 @@ export default function ProjectListScreen({ scope }: { scope: ProjectListScope }
           </Button>
         </HeaderActions>
 
-        <header className="flex items-end gap-4 max-lg:hidden">
-          <div className="flex min-w-0 flex-1 flex-col gap-1">
-            <h1 className="text-2xl font-bold">프로젝트</h1>
-            <p className="text-sm text-[var(--t2)]">
+        <PageTitle
+          className="max-lg:hidden"
+          summary={
+            <>
               {subtitle}
               {counts.late > 0 ? (
                 <>
@@ -121,15 +150,19 @@ export default function ProjectListScreen({ scope }: { scope: ProjectListScope }
                   <span className="text-[var(--bad)]">{counts.late}개 마감 지남</span>
                 </>
               ) : null}
-            </p>
-          </div>
-          {archived.length > 0 ? (
-            <Button variant="ghost" size="sm" onClick={() => setIsArchiveOpen(true)}>
-              <Archive size={16} aria-hidden />
-              보관함 {archived.length}
-            </Button>
-          ) : null}
-        </header>
+            </>
+          }
+          aside={
+            archived.length > 0 ? (
+              <Button variant="ghost" size="sm" onClick={() => setIsArchiveOpen(true)}>
+                <Archive size={16} aria-hidden />
+                보관함 {archived.length}
+              </Button>
+            ) : undefined
+          }
+        >
+          프로젝트
+        </PageTitle>
 
         <Tabs
           className="lg:mt-6"
@@ -147,7 +180,7 @@ export default function ProjectListScreen({ scope }: { scope: ProjectListScope }
               onShowAll={() => router.push("/projects")}
             />
           ) : (
-            <div className="flex flex-col gap-6">
+            <div ref={listRef} className="flex flex-col gap-6">
               <ProjectToolbar
                 query={query}
                 onChange={(next) => setQuery((current) => ({ ...current, ...next }))}
@@ -178,7 +211,7 @@ export default function ProjectListScreen({ scope }: { scope: ProjectListScope }
                 />
               ) : view === "card" ? (
                 <ProjectCardGrid>
-                  {visible.map((project, index) => (
+                  {shown.map((project, index) => (
                     <li
                       key={project.id}
                       className="min-w-0"
@@ -194,11 +227,25 @@ export default function ProjectListScreen({ scope }: { scope: ProjectListScope }
                 </ProjectCardGrid>
               ) : (
                 <ul className="flex flex-col gap-2">
-                  {visible.map((project) => (
+                  {shown.map((project) => (
                     <ProjectListRow key={project.id} project={project} />
                   ))}
                 </ul>
               )}
+              {/* 더 보기 (보드 01-m): 목록 아래 40 · 「N개 중 M개」 12 --t3 · 보조 버튼 웹 · 태블릿 최소 200 · 모바일 가득 찬 폭 48 */}
+              {shown.length < visible.length ? (
+                <div className="mt-4 flex flex-col items-center gap-3">
+                  <span className="text-xs text-[var(--t3)] tabular-nums">
+                    {visible.length}개 중 {shown.length}개
+                  </span>
+                  <Button className="min-w-50 max-md:hidden" onClick={showMore}>
+                    더 보기
+                  </Button>
+                  <Button size="lg" className="w-full md:hidden" onClick={showMore}>
+                    더 보기
+                  </Button>
+                </div>
+              ) : null}
             </div>
           )}
         </div>

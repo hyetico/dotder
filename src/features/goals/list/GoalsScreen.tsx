@@ -15,6 +15,7 @@ import { DeleteConfirmDialog } from "@/components/ui/ConfirmDialog";
 import EmptyState from "@/components/ui/EmptyState";
 import { CircleAlert, Funnel, ListFilter, Plus, Target } from "@/components/ui/icon";
 import { MenuHeader, MenuSeparator, PickRow } from "@/components/ui/Menu";
+import PageTitle from "@/components/ui/PageTitle";
 import Popover from "@/components/ui/Popover";
 import Segmented from "@/components/ui/Segmented";
 import Tabs from "@/components/ui/Tabs";
@@ -268,18 +269,22 @@ function GoalsBody({ scope }: { scope: GoalsScope }) {
         </Button>
       </HeaderActions>
 
-      <header className="flex flex-col gap-1 max-lg:hidden">
-        <h1 className="text-2xl font-bold">목표</h1>
-        <p className="text-sm text-[var(--t2)]">
-          {subtitle}
-          {lateCount > 0 ? (
-            <>
-              {" · "}
-              <span className="text-[var(--bad)]">{lateCount}개 마감 지남</span>
-            </>
-          ) : null}
-        </p>
-      </header>
+      <PageTitle
+        className="max-lg:hidden"
+        summary={
+          <>
+            {subtitle}
+            {lateCount > 0 ? (
+              <>
+                {" · "}
+                <span className="text-[var(--bad)]">{lateCount}개 마감 지남</span>
+              </>
+            ) : null}
+          </>
+        }
+      >
+        목표
+      </PageTitle>
 
       <Tabs
         label="목표 범위"
