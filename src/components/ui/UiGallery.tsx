@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useRef, useState, type ReactNode } from "react";
+import { Fragment, useId, useRef, useState, type ReactNode } from "react";
 
 import Badge from "@/components/ui/Badge";
 import { badgeDotClassName } from "@/components/ui/Badge";
@@ -120,23 +120,23 @@ function Gallery() {
           />
         </header>
 
-        <Section id="button" title="버튼 · md 40/16 · sm 36/12 · xs 28/8">
-          {(["md", "sm", "xs"] as const).map((size) => (
+        <Section id="button" title="버튼 · lg 48/20 · md 40/16 · sm 36/12 · xs 28/8">
+          {(["lg", "md", "sm", "xs"] as const).map((size) => (
             <div key={size} className="flex flex-wrap items-center gap-2">
-              <Button variant="primary" size={size}>
-                <Plus size={16} aria-hidden />
-                추가
-              </Button>
-              <Button size={size}>취소</Button>
-              <Button variant="ghost" size={size}>
-                더보기
-              </Button>
+              {(["primary", "secondary", "ghost", "secondaryDanger"] as const).map((variant) => (
+                <Fragment key={variant}>
+                  <Button variant={variant} size={size}>
+                    <Plus size={16} aria-hidden />
+                    추가
+                  </Button>
+                  {/* 보조 위험: 되돌릴 수 있는 가벼운 삭제 (즐겨찾기에서 빼기) */}
+                  <Button variant={variant} size={size}>
+                    {variant === "secondaryDanger" ? "빼기" : "취소"}
+                  </Button>
+                </Fragment>
+              ))}
               <Button variant="danger" size={size}>
                 삭제
-              </Button>
-              {/* 보조 위험: 되돌릴 수 있는 가벼운 삭제 (즐겨찾기에서 빼기) */}
-              <Button variant="secondaryDanger" size={size}>
-                빼기
               </Button>
               <Button variant="secondary" size={size} iconOnly aria-label="추가">
                 <Plus size={16} aria-hidden />
