@@ -3,7 +3,7 @@ import { unlinkTasksFromGoal } from "@/features/tasks/api/tasks";
 import { mockGoals } from "@/lib/mock/goals";
 import { recordProjectHistory } from "@/lib/mock/projectHistory";
 import { mockProjects } from "@/lib/mock/projects";
-import { recordActivity } from "@/lib/storage/activity";
+import { forgetActivity, recordActivity } from "@/lib/storage/activity";
 import { ensureDataLoaded, saveData } from "@/lib/storage/dotderData";
 
 import type { Goal } from "@/features/goals/types/goal";
@@ -135,12 +135,16 @@ export async function deleteGoal(goalId: number): Promise<Goal> {
   return removed;
 }
 
-/** 지운 목표를 같은 id로 다시 넣는다 (삭제 토스트 「되돌리기」). 풀린 태스크 연결은 돌아오지 않는다. */
+/**
+ * 지운 목표를 같은 id로 다시 넣는다 (삭제 토스트 「되돌리기」). 풀린 태스크 연결은 돌아오지 않는다.
+ * 되돌리기는 활동으로 세지 않는다 (삭제 때 남긴 표시를 지운다).
+ */
 export async function restoreGoal(goal: Goal): Promise<Goal> {
   await ensureDataLoaded();
   if (!mockGoals.some((item) => item.id === goal.id)) {
     mockGoals.push({ ...goal, tags: [...goal.tags] });
   }
+  forgetActivity({ projectId: goal.projectId, target: "goal", id: goal.id, action: "delete" });
 
   await saveData();
 
