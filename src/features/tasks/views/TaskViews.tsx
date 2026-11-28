@@ -307,16 +307,16 @@ function TaskRow({
             >
               {task.title}
             </span>
-            {/* 태블릿 · 모바일은 이름 아래 프로젝트 (보드 T · M 10) */}
+            {/* 1279까지는 이름 아래 프로젝트 (보드 T · M 10). 1024 · 펼친 사이드바에서 열을 다 두면 이름 칸이 26px뿐이라 */}
             {showProject && project ? (
-              <span className="flex min-w-0 items-center gap-1.5 text-xs text-[var(--t3)] lg:hidden">
+              <span className="flex min-w-0 items-center gap-1.5 text-xs text-[var(--t3)] xl:hidden">
                 {projectDot}
                 <span className="truncate">{project.name}</span>
               </span>
             ) : null}
           </span>
           {showProject ? (
-            <span className="flex w-55 min-w-0 items-center gap-1.5 text-xs text-[var(--t2)] max-lg:hidden">
+            <span className="flex w-55 min-w-0 items-center gap-1.5 text-xs text-[var(--t2)] max-xl:hidden">
               {project ? (
                 <>
                   {projectDot}
@@ -327,7 +327,7 @@ function TaskRow({
               )}
             </span>
           ) : null}
-          <span className="w-37.5 truncate text-xs text-[var(--t3)] max-lg:hidden">
+          <span className="w-37.5 truncate text-xs text-[var(--t3)] max-xl:hidden">
             {goal ?? "—"}
           </span>
           <span className="flex lg:w-25">
@@ -433,8 +433,8 @@ export function TaskListView({
         <div className="flex h-9 items-center gap-3 rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--s2)] px-3 text-xs font-semibold text-[var(--t2)] max-lg:hidden">
           <span className="w-4.5" />
           <span className="flex-1">태스크</span>
-          <span className="w-55">프로젝트</span>
-          <span className="w-37.5">목표</span>
+          <span className="w-55 max-xl:hidden">프로젝트</span>
+          <span className="w-37.5 max-xl:hidden">목표</span>
           <span className="w-25">마감</span>
           <span className="w-15">우선</span>
           <span className="w-7" />

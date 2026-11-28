@@ -107,6 +107,10 @@ export function useGlobalShortcuts({
       if (event.metaKey || event.ctrlKey || event.altKey || isTyping(event.target)) {
         return;
       }
+      // 팝오버 · 메뉴가 이미 맡은 키 (프로젝트 전환의 ↑↓ 등)
+      if (event.defaultPrevented) {
+        return;
+      }
       // 드로어 · 모달이 열려 있으면 그 창이 키를 맡는다
       if (document.querySelector('[aria-modal="true"]')) {
         return;

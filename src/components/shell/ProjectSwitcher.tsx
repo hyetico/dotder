@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useMemo, useState, type ReactNode, type RefObject } from "react";
+import { useMemo, useState, type KeyboardEvent, type ReactNode, type RefObject } from "react";
 
 import { useQuery } from "@tanstack/react-query";
 
@@ -13,6 +13,7 @@ import { MenuHeader, MenuSeparator } from "@/components/ui/Menu";
 import Popover from "@/components/ui/Popover";
 import ProjectMarker from "@/components/ui/ProjectMarker";
 import SearchField from "@/components/ui/SearchField";
+import { useIsMobile } from "@/components/ui/useLayer";
 
 import { getProjects } from "@/features/projects/api/projects";
 
@@ -42,6 +43,8 @@ const rowClassName = `${rowBaseClassName} focus-visible:bg-[var(--s3)] focus-vis
 // 프로젝트 줄: 안의 이름 버튼이 초점을 받으면 줄 전체를 같은 모양으로
 const projectRowClassName = `${rowBaseClassName} has-[>button:first-child:focus-visible]:bg-[var(--s3)] has-[>button:first-child:focus-visible]:ring-2`;
 
+const FOCUSABLE = "input, button:not([disabled]), a[href]";
+
 // 초점이 목록 줄에 있을 때 마우스를 올린 줄로 초점을 옮긴다 (강조는 늘 한 줄)
 const followPointer = (target: HTMLElement | null) => {
   if (target && document.activeElement?.closest("[data-switcher-row]")) {
@@ -65,6 +68,44 @@ export default function ProjectSwitcher({ isOpen, onClose, anchorRef }: ProjectS
 
   const byId = useMemo(() => new Map(projects.map((project) => [project.id, project])), [projects]);
   const keyword = query.trim().toLowerCase();
+
+  const isMobile = useIsMobile();
+
+  // ↑ · ↓: 검색칸과 줄 사이를 옮긴다 (별 버튼에 있으면 그 줄에서 센다).
+  // Tab: 팝오버는 페이지 맨 끝에 붙어 있어 마지막 줄 다음이 주소창이 되므로 안에서 돈다 (모바일 시트는 시트가 맡는다)
+  const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    const list = event.currentTarget;
+    const active = document.activeElement;
+
+    if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+      const items = [
+        list.querySelector<HTMLElement>("input"),
+        ...list.querySelectorAll<HTMLElement>("[data-switcher-row]"),
+      ].filter((item): item is HTMLElement => item != null);
+      const index = items.findIndex(
+        (item) =>
+          item === active || (item.parentElement !== list && item.parentElement?.contains(active)),
+      );
+      const step = event.key === "ArrowDown" ? 1 : -1;
+      event.preventDefault();
+      items[index < 0 ? 0 : Math.max(0, Math.min(items.length - 1, index + step))]?.focus();
+      return;
+    }
+
+    if (event.key === "Tab" && !isMobile) {
+      const items = [...list.querySelectorAll<HTMLElement>(FOCUSABLE)];
+      const first = items[0];
+      const last = items[items.length - 1];
+
+      if (!event.shiftKey && active === last) {
+        event.preventDefault();
+        first?.focus();
+      } else if (event.shiftKey && active === first) {
+        event.preventDefault();
+        last?.focus();
+      }
+    }
+  };
 
   const go = (href: string) => {
     onClose();
@@ -155,7 +196,7 @@ export default function ProjectSwitcher({ isOpen, onClose, anchorRef }: ProjectS
       title="프로젝트 전환"
       width={320}
     >
-      <div className="flex flex-col p-1">
+      <div className="flex flex-col p-1" onKeyDown={handleKeyDown}>
         <div className="p-1">
           <SearchField
             value={query}
