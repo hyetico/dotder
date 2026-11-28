@@ -196,12 +196,13 @@ export async function getProject(projectId: number): Promise<Project | undefined
   return mockProjects.find((project) => project.id === projectId);
 }
 
-export async function getProjectListItem(projectId: number): Promise<ProjectListItem | undefined> {
+export async function getProjectListItem(projectId: number): Promise<ProjectListItem | null> {
   await ensureDataLoaded();
   const project = await getProject(projectId);
 
+  // 쿼리 데이터는 undefined가 될 수 없어서 없는 프로젝트는 null (콘솔 오류 방지)
   if (!project) {
-    return undefined;
+    return null;
   }
 
   const [tasks, goals] = await Promise.all([getTasks("all"), getGoals("all")]);
