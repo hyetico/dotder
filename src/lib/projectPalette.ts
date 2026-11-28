@@ -31,19 +31,63 @@ type ProjectPaletteEntry = {
   dark: string;
   /** 폴더 카드 바탕 · 탭 진하기(%). `--bg` 위에 섞는다 (라이트 #fff · 다크 #16181c) */
   tint: { light: number; dark: number };
+  /** 다크 모드 폴더 글자(`-ink`: 메인 라벨 · 카드 메타). 없으면 `dark` (컬러 가이드 v1) */
+  darkInk?: string;
 };
 
 export const PROJECT_PALETTE: Record<ProjectColorKey, ProjectPaletteEntry> = {
   mustard: { label: "머스터드", light: "#c9a233", dark: "#d9be70", tint: { light: 28, dark: 20 } },
   lime: { label: "라임", light: "#abbf4e", dark: "#c4d283", tint: { light: 34, dark: 20 } },
-  olive: { label: "올리브", light: "#6b6f23", dark: "#979a65", tint: { light: 18, dark: 20 } },
-  teal: { label: "틸", light: "#007f70", dark: "#4ca59b", tint: { light: 18, dark: 20 } },
-  slate: { label: "슬레이트", light: "#12484c", dark: "#597f82", tint: { light: 18, dark: 20 } },
+  olive: {
+    label: "올리브",
+    light: "#6b6f23",
+    dark: "#979a65",
+    tint: { light: 18, dark: 20 },
+    darkInk: "#9b9e6b",
+  },
+  teal: {
+    label: "틸",
+    light: "#007f70",
+    dark: "#4ca59b",
+    tint: { light: 18, dark: 20 },
+    darkInk: "#4ea89e",
+  },
+  slate: {
+    label: "슬레이트",
+    light: "#12484c",
+    dark: "#597f82",
+    tint: { light: 18, dark: 20 },
+    darkInk: "#729b9f",
+  },
   sky: { label: "스카이", light: "#44a0bd", dark: "#7cbcd1", tint: { light: 23, dark: 20 } },
-  indigo: { label: "인디고", light: "#3a418d", dark: "#757aaf", tint: { light: 18, dark: 20 } },
-  purple: { label: "퍼플", light: "#8b55b2", dark: "#ae88c9", tint: { light: 18, dark: 20 } },
-  berry: { label: "베리", light: "#b34771", dark: "#ca7e9c", tint: { light: 18, dark: 20 } },
-  brown: { label: "브라운", light: "#774c1f", dark: "#a08262", tint: { light: 18, dark: 20 } },
+  indigo: {
+    label: "인디고",
+    light: "#3a418d",
+    dark: "#757aaf",
+    tint: { light: 18, dark: 20 },
+    darkInk: "#8e92be",
+  },
+  purple: {
+    label: "퍼플",
+    light: "#8b55b2",
+    dark: "#ae88c9",
+    tint: { light: 18, dark: 20 },
+    darkInk: "#b08ccb",
+  },
+  berry: {
+    label: "베리",
+    light: "#b34771",
+    dark: "#ca7e9c",
+    tint: { light: 18, dark: 20 },
+    darkInk: "#cd85a2",
+  },
+  brown: {
+    label: "브라운",
+    light: "#774c1f",
+    dark: "#a08262",
+    tint: { light: 18, dark: 20 },
+    darkInk: "#ac9277",
+  },
 };
 
 /** 다크 커버 조각에서만 바꾸는 색 (보드 PR-DW-00 · DM-00) */
@@ -57,6 +101,13 @@ export const DEFAULT_PROJECT_COLOR: ProjectColorKey = "indigo";
 
 /** 밝은 색 위 아이콘 · 글자는 더 어둡게 섞는다 */
 const LIGHT_COLOR_KEYS: readonly ProjectColorKey[] = ["mustard", "lime"];
+
+/**
+ * 라이트 폴더 글자(`-ink`)를 만들 때 색을 남기는 비율(나머지는 검정). 밝은 두 색은 50%,
+ * 스카이는 65% (컬러 가이드 v1 · 대비), 나머지는 82%.
+ */
+const lightInkPercent = (key: ProjectColorKey) =>
+  LIGHT_COLOR_KEYS.includes(key) ? 50 : key === "sky" ? 65 : 82;
 
 /**
  * 옛 색(이름 · hex) → 새 키. 2026-11-24 9색 → 10색 교체 (사용자 확정 매핑).
@@ -159,8 +210,8 @@ export function buildProjectPaletteCss(): string {
       const base = "var(--bg)";
       const ink =
         mode === "dark"
-          ? color
-          : `color-mix(in srgb, ${color} ${LIGHT_COLOR_KEYS.includes(key) ? 50 : 82}%, black)`;
+          ? (entry.darkInk ?? color)
+          : `color-mix(in srgb, ${color} ${lightInkPercent(key)}%, black)`;
 
       return [
         `--project-${key}: ${color};`,

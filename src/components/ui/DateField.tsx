@@ -10,7 +10,7 @@ import { cn } from "@/lib/cn";
 import { formatDate, parseDateKey, toDateKey } from "@/lib/date";
 
 type DateFieldProps = {
-  /** `YYYY-MM-DD`. 비면 「날짜 선택」 */
+  /** `YYYY-MM-DD`. 비면 「YYYY.MM.DD」 */
   value: string;
   onChange: (value: string) => void;
   /** 읽는 이름 · 모바일 시트 제목. 예: "시작일" */
@@ -32,7 +32,7 @@ type DateFieldProps = {
 const WEEKDAYS = ["일", "월", "화", "수", "목", "금", "토"];
 
 /**
- * 날짜 칸 (Components 08 DatePicker). 달력 아이콘 + 「2026.08.01」(비면 「날짜 선택」).
+ * 날짜 칸 (Components 08 DatePicker). 달력 아이콘 + 「2026.08.01」(비면 「YYYY.MM.DD」).
  * 누르면 칸 아래 달력 팝오버 282(7열 36), 모바일은 바텀시트(칸 44). 고른 날은 채움, 오늘은 테두리,
  * `min` 이전 날은 --t4 · 누를 수 없음. 아래에 「오늘」 · 「지우기」. 브라우저 기본 날짜 입력은 쓰지 않는다.
  *
@@ -117,7 +117,7 @@ export default function DateField({
             ? variant === "row"
               ? `${formatDate(value)} (${WEEKDAYS[selected?.getDay() ?? 0]})`
               : formatDate(value)
-            : "날짜 선택"}
+            : "YYYY.MM.DD"}
         </span>
         {variant === "row" && trailing ? (
           <span className="ml-auto text-xs whitespace-nowrap">{trailing}</span>

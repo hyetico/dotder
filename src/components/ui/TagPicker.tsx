@@ -63,7 +63,7 @@ export default function TagPicker({
                 className={cn(
                   "kit-focus inline-flex h-7 cursor-pointer items-center rounded-full border px-2.5 text-xs transition-colors disabled:cursor-not-allowed disabled:opacity-40",
                   isOn
-                    ? "border-[var(--primary)] bg-[var(--primary)] text-[var(--on-primary)]"
+                    ? "border-[var(--chip-on-line)] bg-[var(--chip-on-bg)] font-semibold text-[var(--chip-on-fg)]"
                     : "border-[var(--border)] bg-[var(--surface)] text-[var(--t2)] hover:border-[var(--border-2)]",
                 )}
               >
