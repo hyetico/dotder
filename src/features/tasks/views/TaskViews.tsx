@@ -298,7 +298,8 @@ function TaskRow({
               label={`‘${task.title}’ 완료`}
             />
           </span>
-          <span className="flex min-w-0 flex-1 flex-col">
+          {/* 1024 ~ 1279: 이름 · 프로젝트 두 줄, 위아래 6 · 사이 2 (보드 10r, 줄 53) */}
+          <span className="flex min-w-0 flex-1 flex-col lg:max-xl:gap-0.5 lg:max-xl:py-1.5">
             <span
               className={cn(
                 "truncate text-sm transition-colors duration-150",
@@ -307,9 +308,9 @@ function TaskRow({
             >
               {task.title}
             </span>
-            {/* 1279까지는 이름 아래 프로젝트 (보드 T · M 10). 1024 · 펼친 사이드바에서 열을 다 두면 이름 칸이 26px뿐이라 */}
+            {/* 1279까지는 이름 아래 프로젝트 (보드 T · M 10 · 1024 보드 10r) */}
             {showProject && project ? (
-              <span className="flex min-w-0 items-center gap-1.5 text-xs text-[var(--t3)] xl:hidden">
+              <span className="flex min-w-0 items-center gap-1.5 text-xs text-[var(--t3)] lg:text-[var(--t2)] xl:hidden">
                 {projectDot}
                 <span className="truncate">{project.name}</span>
               </span>

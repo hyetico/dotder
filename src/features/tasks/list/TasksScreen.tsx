@@ -275,8 +275,13 @@ function TasksBody() {
           태스크
         </PageTitle>
 
-        {/* 웹 도구 줄 (보드 10) */}
-        <div className="flex flex-wrap items-center gap-2 max-lg:hidden">
+        {/* 웹 도구 줄 (보드 10). 1024 ~ 1279 목록 보기는 한 줄로, 프로젝트 칸이 줄어든다 (보드 10r) */}
+        <div
+          className={cn(
+            "flex flex-wrap items-center gap-2 max-lg:hidden",
+            view === "list" && "lg:max-xl:flex-nowrap",
+          )}
+        >
           <Segmented
             label="보기"
             value={view}
@@ -320,7 +325,7 @@ function TasksBody() {
             aria-disabled={isEmpty || undefined}
             tabIndex={isEmpty ? -1 : undefined}
             onClick={isEmpty ? undefined : () => setPanel(panel === "project" ? null : "project")}
-            className="kit-focus flex h-9 w-50 min-w-0 cursor-pointer items-center gap-2 rounded-[var(--radius-sm)] border border-[var(--input-line)] bg-[var(--surface)] px-3 text-left text-sm hover:border-[var(--input-line-h)] aria-disabled:pointer-events-none aria-disabled:opacity-40"
+            className="kit-focus flex h-9 w-50 min-w-0 cursor-pointer items-center gap-2 rounded-[var(--radius-sm)] border border-[var(--input-line)] bg-[var(--surface)] px-3 text-left text-sm hover:border-[var(--input-line-h)] aria-disabled:pointer-events-none aria-disabled:opacity-40 max-xl:w-auto max-xl:max-w-40"
           >
             <span className="min-w-0 flex-1 truncate">
               프로젝트: {currentProject?.name ?? "전체"}
