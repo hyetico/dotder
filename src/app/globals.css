@@ -55,7 +55,7 @@
   --skel: #eef0f2;
   --surface: #fff;
   --t2: #475569;
-  --t3: #6b7280;
+  --t3: #646b78;
   --t4: #9ca3af;
   --text: #292d32;
   --warn: #c2410c;
@@ -70,8 +70,8 @@
   --btn-px-xs: 8px;
 
   /* 보드 값: 주 버튼 · 보조 버튼 호버 · 위험 버튼 */
-  --btn-primary: #343840;
-  --btn-primary-h: #2c3037;
+  --btn-primary: var(--primary);
+  --btn-primary-h: var(--primary-h);
   --btn-primary-fg: #fff;
   --btn-secondary-line-h: #d1d5db;
   --btn-danger-h: #b91c1c;
@@ -118,7 +118,7 @@
   --badge-n-fg: #475569;
   --badge-n-dot: #9ca3af;
   --badge-info-bg: #dbeafe;
-  --badge-info-fg: #2563eb;
+  --badge-info-fg: #1d4ed8;
   --badge-info-dot: #3b82f6;
   --badge-ok-bg: #dcfce7;
   --badge-ok-fg: #15803d;
@@ -138,6 +138,12 @@
   /* 보드 .sw 스위치 */
   --switch-off: #d1d5db;
   --switch-knob: #fff;
+  /* 컬러 가이드 v1: 꺼진 스위치 손잡이 */
+  --switch-knob-off: #ffffff;
+  /* 컬러 가이드 v1: 선택 칩 (필터 칩 · 알약 칩). 바탕 없이 진한 선 + 진한 글자 */
+  --chip-on-bg: transparent;
+  --chip-on-line: #343840;
+  --chip-on-fg: #292d32;
   /* 보드 03 진행 · 일정: 남은 칸 · 막대 바탕 / 지연 선 / 마감 지남 빗금 / 오늘 선 · 프로젝트 막대 */
   --track: #e9ebef;
   --late-line: #ef4444;
@@ -194,7 +200,7 @@
   --on-primary: #16181c;
   --overlay: rgb(0 0 0 / 0.55);
   --primary: #e7e9ec;
-  --primary-h: #ffffff;
+  --primary-h: #d1d5db;
   --s2: #22262b;
   --s3: #262a30;
   --selection: #30353c;
@@ -208,13 +214,13 @@
   --warn: #f5a66b;
   --warn-bg: #3a2716;
 
-  --btn-primary: #d1d5db;
-  --btn-primary-h: #e5e7eb;
+  --btn-primary: var(--primary);
+  --btn-primary-h: var(--primary-h);
   --btn-primary-fg: #16181c;
   --btn-secondary-line-h: #9aa2ab;
   --btn-danger-h: #ff9b9b;
   --btn-danger-fg: #1b1e22;
-  --ring-gap: #fff;
+  --ring-gap: #16181c;
   --shadow-pop: 0 8px 24px rgb(0 0 0 / 0.5);
   --shadow-drawer: -8px 0 24px rgb(0 0 0 / 0.5);
   --overlay-board: rgb(0 0 0 / 0.6);
@@ -240,7 +246,11 @@
   --badge-bad-fg: #ff8a8a;
   --badge-bad-dot: #f25f5f;
   --late: #ff8a8a;
-  --switch-off: #9aa2ab;
+  --switch-off: #3a4047;
+  --switch-knob-off: #9aa2ab;
+  --chip-on-bg: #30353c;
+  --chip-on-line: #6b737c;
+  --chip-on-fg: #f3f4f6;
   --switch-knob: #1b1e22;
   --star: #d9be70;
   --avatar-bg: #2e3339;
