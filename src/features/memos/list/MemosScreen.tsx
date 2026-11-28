@@ -4,13 +4,12 @@ import { useRef, useState } from "react";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { HeaderActions } from "@/components/shell/HeaderActions";
 import { usePageMeta } from "@/components/shell/PageMeta";
 import { useFavoriteProjectIds } from "@/components/shell/useFavoriteProjects";
 import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
 import EmptyState from "@/components/ui/EmptyState";
-import { Folder, Inbox, Plus } from "@/components/ui/icon";
+import { Folder, Inbox } from "@/components/ui/icon";
 import { MenuSeparator, PickRow } from "@/components/ui/Menu";
 import PageTitle from "@/components/ui/PageTitle";
 import Popover from "@/components/ui/Popover";
@@ -59,8 +58,6 @@ export default function MemosScreen({ scope }: { scope: MemosScope }) {
   const queryClient = useQueryClient();
   const isClient = useIsClient();
   const favoriteIds = useFavoriteProjectIds();
-  const composerRef = useRef<HTMLTextAreaElement>(null);
-  const compactRef = useRef<HTMLTextAreaElement>(null);
   const linkRef = useRef<HTMLButtonElement>(null);
   const [text, setText] = useState("");
   const [linkId, setLinkId] = useState<number | null>(null);
@@ -142,28 +139,6 @@ export default function MemosScreen({ scope }: { scope: MemosScope }) {
   return (
     <div className="min-h-full bg-[var(--bg)]">
       <div className="mx-auto flex w-full max-w-320 flex-col gap-3 px-4 pt-6 pb-8 md:px-6 md:pt-8 lg:gap-6 lg:px-10 lg:pt-10 lg:pb-16">
-        <HeaderActions>
-          <Button
-            variant="primary"
-            size="sm"
-            className="max-lg:hidden"
-            onClick={() => composerRef.current?.focus()}
-          >
-            <Plus size={16} aria-hidden />
-            추가
-          </Button>
-          <Button
-            variant="ghost"
-            size="sm"
-            iconOnly
-            aria-label="새로 만들기"
-            className="lg:hidden"
-            onClick={() => compactRef.current?.focus()}
-          >
-            <Plus size={18} aria-hidden />
-          </Button>
-        </HeaderActions>
-
         <PageTitle
           className="max-lg:hidden"
           summary="정리 안 된 생각을 모아 두는 곳이에요. 필요하면 태스크나 목표로 바꿔요."
@@ -182,7 +157,6 @@ export default function MemosScreen({ scope }: { scope: MemosScope }) {
         {/* 웹 쓰는 카드 (보드 11) */}
         <Card className="flex flex-col gap-3 p-4 max-lg:hidden">
           <textarea
-            ref={composerRef}
             data-quick-input="memo"
             value={text}
             aria-label="메모 입력"
@@ -217,11 +191,7 @@ export default function MemosScreen({ scope }: { scope: MemosScope }) {
           </div>
         </Card>
         {/* 태블릿 · 모바일 쓰는 칸 (보드 T · M 11) */}
-        <MemoComposer
-          inputRef={compactRef}
-          placeholder="메모 입력"
-          onSave={(title) => save(title, null)}
-        />
+        <MemoComposer placeholder="메모 입력" onSave={(title) => save(title, null)} />
 
         <div className="flex items-center gap-2">
           <Segmented

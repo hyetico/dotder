@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, type Ref } from "react";
+import { useRef, useState } from "react";
 
 import { useQuery } from "@tanstack/react-query";
 
@@ -40,12 +40,9 @@ export const memoWhen = (createdAt: string) => {
 export function MemoComposer({
   onSave,
   placeholder,
-  inputRef,
 }: {
   onSave: (title: string) => Promise<unknown>;
   placeholder: string;
-  /** 헤더 「+」로 초점을 옮길 때 */
-  inputRef?: Ref<HTMLTextAreaElement>;
 }) {
   const [text, setText] = useState("");
   const save = () => {
@@ -59,7 +56,6 @@ export function MemoComposer({
   return (
     <Card className="flex flex-col gap-2 px-3.5 py-3 lg:hidden">
       <textarea
-        ref={inputRef}
         data-quick-input="memo"
         value={text}
         rows={1}
