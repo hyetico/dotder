@@ -10,8 +10,8 @@ export const metadata: Metadata = {
 };
 
 export default function UiPage() {
-  // 견본 페이지는 개발 서버에서만 연다 (배포 사이트에서는 404)
-  if (process.env.NODE_ENV === "production") {
+  // 견본 페이지는 개발 서버 · 미리보기 배포에서 연다 (실제 사이트에서는 404)
+  if (process.env.VERCEL_ENV === "production") {
     notFound();
   }
 
