@@ -1,13 +1,51 @@
 import { readMode, subscribeMode } from "@/lib/storage/dotderMode";
 
-// 즐겨찾기 · 최근은 모드마다 따로 둔다 (예시에서 고른 것이 내 기록에 남지 않게). 내 기록 키는 예전 그대로
-const favoritesKey = () =>
-  readMode() === "demo" ? "dotder:demo:favorite-project-ids" : "projectflow:favorite-project-ids";
+const FAVORITES_KEY = "dotder:favorite-project-ids";
+const RECENT_KEY = "dotder:recent-project-ids";
 
-const FAVORITES_CHANGED_EVENT = "projectflow:favorites-changed";
+// 앱 이름을 바꾸기 전(Tessera · projectflow) 내 기록 키. 처음 읽을 때 새 키로 한 번 옮기고 지운다 (tech-debt D-5)
+const LEGACY_KEYS: Record<string, string> = {
+  [FAVORITES_KEY]: "projectflow:favorite-project-ids",
+  [RECENT_KEY]: "projectflow:recent-project-ids",
+};
+
+const migratedKeys = new Set<string>();
+
+function migrateLegacyKey(key: string) {
+  if (migratedKeys.has(key) || typeof window === "undefined") {
+    return;
+  }
+  migratedKeys.add(key);
+  try {
+    const legacyKey = LEGACY_KEYS[key];
+    const legacy = localStorage.getItem(legacyKey);
+
+    if (legacy == null) {
+      return;
+    }
+    // 새 키가 이미 있으면 새 키가 최신이라 옛 값은 버린다
+    if (localStorage.getItem(key) == null) {
+      localStorage.setItem(key, legacy);
+    }
+    localStorage.removeItem(legacyKey);
+  } catch {
+    // 저장이 막힌 브라우저에서는 옮길 것이 없다
+  }
+}
+
+// 즐겨찾기 · 최근은 모드마다 따로 둔다 (예시에서 고른 것이 내 기록에 남지 않게)
+const mineKey = (key: string) => {
+  migrateLegacyKey(key);
+  return key;
+};
+
+const favoritesKey = () =>
+  readMode() === "demo" ? "dotder:demo:favorite-project-ids" : mineKey(FAVORITES_KEY);
+
+const FAVORITES_CHANGED_EVENT = "dotder:favorites-changed";
 
 const recentKey = () =>
-  readMode() === "demo" ? "dotder:demo:recent-project-ids" : "projectflow:recent-project-ids";
+  readMode() === "demo" ? "dotder:demo:recent-project-ids" : mineKey(RECENT_KEY);
 
 export const MAX_FAVORITES = 3;
 
