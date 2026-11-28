@@ -371,7 +371,7 @@ export type TaskGroupBy = "due" | "project";
 
 /**
  * 목록 보기 (보드 10 · T · M 10 · 프로토타입 taskList).
- * 웹: 묶음 카드 — 머리 44 · --s2 바탕(펼침 화살표 · 이름 · 수 · +), 줄 48 = 체크 · 이름 · (프로젝트 220) · 목표 150 · 마감 100 · 우선 60 · ⋯.
+ * 웹: (전체 태스크) 열 제목 헤더 줄 36 → 묶음 카드 — 머리 44 · --s2 바탕(펼침 화살표 · 이름 · 수 · +), 줄 48 = 체크 · 이름 · (프로젝트 220) · 목표 150 · 마감 100 · 우선 60 · ⋯.
  * 태블릿 · 모바일: 묶음 머리 36(이름 · 수) → 줄 56 = 체크 · 이름 + 프로젝트 · 지연 배지 · ⋯.
  * 마감일로 묶으면 지연 · 오늘 · 이번 주 · 나중 · 완료(접힘), 프로젝트로 묶을 수도 있다.
  */
@@ -428,7 +428,9 @@ export function TaskListView({
   return (
     <div className="flex flex-col gap-3 lg:gap-6">
       {showProject ? (
-        <div className="flex items-center gap-3 px-3 text-xs text-[var(--t3)] max-lg:hidden">
+        // 열 제목 헤더 줄 (보드 10h1 A안): 36 · --s2 · 테두리 · 모서리 8 · 12 굵게 --t2.
+        // 테두리 1 + 좌우 12라 아래 묶음 카드(테두리 1) 속 줄과 열 위치가 같다
+        <div className="flex h-9 items-center gap-3 rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--s2)] px-3 text-xs font-semibold text-[var(--t2)] max-lg:hidden">
           <span className="w-4.5" />
           <span className="flex-1">태스크</span>
           <span className="w-55">프로젝트</span>
