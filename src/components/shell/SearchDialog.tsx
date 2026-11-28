@@ -256,10 +256,20 @@ export default function SearchDialog({
     <button
       key={row.key}
       type="button"
+      data-search-row
       onClick={() => open(row)}
-      onMouseEnter={() => setActive(index)}
+      // 「지금 고른 줄」은 하나만: 화살표 · 마우스 · Tab 초점이 같은 줄을 가리킨다
+      onFocus={() => setActive(index)}
+      onMouseEnter={(event) => {
+        setActive(index);
+        // 초점이 목록 줄에 있으면 마우스를 올린 줄로 초점도 옮긴다 (검색칸에 있으면 그대로)
+        if (document.activeElement?.closest("[data-search-row]")) {
+          event.currentTarget.focus();
+        }
+      }}
       className={cn(
-        "kit-focus flex w-full cursor-pointer items-center gap-3 rounded-[var(--radius-sm)] px-3 text-left text-sm transition-colors duration-120",
+        // 초점 표시는 안쪽 테두리라 대화창 가장자리에 잘리지 않는다
+        "flex w-full cursor-pointer items-center gap-3 rounded-[var(--radius-sm)] px-3 text-left text-sm ring-[var(--primary)] transition-colors duration-120 outline-none ring-inset focus-visible:ring-2",
         short ? "h-10" : "h-12",
         index === current && "bg-[var(--s3)]",
       )}

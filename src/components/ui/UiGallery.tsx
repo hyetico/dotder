@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useRef, useState, type ReactNode } from "react";
+import { Fragment, useId, useRef, useState, type ReactNode } from "react";
 
 import Badge from "@/components/ui/Badge";
 import { badgeDotClassName } from "@/components/ui/Badge";
@@ -15,8 +15,9 @@ import DateField from "@/components/ui/DateField";
 import Drawer from "@/components/ui/Drawer";
 import EmptyState from "@/components/ui/EmptyState";
 import Field from "@/components/ui/Field";
-import FolderCard from "@/components/ui/FolderCard";
+import FolderCard, { FolderAddCard } from "@/components/ui/FolderCard";
 import {
+  Archive,
   CircleAlert,
   ChevronDown,
   Folder,
@@ -28,6 +29,7 @@ import Kbd from "@/components/ui/Kbd";
 import { MenuItem, MenuSeparator, MoreMenu, PickRow } from "@/components/ui/Menu";
 import Modal from "@/components/ui/Modal";
 import Mosaic from "@/components/ui/Mosaic";
+import PageTitle from "@/components/ui/PageTitle";
 import PillGroup from "@/components/ui/PillGroup";
 import Popover from "@/components/ui/Popover";
 import ProjectMarker from "@/components/ui/ProjectMarker";
@@ -120,17 +122,48 @@ function Gallery() {
           />
         </header>
 
-        <Section id="button" title="버튼 · md 40/16 · sm 36/12 · xs 28/8">
-          {(["md", "sm", "xs"] as const).map((size) => (
+        <Section
+          id="pagetitle"
+          title="페이지 제목 · page 24 굵게 + 요약 14 --t2 · 오른쪽 끝 · display(시작 화면 · 404)"
+        >
+          <div className="flex w-full flex-col gap-6">
+            <PageTitle summary="이 기기에만 저장돼요 (v1 · 로그인 없음)">설정</PageTitle>
+            <PageTitle summary="정리 안 된 생각을 모아 두는 곳이에요. 필요하면 태스크나 목표로 바꿔요.">
+              메모
+            </PageTitle>
+            <PageTitle
+              aside={
+                <Button variant="ghost" size="sm">
+                  <Archive size={16} aria-hidden />
+                  보관함
+                </Button>
+              }
+            >
+              프로젝트
+            </PageTitle>
+            <PageTitle size="display" titleClassName="text-4xl tracking-[-0.035em] md:text-6xl">
+              조각을 이어,
+              <br />
+              나의 기록으로
+            </PageTitle>
+          </div>
+        </Section>
+
+        <Section id="button" title="버튼 · lg 48/20 · md 40/16 · sm 36/12 · xs 28/8">
+          {(["lg", "md", "sm", "xs"] as const).map((size) => (
             <div key={size} className="flex flex-wrap items-center gap-2">
-              <Button variant="primary" size={size}>
-                <Plus size={16} aria-hidden />
-                추가
-              </Button>
-              <Button size={size}>취소</Button>
-              <Button variant="ghost" size={size}>
-                더보기
-              </Button>
+              {(["primary", "secondary", "ghost", "secondaryDanger"] as const).map((variant) => (
+                <Fragment key={variant}>
+                  <Button variant={variant} size={size}>
+                    <Plus size={16} aria-hidden />
+                    추가
+                  </Button>
+                  {/* 보조 위험: 되돌릴 수 있는 가벼운 삭제 (즐겨찾기에서 빼기) */}
+                  <Button variant={variant} size={size}>
+                    {variant === "secondaryDanger" ? "빼기" : "취소"}
+                  </Button>
+                </Fragment>
+              ))}
               <Button variant="danger" size={size}>
                 삭제
               </Button>
@@ -375,6 +408,15 @@ function Gallery() {
             <FolderCard color="teal" title="스토어 출시 준비" meta="~ 2026.08.20 · 진행률 50%">
               <Mosaic days={SAMPLE_DAYS.slice(40)} color="teal" />
             </FolderCard>
+          </div>
+          {/* 추가 카드: 보통 · 비활성(선택 모드) — 같은 줄 카드 높이를 채운다 */}
+          <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+            <FolderAddCard title="즐겨찾기 추가" description="1개 더 추가할 수 있어요" />
+            <FolderAddCard
+              title="즐겨찾기 추가"
+              description="선택 중에는 추가할 수 없어요"
+              disabled
+            />
           </div>
           {/* 10색 메인 라벨 · 메타 글자(--project-*-ink) 대비 확인용 */}
           <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-5">

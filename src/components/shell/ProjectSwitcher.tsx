@@ -35,8 +35,19 @@ type ProjectSwitcherProps = {
 };
 
 // 보드 01-b .mi: 40 · 좌우 8 · 사이 8 · 호버 --s3
-const rowClassName =
-  "kit-focus flex min-h-10 w-full min-w-0 cursor-pointer items-center gap-2 rounded-[var(--radius-sm)] px-2 text-left text-sm text-[var(--text)] hover:bg-[var(--s3)] max-md:min-h-11";
+const rowBaseClassName =
+  "flex min-h-10 w-full min-w-0 cursor-pointer items-center gap-2 rounded-[var(--radius-sm)] px-2 text-left text-sm text-[var(--text)] ring-[var(--primary)] ring-inset outline-none hover:bg-[var(--s3)] max-md:min-h-11";
+// 줄 자체가 버튼 · 링크 (「새 프로젝트」 · 「모든 프로젝트 보기」). 초점 표시는 안쪽 테두리 + 면 (팝오버 가장자리에 잘리지 않게)
+const rowClassName = `${rowBaseClassName} focus-visible:bg-[var(--s3)] focus-visible:ring-2`;
+// 프로젝트 줄: 안의 이름 버튼이 초점을 받으면 줄 전체를 같은 모양으로
+const projectRowClassName = `${rowBaseClassName} has-[>button:first-child:focus-visible]:bg-[var(--s3)] has-[>button:first-child:focus-visible]:ring-2`;
+
+// 초점이 목록 줄에 있을 때 마우스를 올린 줄로 초점을 옮긴다 (강조는 늘 한 줄)
+const followPointer = (target: HTMLElement | null) => {
+  if (target && document.activeElement?.closest("[data-switcher-row]")) {
+    target.focus();
+  }
+};
 
 /**
  * 프로젝트 전환 팝오버 (보드 01-b · 01-c). 320 · 검색 → 메인 · 즐겨찾기 n/3 · 최근 →
@@ -66,9 +77,16 @@ export default function ProjectSwitcher({ isOpen, onClose, anchorRef }: ProjectS
     const canFavorite = isFavorite || favoriteIds.length < MAX_FAVORITES;
 
     return (
-      <div key={project.id} className={cn(rowClassName, "pr-1", wrap && "items-start py-2")}>
+      <div
+        key={project.id}
+        className={cn(projectRowClassName, "pr-1", wrap && "items-start py-2")}
+        onMouseEnter={(event) =>
+          followPointer(event.currentTarget.querySelector<HTMLElement>("[data-switcher-row]"))
+        }
+      >
         <button
           type="button"
+          data-switcher-row
           onClick={() => go(getProjectDetailPath(project.id))}
           className={cn(
             "flex min-w-0 flex-1 cursor-pointer gap-2 text-left outline-none",
@@ -121,6 +139,13 @@ export default function ProjectSwitcher({ isOpen, onClose, anchorRef }: ProjectS
     )
     .filter((item) => !item.project.isMain && !favoriteIds.includes(item.project.id))
     .slice(0, 5);
+  // 메인 · 즐겨찾기 · 최근이 모두 비면 최근 수정한 5개를 대신 보인다 (빈 팝오버 방지)
+  const latest =
+    !main && favorites.length === 0 && recents.length === 0
+      ? [...projects]
+          .sort((a, b) => (b.updatedAt ?? "").localeCompare(a.updatedAt ?? "") || b.id - a.id)
+          .slice(0, 5)
+      : [];
 
   return (
     <Popover
@@ -175,14 +200,37 @@ export default function ProjectSwitcher({ isOpen, onClose, anchorRef }: ProjectS
                 )}
               </>
             ) : null}
+            {latest.length > 0 ? (
+              <>
+                <MenuHeader>최근 수정</MenuHeader>
+                {latest.map((project) =>
+                  row(
+                    project,
+                    project.updatedAt ? formatRelativeTime(project.updatedAt) : undefined,
+                  ),
+                )}
+              </>
+            ) : null}
           </>
         )}
         <MenuSeparator />
-        <button type="button" onClick={() => go(getNewProjectPath())} className={rowClassName}>
+        <button
+          type="button"
+          data-switcher-row
+          onClick={() => go(getNewProjectPath())}
+          onMouseEnter={(event) => followPointer(event.currentTarget)}
+          className={rowClassName}
+        >
           <Plus size={16} aria-hidden className="shrink-0 text-[var(--t2)]" />
           <span className="flex-1">새 프로젝트</span>
         </button>
-        <Link href="/projects" onClick={onClose} className={rowClassName}>
+        <Link
+          href="/projects"
+          data-switcher-row
+          onClick={onClose}
+          onMouseEnter={(event) => followPointer(event.currentTarget)}
+          className={rowClassName}
+        >
           <Folder size={16} aria-hidden className="shrink-0 text-[var(--t2)]" />
           모든 프로젝트 보기
         </Link>

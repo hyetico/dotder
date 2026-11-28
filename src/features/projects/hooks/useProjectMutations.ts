@@ -17,6 +17,7 @@ import {
 } from "@/features/projects/api/projects";
 
 import { getProjectDetailPath } from "@/lib/projectRoutes";
+import { recordRecentProjectId } from "@/lib/projectSwitcherPreferences";
 import { goalQueryKeys, memoQueryKeys, projectQueryKeys, taskQueryKeys } from "@/lib/queryKeys";
 
 import type { Project } from "@/features/projects/types/project";
@@ -41,6 +42,8 @@ export function useProjectMutations() {
     mutationFn: (input: CreateProjectInput) => createProject(input),
 
     onSuccess: async (project) => {
+      // 프로젝트 전환 「최근」에 바로 보이게 (예시 모드는 예시 키에만)
+      recordRecentProjectId(project.id);
       await invalidateProjects();
       router.push(project.isMain ? getProjectDetailPath(project.id) : "/projects");
     },
@@ -81,7 +84,8 @@ export function useProjectMutations() {
   const duplicateProjectMutation = useMutation({
     mutationFn: (projectId: number) => duplicateProject(projectId),
 
-    onSuccess: async () => {
+    onSuccess: async (copy) => {
+      recordRecentProjectId(copy.id);
       await invalidateProjects();
     },
   });

@@ -1,4 +1,5 @@
 import { Info } from "@/components/ui/icon";
+import PageTitle from "@/components/ui/PageTitle";
 
 import BrandLogo from "@/features/start/BrandLogo";
 import CoverActions from "@/features/start/CoverActions";
@@ -120,11 +121,14 @@ export default function CoverScreen() {
         <div className="flex flex-1 items-center justify-center py-6">
           <div className="w-full max-w-90">{hero}</div>
         </div>
-        <h1 className="text-[length:var(--type-4xl)] leading-10.5 font-bold tracking-[-0.03em]">
+        <PageTitle
+          size="display"
+          titleClassName="text-[length:var(--type-4xl)] leading-10.5 tracking-[-0.03em]"
+        >
           조각을 이어,
           <br />
           나의 기록으로
-        </h1>
+        </PageTitle>
         <p className="mt-3 mb-8 text-base leading-6.5 text-[var(--t2)]">
           따로 만들고, 필요할 때 이어 붙이세요.
         </p>
@@ -147,11 +151,11 @@ export default function CoverScreen() {
             <span className="text-xs font-semibold tracking-[0.04em] text-[var(--t3)]">
               PERSONAL RECORD · v1
             </span>
-            <h1 className="text-4xl font-bold tracking-[-0.035em] md:text-6xl">
+            <PageTitle size="display" titleClassName="text-4xl tracking-[-0.035em] md:text-6xl">
               조각을 이어,
               <br />
               나의 기록으로
-            </h1>
+            </PageTitle>
             <p className="text-lg leading-7.5 text-[var(--t2)]">
               프로젝트 · 목표 · 태스크 · 메모를 따로 만들고,
               <br className="max-md:hidden" />

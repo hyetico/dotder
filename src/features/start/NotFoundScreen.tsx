@@ -1,5 +1,6 @@
 import Button from "@/components/ui/Button";
 import { Home, Search } from "@/components/ui/icon";
+import PageTitle from "@/components/ui/PageTitle";
 
 import BrandLogo from "@/features/start/BrandLogo";
 
@@ -73,9 +74,12 @@ export default function NotFoundScreen() {
         <span className="text-xs font-semibold tracking-[0.06em] text-[var(--t3)]">
           404 · NOT FOUND
         </span>
-        <h1 className="text-hero-m font-bold tracking-[-0.02em] md:text-5xl md:leading-13 md:tracking-[-0.03em]">
+        <PageTitle
+          size="display"
+          titleClassName="text-hero-m tracking-[-0.02em] md:text-5xl md:leading-13 md:tracking-[-0.03em]"
+        >
           페이지를 찾을 수 없어요.
-        </h1>
+        </PageTitle>
         <p className="text-base leading-6.5 text-[var(--t2)]">
           주소가 바뀌었거나 지운 항목일 수 있어요.
           <br />내 기록은 그대로 있어요.

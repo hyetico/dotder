@@ -83,8 +83,6 @@ export function buttonClassName({
         size === "lg" && variant === "secondary"
         ? lgSecondaryClassName
         : sizeClassName[size],
-    // 한글 글자가 위로 떠 보여 1px 내린다 (높이는 h-*로 고정 · 아이콘만 있는 버튼은 제외)
-    !iconOnly && "pt-px",
     variantClassName[variant],
     grow && "flex-1",
   );
