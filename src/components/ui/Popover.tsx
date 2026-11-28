@@ -18,6 +18,36 @@ import { cn } from "@/lib/cn";
 const GAP = 6;
 const EDGE = 8;
 
+const FOCUSABLE =
+  'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
+// 단순 메뉴의 줄 (⋯ 메뉴 · 정렬 · 묶기 · 하나 고르기)
+const MENU_ROW =
+  '[role="menuitem"], [role="menuitemradio"], [role="menuitemcheckbox"], [role="option"]';
+
+const tabbables = (root: ParentNode) =>
+  [...root.querySelectorAll<HTMLElement>(FOCUSABLE)].filter(
+    (element) => element.tabIndex >= 0 && element.getClientRects().length > 0,
+  );
+
+/** 안의 누를 곳이 모두 메뉴 줄이면 단순 메뉴, 입력칸 · 체크 · 달력 · 다른 버튼이 하나라도 있으면 입력 팝오버 */
+const isSimpleMenu = (panel: HTMLElement) => {
+  const items = tabbables(panel);
+  return items.length > 0 && items.every((item) => item.matches(MENU_ROW));
+};
+
+// 연 버튼 다음 누를 곳 (드로어 · 모달 안이면 그 안에서만, 끝이면 처음으로)
+const nextAfter = (anchor: HTMLElement, panel: HTMLElement) => {
+  const scope = anchor.closest<HTMLElement>('[aria-modal="true"]') ?? document.body;
+  const items = tabbables(scope).filter((item) => !panel.contains(item));
+  return (
+    items.find(
+      (item) =>
+        !anchor.contains(item) &&
+        anchor.compareDocumentPosition(item) & Node.DOCUMENT_POSITION_FOLLOWING,
+    ) ?? items[0]
+  );
+};
+
 type PopoverProps = {
   isOpen: boolean;
   onClose: () => void;
@@ -50,6 +80,9 @@ const widthClassName = {
  * 팝오버 (보드 .pop · 프로토타입 sheetOrPop). 기준 요소 아래 6에 붙고, 화면 아래가 모자라면 위로 뒤집힌다.
  * 바탕 --surface · 테두리 --border · 모서리 12 · 그림자 --shadow-pop · 안쪽 4.
  * Esc · 바깥 누르기로 닫고 연 요소로 초점을 돌린다. 모바일(767 이하)은 같은 내용을 아래 시트로 연다.
+ *
+ * Tab (웹 · 태블릿): 안의 누를 곳이 모두 메뉴 줄(menuitem · option)인 단순 메뉴는 닫고 연 버튼 다음으로 간다
+ * (Shift+Tab은 연 버튼으로). 입력칸 · 체크 · 달력 등이 있는 입력 팝오버는 안에서만 돈다. 모바일 시트는 시트가 맡는다.
  *
  * @example
  * <Popover isOpen={open} onClose={close} anchorRef={buttonRef} title="정렬" width={200}>…</Popover>
@@ -175,6 +208,49 @@ function FloatingPanel({
       document.removeEventListener("pointerdown", handlePointerDown);
     };
   }, [align, anchorRef, width]);
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      const panel = panelRef.current;
+
+      if (event.key !== "Tab" || !panel || !isTopRef.current()) {
+        return;
+      }
+
+      if (isSimpleMenu(panel)) {
+        const anchor = anchorRef.current;
+        event.preventDefault();
+        const target = anchor && (event.shiftKey ? anchor : nextAfter(anchor, panel));
+        onCloseRef.current();
+        // 닫히면서 연 버튼으로 초점이 돌아간 뒤에 옮긴다
+        window.setTimeout(() => target?.focus(), 0);
+        return;
+      }
+
+      const items = tabbables(panel);
+      const first = items[0];
+      const last = items[items.length - 1];
+      const active = document.activeElement;
+
+      if (!first) {
+        return;
+      }
+
+      if (!panel.contains(active)) {
+        event.preventDefault();
+        (event.shiftKey ? last : first).focus();
+      } else if (event.shiftKey && active === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && active === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown, true);
+    return () => document.removeEventListener("keydown", handleKeyDown, true);
+  }, [anchorRef]);
 
   return createPortal(
     <div
