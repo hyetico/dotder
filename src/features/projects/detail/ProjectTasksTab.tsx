@@ -87,7 +87,7 @@ export default function ProjectTasksTab({ project, goals, tasks, today }: Projec
     null,
   );
   const [openTaskId, setOpenTaskId] = useState<number | null>(null);
-  const { updateTaskMutation, deleteTaskMutation, createTaskMutation } = useTaskMutations(
+  const { updateTaskMutation, deleteTaskMutation, restoreTaskMutation } = useTaskMutations(
     project.id,
   );
 
@@ -138,7 +138,7 @@ export default function ProjectTasksTab({ project, goals, tasks, today }: Projec
         void refresh();
         setOpenTaskId(null);
         toast(TOAST_TEXT.deleted, {
-          undo: () => void createTaskMutation.mutateAsync(task).then(refresh),
+          undo: () => void restoreTaskMutation.mutateAsync(task).then(refresh),
         });
       }),
     onAdd: (preset) => setAddPreset(preset),

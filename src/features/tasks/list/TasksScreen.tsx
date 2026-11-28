@@ -142,7 +142,8 @@ function TasksBody() {
     queryKey: projectQueryKeys.all,
     queryFn: getProjects,
   });
-  const { updateTaskMutation, deleteTaskMutation, createTaskMutation } = useTaskMutations("all");
+  const { updateTaskMutation, deleteTaskMutation, createTaskMutation, restoreTaskMutation } =
+    useTaskMutations("all");
 
   const lateCount = tasks.filter((task) => getTaskLateDays(task, today) != null).length;
   const todayCount = tasks.filter(
@@ -198,7 +199,7 @@ function TasksBody() {
         void refresh();
         setOpenTaskId(null);
         toast(TOAST_TEXT.deleted, {
-          undo: () => void createTaskMutation.mutateAsync(task).then(refresh),
+          undo: () => void restoreTaskMutation.mutateAsync(task).then(refresh),
         });
       }),
     onAdd: (preset) => setAddPreset(preset),

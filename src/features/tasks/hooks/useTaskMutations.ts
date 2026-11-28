@@ -43,7 +43,7 @@
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { createTask, deleteTask, updateTask } from "@/features/tasks/api/tasks";
+import { createTask, deleteTask, restoreTask, updateTask } from "@/features/tasks/api/tasks";
 
 import { projectQueryKeys, taskQueryKeys } from "@/lib/queryKeys";
 
@@ -177,6 +177,16 @@ export function useTaskMutations(projectScope: ProjectScope) {
     },
   });
 
+  // 삭제 되돌리기: 만들기와 달리 활동으로 세지 않는다 (restoreTask)
+  const restoreTaskMutation = useMutation({
+    mutationFn: restoreTask,
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: tasksQueryKey });
+      queryClient.invalidateQueries({ queryKey: projectQueryKeys.activity });
+    },
+  });
+
   /*
    * =====================================================
    * handle* 함수 — 컴포넌트에서 쓰기 편한 wrapper
@@ -219,6 +229,7 @@ export function useTaskMutations(projectScope: ProjectScope) {
     createTaskMutation,
     updateTaskMutation,
     deleteTaskMutation,
+    restoreTaskMutation,
     handleCreateTask,
     handleUpdateTask,
     handleDeleteTask,
